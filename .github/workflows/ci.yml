@@ -12,17 +12,27 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.9
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
+        dotnet-version: 9.0.x
+    - name: Restore Application
+      run: dotnet restore src/HabitsDaily.Application/HabitsDaily.Application.csproj
+    - name: Restore Infrastructure
+      run: dotnet restore src/HabitsDaily.Infrastructure/HabitsDaily.Infrastructure.csproj
+    - name: Restore Domain
+      run: dotnet restore src/HabitsDaily.Domain/HabitsDaily.Domain.csproj
+      
+    - name: Build Application
+      run: dotnet build src/HabitsDaily.Application/HabitsDaily.Application.csproj --no-restore -c Release
+    - name: Build Infrastructure
+      run: dotnet build src/HabitsDaily.Infrastructure/HabitsDaily.Infrastructure.csproj --no-restore -c Release
+    - name: Build Domain
+      run: dotnet build src/HabitsDaily.Domain/HabitsDaily.Domain.csproj --no-restore -c Release
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
