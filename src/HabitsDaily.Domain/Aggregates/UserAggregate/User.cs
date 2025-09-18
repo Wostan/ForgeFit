@@ -75,6 +75,8 @@ public class User : Entity, ITimeFields
 
     public void SetAvatarUrl(Uri? avatarUrl)
     {
+        if (avatarUrl is not null && !avatarUrl.IsAbsoluteUri) throw new DomainValidationException("AvatarUrl must be an absolute URI.");
+        
         AvatarUrl = avatarUrl;
         UpdatedAt = DateTime.UtcNow;
     }
