@@ -13,7 +13,7 @@ public class Frequency : ValueObject
     public Frequency(int interval, Unit unit)
     {
         if (interval <= 0) throw new DomainValidationException("Interval must be positive.");
-        if (!Enum.IsDefined(unit)) throw new DomainValidationException("Invalid unit value.");
+        if (!Enum.IsDefined(unit)) throw new DomainValidationException("Invalid 'Unit' value.");
 
         Interval = interval;
         Unit = unit;
