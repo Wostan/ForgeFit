@@ -2,6 +2,7 @@
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 using HabitsDaily.Domain.ValueObjects;
+using Email = HabitsDaily.Domain.ValueObjects.UserValueObjects.Email;
 
 namespace HabitsDaily.Domain.Aggregates.UserAggregate;
 
@@ -23,7 +24,6 @@ public class User : Entity, ITimeFields
         CreatedAt = DateTime.UtcNow;
     }
 
-    [JsonConstructor]
     private User() { }
     
     public string Username { get; private set; }

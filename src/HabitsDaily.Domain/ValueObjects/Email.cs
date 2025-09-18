@@ -2,7 +2,7 @@
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
-namespace HabitsDaily.Domain.ValueObjects;
+namespace HabitsDaily.Domain.ValueObjects.UserValueObjects;
 
 public partial class Email : ValueObject
 {
@@ -11,8 +11,8 @@ public partial class Email : ValueObject
         SetEmail(value);
     }
     
-    public string Value { get; private set; }
-    
+    public string Value { get; private set; } = null!;
+
     private void SetEmail(string value)
     {
         if (!EmailRegex().IsMatch(value))
