@@ -27,6 +27,13 @@ public class ArchivedUserStatsConfiguration : IEntityTypeConfiguration<ArchivedU
         builder.HasIndex(au => new {au.UserId, au.HabitId})
             .IsUnique();
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(au => au.User)
+            .WithMany(u => u.ArchivedUserStats)
+            .HasForeignKey(au => au.UserId);
+        
+        builder.HasOne(au => au.Habit)
+            .WithMany(h => h.ArchivedUserStats)
+            .HasForeignKey(au => au.HabitId);
     }
 }

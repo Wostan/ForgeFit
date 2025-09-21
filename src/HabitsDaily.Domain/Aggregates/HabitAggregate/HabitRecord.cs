@@ -29,7 +29,6 @@ public class HabitRecord : EntityId
     
     // Navigation properties
     public Habit Habit { get; private set; }
-    public User User { get; private set; }
 
     public void SetHabitId(Guid habitId)
     {

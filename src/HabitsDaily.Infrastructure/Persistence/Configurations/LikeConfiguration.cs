@@ -23,6 +23,13 @@ public class LikeConfiguration : IEntityTypeConfiguration<Like>
         //Indexes
         builder.HasIndex(l => new { l.PostId, l.UserId }).IsUnique();
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(l => l.Post)
+            .WithMany(p => p.Likes)
+            .HasForeignKey(l => l.PostId);
+        
+        builder.HasOne(l => l.User)
+            .WithMany(u => u.Likes)
+            .HasForeignKey(l => l.UserId);
     }
 }

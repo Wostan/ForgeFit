@@ -26,6 +26,9 @@ public class HabitRecordConfiguration : IEntityTypeConfiguration<HabitRecord>
         //Indexes
         builder.HasIndex(hr => new { hr.HabitId, hr.Date }).IsUnique();
 
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(hr => hr.Habit)
+            .WithMany(h => h.HabitRecords)
+            .HasForeignKey(hr => hr.HabitId);
     }
 }

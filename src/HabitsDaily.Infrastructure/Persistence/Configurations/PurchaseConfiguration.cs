@@ -31,6 +31,13 @@ public class PurchaseConfiguration : IEntityTypeConfiguration<Purchase>
             .IsUnique()
             .HasFilter("[ShopItemId] IN (SELECT Id FROM ShopItems WHERE Type IN (1,2))");
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(p => p.User)
+            .WithMany(u => u.Purchases)
+            .HasForeignKey(p => p.UserId);
+        
+        builder.HasOne(p => p.ShopItem)
+            .WithMany(si => si.Purchases)
+            .HasForeignKey(p => p.ShopItemId);
     }
 }

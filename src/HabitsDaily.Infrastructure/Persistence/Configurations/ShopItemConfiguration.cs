@@ -31,6 +31,9 @@ public class ShopItemConfiguration : IEntityTypeConfiguration<ShopItem>
         //Indexes
         builder.HasIndex(s => s.Name).IsUnique();
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasMany(s => s.Purchases)
+            .WithOne(p => p.ShopItem)
+            .HasForeignKey(p => p.ShopItemId);
     }
 }

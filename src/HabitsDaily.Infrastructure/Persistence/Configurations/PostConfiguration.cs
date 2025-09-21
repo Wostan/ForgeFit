@@ -33,6 +33,17 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         //Indexes
         builder.HasIndex(p => p.UserId);
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(p => p.User)
+            .WithMany(u => u.Posts)
+            .HasForeignKey(p => p.UserId);
+        
+        builder.HasMany(p => p.Comments)
+            .WithOne(c => c.Post)
+            .HasForeignKey(c => c.PostId);
+        
+        builder.HasMany(p => p.Likes)
+            .WithOne(l => l.Post)
+            .HasForeignKey(l => l.PostId);
     }
 }

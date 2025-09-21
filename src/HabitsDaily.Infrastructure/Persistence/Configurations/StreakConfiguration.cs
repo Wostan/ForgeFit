@@ -27,6 +27,9 @@ public class StreakConfiguration : IEntityTypeConfiguration<Streak>
         //Indexes
         builder.HasIndex(s => s.UserId).IsUnique();
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(s => s.User)
+            .WithOne(u => u.Streak)
+            .HasForeignKey<Streak>(s => s.UserId);
     }
 }

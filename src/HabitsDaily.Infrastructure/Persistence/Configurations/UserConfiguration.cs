@@ -1,4 +1,5 @@
-﻿using HabitsDaily.Domain.Aggregates.UserAggregate;
+﻿using HabitsDaily.Domain.Aggregates.StreakAggregate;
+using HabitsDaily.Domain.Aggregates.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -37,6 +38,37 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(u => u.Username).IsUnique();
         builder.HasIndex(u => u.Email).IsUnique();
         
-        // Navigation properties TODO
+        // Navigation properties
+        builder.HasMany(u => u.Habits)
+            .WithOne(h => h.User)
+            .HasForeignKey(h => h.UserId);
+        
+        builder.HasMany(u => u.ArchivedUserStats)
+            .WithOne(h => h.User)
+            .HasForeignKey(h => h.UserId);
+        
+        builder.HasOne(u => u.Streak)
+            .WithOne(s => s.User)
+            .HasForeignKey<Streak>(s => s.UserId);
+        
+        builder.HasMany(u => u.Posts)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+        
+        builder.HasMany(u => u.Comments)
+            .WithOne(c => c.User)
+            .HasForeignKey(c => c.UserId);
+        
+        builder.HasMany(u => u.Likes)
+            .WithOne(l => l.User)
+            .HasForeignKey(l => l.UserId);
+        
+        builder.HasMany(u => u.Purchases)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+
+        builder.HasMany(u => u.Friends)
+            .WithOne(f => f.User)
+            .HasForeignKey(f => f.UserId);
     }
 }

@@ -27,6 +27,13 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
         //Indexes
         builder.HasIndex(c => new { c.PostId, c.UserId });
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(c => c.Post)
+            .WithMany(p => p.Comments)
+            .HasForeignKey(c => c.PostId);
+        
+        builder.HasOne(c => c.User)
+            .WithMany(u => u.Comments)
+            .HasForeignKey(c => c.UserId);
     }
 }

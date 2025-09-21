@@ -25,6 +25,17 @@ public class HabitConfiguration : IEntityTypeConfiguration<Habit>
             .HasConversion<int>()
             .IsRequired();
         
-        //Navigation properties TODO
+        //Navigation properties
+        builder.HasOne(h => h.User)
+            .WithMany(u => u.Habits)
+            .HasForeignKey(h => h.UserId);
+        
+        builder.HasMany(h => h.HabitRecords)
+            .WithOne(hr => hr.Habit)
+            .HasForeignKey(hr => hr.HabitId);
+        
+        builder.HasMany(h => h.ArchivedUserStats)
+            .WithOne(au => au.Habit)
+            .HasForeignKey(au => au.HabitId);
     }
 }

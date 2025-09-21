@@ -25,6 +25,13 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
         builder.Property(f => f.CreatedAt)
             .IsRequired();
         
-        // Navigation properties TODO
+        // Navigation properties
+        builder.HasOne(f => f.User)
+            .WithMany(u => u.Friends)
+            .HasForeignKey(f => f.UserId);
+        
+        builder.HasOne(f => f.UserFriend)
+            .WithMany(u => u.Friends)
+            .HasForeignKey(f => f.FriendId);
     }
 }
