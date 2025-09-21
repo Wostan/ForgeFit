@@ -3,7 +3,7 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.PostAggregate;
 
-public class Comment : Entity, ITimeFields
+public class Comment : EntityId, ITimeFields
 {
     internal Comment(
         Guid postId, 

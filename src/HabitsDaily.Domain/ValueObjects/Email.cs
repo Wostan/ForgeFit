@@ -2,7 +2,7 @@
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
-namespace HabitsDaily.Domain.ValueObjects.UserValueObjects;
+namespace HabitsDaily.Domain.ValueObjects;
 
 public partial class Email : ValueObject
 {

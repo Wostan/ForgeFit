@@ -5,7 +5,7 @@ using HabitsDaily.Domain.ValueObjects;
 
 namespace HabitsDaily.Domain.Aggregates.HabitAggregate;
 
-public class Habit : Entity, ITimeFields
+public class Habit : EntityId, ITimeFields
 {
     internal Habit(
         Guid userId,

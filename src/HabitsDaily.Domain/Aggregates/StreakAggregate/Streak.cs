@@ -3,7 +3,7 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.StreakAggregate;
 
-public class Streak : Entity, ITimeFields
+public class Streak : EntityId, ITimeFields
 {
     internal Streak(Guid userId)
     {
@@ -17,7 +17,7 @@ public class Streak : Entity, ITimeFields
     private Streak() { }
     
     public Guid UserId { get; private set; }
-    public StreakLevel Level { get; private set; }
+    public StreakLevel Level { get; private set; }  
     public int CurrentStreakDays { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }

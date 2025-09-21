@@ -3,14 +3,13 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.UserAggregate;
 
-public class Friend : Entity, ITimeFields
+public class Friend : ITimeFields
 {
     internal Friend(
         Guid userId,
         Guid friendId,
         FriendStatus status)
     {
-        Id = Guid.NewGuid();
         SetUserId(userId);
         SetFriendId(friendId);
         SetStatus(status);

@@ -3,7 +3,7 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.ShopAggregate;
 
-public class Purchase : Entity, ITimeFields
+public class Purchase : EntityId, ITimeFields
 {
     internal Purchase(
         Guid userId, 

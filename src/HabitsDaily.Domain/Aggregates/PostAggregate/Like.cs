@@ -3,7 +3,7 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.PostAggregate;
 
-public class Like : Entity
+public class Like : EntityId
 {
     internal Like(Guid postId, Guid userId)
     {

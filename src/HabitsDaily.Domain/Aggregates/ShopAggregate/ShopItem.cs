@@ -3,7 +3,7 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.ShopAggregate;
 
-public class ShopItem : Entity, ITimeFields
+public class ShopItem : EntityId, ITimeFields
 {
     internal ShopItem(
         string name, 
@@ -62,5 +62,5 @@ public enum ShopItemType
 {
     AvatarFrame = 1,
     Badge,
-    Booster
+    Consumable
 }

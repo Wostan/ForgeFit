@@ -2,11 +2,11 @@
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 using HabitsDaily.Domain.ValueObjects;
-using Email = HabitsDaily.Domain.ValueObjects.UserValueObjects.Email;
+using Email = HabitsDaily.Domain.ValueObjects.Email;
 
 namespace HabitsDaily.Domain.Aggregates.UserAggregate;
 
-public class User : Entity, ITimeFields
+public class User : EntityId, ITimeFields
 {
     internal User(
         string username,

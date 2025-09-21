@@ -3,9 +3,9 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.UserAggregate;
 
-public class ArchievedUserStats : Entity, ITimeFields
+public class ArchivedUserStats : EntityId, ITimeFields
 {
-    internal ArchievedUserStats(
+    internal ArchivedUserStats(
         Guid userId,
         Guid habitId,
         int totalPoints)
@@ -17,7 +17,7 @@ public class ArchievedUserStats : Entity, ITimeFields
         CreatedAt = DateTime.UtcNow;
     }
     
-    private ArchievedUserStats() { }
+    private ArchivedUserStats() { }
     
     public Guid UserId { get; private set; }
     public Guid HabitId { get; private set; }

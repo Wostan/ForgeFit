@@ -4,7 +4,7 @@ using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.HabitAggregate;
 
-public class HabitRecord : Entity
+public class HabitRecord : EntityId
 {
     internal HabitRecord(
         Guid habitId,
