@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using HabitsDaily.Domain.Aggregates.UserAggregate;
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
@@ -25,6 +26,10 @@ public class HabitRecord : EntityId
     public DateTime Date { get; private set; }
     public bool Completed { get; private set; }
     public int PointsEarned { get; private set; }
+    
+    // Navigation properties
+    public Habit Habit { get; private set; }
+    public User User { get; private set; }
 
     public void SetHabitId(Guid habitId)
     {

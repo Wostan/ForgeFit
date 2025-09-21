@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using HabitsDaily.Domain.Aggregates.UserAggregate;
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 using HabitsDaily.Domain.ValueObjects;
@@ -29,7 +30,13 @@ public class Habit : EntityId, ITimeFields
     public Frequency Frequency { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
-
+    
+    // Navigation properties
+    public User User { get; private set; }
+    
+    public List<HabitRecord> HabitRecords { get; private set; } = [];
+    public List<ArchivedUserStats> ArchivedUserStats { get; private set; } = [];
+    
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty) throw new DomainValidationException("UserId cannot be empty.");
