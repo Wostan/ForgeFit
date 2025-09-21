@@ -1,4 +1,5 @@
-﻿using HabitsDaily.Domain.Exceptions;
+﻿using HabitsDaily.Domain.Aggregates.HabitAggregate;
+using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.UserAggregate;
@@ -24,6 +25,10 @@ public class ArchivedUserStats : EntityId, ITimeFields
     public int TotalPoints { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    // Navigation properties
+    public Habit Habit { get; private set; }
+    public User User { get; private set; }
 
     private void SetUserId(Guid userId)
     {

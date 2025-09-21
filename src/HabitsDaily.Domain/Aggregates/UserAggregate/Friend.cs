@@ -24,6 +24,10 @@ public class Friend : ITimeFields
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
     
+    // Navigation properties
+    public User User { get; private set; }
+    public User UserFriend { get; private set; }
+    
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty) throw new DomainValidationException("UserId cannot be empty.");
