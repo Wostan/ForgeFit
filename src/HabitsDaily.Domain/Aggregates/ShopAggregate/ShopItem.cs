@@ -27,6 +27,9 @@ public class ShopItem : EntityId, ITimeFields
     public ShopItemType Type { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    // Navigation properties
+    public List<Purchase> Purchases { get; private set; } = [];
 
     public void SetName(string name)
     {
