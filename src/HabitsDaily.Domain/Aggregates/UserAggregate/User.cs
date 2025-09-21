@@ -1,4 +1,8 @@
 ﻿using System.Text.Json.Serialization;
+using HabitsDaily.Domain.Aggregates.HabitAggregate;
+using HabitsDaily.Domain.Aggregates.PostAggregate;
+using HabitsDaily.Domain.Aggregates.ShopAggregate;
+using HabitsDaily.Domain.Aggregates.StreakAggregate;
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 using HabitsDaily.Domain.ValueObjects;
@@ -33,6 +37,19 @@ public class User : EntityId, ITimeFields
     public Uri? AvatarUrl { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    // Navigation properties
+    public List<Habit> Habits { get; private set; } = [];
+    public List<ArchivedUserStats> ArchivedUserStats { get; private set; } = [];
+    public Streak Streak { get; private set; }
+    
+    public List<Post> Posts { get; private set; } = [];
+    public List<Like> Likes { get; private set; } = [];
+    public List<Comment> Comments { get; private set; } = [];
+    
+    public List<Purchase> Purchases { get; private set; } = [];
+    
+    public List<Friend> Friends { get; private set; } = [];
 
     public void SetUsername(string username)
     {
