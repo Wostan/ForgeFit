@@ -1,4 +1,5 @@
-﻿using HabitsDaily.Domain.Exceptions;
+﻿using HabitsDaily.Domain.Aggregates.UserAggregate;
+using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.StreakAggregate;
@@ -21,6 +22,9 @@ public class Streak : EntityId, ITimeFields
     public int CurrentStreakDays { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    // Navigation properties
+    public User User { get; private set; }
 
     private void SetUserId(Guid userId)
     {
