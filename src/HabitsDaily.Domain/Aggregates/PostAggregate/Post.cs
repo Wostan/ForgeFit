@@ -1,4 +1,5 @@
-﻿using HabitsDaily.Domain.Exceptions;
+﻿using HabitsDaily.Domain.Aggregates.UserAggregate;
+using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.PostAggregate;
@@ -27,6 +28,12 @@ public class Post : EntityId, ITimeFields
     public int ViewsCount { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    // Navigation properties
+    public User User { get; private set; }
+    
+    public List<Like> Likes { get; private set; } = [];
+    public List<Comment> Comments { get; private set; } = [];
     
     private void SetUserId(Guid userId)
     {
