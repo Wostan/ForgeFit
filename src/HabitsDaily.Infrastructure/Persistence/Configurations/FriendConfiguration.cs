@@ -28,10 +28,12 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
         // Navigation properties
         builder.HasOne(f => f.User)
             .WithMany(u => u.Friends)
-            .HasForeignKey(f => f.UserId);
-        
+            .HasForeignKey(f => f.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasOne(f => f.UserFriend)
-            .WithMany(u => u.Friends)
-            .HasForeignKey(f => f.FriendId);
+            .WithMany()
+            .HasForeignKey(f => f.FriendId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

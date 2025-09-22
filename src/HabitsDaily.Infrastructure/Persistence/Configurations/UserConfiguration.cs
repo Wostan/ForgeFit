@@ -1,5 +1,6 @@
 ﻿using HabitsDaily.Domain.Aggregates.StreakAggregate;
 using HabitsDaily.Domain.Aggregates.UserAggregate;
+using HabitsDaily.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,7 +18,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
         
         builder.Property(u => u.Email)
+            .HasConversion<string>(
+                v => v.Value, 
+                v => new Email(v)
+            )
             .HasMaxLength(100)
+            .IsRequired();
+        
+        builder.Property(u => u.DateOfBirth)
+            .HasConversion(
+                v => v.Value,
+                v => new DateOfBirth(v)
+            )
             .IsRequired();
         
         builder.Property(u => u.PasswordHash)
@@ -41,34 +53,42 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // Navigation properties
         builder.HasMany(u => u.Habits)
             .WithOne(h => h.User)
-            .HasForeignKey(h => h.UserId);
-        
+            .HasForeignKey(h => h.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(u => u.ArchivedUserStats)
-            .WithOne(h => h.User)
-            .HasForeignKey(h => h.UserId);
-        
+            .WithOne(au => au.User)
+            .HasForeignKey(au => au.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasOne(u => u.Streak)
             .WithOne(s => s.User)
-            .HasForeignKey<Streak>(s => s.UserId);
-        
+            .HasForeignKey<Streak>(s => s.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(u => u.Posts)
             .WithOne(p => p.User)
-            .HasForeignKey(p => p.UserId);
-        
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasMany(u => u.Comments)
             .WithOne(c => c.User)
-            .HasForeignKey(c => c.UserId);
-        
+            .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(u => u.Likes)
             .WithOne(l => l.User)
-            .HasForeignKey(l => l.UserId);
-        
+            .HasForeignKey(l => l.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(u => u.Purchases)
             .WithOne(p => p.User)
-            .HasForeignKey(p => p.UserId);
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(u => u.Friends)
             .WithOne(f => f.User)
-            .HasForeignKey(f => f.UserId);
+            .HasForeignKey(f => f.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

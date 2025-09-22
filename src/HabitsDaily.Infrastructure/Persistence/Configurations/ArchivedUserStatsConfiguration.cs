@@ -28,12 +28,14 @@ public class ArchivedUserStatsConfiguration : IEntityTypeConfiguration<ArchivedU
             .IsUnique();
         
         //Navigation properties
-        builder.HasOne(au => au.User)
+        builder.HasOne(a => a.User)
             .WithMany(u => u.ArchivedUserStats)
-            .HasForeignKey(au => au.UserId);
-        
-        builder.HasOne(au => au.Habit)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(a => a.Habit)
             .WithMany(h => h.ArchivedUserStats)
-            .HasForeignKey(au => au.HabitId);
+            .HasForeignKey(a => a.HabitId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

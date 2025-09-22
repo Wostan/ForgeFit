@@ -19,6 +19,7 @@ public class ShopItemConfiguration : IEntityTypeConfiguration<ShopItem>
             .HasMaxLength(1000);
         
         builder.Property(s => s.Price)
+            .HasPrecision(18, 2)
             .IsRequired();
         
         builder.Property(s => s.Type)
@@ -34,6 +35,7 @@ public class ShopItemConfiguration : IEntityTypeConfiguration<ShopItem>
         //Navigation properties
         builder.HasMany(s => s.Purchases)
             .WithOne(p => p.ShopItem)
-            .HasForeignKey(p => p.ShopItemId);
+            .HasForeignKey(p => p.ShopItemId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

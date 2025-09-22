@@ -29,6 +29,7 @@ public class HabitRecordConfiguration : IEntityTypeConfiguration<HabitRecord>
         //Navigation properties
         builder.HasOne(hr => hr.Habit)
             .WithMany(h => h.HabitRecords)
-            .HasForeignKey(hr => hr.HabitId);
+            .HasForeignKey(hr => hr.HabitId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

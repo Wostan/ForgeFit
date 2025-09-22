@@ -30,6 +30,7 @@ public class StreakConfiguration : IEntityTypeConfiguration<Streak>
         //Navigation properties
         builder.HasOne(s => s.User)
             .WithOne(u => u.Streak)
-            .HasForeignKey<Streak>(s => s.UserId);
+            .HasForeignKey<Streak>(s => s.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

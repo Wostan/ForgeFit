@@ -1,4 +1,5 @@
 ﻿using HabitsDaily.Domain.Aggregates.HabitAggregate;
+using HabitsDaily.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,21 +22,32 @@ public class HabitConfiguration : IEntityTypeConfiguration<Habit>
         builder.Property(h => h.Description)
             .HasMaxLength(300);
         
-        builder.Property(h => h.Frequency)
-            .HasConversion<int>()
-            .IsRequired();
+        builder.OwnsOne(h => h.Frequency, freq =>
+        {
+            freq.Property(f => f.Interval)
+                .HasColumnName("FrequencyInterval")
+                .IsRequired();
+
+            freq.Property(f => f.Unit)
+                .HasConversion<int>()
+                .HasColumnName("FrequencyUnit")
+                .IsRequired();
+        });
         
         //Navigation properties
         builder.HasOne(h => h.User)
             .WithMany(u => u.Habits)
-            .HasForeignKey(h => h.UserId);
+            .HasForeignKey(h => h.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasMany(h => h.HabitRecords)
             .WithOne(hr => hr.Habit)
-            .HasForeignKey(hr => hr.HabitId);
+            .HasForeignKey(hr => hr.HabitId)
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasMany(h => h.ArchivedUserStats)
             .WithOne(au => au.Habit)
-            .HasForeignKey(au => au.HabitId);
+            .HasForeignKey(au => au.HabitId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

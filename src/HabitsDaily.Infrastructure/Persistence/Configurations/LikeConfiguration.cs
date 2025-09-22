@@ -26,10 +26,12 @@ public class LikeConfiguration : IEntityTypeConfiguration<Like>
         //Navigation properties
         builder.HasOne(l => l.Post)
             .WithMany(p => p.Likes)
-            .HasForeignKey(l => l.PostId);
+            .HasForeignKey(l => l.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.HasOne(l => l.User)
             .WithMany(u => u.Likes)
-            .HasForeignKey(l => l.UserId);
+            .HasForeignKey(l => l.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
