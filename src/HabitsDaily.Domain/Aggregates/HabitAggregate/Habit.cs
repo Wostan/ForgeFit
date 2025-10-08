@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using HabitsDaily.Domain.Aggregates.UserAggregate;
+﻿using HabitsDaily.Domain.Aggregates.UserAggregate;
 using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 using HabitsDaily.Domain.ValueObjects;
@@ -14,66 +13,91 @@ public class Habit : EntityId, ITimeFields
         string? description,
         Frequency frequency)
     {
-        Id = Guid.NewGuid();
         SetUserId(userId);
         SetName(name);
         SetDescription(description);
         SetFrequency(frequency);
+        IsActive = true;
         CreatedAt = DateTime.UtcNow;
     }
-    
-    private Habit() { }
-    
+
+    private Habit()
+    {
+    }
+
     public Guid UserId { get; private set; }
     public string Name { get; private set; }
     public string? Description { get; private set; }
     public Frequency Frequency { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
-    
+    public bool IsActive { get; private set; }
+
     // Navigation properties
     public User User { get; private set; }
-    
-    public List<HabitRecord> HabitRecords { get; private set; } = [];
-    public List<ArchivedUserStats> ArchivedUserStats { get; private set; } = [];
-    
+    public ICollection<HabitRecord> HabitRecords { get; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime? UpdatedAt { get; set; }
+
     private void SetUserId(Guid userId)
     {
-        if (userId == Guid.Empty) throw new DomainValidationException("UserId cannot be empty.");
-        
+        if (userId == Guid.Empty) throw new DomainValidationException("WorkoutProgramId cannot be empty.");
+
         UserId = userId;
     }
-    
-    public void SetName(string name)
+
+    private void SetName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainValidationException("Name cannot be null or whitespace.");
-        }
-        
-        if (name.Length > 50)
-        {
-            throw new DomainValidationException("Name must be less than 50 characters long.");
-        }
-        
+        if (string.IsNullOrWhiteSpace(name)) throw new DomainValidationException("Name cannot be null or whitespace.");
+
+        if (name.Length > 50) throw new DomainValidationException("Name must be less than 50 characters long.");
+
         Name = name;
-        UpdatedAt = DateTime.UtcNow;
     }
-    
-    public void SetDescription(string? description)
+
+    private void SetDescription(string? description)
     {
         if (description?.Length > 300)
-        {
             throw new DomainValidationException("Description must be less than 300 characters long.");
-        }
-        
+
         Description = description;
+    }
+
+    private void SetFrequency(Frequency frequency)
+    {
+        Frequency = frequency ?? throw new DomainValidationException("Frequency cannot be null.");
+    }
+
+    public void UpdateInfo(string name, string? description, Frequency frequency)
+    {
+        SetName(name);
+        SetDescription(description);
+        SetFrequency(frequency);
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void SetFrequency(Frequency frequency)
+    public void MarkAsDone(Guid habitRecordId)
     {
-        Frequency = frequency ?? throw new DomainValidationException("Frequency cannot be null.");
+        var habitRecord = HabitRecords.FirstOrDefault(hr => hr.Id == habitRecordId);
+        if (habitRecord is null)
+            throw new DomainValidationException("HabitRecord not found.");
+
+        habitRecord.MarkAsDone();
+    }
+
+    public void MarkAsUndone(Guid habitRecordId)
+    {
+        var habitRecord = HabitRecords.FirstOrDefault(hr => hr.Id == habitRecordId);
+        if (habitRecord is null)
+            throw new DomainValidationException("HabitRecord not found.");
+
+        habitRecord.MarkAsUndone();
+    }
+
+    public void Deactivate()
+    {
+        if (!IsActive)
+            throw new DomainValidationException("Habit is already deactivated.");
+
+        IsActive = false;
         UpdatedAt = DateTime.UtcNow;
     }
 }

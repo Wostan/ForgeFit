@@ -2,7 +2,7 @@
 
 public abstract class EntityId : IEquatable<EntityId>
 {
-    public Guid Id { get; protected init; }
+    public Guid Id { get; } = Guid.NewGuid();
 
     public bool Equals(EntityId? other)
     {
@@ -18,7 +18,7 @@ public abstract class EntityId : IEquatable<EntityId>
         if (obj.GetType() != GetType()) return false;
         return Equals((EntityId)obj);
     }
-    
+
     public static bool operator ==(EntityId? left, EntityId? right)
     {
         if (left is null && right is null) return true;
@@ -28,7 +28,9 @@ public abstract class EntityId : IEquatable<EntityId>
     }
 
     public static bool operator !=(EntityId? left, EntityId? right)
-        => !(left == right);
+    {
+        return !(left == right);
+    }
 
 
     public override int GetHashCode()

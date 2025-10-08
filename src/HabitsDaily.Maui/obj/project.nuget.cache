@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "O1B/t0BL3YU=",
+  "dgSpecHash": "B9Gfak717yE=",
   "success": true,
   "projectFilePath": "C:\\Users\\kosty\\RiderProjects\\CourseWork\\HabitsDaily\\src\\HabitsDaily.Maui\\HabitsDaily.Maui.csproj",
   "expectedPackageFiles": [
@@ -27,7 +27,7 @@
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.maui.graphics\\9.0.90\\microsoft.maui.graphics.9.0.90.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.maui.graphics.win2d.winui.desktop\\9.0.90\\microsoft.maui.graphics.win2d.winui.desktop.9.0.90.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.maui.resizetizer\\9.0.90\\microsoft.maui.resizetizer.9.0.90.nupkg.sha512",
-    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.6\\microsoft.net.illink.tasks.9.0.6.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.9\\microsoft.net.illink.tasks.9.0.9.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.web.webview2\\1.0.3179.45\\microsoft.web.webview2.1.0.3179.45.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.756\\microsoft.windows.sdk.buildtools.10.0.22621.756.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.windowsappsdk\\1.7.250606001\\microsoft.windowsappsdk.1.7.250606001.nupkg.sha512",
@@ -121,9 +121,13 @@
     "C:\\Users\\kosty\\.nuget\\packages\\xamarin.kotlinx.coroutines.core.jvm\\1.9.0.3\\xamarin.kotlinx.coroutines.core.jvm.1.9.0.3.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\xamarin.kotlinx.serialization.core\\1.7.3.4\\xamarin.kotlinx.serialization.core.1.7.3.4.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\xamarin.kotlinx.serialization.core.jvm\\1.7.3.4\\xamarin.kotlinx.serialization.core.jvm.1.7.3.4.nupkg.sha512",
-    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.8\\microsoft.netcore.app.ref.9.0.8.nupkg.sha512",
-    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.8\\microsoft.netcore.app.ref.9.0.8.nupkg.sha512",
-    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.8\\microsoft.netcore.app.ref.9.0.8.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.android.runtime.35.android-arm64\\35.0.101\\microsoft.android.runtime.35.android-arm64.35.0.101.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.android.runtime.35.android-x64\\35.0.101\\microsoft.android.runtime.35.android-x64.35.0.101.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.android.ref.35\\35.0.101\\microsoft.android.ref.35.35.0.101.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.ios.ref.net9.0_18.5\\18.5.9219\\microsoft.ios.ref.net9.0_18.5.18.5.9219.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.ios.runtime.iossimulator-x64.net9.0_18.5\\18.5.9219\\microsoft.ios.runtime.iossimulator-x64.net9.0_18.5.18.5.9219.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.maccatalyst.ref.net9.0_18.5\\18.5.9219\\microsoft.maccatalyst.ref.net9.0_18.5.18.5.9219.nupkg.sha512",
+    "C:\\Users\\kosty\\.nuget\\packages\\microsoft.maccatalyst.runtime.maccatalyst-x64.net9.0_18.5\\18.5.9219\\microsoft.maccatalyst.runtime.maccatalyst-x64.net9.0_18.5.18.5.9219.nupkg.sha512",
     "C:\\Users\\kosty\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512"
   ],
   "logs": []

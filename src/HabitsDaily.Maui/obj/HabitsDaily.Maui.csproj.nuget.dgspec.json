@@ -61,7 +61,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0-android35.0": {
@@ -82,7 +82,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.6, )",
+              "version": "[9.0.9, )",
               "autoReferenced": true
             }
           },
@@ -99,8 +99,16 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.8, 9.0.8]"
+              "name": "Microsoft.Android.Ref.35",
+              "version": "[35.0.101, 35.0.101]"
+            },
+            {
+              "name": "Microsoft.Android.Runtime.35.android-arm64",
+              "version": "[35.0.101, 35.0.101]"
+            },
+            {
+              "name": "Microsoft.Android.Runtime.35.android-x64",
+              "version": "[35.0.101, 35.0.101]"
             }
           ],
           "frameworkReferences": {
@@ -111,7 +119,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
         },
         "net9.0-ios18.5": {
           "targetAlias": "net9.0-ios",
@@ -131,7 +139,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.6, )",
+              "version": "[9.0.9, )",
               "autoReferenced": true
             }
           },
@@ -148,8 +156,12 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.8, 9.0.8]"
+              "name": "Microsoft.iOS.Ref.net9.0_18.5",
+              "version": "[18.5.9219, 18.5.9219]"
+            },
+            {
+              "name": "Microsoft.iOS.Runtime.iossimulator-x64.net9.0_18.5",
+              "version": "[18.5.9219, 18.5.9219]"
             }
           ],
           "frameworkReferences": {
@@ -160,7 +172,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
         },
         "net9.0-maccatalyst18.5": {
           "targetAlias": "net9.0-maccatalyst",
@@ -180,7 +192,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.6, )",
+              "version": "[9.0.9, )",
               "autoReferenced": true
             }
           },
@@ -198,8 +210,12 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.8, 9.0.8]"
+              "name": "Microsoft.MacCatalyst.Ref.net9.0_18.5",
+              "version": "[18.5.9219, 18.5.9219]"
+            },
+            {
+              "name": "Microsoft.MacCatalyst.Runtime.maccatalyst-x64.net9.0_18.5",
+              "version": "[18.5.9219, 18.5.9219]"
             }
           ],
           "frameworkReferences": {
@@ -210,7 +226,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
         },
         "net9.0-windows10.0.19041": {
           "targetAlias": "net9.0-windows10.0.19041.0",
@@ -253,7 +269,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

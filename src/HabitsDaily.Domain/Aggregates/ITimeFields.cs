@@ -2,6 +2,6 @@
 
 public interface ITimeFields
 {
-    public DateTime CreatedAt { get; protected init; }
-    public DateTime? UpdatedAt { get; protected set; }
+    public DateTime CreatedAt { get; private protected init; }
+    public DateTime? UpdatedAt { get; private protected set; }
 }

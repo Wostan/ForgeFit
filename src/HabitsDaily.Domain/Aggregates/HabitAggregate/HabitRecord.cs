@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using HabitsDaily.Domain.Aggregates.UserAggregate;
-using HabitsDaily.Domain.Exceptions;
+﻿using HabitsDaily.Domain.Exceptions;
 using HabitsDaily.Domain.Primitives;
 
 namespace HabitsDaily.Domain.Aggregates.HabitAggregate;
@@ -9,53 +7,52 @@ public class HabitRecord : EntityId
 {
     internal HabitRecord(
         Guid habitId,
-        DateTime date,
-        bool completed,
-        int pointsEarned)
+        DateTime dueDate)
     {
-        Id = Guid.NewGuid();
         SetHabitId(habitId);
-        SetDate(date);
-        SetCompleted(completed);
-        SetPointsEarned(pointsEarned);
+        Completed = false;
+        SetDueDate(dueDate);
     }
-    
-    private HabitRecord() { }
-    
+
+    private HabitRecord()
+    {
+    }
+
     public Guid HabitId { get; private set; }
-    public DateTime Date { get; private set; }
+    public DateTime DueDate { get; private set; }
     public bool Completed { get; private set; }
-    public int PointsEarned { get; private set; }
-    
+
     // Navigation properties
     public Habit Habit { get; private set; }
 
-    public void SetHabitId(Guid habitId)
+    private void SetHabitId(Guid habitId)
     {
-        if (habitId == Guid.Empty) 
+        if (habitId == Guid.Empty)
             throw new DomainValidationException("HabitId cannot be empty.");
 
         HabitId = habitId;
     }
 
-    public void SetDate(DateTime date)
+    public void SetDueDate(DateTime dueDate)
     {
-        if (date.Date > DateTime.UtcNow.Date)
-            throw new DomainValidationException("Date cannot be in the future.");
+        if (dueDate.Date < DateTime.UtcNow.Date)
+            throw new DomainValidationException("Date cannot be in the past.");
 
-        Date = date.Date;
+        DueDate = dueDate.Date;
     }
 
-    public void SetCompleted(bool completed)
+    public void MarkAsDone()
     {
-        Completed = completed;
+        if (Completed)
+            throw new DomainValidationException("HabitRecord already completed.");
+        Completed = true;
     }
 
-    public void SetPointsEarned(int points)
+    public void MarkAsUndone()
     {
-        if (points < 0) 
-            throw new DomainValidationException("Points cannot be negative.");
+        if (!Completed)
+            throw new DomainValidationException("HabitRecord is not completed.");
 
-        PointsEarned = points;
+        Completed = false;
     }
 }
