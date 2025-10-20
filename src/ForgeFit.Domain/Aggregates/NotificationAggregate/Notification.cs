@@ -6,7 +6,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.NotificationAggregate;
 
-public class Notification : EntityId, ITimeFields
+public class Notification : Entity, ITimeFields
 {
     internal Notification(
         Guid userId,

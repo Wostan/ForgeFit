@@ -6,7 +6,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
-public class SleepGoal : EntityId, ITimeFields
+public class SleepGoal : Entity, ITimeFields
 {
     internal SleepGoal(
         Guid userId,

@@ -5,7 +5,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.SleepAggregate;
 
-public class SleepEntry : EntityId
+public class SleepEntry : Entity
 {
     internal SleepEntry(
         Guid userId,

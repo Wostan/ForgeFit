@@ -5,7 +5,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.HabitAggregate;
 
-public class Habit : EntityId, ITimeFields
+public class Habit : Entity, ITimeFields
 {
     internal Habit(
         Guid userId,

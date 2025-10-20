@@ -5,7 +5,7 @@ using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
-public class WorkoutExercisePlan : EntityId, ITimeFields
+public class WorkoutExercisePlan : Entity, ITimeFields
 {
     internal WorkoutExercisePlan(
         Guid workoutProgramId,

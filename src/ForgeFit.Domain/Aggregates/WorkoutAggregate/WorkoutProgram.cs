@@ -4,7 +4,7 @@ using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
-public class WorkoutProgram : EntityId, ITimeFields
+public class WorkoutProgram : Entity, ITimeFields
 {
     internal WorkoutProgram(
         Guid userId,
