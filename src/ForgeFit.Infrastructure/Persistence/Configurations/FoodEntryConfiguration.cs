@@ -54,7 +54,7 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
             
             item.Property(i => i.ExternalId)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
             
             item.Property(i => i.Label)
                 .IsRequired()
