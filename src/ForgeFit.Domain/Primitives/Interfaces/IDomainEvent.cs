@@ -2,6 +2,7 @@
 
 namespace ForgeFit.Domain.Primitives.Interfaces;
 
-public interface IDomainEvent : INotification
+public abstract class DomainEvent : INotification
 {
+    public DateTime OccurredAt { get; } = DateTime.UtcNow;
 }
