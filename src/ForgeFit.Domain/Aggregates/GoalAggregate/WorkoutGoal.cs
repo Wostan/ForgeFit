@@ -10,13 +10,13 @@ public class WorkoutGoal : Entity, ITimeFields
 {
     internal WorkoutGoal(Guid userId,
         int workoutsPerWeek,
-        Schedule recommendedSchedule,
-        WorkoutType recommendedWorkoutType)
+        Schedule schedule, 
+        WorkoutType workoutType)
     {
         SetUserId(userId);
         SetWorkoutsPerWeek(workoutsPerWeek);
-        SetRecommendedSchedule(recommendedSchedule);
-        SetRecommendedWorkoutType(recommendedWorkoutType);
+        SetSchedule(schedule);
+        SetWorkoutType(workoutType);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -50,7 +50,7 @@ public class WorkoutGoal : Entity, ITimeFields
         WorkoutsPerWeek = workoutsPerWeek;
     }
     
-    private void SetRecommendedSchedule(Schedule recommendedSchedule)
+    private void SetSchedule(Schedule recommendedSchedule)
     {
         var duration = recommendedSchedule.Duration;
 
@@ -60,7 +60,7 @@ public class WorkoutGoal : Entity, ITimeFields
         RecommendedSchedule = recommendedSchedule;
     }
     
-    private void SetRecommendedWorkoutType(WorkoutType recommendedWorkoutType)
+    private void SetWorkoutType(WorkoutType recommendedWorkoutType)
     {
         if (!Enum.IsDefined(recommendedWorkoutType))
             throw new DomainValidationException("RecommendedWorkoutType is not defined.");
@@ -74,8 +74,8 @@ public class WorkoutGoal : Entity, ITimeFields
         WorkoutType recommendedWorkoutType)
     {
         SetWorkoutsPerWeek(workoutsPerWeek);
-        SetRecommendedSchedule(recommendedSchedule);
-        SetRecommendedWorkoutType(recommendedWorkoutType);
+        SetSchedule(recommendedSchedule);
+        SetWorkoutType(recommendedWorkoutType);
         UpdatedAt = DateTime.UtcNow;
     }
 }
