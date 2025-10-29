@@ -1,0 +1,19 @@
+﻿using ForgeFit.Domain.Primitives.Interfaces;
+
+namespace ForgeFit.Domain.Events.FoodEvents;
+
+public class FoodEntryCreatedEvent(
+    Guid foodEntryId,
+    Guid userId,
+    int calories,
+    int protein,
+    int carbs,
+    int fat) : DomainEvent
+{
+    public Guid FoodEntryId { get; } = foodEntryId;
+    public Guid UserId { get; } = userId;
+    public int Calories { get; } = calories;
+    public int Protein { get; } = protein;
+    public int Carbs { get; } = carbs;
+    public int Fat { get; } = fat;
+}
