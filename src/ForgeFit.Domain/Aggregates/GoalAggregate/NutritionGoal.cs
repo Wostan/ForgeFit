@@ -4,7 +4,7 @@ using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
-public class NutritionGoal : EntityId, ITimeFields
+public class NutritionGoal : Entity, ITimeFields
 {
     internal NutritionGoal(
         Guid userId,

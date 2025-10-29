@@ -5,7 +5,7 @@ using Email = ForgeFit.Domain.ValueObjects.UserValueObjects.Email;
 
 namespace ForgeFit.Domain.Aggregates.UserAggregate;
 
-public class User : EntityId, ITimeFields
+public class User : Entity, ITimeFields
 {
     internal User(
         UserProfile userProfile,

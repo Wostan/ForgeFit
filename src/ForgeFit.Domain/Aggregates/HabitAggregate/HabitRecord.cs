@@ -3,7 +3,7 @@ using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Aggregates.HabitAggregate;
 
-public class HabitRecord : EntityId
+public class HabitRecord : Entity
 {
     internal HabitRecord(
         Guid habitId,
