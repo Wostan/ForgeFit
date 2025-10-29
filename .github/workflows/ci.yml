@@ -21,18 +21,18 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore Application
-      run: dotnet restore src/HabitsDaily.Application/HabitsDaily.Application.csproj
+      run: dotnet restore src/ForgeFit.Application/ForgeFit.Application.csproj
     - name: Restore Infrastructure
-      run: dotnet restore src/HabitsDaily.Infrastructure/HabitsDaily.Infrastructure.csproj
+      run: dotnet restore src/ForgeFit.Infrastructure/ForgeFit.Infrastructure.csproj
     - name: Restore Domain
-      run: dotnet restore src/HabitsDaily.Domain/HabitsDaily.Domain.csproj
+      run: dotnet restore src/ForgeFit.Domain/ForgeFit.Domain.csproj
       
     - name: Build Application
-      run: dotnet build src/HabitsDaily.Application/HabitsDaily.Application.csproj --no-restore -c Release
+      run: dotnet build src/ForgeFit.Application/ForgeFit.Application.csproj --no-restore -c Release
     - name: Build Infrastructure
-      run: dotnet build src/HabitsDaily.Infrastructure/HabitsDaily.Infrastructure.csproj --no-restore -c Release
+      run: dotnet build src/ForgeFit.Infrastructure/ForgeFit.Infrastructure.csproj --no-restore -c Release
     - name: Build Domain
-      run: dotnet build src/HabitsDaily.Domain/HabitsDaily.Domain.csproj --no-restore -c Release
+      run: dotnet build src/ForgeFit.Domain/ForgeFit.Domain.csproj --no-restore -c Release
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
