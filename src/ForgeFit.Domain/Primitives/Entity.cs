@@ -1,32 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using ForgeFit.Domain.Primitives.Interfaces;
-
-namespace ForgeFit.Domain.Primitives;
+﻿namespace ForgeFit.Domain.Primitives;
 
 public abstract class Entity : IEquatable<Entity>
 {
     public Guid Id { get; } = Guid.NewGuid();
     
-    private readonly List<IDomainEvent> _domainEvents = [];
-    
-    [NotMapped]
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
-
-    public void RemoveDomainEvent(IDomainEvent domainEvent)
-    {
-        _domainEvents.Remove(domainEvent);
-    }
-
-    protected void AddDomainEvent(IDomainEvent domainEvent)
-    {
-        _domainEvents.Add(domainEvent);
-    }
-
-    public void ClearDomainEvents()
-    {
-        _domainEvents.Clear();
-    }
-
     public bool Equals(Entity? other)
     {
         if (other is null) return false;
