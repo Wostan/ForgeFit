@@ -6,7 +6,7 @@ using ForgeFit.Domain.ValueObjects.FoodValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 
-public class FoodEntry : EntityId, ITimeFields
+public class FoodEntry : Entity, ITimeFields
 {
     internal FoodEntry(
         Guid userId,

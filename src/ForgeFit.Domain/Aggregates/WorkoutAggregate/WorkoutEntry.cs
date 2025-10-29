@@ -4,7 +4,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
-public class WorkoutEntry : EntityId
+public class WorkoutEntry : Entity
 {
     internal WorkoutEntry(
         Guid workoutProgramId,

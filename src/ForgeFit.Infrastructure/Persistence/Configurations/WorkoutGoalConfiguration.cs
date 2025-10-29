@@ -1,0 +1,57 @@
+﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace ForgeFit.Infrastructure.Persistence.Configurations;
+
+public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
+{
+    [Obsolete("Obsolete")]
+    public void Configure(EntityTypeBuilder<WorkoutGoal> builder)
+    {
+        builder.ToTable("WorkoutGoals")
+            .HasCheckConstraint("CK_WorkoutGoals_WorkoutsPerWeekCheck", "WorkoutsPerWeek > 0 AND WorkoutsPerWeek < 8")
+            .HasCheckConstraint("CK_WorkoutGoals_RecommendedWorkoutTypeCheck", "RecommendedWorkoutType IN (1, 2, 3)");
+        
+        builder.HasKey(wg => wg.Id);
+        
+        // Properties
+        builder.Property(wg => wg.UserId)
+            .IsRequired();
+        
+        builder.Property(wg => wg.WorkoutsPerWeek)
+            .IsRequired();
+        
+        builder.Property(wg => wg.RecommendedWorkoutType)
+            .HasConversion<int>()
+            .IsRequired();        
+        
+        builder.Property(wg => wg.CreatedAt)
+            .HasDefaultValueSql("GETUTCDATE()")
+            .IsRequired();
+        
+        // ValueObject properties
+        builder.OwnsOne(wg => wg.RecommendedSchedule, schedule =>
+        {
+            schedule.HasCheckConstraint("CK_WorkoutGoals_RecommendedSchedule_DurationCheck", "RecommendedSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
+            
+            schedule.Property(s => s.Start)
+                .IsRequired();
+            
+            schedule.Property(s => s.End)
+                .IsRequired();
+            
+            schedule.Property(s => s.Duration)
+                .IsRequired();
+        });
+        
+        // Indexes
+        builder.HasIndex(wg => wg.UserId); 
+        
+        // Navigation properties
+        builder.HasOne(wg => wg.User)
+            .WithMany()
+            .HasForeignKey(wg => wg.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+}

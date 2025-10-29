@@ -1,10 +1,10 @@
 ﻿namespace ForgeFit.Domain.Primitives;
 
-public abstract class EntityId : IEquatable<EntityId>
+public abstract class Entity : IEquatable<Entity>
 {
     public Guid Id { get; } = Guid.NewGuid();
 
-    public bool Equals(EntityId? other)
+    public bool Equals(Entity? other)
     {
         if (other is null) return false;
         return ReferenceEquals(this, other) || Id.Equals(other.Id);
@@ -14,10 +14,10 @@ public abstract class EntityId : IEquatable<EntityId>
     {
         if (obj is null) return false;
         if (ReferenceEquals(this, obj)) return true;
-        return obj.GetType() == GetType() && Equals((EntityId)obj);
+        return obj.GetType() == GetType() && Equals((Entity)obj);
     }
 
-    public static bool operator ==(EntityId? left, EntityId? right)
+    public static bool operator ==(Entity? left, Entity? right)
     {
         if (left is null && right is null) return true;
         if (left is null || right is null) return false;
@@ -25,7 +25,7 @@ public abstract class EntityId : IEquatable<EntityId>
         return left.Equals(right);
     }
 
-    public static bool operator !=(EntityId? left, EntityId? right)
+    public static bool operator !=(Entity? left, Entity? right)
     {
         return !(left == right);
     }

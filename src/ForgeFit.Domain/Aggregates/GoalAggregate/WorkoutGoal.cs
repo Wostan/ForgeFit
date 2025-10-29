@@ -6,7 +6,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
-public class WorkoutGoal : EntityId, ITimeFields
+public class WorkoutGoal : Entity, ITimeFields
 {
     internal WorkoutGoal(Guid userId,
         int workoutsPerWeek,

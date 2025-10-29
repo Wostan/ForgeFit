@@ -6,7 +6,7 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
-public class BodyGoal : EntityId, ITimeFields
+public class BodyGoal : Entity, ITimeFields
 {
     internal BodyGoal(
         Guid userId,

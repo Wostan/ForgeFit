@@ -4,7 +4,7 @@ using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 
-public class DrinkEntry : EntityId, ITimeFields
+public class DrinkEntry : Entity, ITimeFields
 {
     internal DrinkEntry(
         Guid userId,
