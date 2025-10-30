@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Primitives.Interfaces;
+﻿using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
 
 namespace ForgeFit.Domain.Events.UserEvents;
