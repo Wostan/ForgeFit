@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ForgeFit.Domain.Primitives.Interfaces;
+namespace ForgeFit.Domain.Primitives;
 
 public abstract class DomainEvent : INotification
 {
