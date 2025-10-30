@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.Domain.Enums.WorkoutExerciseEnums;
+﻿namespace ForgeFit.Domain.Enums.WorkoutEnums;
 
 public enum Equipment
 {
