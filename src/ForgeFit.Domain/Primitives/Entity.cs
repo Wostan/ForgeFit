@@ -3,7 +3,7 @@
 public abstract class Entity : IEquatable<Entity>
 {
     public Guid Id { get; } = Guid.NewGuid();
-
+    
     public bool Equals(Entity? other)
     {
         if (other is null) return false;
@@ -29,8 +29,7 @@ public abstract class Entity : IEquatable<Entity>
     {
         return !(left == right);
     }
-
-
+    
     public override int GetHashCode()
     {
         return Id.GetHashCode();

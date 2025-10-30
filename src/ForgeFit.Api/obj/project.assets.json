@@ -2088,6 +2088,9 @@
       "ForgeFit.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "MediatR": "13.0.0"
+        },
         "compile": {
           "bin/placeholder/ForgeFit.Domain.dll": {}
         },
