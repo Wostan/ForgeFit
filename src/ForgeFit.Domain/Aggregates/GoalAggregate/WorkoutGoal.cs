@@ -26,8 +26,8 @@ public class WorkoutGoal : Entity, ITimeFields
     
     public Guid UserId { get; private set; }
     public int WorkoutsPerWeek { get; private set; }
-    public Schedule RecommendedSchedule { get; private set; }
-    public WorkoutType RecommendedWorkoutType { get; private set; }
+    public Schedule Schedule { get; private set; }
+    public WorkoutType WorkoutType { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
     
@@ -57,15 +57,15 @@ public class WorkoutGoal : Entity, ITimeFields
         if (duration < TimeSpan.FromMinutes(10) || duration > TimeSpan.FromHours(5))
             throw new DomainValidationException("Workout duration hours must be between 10 minutes and 5 hours.");
         
-        RecommendedSchedule = recommendedSchedule;
+        Schedule = recommendedSchedule;
     }
     
     private void SetWorkoutType(WorkoutType recommendedWorkoutType)
     {
         if (!Enum.IsDefined(recommendedWorkoutType))
-            throw new DomainValidationException("RecommendedWorkoutType is not defined.");
+            throw new DomainValidationException("WorkoutType is not defined.");
         
-        RecommendedWorkoutType = recommendedWorkoutType;
+        WorkoutType = recommendedWorkoutType;
     }
     
     public void UpdateWorkoutGoal(

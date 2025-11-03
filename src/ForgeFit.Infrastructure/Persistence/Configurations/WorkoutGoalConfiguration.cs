@@ -11,7 +11,7 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
     {
         builder.ToTable("WorkoutGoals")
             .HasCheckConstraint("CK_WorkoutGoals_WorkoutsPerWeekCheck", "WorkoutsPerWeek > 0 AND WorkoutsPerWeek < 8")
-            .HasCheckConstraint("CK_WorkoutGoals_RecommendedWorkoutTypeCheck", "RecommendedWorkoutType IN (1, 2, 3)");
+            .HasCheckConstraint("CK_WorkoutGoals_RecommendedWorkoutTypeCheck", "WorkoutType IN (1, 2, 3)");
         
         builder.HasKey(wg => wg.Id);
         
@@ -22,7 +22,7 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
         builder.Property(wg => wg.WorkoutsPerWeek)
             .IsRequired();
         
-        builder.Property(wg => wg.RecommendedWorkoutType)
+        builder.Property(wg => wg.WorkoutType)
             .HasConversion<int>()
             .IsRequired();        
         
@@ -31,7 +31,7 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
             .IsRequired();
         
         // ValueObject properties
-        builder.OwnsOne(wg => wg.RecommendedSchedule, schedule =>
+        builder.OwnsOne(wg => wg.Schedule, schedule =>
         {
             schedule.HasCheckConstraint("CK_WorkoutGoals_RecommendedSchedule_DurationCheck", "RecommendedSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
             

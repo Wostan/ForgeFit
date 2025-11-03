@@ -2,8 +2,7 @@
 
 public enum GoalType
 {
-    WeightLoss = 1,
+    FatLoss = 1,
     WeightGain,
-    MuscleGain,
-    FatLoss
+    MuscleGain
 }
