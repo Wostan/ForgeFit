@@ -1,9 +1,9 @@
 ﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
-using ForgeFit.Domain.ValueObjects.UserValueObjects;
+using ForgeFit.Domain.Aggregates.UserAggregate;
 
 namespace ForgeFit.Domain.Primitives.Interfaces.Services;
 
 public interface INutritionCalculationService
 {
-    NutritionGoal CalculateNutritionGoal(UserProfile userProfile, BodyGoal bodyGoal, WorkoutGoal? workoutGoal);
+    NutritionGoal CalculateNutritionGoal(User user, BodyGoal bodyGoal, WorkoutGoal? workoutGoal);
 }
