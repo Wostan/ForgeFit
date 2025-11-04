@@ -1,9 +1,9 @@
 ﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
-using ForgeFit.Domain.ValueObjects.UserValueObjects;
+using ForgeFit.Domain.Aggregates.UserAggregate;
 
 namespace ForgeFit.Domain.Primitives.Interfaces.Services;
 
 public interface IWorkoutGoalGenerationService
 {
-    WorkoutGoal GenerateWorkoutGoal(UserProfile userProfile, BodyGoal bodyGoal);
+    WorkoutGoal GenerateWorkoutGoal(User user, BodyGoal bodyGoal);
 }
