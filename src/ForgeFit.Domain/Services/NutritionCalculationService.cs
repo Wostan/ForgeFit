@@ -69,7 +69,7 @@ public class NutritionCalculationService : INutritionCalculationService
         
         var workoutsPerWeek = workoutGoal.WorkoutsPerWeek;
         var workoutType = workoutGoal.WorkoutType;
-        var duration = workoutGoal.Schedule.Duration;
+        var duration = workoutGoal.Duration;
         
         var baseFactor = workoutsPerWeek switch
         {
@@ -82,9 +82,9 @@ public class NutritionCalculationService : INutritionCalculationService
         
         var workoutTypeMultiplier = workoutType switch
         {
-            WorkoutType.Cardio => 1.05,
+            WorkoutType.StrengthCardio => 1.05,
             WorkoutType.StrengthTraining => 1.08,
-            WorkoutType.MuscleGain => 1.1,
+            WorkoutType.Hypertrophy => 1.1,
             _ => 1.0
         };
         
@@ -114,9 +114,9 @@ public class NutritionCalculationService : INutritionCalculationService
     private static int CalculateMuscleGainCalories(double tdee, WorkoutGoal? workoutGoal)
     {
         if (workoutGoal != null && workoutGoal.WorkoutsPerWeek >= 4)
-            return (int)Math.Round(tdee + 300);
+            return (int)Math.Round(tdee + 500); 
         
-        return (int)Math.Round(tdee + 500);
+        return (int)Math.Round(tdee + 300);
     }
     
     private static (int Protein, int Carbs, int Fat) CalculateMacronutrients(
@@ -137,7 +137,7 @@ public class NutritionCalculationService : INutritionCalculationService
         double proteinGramsPerKg;
         
         if (bodyGoal.GoalType == GoalType.MuscleGain || 
-            (workoutGoal != null && workoutGoal.WorkoutType == WorkoutType.MuscleGain))
+            (workoutGoal != null && workoutGoal.WorkoutType == WorkoutType.Hypertrophy))
         {
             proteinGramsPerKg = 2.0;
         }
@@ -170,45 +170,33 @@ public class NutritionCalculationService : INutritionCalculationService
         var proteinCalories = proteinGrams * 4;
         var remainingCalories = targetCalories - proteinCalories;
         
-        double fatPercentage;
-        double carbPercentage;
+        if (remainingCalories < 0) remainingCalories = 0;
+
+        double carbRatio;
         
         if (bodyGoal.GoalType == GoalType.MuscleGain || 
-            (workoutGoal != null && workoutGoal.WorkoutType == WorkoutType.MuscleGain))
+            (workoutGoal != null && workoutGoal.WorkoutType == WorkoutType.Hypertrophy))
         {
-            carbPercentage = 0.55;
-            fatPercentage = 0.25;
+            carbRatio = 0.55 / (0.55 + 0.25);
         }
-        else if (workoutGoal != null && workoutGoal.WorkoutType == WorkoutType.Cardio)
+        else if (workoutGoal != null && workoutGoal.WorkoutType == WorkoutType.StrengthCardio)
         {
-            carbPercentage = 0.50;
-            fatPercentage = 0.28;
+            carbRatio = 0.50 / (0.50 + 0.28);
         }
         else if (bodyGoal.GoalType == GoalType.FatLoss)
         {
-            carbPercentage = 0.40;
-            fatPercentage = 0.30;
+            carbRatio = 0.40 / (0.40 + 0.30);
         }
         else
         {
-            carbPercentage = 0.48;
-            fatPercentage = 0.27;
+            carbRatio = 0.48 / (0.48 + 0.27);
         }
         
-        var carbCalories = (int)(targetCalories * carbPercentage);
-        var fatCalories = (int)(targetCalories * fatPercentage);
+        var carbCalories = (int)Math.Round(remainingCalories * carbRatio);
+        var fatCalories = remainingCalories - carbCalories; 
         
         var carbGrams = carbCalories / 4;
         var fatGrams = fatCalories / 9;
-        
-        var totalCalculated = carbGrams * 4 + fatGrams * 9;
-        if (totalCalculated <= remainingCalories) 
-            return (fatGrams, carbGrams);
-        
-        var adjustmentFactor = (double)remainingCalories / totalCalculated;
-        
-        carbGrams = (int)Math.Round(carbGrams * adjustmentFactor);
-        fatGrams = (int)Math.Round(fatGrams * adjustmentFactor);
 
         return (carbGrams, fatGrams);
     }
@@ -220,9 +208,9 @@ public class NutritionCalculationService : INutritionCalculationService
         if (workoutGoal == null) 
             return (int)Math.Round(baseWaterMl);
         
-        var workoutDurationMinutes = workoutGoal.Schedule.Duration.TotalMinutes;
+        var workoutDurationMinutes = workoutGoal.Duration.TotalMinutes;
         var additionalWater = workoutDurationMinutes / 30.0 * 350;
-            
+        
         var avgDailyExtraWater = additionalWater * workoutGoal.WorkoutsPerWeek / 7.0;
             
         baseWaterMl += avgDailyExtraWater;
