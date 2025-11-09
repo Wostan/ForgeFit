@@ -3,6 +3,6 @@
 public enum WorkoutType
 {
     StrengthTraining = 1,
-    Cardio,
-    MuscleGain
+    StrengthCardio,
+    Hypertrophy
 }

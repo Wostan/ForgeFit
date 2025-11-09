@@ -30,11 +30,11 @@ public class NutritionGoal : Entity, ITimeFields
     public int Protein { get; private set; }
     public int Fat { get; private set; }
     public int WaterGoalMl { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
 
     // Navigation properties
     public User User { get; private set; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime? UpdatedAt { get; set; }
 
     private void SetUserId(Guid userId)
     {

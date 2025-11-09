@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Primitives.Interfaces;
+﻿using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Events.GoalEvents;
 

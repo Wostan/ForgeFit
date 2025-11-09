@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
 using ForgeFit.Domain.Enums.GoalEnums;
-using ForgeFit.Domain.Primitives.Interfaces;
+using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Events.GoalEvents;

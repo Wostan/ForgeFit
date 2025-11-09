@@ -10,12 +10,12 @@ public class WorkoutGoal : Entity, ITimeFields
 {
     internal WorkoutGoal(Guid userId,
         int workoutsPerWeek,
-        Schedule schedule, 
+        TimeSpan duration, 
         WorkoutType workoutType)
     {
         SetUserId(userId);
         SetWorkoutsPerWeek(workoutsPerWeek);
-        SetSchedule(schedule);
+        SetDuration(duration);
         SetWorkoutType(workoutType);
         CreatedAt = DateTime.UtcNow;
     }
@@ -26,8 +26,8 @@ public class WorkoutGoal : Entity, ITimeFields
     
     public Guid UserId { get; private set; }
     public int WorkoutsPerWeek { get; private set; }
-    public Schedule RecommendedSchedule { get; private set; }
-    public WorkoutType RecommendedWorkoutType { get; private set; }
+    public TimeSpan Duration { get; private set; }
+    public WorkoutType WorkoutType { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
     
@@ -50,31 +50,29 @@ public class WorkoutGoal : Entity, ITimeFields
         WorkoutsPerWeek = workoutsPerWeek;
     }
     
-    private void SetSchedule(Schedule recommendedSchedule)
+    private void SetDuration(TimeSpan recommendedDuration)
     {
-        var duration = recommendedSchedule.Duration;
-
-        if (duration < TimeSpan.FromMinutes(10) || duration > TimeSpan.FromHours(5))
+        if (recommendedDuration < TimeSpan.FromMinutes(10) || recommendedDuration > TimeSpan.FromHours(5))
             throw new DomainValidationException("Workout duration hours must be between 10 minutes and 5 hours.");
         
-        RecommendedSchedule = recommendedSchedule;
+        Duration = recommendedDuration;
     }
     
     private void SetWorkoutType(WorkoutType recommendedWorkoutType)
     {
         if (!Enum.IsDefined(recommendedWorkoutType))
-            throw new DomainValidationException("RecommendedWorkoutType is not defined.");
+            throw new DomainValidationException("WorkoutType is not defined.");
         
-        RecommendedWorkoutType = recommendedWorkoutType;
+        WorkoutType = recommendedWorkoutType;
     }
     
     public void UpdateWorkoutGoal(
         int workoutsPerWeek,
-        Schedule recommendedSchedule,
+        TimeSpan duration,
         WorkoutType recommendedWorkoutType)
     {
         SetWorkoutsPerWeek(workoutsPerWeek);
-        SetSchedule(recommendedSchedule);
+        SetDuration(duration);
         SetWorkoutType(recommendedWorkoutType);
         UpdatedAt = DateTime.UtcNow;
     }

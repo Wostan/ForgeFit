@@ -34,6 +34,13 @@ public class Height : ValueObject
 
         Unit = unit;
     }
+    
+    public Height ToCm()
+    {
+        return Unit == HeightUnit.Cm
+            ? this
+            : new Height(Value * 2.54, HeightUnit.Cm);
+    }
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {

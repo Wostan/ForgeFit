@@ -11,7 +11,8 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
     {
         builder.ToTable("WorkoutGoals")
             .HasCheckConstraint("CK_WorkoutGoals_WorkoutsPerWeekCheck", "WorkoutsPerWeek > 0 AND WorkoutsPerWeek < 8")
-            .HasCheckConstraint("CK_WorkoutGoals_RecommendedWorkoutTypeCheck", "RecommendedWorkoutType IN (1, 2, 3)");
+            .HasCheckConstraint("CK_WorkoutGoals_RecommendedWorkoutTypeCheck", "WorkoutType IN (1, 2, 3)")
+            .HasCheckConstraint("CK_WorkoutGoals_DurationCheck", "RecommendedSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
         
         builder.HasKey(wg => wg.Id);
         
@@ -22,28 +23,16 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
         builder.Property(wg => wg.WorkoutsPerWeek)
             .IsRequired();
         
-        builder.Property(wg => wg.RecommendedWorkoutType)
+        builder.Property(wg => wg.WorkoutType)
             .HasConversion<int>()
-            .IsRequired();        
+            .IsRequired();
         
+        builder.Property(wg => wg.Duration)
+            .IsRequired();
+
         builder.Property(wg => wg.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
-        
-        // ValueObject properties
-        builder.OwnsOne(wg => wg.RecommendedSchedule, schedule =>
-        {
-            schedule.HasCheckConstraint("CK_WorkoutGoals_RecommendedSchedule_DurationCheck", "RecommendedSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
-            
-            schedule.Property(s => s.Start)
-                .IsRequired();
-            
-            schedule.Property(s => s.End)
-                .IsRequired();
-            
-            schedule.Property(s => s.Duration)
-                .IsRequired();
-        });
         
         // Indexes
         builder.HasIndex(wg => wg.UserId); 

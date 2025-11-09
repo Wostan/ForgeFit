@@ -1,5 +1,4 @@
 ﻿using ForgeFit.Domain.Enums.WorkoutEnums;
-using ForgeFit.Domain.Enums.WorkoutExerciseEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
