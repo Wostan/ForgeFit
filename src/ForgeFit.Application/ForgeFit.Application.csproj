@@ -18,10 +18,9 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="Common\Mappings\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Queries\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
