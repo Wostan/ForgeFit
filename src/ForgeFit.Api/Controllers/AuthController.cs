@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ForgeFit.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("sign-up")]
@@ -19,7 +19,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         try
         {
             var response = await authService.SignUpAsync(request);
-            return Created("", response);
+            return CreatedAtAction(nameof(SignUp), new { request.Email }, response);
         }
         catch (EmailAlreadyExistsException e)
         {
@@ -56,6 +56,13 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> CheckEmail([FromBody] CheckEmailRequest request)
     {
-        return Ok(await authService.CheckEmailAsync(request));
+        try
+        {
+            return Ok(await authService.CheckEmailAsync(request));
+        }
+        catch (BadRequestException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }
