@@ -2,7 +2,6 @@
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
-using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
