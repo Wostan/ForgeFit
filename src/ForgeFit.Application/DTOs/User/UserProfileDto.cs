@@ -1,12 +1,10 @@
 ﻿using ForgeFit.Domain.Enums.ProfileEnums;
 
-namespace ForgeFit.Application.DTOs.Auth;
+namespace ForgeFit.Application.DTOs.User;
 
-public record UserSignUpRequest(
-    string Email,
-    string Password,
+public record UserProfileDto(
     string Username,
-    string? Uri,
+    string? AvatarUrl,
     DateTime DateOfBirth,
     Gender Gender,
     double Weight,

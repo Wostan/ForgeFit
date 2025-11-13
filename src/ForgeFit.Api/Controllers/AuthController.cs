@@ -54,6 +54,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     
     [HttpPost("check-email")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CheckEmail([FromBody] CheckEmailRequest request)
     {
         try
