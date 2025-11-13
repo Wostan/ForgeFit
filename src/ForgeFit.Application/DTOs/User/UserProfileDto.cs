@@ -8,6 +8,6 @@ public record UserProfileDto(
     DateTime DateOfBirth,
     Gender Gender,
     double Weight,
-    string WeightUnit,
+    WeightUnit WeightUnit,
     double Height,
-    string HeightUnit);
+    HeightUnit HeightUnit);
