@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Application.DTOs.Food;
 
-namespace ForgeFit.Application.Common.Interfaces.Services;
+namespace ForgeFit.Infrastructure.Interfaces;
 
 public interface IFoodApiService
 {

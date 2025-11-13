@@ -1,6 +1,7 @@
 ﻿using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.DTOs.Food;
+using ForgeFit.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForgeFit.Api.Controllers;
