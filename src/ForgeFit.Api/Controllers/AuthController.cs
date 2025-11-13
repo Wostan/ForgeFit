@@ -14,7 +14,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(UserSignUpResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> SignUp([FromBody] UserSignUpRequest request)
+    public async Task<ActionResult<UserSignUpResponse>> SignUp([FromBody] UserSignUpRequest request)
     {
         try
         {
@@ -35,7 +35,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(UserSignInResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> SignIn([FromBody] UserSignInRequest request)
+    public async Task<ActionResult<UserSignInResponse>> SignIn([FromBody] UserSignInRequest request)
     {
         try
         {
@@ -55,7 +55,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [HttpPost("check-email")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CheckEmail([FromBody] CheckEmailRequest request)
+    public async Task<ActionResult<CheckEmailResponse>> CheckEmail([FromBody] CheckEmailRequest request)
     {
         try
         {

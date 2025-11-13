@@ -16,7 +16,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Get()
+    public async Task<ActionResult<UserProfileDto>> Get()
     {
         try
         {
@@ -35,7 +35,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Update([FromBody] UserProfileDto profile)
+    public async Task<ActionResult<UserProfileDto>> Update([FromBody] UserProfileDto profile)
     {
         try
         { 
@@ -54,7 +54,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest password)
+    public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePasswordRequest password)
     {
         try
         {

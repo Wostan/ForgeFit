@@ -16,7 +16,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Generate([FromBody] GeneratePlanRequest request)
+    public async Task<ActionResult<PlanDto>> Generate([FromBody] GeneratePlanRequest request)
     {
         try
         {
@@ -34,7 +34,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Confirm([FromBody] PlanDto plan)
+    public async Task<ActionResult<string>> Confirm([FromBody] PlanDto plan)
     {
         try
         {
@@ -57,7 +57,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Get()
+    public async Task<ActionResult<PlanDto>> Get()
     {
         try
         {
@@ -76,7 +76,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Update([FromBody] PlanDto plan)
+    public async Task<ActionResult<string>> Update([FromBody] PlanDto plan)
     {
         try
         {

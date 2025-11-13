@@ -16,7 +16,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(typeof(BodyGoalDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetBodyGoal()
+    public async Task<ActionResult<BodyGoalDto>> GetBodyGoal()
     {
         try
         {
@@ -35,7 +35,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(typeof(NutritionGoalDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetNutritionGoal()
+    public async Task<ActionResult<NutritionGoalDto>> GetNutritionGoal()
     {
         try
         {
@@ -54,7 +54,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(typeof(WorkoutGoalDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetWorkoutGoal()
+    public async Task<ActionResult<WorkoutGoalDto>> GetWorkoutGoal()
     {
         try
         {
@@ -74,7 +74,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> UpdateBodyGoal([FromBody] BodyGoalDto goal)
+    public async Task<ActionResult<BodyGoalDto>> UpdateBodyGoal([FromBody] BodyGoalDto goal)
     {
         try
         {
@@ -98,7 +98,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> UpdateNutritionGoal([FromBody] NutritionGoalDto goal)
+    public async Task<ActionResult<NutritionGoalDto>> UpdateNutritionGoal([FromBody] NutritionGoalDto goal)
     {
         try
         {
@@ -122,7 +122,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> UpdateWorkoutGoal([FromBody] WorkoutGoalDto goal)
+    public async Task<ActionResult<WorkoutGoalDto>> UpdateWorkoutGoal([FromBody] WorkoutGoalDto goal)
     {
         try
         {
