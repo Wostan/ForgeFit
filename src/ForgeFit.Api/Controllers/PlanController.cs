@@ -53,7 +53,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("get")]
+    [HttpGet]
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
