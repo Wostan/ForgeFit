@@ -1,7 +1,7 @@
 ﻿using ForgeFit.Domain.Enums.GoalEnums;
 using ForgeFit.Domain.Enums.ProfileEnums;
 
-namespace ForgeFit.Application.DTOs.Plan;
+namespace ForgeFit.Application.DTOs.Goal;
 
 public record BodyGoalDto(
     string Title,

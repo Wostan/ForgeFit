@@ -1,5 +1,5 @@
-﻿using ForgeFit.Application.DTOs.User;
-using ForgeFit.Domain.ValueObjects.UserValueObjects;
+﻿using ForgeFit.Application.DTOs.Goal;
+using ForgeFit.Application.DTOs.User;
 
 namespace ForgeFit.Application.DTOs.Plan;
 

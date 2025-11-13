@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Enums.WorkoutEnums;
 
-namespace ForgeFit.Application.DTOs.Plan;
+namespace ForgeFit.Application.DTOs.Goal;
 
 public record WorkoutGoalDto(
     int WorkoutsPerWeek,

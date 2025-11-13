@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.Application.DTOs.Plan;
+﻿namespace ForgeFit.Application.DTOs.Goal;
 
 public record NutritionGoalDto(
     int Calories,
