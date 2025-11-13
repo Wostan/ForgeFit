@@ -18,16 +18,10 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<UserProfileDto>> Get()
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var profile = await userService.GetProfileByIdAsync(userId);
-            return Ok(profile);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var profile = await userService.GetProfileByIdAsync(userId);
+        
+        return Ok(profile);
     }
     
     [Authorize]
@@ -37,16 +31,10 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<UserProfileDto>> Update([FromBody] UserProfileDto profile)
     {
-        try
-        { 
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var updatedProfile = await userService.UpdateProfileByIdAsync(userId, profile);
-            return Ok(updatedProfile);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var updatedProfile = await userService.UpdateProfileByIdAsync(userId, profile);
+        
+        return Ok(updatedProfile);
     }
     
     [Authorize]
@@ -56,15 +44,9 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePasswordRequest password)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            await userService.ChangePasswordByIdAsync(userId, password);
-            return Ok("Password changed.");
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await userService.ChangePasswordByIdAsync(userId, password);
+        
+        return Ok("Password changed.");
     }
 }

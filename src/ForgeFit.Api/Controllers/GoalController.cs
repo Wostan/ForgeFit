@@ -18,16 +18,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<BodyGoalDto>> GetBodyGoal()
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var goal = await goalService.GetBodyGoalAsync(userId);
-            return Ok(goal);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var goal = await goalService.GetBodyGoalAsync(userId);
+        
+        return Ok(goal);
     }
     
     [Authorize]
@@ -37,16 +31,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<NutritionGoalDto>> GetNutritionGoal()
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var goal = await goalService.GetNutritionGoalAsync(userId);
-            return Ok(goal);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var goal = await goalService.GetNutritionGoalAsync(userId);
+        
+        return Ok(goal);
     }
     
     [Authorize]
@@ -56,16 +44,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<WorkoutGoalDto>> GetWorkoutGoal()
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var goal = await goalService.GetWorkoutGoalAsync(userId);
-            return Ok(goal);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var goal = await goalService.GetWorkoutGoalAsync(userId);
+        
+        return Ok(goal);
     }
     
     [Authorize]
@@ -76,20 +58,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<BodyGoalDto>> UpdateBodyGoal([FromBody] BodyGoalDto goal)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var updatedGoal = await goalService.UpdateBodyGoalAsync(userId, goal);
-            return Ok(updatedGoal);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var updatedGoal = await goalService.UpdateBodyGoalAsync(userId, goal);
+        
+        return Ok(updatedGoal);
     }
     
     [Authorize]
@@ -100,20 +72,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<NutritionGoalDto>> UpdateNutritionGoal([FromBody] NutritionGoalDto goal)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var updatedGoal = await goalService.UpdateNutritionGoalAsync(userId, goal);
-            return Ok(updatedGoal);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var updatedGoal = await goalService.UpdateNutritionGoalAsync(userId, goal);
+        
+        return Ok(updatedGoal);
     }
     
     [Authorize]
@@ -124,19 +86,9 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<WorkoutGoalDto>> UpdateWorkoutGoal([FromBody] WorkoutGoalDto goal)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var updatedGoal = await goalService.UpdateWorkoutGoalAsync(userId, goal);
-            return Ok(updatedGoal);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var updatedGoal = await goalService.UpdateWorkoutGoalAsync(userId, goal);
+        
+        return Ok(updatedGoal);
     }
 }

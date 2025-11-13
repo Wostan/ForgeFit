@@ -18,15 +18,9 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PlanDto>> Generate([FromBody] GeneratePlanRequest request)
     {
-        try
-        {
-            var plan = await planService.GeneratePlanAsync(request);
-            return Ok(plan);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
+        var plan = await planService.GeneratePlanAsync(request);
+        
+        return Ok(plan);
     }
 
     [Authorize]
@@ -36,20 +30,10 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> Confirm([FromBody] PlanDto plan)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            await planService.ConfirmPlanAsync(userId, plan);
-            return Ok("Plan saved.");
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await planService.ConfirmPlanAsync(userId, plan);
+        
+        return Ok("Plan saved.");
     }
 
     [Authorize]
@@ -59,16 +43,10 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PlanDto>> Get()
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var plan = await planService.GetPlanAsync(userId);
-            return Ok(plan);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var plan = await planService.GetPlanAsync(userId);
+        
+        return Ok(plan);
     }
 
     [HttpPut("update")]
@@ -78,19 +56,9 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> Update([FromBody] PlanDto plan)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            await planService.UpdatePlanAsync(userId, plan);
-            return Ok("Plan updated.");
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await planService.UpdatePlanAsync(userId, plan);
+        
+        return Ok("Plan updated.");
     }
 }

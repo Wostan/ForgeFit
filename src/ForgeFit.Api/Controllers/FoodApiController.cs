@@ -18,26 +18,12 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 20)
     {
-        try
-        {
-            var result = await foodApiService.SearchByQueryAsync(
-                query,
-                pageNumber,
-                pageSize);
-            return Ok(result);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (ServiceUnavailableException e)
-        {
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var result = await foodApiService.SearchByQueryAsync(
+            query,
+            pageNumber,
+            pageSize);
+        
+        return Ok(result);
     }
 
     [HttpGet("barcode/{barcode}")]
@@ -50,26 +36,12 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 20)
     {
-        try
-        {
-            var result = await foodApiService.SearchByBarcodeAsync(
-                barcode,
-                pageNumber,
-                pageSize);
-            return Ok(result);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (ServiceUnavailableException e)
-        {
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var result = await foodApiService.SearchByBarcodeAsync(
+            barcode,
+            pageNumber,
+            pageSize);
+        
+        return Ok(result);
     }
 
     [HttpPost("by-photo")]
@@ -78,19 +50,9 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     public async Task<ActionResult<List<FoodItemDto>>> RecognizeByPhotoAsync([FromBody] RecognizeByPhotoRequest request)
     {
-        try
-        {
-            var result = await foodApiService.RecognizeByPhotoAsync(request.ImageBase64);
-            return Ok(result);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (ServiceUnavailableException e)
-        {
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, e.Message);
-        }
+        var result = await foodApiService.RecognizeByPhotoAsync(request.ImageBase64);
+        
+        return Ok(result);
     }
     
     [HttpGet("{id}")]
@@ -100,22 +62,8 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<FoodItemDto>> GetByIdAsync(string id)
     {
-        try
-        {
-            var result = await foodApiService.GetByIdAsync(id);
-            return Ok(result);
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (ServiceUnavailableException e)
-        {
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, e.Message);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var result = await foodApiService.GetByIdAsync(id);
+        
+        return Ok(result);
     }
 }

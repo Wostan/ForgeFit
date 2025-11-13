@@ -25,10 +25,6 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             return Conflict(e.Message);
         }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
     }
     
     [HttpPost("sign-in")]
@@ -46,10 +42,6 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             return Unauthorized(e.Message);
         }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
     }
     
     [HttpPost("check-email")]
@@ -57,13 +49,6 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CheckEmailResponse>> CheckEmail([FromBody] CheckEmailRequest request)
     {
-        try
-        {
-            return Ok(await authService.CheckEmailAsync(request));
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
+        return Ok(await authService.CheckEmailAsync(request));
     }
 }
