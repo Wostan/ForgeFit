@@ -16,7 +16,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetProfile()
+    public async Task<IActionResult> Get()
     {
         try
         {
@@ -35,7 +35,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto profile)
+    public async Task<IActionResult> Update([FromBody] UserProfileDto profile)
     {
         try
         { 
