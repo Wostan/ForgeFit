@@ -24,15 +24,15 @@ public class PlanController(IPlanService planService) : ControllerBase
 
     [Authorize]
     [HttpPost("confirm")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(PlanDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> Confirm([FromBody] PlanDto plan)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        await planService.ConfirmPlanAsync(userId, plan);
+        var result = await planService.ConfirmPlanAsync(userId, plan);
         
-        return Created("", "Plan saved.");
+        return CreatedAtAction(nameof(Confirm), new { userId }, result);
     }
 
     [Authorize]
@@ -49,15 +49,15 @@ public class PlanController(IPlanService planService) : ControllerBase
     }
 
     [HttpPut("update")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> Update([FromBody] PlanDto plan)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        await planService.UpdatePlanAsync(userId, plan);
+        var result = await planService.UpdatePlanAsync(userId, plan);
         
-        return Ok("Plan updated.");
+        return Ok(result);
     }
 }

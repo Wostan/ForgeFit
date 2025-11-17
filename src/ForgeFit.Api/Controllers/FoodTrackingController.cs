@@ -20,7 +20,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.LogEntryAsync(userId, foodItems);
         
-        return Created("", result);
+        return CreatedAtAction(nameof(LogEntryAsync), new { entryId = result.Id }, result);
     }
     
     [Authorize]

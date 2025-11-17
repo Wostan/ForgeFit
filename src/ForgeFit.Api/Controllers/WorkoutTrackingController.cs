@@ -20,7 +20,7 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutTrackingService.LogEntryAsync(userId, entryDto);
         
-        return Created("", result);
+        return CreatedAtAction(nameof(LogEntryAsync), new { entryId = result.Id }, result);
     }
     
     [Authorize]
