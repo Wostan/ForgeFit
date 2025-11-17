@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.DTOs.Goal;
 using Microsoft.AspNetCore.Authorization;

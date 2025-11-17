@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace ForgeFit.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/entries")]
 public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingService) : ControllerBase
 {
     [Authorize]
     [HttpPost]
-    [ProducesResponseType(typeof(WorkoutEntryDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(WorkoutEntryDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<WorkoutEntryDto>> LogEntryAsync([FromBody] WorkoutEntryDto entryDto)
@@ -20,7 +20,7 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutTrackingService.LogEntryAsync(userId, entryDto);
         
-        return Ok(result);
+        return Created("", result);
     }
     
     [Authorize]

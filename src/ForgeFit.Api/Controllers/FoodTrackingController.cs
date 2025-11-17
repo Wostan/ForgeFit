@@ -12,7 +12,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
 {
     [Authorize]
     [HttpPost]
-    [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<FoodEntryDto>> LogEntryAsync([FromBody] List<FoodItemDto> foodItems)
@@ -20,7 +20,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.LogEntryAsync(userId, foodItems);
         
-        return Ok(result);
+        return Created("", result);
     }
     
     [Authorize]

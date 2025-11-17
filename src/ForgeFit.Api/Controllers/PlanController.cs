@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.DTOs.Plan;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +24,7 @@ public class PlanController(IPlanService planService) : ControllerBase
 
     [Authorize]
     [HttpPost("confirm")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> Confirm([FromBody] PlanDto plan)
@@ -33,7 +32,7 @@ public class PlanController(IPlanService planService) : ControllerBase
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await planService.ConfirmPlanAsync(userId, plan);
         
-        return Ok("Plan saved.");
+        return Created("", "Plan saved.");
     }
 
     [Authorize]
@@ -50,7 +49,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     }
 
     [HttpPut("update")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
