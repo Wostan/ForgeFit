@@ -8,7 +8,7 @@ namespace ForgeFit.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]/entries")]
-public class FoodTrackingController(IFoodService foodTrackingService) : ControllerBase
+public class FoodTrackingController(IFoodTrackingService foodTrackingService) : ControllerBase
 {
     [Authorize]
     [HttpPost]
@@ -73,6 +73,23 @@ public class FoodTrackingController(IFoodService foodTrackingService) : Controll
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.GetEntriesByDateAsync(userId, date);
+        
+        return Ok(result);
+    }
+    
+    [Authorize]
+    [HttpGet("by-date")]
+    [ProducesResponseType(typeof(List<FoodEntryDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<List<FoodEntryDto>>> GetEntriesByDateAsync(
+        [FromQuery] DateTime from, 
+        [FromQuery] DateTime to)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var result = await foodTrackingService.GetEntriesByDateAsync(
+            userId,
+            from,
+            to);
         
         return Ok(result);
     }
