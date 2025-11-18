@@ -15,10 +15,10 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<FoodEntryDto>> LogEntryAsync([FromBody] List<FoodItemDto> foodItems)
+    public async Task<ActionResult<FoodEntryDto>> LogEntryAsync([FromBody] FoodEntryDto entryDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await foodTrackingService.LogEntryAsync(userId, foodItems);
+        var result = await foodTrackingService.LogEntryAsync(userId, entryDto);
         
         return CreatedAtAction(nameof(LogEntryAsync), new { entryId = result.Id }, result);
     }
@@ -29,12 +29,10 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<FoodEntryDto>> UpdateEntryAsync(
-        Guid entryId,
-        [FromBody] List<FoodItemDto> foodItems)
+    public async Task<ActionResult<FoodEntryDto>> UpdateEntryAsync([FromBody] FoodEntryDto entryDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await foodTrackingService.UpdateEntryAsync(userId, entryId, foodItems);
+        var result = await foodTrackingService.UpdateEntryAsync(userId, entryDto);
         
         return Ok(result);
     }
@@ -66,31 +64,20 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     }
     
     [Authorize]
-    [HttpGet("by-date/{date:datetime}")]
-    [ProducesResponseType(typeof(List<FoodEntryDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<List<FoodEntryDto>>> GetEntriesByDateAsync(DateTime date)
-    {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await foodTrackingService.GetEntriesByDateAsync(userId, date);
-        
-        return Ok(result);
-    }
-    
-    [Authorize]
     [HttpGet("by-date")]
     [ProducesResponseType(typeof(List<FoodEntryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<List<FoodEntryDto>>> GetEntriesByDateAsync(
-        [FromQuery] DateTime from, 
-        [FromQuery] DateTime to)
+        [FromQuery] DateTime? date,
+        [FromQuery] DateTime? from, 
+        [FromQuery] DateTime? to)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await foodTrackingService.GetEntriesByDateAsync(
-            userId,
-            from,
-            to);
+        if (date.HasValue)
+            return Ok(await foodTrackingService.GetEntriesByDateAsync(userId, date.Value));
+        if (from.HasValue && to.HasValue)
+            return Ok(await foodTrackingService.GetEntriesByDateAsync(userId, from.Value, to.Value));
         
-        return Ok(result);
+        return Ok(await foodTrackingService.GetEntriesByDateAsync(userId, DateTime.Today));
     }
 }

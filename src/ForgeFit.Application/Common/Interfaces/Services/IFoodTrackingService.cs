@@ -4,8 +4,8 @@ namespace ForgeFit.Application.Common.Interfaces.Services;
 
 public interface IFoodTrackingService
 {
-    Task<FoodEntryDto> LogEntryAsync(Guid userId, List<FoodItemDto> foodItems);
-    Task<FoodEntryDto> UpdateEntryAsync(Guid userId, Guid entryId, List<FoodItemDto> foodItems);
+    Task<FoodEntryDto> LogEntryAsync(Guid userId, FoodEntryDto entryDto);
+    Task<FoodEntryDto> UpdateEntryAsync(Guid userId, FoodEntryDto entryDto);
     Task DeleteEntryAsync(Guid userId, Guid entryId);
     
     Task<FoodEntryDto> GetEntryAsync(Guid userId, Guid entryId);
