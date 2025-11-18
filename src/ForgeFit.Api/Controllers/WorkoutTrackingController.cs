@@ -64,31 +64,20 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     }
     
     [Authorize]
-    [HttpGet("by-date/{date:datetime}")]
-    [ProducesResponseType(typeof(List<WorkoutEntryDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<List<WorkoutEntryDto>>> GetEntriesByDateAsync(DateTime date)
-    {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await workoutTrackingService.GetEntriesByDateAsync(userId, date);
-        
-        return Ok(result);
-    }
-    
-    [Authorize]
     [HttpGet("by-date")]
     [ProducesResponseType(typeof(List<WorkoutEntryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<List<WorkoutEntryDto>>> GetEntriesByDateAsync(
-        [FromQuery] DateTime from, 
-        [FromQuery] DateTime to)
+        [FromQuery] DateTime? date,
+        [FromQuery] DateTime? from, 
+        [FromQuery] DateTime? to)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await workoutTrackingService.GetEntriesByDateAsync(
-            userId,
-            from,
-            to);
+        if (date.HasValue)
+            return Ok(await workoutTrackingService.GetEntriesByDateAsync(userId, date.Value));
+        if (from.HasValue && to.HasValue)
+            return Ok(await workoutTrackingService.GetEntriesByDateAsync(userId, from.Value, to.Value));
         
-        return Ok(result);
+        return Ok(await workoutTrackingService.GetEntriesByDateAsync(userId, DateTime.Today));
     }
 }
