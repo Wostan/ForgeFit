@@ -7,6 +7,8 @@ builder.Services
     .AddSwaggerDocumentation()
     .AddValidation()
     .AddApplication()
+    .AddLowercaseUrls()
+    .AddEnumConverter()
     .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
