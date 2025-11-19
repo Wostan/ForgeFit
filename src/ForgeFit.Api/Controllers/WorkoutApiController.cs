@@ -9,13 +9,13 @@ namespace ForgeFit.Api.Controllers;
 [Route("api/[controller]")]
 public class WorkoutApiController(IWorkoutApiService workoutApiService) : ControllerBase
 {
-    [HttpGet("search/{query}")]
+    [HttpGet("search")]
     [ProducesResponseType(typeof(List<WorkoutExerciseSearchDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<WorkoutExerciseSearchDto>>> SearchAsync(
-        string query,
+        [FromQuery] string query,
         [FromQuery] List<Muscle>? muscles,
         [FromQuery] List<BodyPart>? bodyParts,
         [FromQuery] List<Equipment>? equipment,
