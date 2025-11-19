@@ -1,7 +1,7 @@
 ﻿using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Enums.WorkoutEnums;
 
-namespace ForgeFit.Infrastructure.Interfaces;
+namespace ForgeFit.Infrastructure.Interfaces.Services;
 
 public interface IWorkoutApiService
 {

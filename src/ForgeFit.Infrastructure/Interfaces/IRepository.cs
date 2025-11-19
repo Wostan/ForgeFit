@@ -1,4 +1,6 @@
-﻿namespace ForgeFit.Domain.Primitives.Interfaces;
+﻿using ForgeFit.Domain.Primitives;
+
+namespace ForgeFit.Infrastructure.Interfaces;
 
 public interface IRepository<T> where T : Entity
 {

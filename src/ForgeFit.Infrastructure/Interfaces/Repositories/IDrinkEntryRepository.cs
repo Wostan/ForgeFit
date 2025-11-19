@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.FoodAggregate;
 
-namespace ForgeFit.Domain.Primitives.Interfaces.Repositories;
+namespace ForgeFit.Infrastructure.Interfaces.Repositories;
 
 public interface IDrinkEntryRepository : IRepository<DrinkEntry>
 {

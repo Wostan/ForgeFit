@@ -1,6 +1,7 @@
 ﻿using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Infrastructure.Interfaces;
+using ForgeFit.Infrastructure.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForgeFit.Api.Controllers;

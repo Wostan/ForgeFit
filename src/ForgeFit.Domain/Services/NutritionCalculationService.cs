@@ -3,7 +3,7 @@ using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Enums.GoalEnums;
 using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.Enums.WorkoutEnums;
-using ForgeFit.Domain.Primitives.Interfaces.Services;
+using ForgeFit.Domain.Primitives.Interfaces;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
 
 namespace ForgeFit.Domain.Services;
