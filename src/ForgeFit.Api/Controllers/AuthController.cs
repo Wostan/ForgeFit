@@ -1,5 +1,4 @@
-﻿using ForgeFit.Application.Common.Exceptions;
-using ForgeFit.Application.Common.Exceptions.AuthExceptions;
+﻿using ForgeFit.Application.Common.Exceptions.AuthExceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +11,9 @@ public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("sign-up")]
     [ProducesResponseType(typeof(UserSignUpResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> SignUp([FromBody] UserSignUpRequest request)
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UserSignUpResponse>> SignUp([FromBody] UserSignUpRequest request)
     {
         try
         {
@@ -25,17 +24,13 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             return Conflict(e.Message);
         }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
     }
     
     [HttpPost("sign-in")]
     [ProducesResponseType(typeof(UserSignInResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> SignIn([FromBody] UserSignInRequest request)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UserSignInResponse>> SignIn([FromBody] UserSignInRequest request)
     {
         try
         {
@@ -46,24 +41,13 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             return Unauthorized(e.Message);
         }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
     }
     
     [HttpPost("check-email")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CheckEmail([FromBody] CheckEmailRequest request)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CheckEmailResponse>> CheckEmail([FromBody] CheckEmailRequest request)
     {
-        try
-        {
-            return Ok(await authService.CheckEmailAsync(request));
-        }
-        catch (BadRequestException e)
-        {
-            return BadRequest(e.Message);
-        }
+        return Ok(await authService.CheckEmailAsync(request));
     }
 }

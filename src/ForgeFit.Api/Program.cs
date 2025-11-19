@@ -1,21 +1,19 @@
-using ForgeFit.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using ForgeFit.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                       ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        connectionString, 
-        sql => sql.MigrationsAssembly("ForgeFit.Infrastructure")
-    ));
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+    .AddApi()
+    .AddSwaggerDocumentation()
+    .AddValidation()
+    .AddApplication()
+    .AddLowercaseUrls()
+    .AddEnumConverter()
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseExceptionHandling();
 
 if (app.Environment.IsDevelopment())
 {
@@ -23,6 +21,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapControllers();
+app.UseApi();
 
 app.Run();

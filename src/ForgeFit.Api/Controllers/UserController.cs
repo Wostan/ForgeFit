@@ -12,41 +12,29 @@ namespace ForgeFit.Api.Controllers;
 public class UserController(IUserService userService) : ControllerBase
 {
     [Authorize]
-    [HttpGet("get-profile")]
+    [HttpGet("profile")]
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetProfile()
+    public async Task<ActionResult<UserProfileDto>> GetProfile()
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var profile = await userService.GetProfileByIdAsync(userId);
-            return Ok(profile);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var profile = await userService.GetProfileByIdAsync(userId);
+        
+        return Ok(profile);
     }
     
     [Authorize]
-    [HttpPut("update-profile")]
+    [HttpPut("profile")]
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto profile)
+    public async Task<ActionResult<UserProfileDto>> UpdateProfile([FromBody] UserProfileDto profile)
     {
-        try
-        { 
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var updatedProfile = await userService.UpdateProfileByIdAsync(userId, profile);
-            return Ok(updatedProfile);
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var updatedProfile = await userService.UpdateProfileByIdAsync(userId, profile);
+        
+        return Ok(updatedProfile);
     }
     
     [Authorize]
@@ -54,17 +42,11 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest password)
+    public async Task<ActionResult<string>> ChangePassword([FromBody] ChangePasswordRequest password)
     {
-        try
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            await userService.ChangePasswordByIdAsync(userId, password);
-            return Ok("Password changed.");
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await userService.ChangePasswordByIdAsync(userId, password);
+        
+        return Ok("Password changed.");
     }
 }
