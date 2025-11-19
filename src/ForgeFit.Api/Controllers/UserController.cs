@@ -12,11 +12,11 @@ namespace ForgeFit.Api.Controllers;
 public class UserController(IUserService userService) : ControllerBase
 {
     [Authorize]
-    [HttpGet("get-profile")]
+    [HttpGet("profile")]
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserProfileDto>> Get()
+    public async Task<ActionResult<UserProfileDto>> GetProfile()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var profile = await userService.GetProfileByIdAsync(userId);
@@ -25,11 +25,11 @@ public class UserController(IUserService userService) : ControllerBase
     }
     
     [Authorize]
-    [HttpPut("update-profile")]
+    [HttpPut("profile")]
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserProfileDto>> Update([FromBody] UserProfileDto profile)
+    public async Task<ActionResult<UserProfileDto>> UpdateProfile([FromBody] UserProfileDto profile)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var updatedProfile = await userService.UpdateProfileByIdAsync(userId, profile);

@@ -5,7 +5,7 @@ namespace ForgeFit.Application.Common.Interfaces.Services;
 public interface IWorkoutTrackingService
 {
     Task<WorkoutEntryDto> LogEntryAsync(Guid userId, WorkoutEntryDto workoutEntryDto);
-    Task<WorkoutEntryDto> UpdateEntryAsync(Guid userId, WorkoutEntryDto workoutEntryDto);
+    Task<WorkoutEntryDto> UpdateEntryAsync(Guid userId, Guid entryId, WorkoutEntryDto workoutEntryDto);
     Task DeleteEntryAsync(Guid userId, Guid entryId);
     
     Task<WorkoutEntryDto> GetEntryAsync(Guid userId, Guid entryId);

@@ -48,7 +48,7 @@ public class PlanController(IPlanService planService) : ControllerBase
         return Ok(plan);
     }
 
-    [HttpPut("update")]
+    [HttpPut]
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

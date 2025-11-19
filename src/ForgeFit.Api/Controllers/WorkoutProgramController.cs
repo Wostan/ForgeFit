@@ -24,14 +24,16 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     }
     
     [Authorize]
-    [HttpPut]
+    [HttpPut("{programId:guid}")]
     [ProducesResponseType(typeof(WorkoutProgramDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<WorkoutProgramDto>> UpdateWorkoutProgramAsync([FromBody] WorkoutProgramDto workoutProgramDto)
+    public async Task<ActionResult<WorkoutProgramDto>> UpdateWorkoutProgramAsync(
+        Guid programId, 
+        [FromBody] WorkoutProgramDto workoutProgramDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await workoutProgramService.UpdateWorkoutProgramAsync(userId, workoutProgramDto);
+        var result = await workoutProgramService.UpdateWorkoutProgramAsync(userId, programId, workoutProgramDto);
         
         return Ok(result);
     }

@@ -7,13 +7,13 @@ namespace ForgeFit.Api.Controllers;
 [Route("api/[controller]")]
 public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
 {
-    [HttpGet("search/{query}")]
+    [HttpGet("search")]
     [ProducesResponseType(typeof(List<FoodItemDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<FoodItemDto>>> SearchByQueryAsync(
-        string query,
+        [FromQuery] string query,
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 20)
     {

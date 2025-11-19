@@ -24,15 +24,17 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     }
     
     [Authorize]
-    [HttpPut]
+    [HttpPut("{entryId:guid}")]
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<FoodEntryDto>> UpdateEntryAsync([FromBody] FoodEntryDto entryDto)
+    public async Task<ActionResult<FoodEntryDto>> UpdateEntryAsync(
+        Guid entryId,
+        [FromBody] FoodEntryDto entryDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await foodTrackingService.UpdateEntryAsync(userId, entryDto);
+        var result = await foodTrackingService.UpdateEntryAsync(userId, entryId, entryDto);
         
         return Ok(result);
     }

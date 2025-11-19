@@ -24,15 +24,17 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     }
     
     [Authorize]
-    [HttpPut]
+    [HttpPut("{entryId:guid}")]
     [ProducesResponseType(typeof(WorkoutEntryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<WorkoutEntryDto>> UpdateEntryAsync([FromBody] WorkoutEntryDto entryDto)
+    public async Task<ActionResult<WorkoutEntryDto>> UpdateEntryAsync(
+        Guid entryId,
+        [FromBody] WorkoutEntryDto entryDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await workoutTrackingService.UpdateEntryAsync(userId, entryDto);
+        var result = await workoutTrackingService.UpdateEntryAsync(userId, entryId, entryDto);
         
         return Ok(result);
     }
