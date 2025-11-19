@@ -24,7 +24,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     }
     
     [Authorize]
-    [HttpPut("{entryId:guid}")]
+    [HttpPut]
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
