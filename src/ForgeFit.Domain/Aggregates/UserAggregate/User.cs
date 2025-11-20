@@ -43,7 +43,7 @@ public class User : Entity, ITimeFields
         Email = email ?? throw new DomainValidationException("Email cannot be null.");
     }
 
-    private void SetPasswordHash(string passwordHash)
+    public void SetPasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash ?? throw new DomainValidationException("PasswordHash cannot be null.");
     }

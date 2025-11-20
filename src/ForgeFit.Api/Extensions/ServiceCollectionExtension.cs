@@ -1,5 +1,10 @@
 ﻿using ForgeFit.Application;
+using ForgeFit.Application.Common.Interfaces;
+using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Infrastructure.Persistence;
+using ForgeFit.Infrastructure.Repositories;
+using ForgeFit.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForgeFit.Api.Extensions;
@@ -22,6 +27,11 @@ public static class ServiceCollectionExtension
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly("ForgeFit.Infrastructure")
             ));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
+        services.AddScoped<IUserRepository, UserRepository>();
+        
+        services.AddScoped<IPasswordHasherService, PasswordHasherService>();
     }
     
     public static IServiceCollection AddApplication(this IServiceCollection services)
