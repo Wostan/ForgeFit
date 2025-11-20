@@ -5,6 +5,8 @@ using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Auth;
 using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.ValueObjects;
+using ForgeFit.Domain.ValueObjects.UserValueObjects;
 using MapsterMapper;
 
 namespace ForgeFit.Application.Services;
@@ -24,9 +26,19 @@ public class AuthService(
         }
         
         var passwordHash = passwordHasherService.HashPassword(request.Password);
-        
-        var user = mapper.Map<User>(request);
-        user.SetPasswordHash(passwordHash);
+
+        var user = User.Create(
+            new UserProfile(
+                request.Username,
+                string.IsNullOrWhiteSpace(request.Uri) ? null : new Uri(request.Uri),
+                new DateOfBirth(request.DateOfBirth),
+                request.Gender,
+                new Weight(request.Weight, request.WeightUnit),
+                new Height(request.Height, request.HeightUnit)
+            ),
+            new Email(request.Email),
+            passwordHash
+        );
         
         await userRepository.AddAsync(user);
         await unitOfWork.SaveChangesAsync(); 

@@ -2,6 +2,6 @@
 
 public enum WeightUnit
 {
-    Kg,
+    Kg = 1,
     Lb
 }
