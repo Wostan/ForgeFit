@@ -12,10 +12,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
 {
     [Authorize]
     [HttpGet("body")]
-    [ProducesResponseType(typeof(BodyGoalDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BodyGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<BodyGoalDto>> GetBodyGoal()
+    public async Task<ActionResult<BodyGoalResponse>> GetBodyGoal()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var goal = await goalService.GetBodyGoalAsync(userId);
@@ -25,10 +25,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     
     [Authorize]
     [HttpGet("nutrition")]
-    [ProducesResponseType(typeof(NutritionGoalDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(NutritionGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<NutritionGoalDto>> GetNutritionGoal()
+    public async Task<ActionResult<NutritionGoalResponse>> GetNutritionGoal()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var goal = await goalService.GetNutritionGoalAsync(userId);
@@ -38,10 +38,10 @@ public class GoalController(IGoalService goalService) : ControllerBase
     
     [Authorize]
     [HttpGet("workout")]
-    [ProducesResponseType(typeof(WorkoutGoalDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(WorkoutGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<WorkoutGoalDto>> GetWorkoutGoal()
+    public async Task<ActionResult<WorkoutGoalResponse>> GetWorkoutGoal()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var goal = await goalService.GetWorkoutGoalAsync(userId);
@@ -51,11 +51,11 @@ public class GoalController(IGoalService goalService) : ControllerBase
     
     [Authorize]
     [HttpPut("body")]
-    [ProducesResponseType(typeof(BodyGoalDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BodyGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<BodyGoalDto>> UpdateBodyGoal([FromBody] BodyGoalDto goal)
+    public async Task<ActionResult<BodyGoalResponse>> UpdateBodyGoal([FromBody] BodyGoalCreateRequest goal)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var updatedGoal = await goalService.UpdateBodyGoalAsync(userId, goal);
@@ -65,11 +65,11 @@ public class GoalController(IGoalService goalService) : ControllerBase
     
     [Authorize]
     [HttpPut("nutrition")]
-    [ProducesResponseType(typeof(NutritionGoalDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(NutritionGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<NutritionGoalDto>> UpdateNutritionGoal([FromBody] NutritionGoalDto goal)
+    public async Task<ActionResult<NutritionGoalResponse>> UpdateNutritionGoal([FromBody] NutritionGoalCreateRequest goal)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var updatedGoal = await goalService.UpdateNutritionGoalAsync(userId, goal);
@@ -79,11 +79,11 @@ public class GoalController(IGoalService goalService) : ControllerBase
     
     [Authorize]
     [HttpPut("workout")]
-    [ProducesResponseType(typeof(WorkoutGoalDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(WorkoutGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<WorkoutGoalDto>> UpdateWorkoutGoal([FromBody] WorkoutGoalDto goal)
+    public async Task<ActionResult<WorkoutGoalResponse>> UpdateWorkoutGoal([FromBody] WorkoutGoalCreateRequest goal)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var updatedGoal = await goalService.UpdateWorkoutGoalAsync(userId, goal);

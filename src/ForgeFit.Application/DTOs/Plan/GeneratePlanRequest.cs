@@ -5,4 +5,4 @@ namespace ForgeFit.Application.DTOs.Plan;
 
 public record GeneratePlanRequest(
     UserProfileDto UserProfile,
-    BodyGoalDto BodyGoal);
+    BodyGoalCreateRequest BodyGoal);
