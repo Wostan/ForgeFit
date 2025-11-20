@@ -1,4 +1,5 @@
-﻿using ForgeFit.Infrastructure.Persistence;
+﻿using ForgeFit.Application;
+using ForgeFit.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForgeFit.Api.Extensions;
@@ -25,7 +26,7 @@ public static class ServiceCollectionExtension
     
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // TODO
+        services.AddApplicationServices();
         return services;
     }
 }
