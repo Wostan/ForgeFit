@@ -10,11 +10,15 @@ public class FoodEntry : Entity, ITimeFields
 {
     internal FoodEntry(
         Guid userId,
-        DayTime dayTime
+        DayTime dayTime,
+        DateTime date,
+        HashSet<FoodItem> foodItems
     )
     {
         SetUserId(userId);
         SetDayTime(dayTime);
+        SetDate(date);
+        SetFoodItems(foodItems);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -28,12 +32,18 @@ public class FoodEntry : Entity, ITimeFields
     public int Protein { get; private set; }
     public int Fat { get; private set; }
     public DayTime DayTime { get; private set; }
+    public DateTime Date { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
 
     // Navigation properties
     public User User { get; private set; }
     public HashSet<FoodItem> FoodItems { get; private set; }
+    
+    public static FoodEntry Create(Guid userId, DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
+    {
+        return new FoodEntry(userId, dayTime, date, foodItems);
+    }
 
     private void SetUserId(Guid userId)
     {
@@ -49,6 +59,17 @@ public class FoodEntry : Entity, ITimeFields
             throw new DomainValidationException("DayTime is not defined.");
 
         DayTime = dayTime;
+    }
+    
+    private void SetDate(DateTime date)
+    {
+        Date = date;
+    }
+    
+    private void SetFoodItems(HashSet<FoodItem> foodItems)
+    {
+        FoodItems = foodItems ?? throw new DomainValidationException("Food items cannot be null.");
+        RecalculateTotals();
     }
 
     public void UpdateFoodItem(HashSet<FoodItem> foodItems)
