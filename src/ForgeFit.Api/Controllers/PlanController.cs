@@ -32,7 +32,7 @@ public class PlanController(IPlanService planService) : ControllerBase
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await planService.ConfirmPlanAsync(userId, plan);
         
-        return CreatedAtAction(nameof(Confirm), new { userId }, result);
+        return Created(string.Empty, result);
     }
 
     [Authorize]

@@ -20,7 +20,7 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutTrackingService.LogEntryAsync(userId, entryDto);
         
-        return CreatedAtAction(nameof(LogEntryAsync), new { entryId = result.Id }, result);
+        return CreatedAtRoute("GetWorkoutEntry", new { entryId = result.Id }, result);
     }
     
     [Authorize]
@@ -53,7 +53,7 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     }
     
     [Authorize]
-    [HttpGet("{entryId:guid}")]
+    [HttpGet("{entryId:guid}", Name = "GetWorkoutEntry")]
     [ProducesResponseType(typeof(WorkoutEntryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

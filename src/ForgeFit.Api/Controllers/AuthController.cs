@@ -18,7 +18,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         try
         {
             var response = await authService.SignUpAsync(request);
-            return CreatedAtAction(nameof(SignUp), new { request.Email }, response);
+            return Created(string.Empty, response);
         }
         catch (EmailAlreadyExistsException e)
         {

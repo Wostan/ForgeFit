@@ -20,7 +20,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.LogEntryAsync(userId, entryDto);
         
-        return CreatedAtAction(nameof(LogEntryAsync), new { entryId = result.Id }, result);
+        return CreatedAtRoute("GetFoodEntry", new { entryId = result.Id }, result);
     }
     
     [Authorize]
@@ -53,7 +53,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     }
     
     [Authorize]
-    [HttpGet("{entryId:guid}")]
+    [HttpGet("{entryId:guid}", Name = "GetFoodEntry")]
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
