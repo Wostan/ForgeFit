@@ -14,7 +14,7 @@ public class AuthMapping : IRegister
             .MapWith(src => User.Create(
                 new UserProfile(
                     src.Username,
-                    new Uri(src.Uri!),
+                    string.IsNullOrWhiteSpace(src.Uri) ? null : new Uri(src.Uri),
                     new DateOfBirth(src.DateOfBirth),
                     src.Gender,
                     new Weight(src.Weight, src.WeightUnit),
