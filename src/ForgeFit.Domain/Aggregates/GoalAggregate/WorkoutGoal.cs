@@ -33,6 +33,15 @@ public class WorkoutGoal : Entity, ITimeFields
     // Navigation properties
     public User User { get; private set; }
     
+    public static WorkoutGoal Create(
+        Guid userId,
+        int workoutsPerWeek,
+        TimeSpan duration, 
+        WorkoutType workoutType)
+    {
+        return new WorkoutGoal(userId, workoutsPerWeek, duration, workoutType);
+    }
+    
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)

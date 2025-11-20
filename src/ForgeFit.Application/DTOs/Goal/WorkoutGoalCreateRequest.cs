@@ -2,7 +2,7 @@
 
 namespace ForgeFit.Application.DTOs.Goal;
 
-public record WorkoutGoalDto(
+public record WorkoutGoalCreateRequest(
     int WorkoutsPerWeek,
     TimeSpan Duration,
     WorkoutType WorkoutType);

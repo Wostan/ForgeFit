@@ -8,6 +8,7 @@ public class UserProfile : ValueObject
 {
     public UserProfile(
         string username,
+        Uri? avatarUrl,
         DateOfBirth dateOfBirth,
         Gender gender,
         Weight weight,
@@ -15,7 +16,7 @@ public class UserProfile : ValueObject
     )
     {
         SetUsername(username);
-        SetAvatarUrl(null);
+        SetAvatarUrl(avatarUrl);
         SetDateOfBirth(dateOfBirth);
         SetGender(gender);
         SetWeight(weight);

@@ -4,11 +4,11 @@ namespace ForgeFit.Application.Common.Interfaces.Services;
 
 public interface IGoalService
 {
-    Task<BodyGoalDto> GetBodyGoalAsync(Guid userId);
-    Task<NutritionGoalDto> GetNutritionGoalAsync(Guid userId);
-    Task<WorkoutGoalDto> GetWorkoutGoalAsync(Guid userId);
+    Task<BodyGoalResponse> GetBodyGoalAsync(Guid userId);
+    Task<NutritionGoalResponse> GetNutritionGoalAsync(Guid userId);
+    Task<WorkoutGoalResponse> GetWorkoutGoalAsync(Guid userId);
     
-    Task<BodyGoalDto> UpdateBodyGoalAsync(Guid userId, BodyGoalDto bodyGoal);
-    Task<NutritionGoalDto> UpdateNutritionGoalAsync(Guid userId, NutritionGoalDto nutritionGoal);
-    Task<WorkoutGoalDto> UpdateWorkoutGoalAsync(Guid userId, WorkoutGoalDto workoutGoal);
+    Task<BodyGoalResponse> UpdateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoal);
+    Task<NutritionGoalResponse> UpdateNutritionGoalAsync(Guid userId, NutritionGoalCreateRequest nutritionGoal);
+    Task<WorkoutGoalResponse> UpdateWorkoutGoalAsync(Guid userId, WorkoutGoalCreateRequest workoutGoal);
 }

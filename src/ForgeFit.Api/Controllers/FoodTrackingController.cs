@@ -15,7 +15,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<FoodEntryDto>> LogEntryAsync([FromBody] FoodEntryDto entryDto)
+    public async Task<ActionResult<FoodEntryDto>> LogEntryAsync([FromBody] FoodEntryCreateRequest entryDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.LogEntryAsync(userId, entryDto);
@@ -31,7 +31,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<FoodEntryDto>> UpdateEntryAsync(
         Guid entryId,
-        [FromBody] FoodEntryDto entryDto)
+        [FromBody] FoodEntryCreateRequest entryDto)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.UpdateEntryAsync(userId, entryId, entryDto);

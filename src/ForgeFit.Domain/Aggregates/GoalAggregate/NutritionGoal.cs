@@ -35,6 +35,17 @@ public class NutritionGoal : Entity, ITimeFields
     public User User { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public static NutritionGoal Create(
+        Guid userId,
+        int calories,
+        int carbs,
+        int protein,
+        int fat,
+        int waterGoalMl)
+    {
+        return new NutritionGoal(userId, calories, protein, carbs, fat, waterGoalMl);
+    }
 
     private void SetUserId(Guid userId)
     {
