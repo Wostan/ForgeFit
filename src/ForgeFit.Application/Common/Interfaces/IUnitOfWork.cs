@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.Infrastructure.Interfaces;
+﻿namespace ForgeFit.Application.Common.Interfaces;
 
 public interface IUnitOfWork
 {

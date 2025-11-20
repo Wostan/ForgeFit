@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
 
-namespace ForgeFit.Infrastructure.Interfaces.Repositories;
+namespace ForgeFit.Application.Common.Interfaces.Repositories;
 
 public interface IBodyGoalRepository : IRepository<BodyGoal>
 {

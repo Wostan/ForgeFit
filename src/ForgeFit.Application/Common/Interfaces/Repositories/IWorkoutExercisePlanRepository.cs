@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
-namespace ForgeFit.Infrastructure.Interfaces.Repositories;
+namespace ForgeFit.Application.Common.Interfaces.Repositories;
 
 public interface IWorkoutExercisePlanRepository : IRepository<WorkoutExercisePlan>
 {

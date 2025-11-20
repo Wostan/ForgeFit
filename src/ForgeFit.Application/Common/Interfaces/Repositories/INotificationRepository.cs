@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.NotificationAggregate;
 
-namespace ForgeFit.Infrastructure.Interfaces.Repositories;
+namespace ForgeFit.Application.Common.Interfaces.Repositories;
 
 public interface INotificationRepository : IRepository<Notification>
 {

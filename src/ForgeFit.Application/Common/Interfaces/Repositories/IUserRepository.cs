@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.UserAggregate;
 
-namespace ForgeFit.Infrastructure.Interfaces.Repositories;
+namespace ForgeFit.Application.Common.Interfaces.Repositories;
 
 public interface IUserRepository : IRepository<User>
 {

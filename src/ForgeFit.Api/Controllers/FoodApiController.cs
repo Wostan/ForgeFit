@@ -1,6 +1,5 @@
-﻿using ForgeFit.Application.DTOs.Food;
-using ForgeFit.Infrastructure.Interfaces;
-using ForgeFit.Infrastructure.Interfaces.Services;
+﻿using ForgeFit.Application.Common.Interfaces.Services;
+using ForgeFit.Application.DTOs.Food;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForgeFit.Api.Controllers;
