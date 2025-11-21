@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces;
+﻿using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Infrastructure.Persistence;
 
 namespace ForgeFit.Infrastructure.Services;

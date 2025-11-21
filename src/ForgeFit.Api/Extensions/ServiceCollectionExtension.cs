@@ -1,5 +1,4 @@
 ﻿using ForgeFit.Application;
-using ForgeFit.Application.Common.Interfaces;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Infrastructure.Persistence;

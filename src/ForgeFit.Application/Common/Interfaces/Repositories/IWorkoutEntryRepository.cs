@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+﻿using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
+using ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
 namespace ForgeFit.Application.Common.Interfaces.Repositories;
 

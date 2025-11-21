@@ -1,6 +1,6 @@
 ﻿using ForgeFit.Domain.Primitives;
 
-namespace ForgeFit.Application.Common.Interfaces;
+namespace ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 
 public interface IRepository<T> where T : Entity
 {

@@ -1,5 +1,4 @@
 ﻿using ForgeFit.Application.Common.Exceptions.AuthExceptions;
-using ForgeFit.Application.Common.Interfaces;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;

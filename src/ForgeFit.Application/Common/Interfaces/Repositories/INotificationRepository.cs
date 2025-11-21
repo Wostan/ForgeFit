@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.NotificationAggregate;
+﻿using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
+using ForgeFit.Domain.Aggregates.NotificationAggregate;
 
 namespace ForgeFit.Application.Common.Interfaces.Repositories;
 
