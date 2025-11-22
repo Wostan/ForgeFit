@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddApi()
+    .AddJwtAuthentication(builder.Configuration)
     .AddSwaggerDocumentation()
     .AddValidation()
     .AddApplication()

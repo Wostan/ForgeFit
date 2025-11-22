@@ -12,8 +12,10 @@ namespace ForgeFit.Application.Services;
 
 public class AuthService(
     IUserRepository userRepository, 
+    IRefreshTokenRepository refreshTokenRepository,
     IUnitOfWork unitOfWork,
     IPasswordHasherService passwordHasherService,
+    ITokenService tokenService,
     IMapper mapper
     ) : IAuthService
 {
@@ -59,10 +61,18 @@ public class AuthService(
         {
             throw new InvalidCredentialsException("Invalid password.");
         }
+
+        var accessToken = tokenService.GenerateAccessToken(user);
+        var refreshToken = tokenService.GenerateRefreshToken(user.Id);
         
-        var response = mapper.Map<UserSignInResponse>(user);
+        await refreshTokenRepository.AddAsync(refreshToken);
+        await unitOfWork.SaveChangesAsync();
         
-        return response;
+        return new UserSignInResponse(
+            user.Id.ToString(), 
+            user.Email.Value, 
+            accessToken, 
+            refreshToken.Token);
     }
 
     public async Task<CheckEmailResponse> CheckEmailAsync(CheckEmailRequest request)
@@ -71,5 +81,35 @@ public class AuthService(
             return new CheckEmailResponse(true);
         
         return new CheckEmailResponse(false);
+    }
+    
+    public async Task<UserSignInResponse> RefreshTokenAsync(RefreshTokenRequest request)
+    {
+        var existingToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken);
+        
+        if (existingToken is null || !existingToken.IsActive)
+        {
+            throw new InvalidCredentialsException("Invalid or expired refresh token.");
+        }
+        
+        existingToken.Revoke();
+
+        var user = await userRepository.GetByIdAsync(existingToken.UserId);
+        if (user is null)
+        {
+            throw new InvalidCredentialsException("User not found.");
+        }
+
+        var newAccessToken = tokenService.GenerateAccessToken(user);
+        var newRefreshToken = tokenService.GenerateRefreshToken(user.Id);
+
+        await refreshTokenRepository.AddAsync(newRefreshToken);
+        await unitOfWork.SaveChangesAsync();
+
+        return new UserSignInResponse(
+            user.Id.ToString(), 
+            user.Email.Value, 
+            newAccessToken, 
+            newRefreshToken.Token);
     }
 }

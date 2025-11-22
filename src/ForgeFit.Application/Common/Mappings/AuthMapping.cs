@@ -13,9 +13,5 @@ public class AuthMapping : IRegister
             .Map(dest => dest.Email, src => src.Email.Value)
             .Map(dest => dest.Username, src => src.UserProfile.Username)
             .Map(dest => dest.AvatarUri, src => src.UserProfile.AvatarUrl);
-
-        config.NewConfig<User, UserSignInResponse>()
-            .Map(dest => dest.Id, src => src.Id.ToString())
-            .Map(dest => dest.Email, src => src.Email.Value);
     }
 }
