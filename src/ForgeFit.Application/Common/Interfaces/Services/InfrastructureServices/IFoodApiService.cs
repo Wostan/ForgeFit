@@ -4,8 +4,8 @@ namespace ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices
 
 public interface IFoodApiService
 {
-    Task<List<FoodSearchDto>> SearchByQueryAsync(string query, int pageNumber = 1, int pageSize = 20);
-    Task<FoodProductDto> SearchByBarcodeAsync(string barcode);
-    Task<List<FoodProductDto>> RecognizeByPhotoAsync(string imageBase64);
-    Task<FoodProductDto> GetByIdAsync(string id);
+    Task<List<FoodSearchResponse>> SearchByQueryAsync(string query, int pageNumber = 1, int pageSize = 20);
+    Task<FoodProductResponse> SearchByBarcodeAsync(string barcode);
+    Task<List<FoodProductResponse>> RecognizeByPhotoAsync(string imageBase64);
+    Task<FoodProductResponse> GetByIdAsync(string id);
 }

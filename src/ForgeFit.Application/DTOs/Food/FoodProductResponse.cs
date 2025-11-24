@@ -1,6 +1,6 @@
 ﻿namespace ForgeFit.Application.DTOs.Food;
 
-public record FoodProductDto(
+public record FoodProductResponse(
     string ExternalId,
     string Label,
     string? BrandName,

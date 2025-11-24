@@ -17,7 +17,7 @@ public class FoodApiService(
 {
     private readonly FoodApiSettings _settings = settings.Value;
 
-    public async Task<List<FoodSearchDto>> SearchByQueryAsync(string query, int pageNumber = 1, int pageSize = 20)
+    public async Task<List<FoodSearchResponse>> SearchByQueryAsync(string query, int pageNumber = 1, int pageSize = 20)
     {
         var parameters = new Dictionary<string, string>
         {
@@ -33,11 +33,11 @@ public class FoodApiService(
         var response = await ExecuteFatSecretRequestAsync<FatSecretSearchResponse>(parameters);
 
         return response?.FoodsContainer?.Food?
-            .Select(f => new FoodSearchDto(f.FoodId, f.FoodName, f.BrandName, f.FoodDescription))
+            .Select(f => new FoodSearchResponse(f.FoodId, f.FoodName, f.BrandName, f.FoodDescription))
             .ToList() ?? [];
     }
 
-    public async Task<FoodProductDto> SearchByBarcodeAsync(string barcode)
+    public async Task<FoodProductResponse> SearchByBarcodeAsync(string barcode)
     {
         var parameters = new Dictionary<string, string>
         {
@@ -51,7 +51,7 @@ public class FoodApiService(
         return await GetFoodDetailsAsync(parameters, $"Food with barcode {barcode} not found");
     }
 
-    public async Task<FoodProductDto> GetByIdAsync(string id)
+    public async Task<FoodProductResponse> GetByIdAsync(string id)
     {
         var parameters = new Dictionary<string, string>
         {
@@ -65,7 +65,7 @@ public class FoodApiService(
         return await GetFoodDetailsAsync(parameters, $"Food with id {id} not found");
     }
 
-    public Task<List<FoodProductDto>> RecognizeByPhotoAsync(string imageBase64)
+    public Task<List<FoodProductResponse>> RecognizeByPhotoAsync(string imageBase64)
     {
         throw new NotImplementedException();
     }
@@ -84,7 +84,7 @@ public class FoodApiService(
         return await response.Content.ReadFromJsonAsync<T>();
     }
 
-    private async Task<FoodProductDto> GetFoodDetailsAsync(Dictionary<string, string> parameters, string notFoundMessage)
+    private async Task<FoodProductResponse> GetFoodDetailsAsync(Dictionary<string, string> parameters, string notFoundMessage)
     {
         var responseData = await ExecuteFatSecretRequestAsync<FatSecretGetResponse>(parameters);
 
@@ -103,7 +103,7 @@ public class FoodApiService(
             ParseFatSecretDouble(s.Carbohydrate)
         )).ToList();
 
-        return new FoodProductDto(
+        return new FoodProductResponse(
             food.FoodId,
             food.FoodName,
             food.BrandName,

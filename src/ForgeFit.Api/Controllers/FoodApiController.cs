@@ -11,10 +11,10 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
 {
     [Authorize]
     [HttpGet("search")]
-    [ProducesResponseType(typeof(List<FoodProductDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<FoodProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public async Task<ActionResult<List<FoodProductDto>>> SearchByQueryAsync(
+    public async Task<ActionResult<List<FoodProductResponse>>> SearchByQueryAsync(
         [FromQuery] string query,
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 20)
@@ -29,11 +29,11 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
 
     [Authorize]
     [HttpGet("barcode")]
-    [ProducesResponseType(typeof(List<FoodProductDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<FoodProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<FoodProductDto>>> SearchByBarcodeAsync([FromQuery] string barcode)
+    public async Task<ActionResult<List<FoodProductResponse>>> SearchByBarcodeAsync([FromQuery] string barcode)
     {
         var result = await foodApiService.SearchByBarcodeAsync(barcode);
         
@@ -42,10 +42,10 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
 
     [Authorize]
     [HttpPost("by-photo")]
-    [ProducesResponseType(typeof(List<FoodProductDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<FoodProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public async Task<ActionResult<List<FoodProductDto>>> RecognizeByPhotoAsync([FromBody] RecognizeByPhotoRequest request)
+    public async Task<ActionResult<List<FoodProductResponse>>> RecognizeByPhotoAsync([FromBody] RecognizeByPhotoRequest request)
     {
         var result = await foodApiService.RecognizeByPhotoAsync(request.ImageBase64);
         
@@ -54,11 +54,11 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
     
     [Authorize]
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(FoodProductDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(FoodProductResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<FoodProductDto>> GetByIdAsync(string id)
+    public async Task<ActionResult<FoodProductResponse>> GetByIdAsync(string id)
     {
         var result = await foodApiService.GetByIdAsync(id);
         
