@@ -27,10 +27,10 @@ public class FoodEntry : Entity, ITimeFields
     }
 
     public Guid UserId { get; private set; }
-    public int Calories { get; private set; }
-    public int Carbs { get; private set; }
-    public int Protein { get; private set; }
-    public int Fat { get; private set; }
+    public double Calories { get; private set; }
+    public double Carbs { get; private set; }
+    public double Protein { get; private set; }
+    public double Fat { get; private set; }
     public DayTime DayTime { get; private set; }
     public DateTime Date { get; private set; }
     public DateTime CreatedAt { get; init; }

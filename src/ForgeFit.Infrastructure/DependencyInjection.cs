@@ -1,8 +1,10 @@
 ﻿using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
+using ForgeFit.Infrastructure.Configurations;
 using ForgeFit.Infrastructure.Persistence;
 using ForgeFit.Infrastructure.Repositories;
 using ForgeFit.Infrastructure.Services;
+using ForgeFit.Infrastructure.Services.FatSecret;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        // Database
         var connectionString = configuration.GetConnectionString("DefaultConnection")
                                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -21,11 +24,22 @@ public static class DependencyInjection
             ));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
+        // Configurations
+        services.Configure<FoodApiSettings>(configuration.GetSection("FoodApiSettings"));
+        
+        // Repos
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         
+        // Http Clients
+        services.AddHttpClient<IFatSecretTokenService, FatSecretTokenService>();
+        services.AddHttpClient<IFoodApiService, FoodApiService>();
+        
+        // Services
         services.AddScoped<IPasswordHasherService, PasswordHasherService>();
         services.AddScoped<ITokenService, TokenService>();
+        
+        services.AddScoped<IFoodApiService, FoodApiService>();
         
         return services;
     }

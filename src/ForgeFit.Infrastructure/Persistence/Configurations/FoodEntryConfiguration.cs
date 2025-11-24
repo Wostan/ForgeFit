@@ -47,7 +47,7 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
                 .HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0")
                 .HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0")
                 .HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0")
-                .HasCheckConstraint("CK_FoodItems_QuantityCheck", "Quantity > 0");
+                .HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
             
             item.WithOwner()
                 .HasForeignKey("FoodEntryId");
@@ -65,16 +65,20 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
             
             item.Property(i => i.Protein)
                 .IsRequired();
-            
-            item.Property(i => i.Carbs)
-                .IsRequired();
-            
+
             item.Property(i => i.Fat)
                 .IsRequired();
             
-            item.Property(i => i.Quantity)
+            item.Property(i => i.Carbs)
+                .IsRequired();
+
+            item.Property(i => i.ServingUnit)
                 .IsRequired()
-                .HasDefaultValue(1);
+                .HasDefaultValue("g");
+            
+            item.Property(i => i.Amount)
+                .IsRequired()
+                .HasDefaultValue(100);
 
             item.HasKey("ExternalId", "FoodEntryId");
             

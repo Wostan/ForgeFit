@@ -8,72 +8,71 @@ public class FoodItem : ValueObject
     public FoodItem(
         string externalId,
         string label,
-        int calories,
-        int protein,
-        int fat,
-        int carbs,
-        int quantity = 1
+        double calories,
+        double protein,
+        double fat,
+        double carbs,
+        string servingUnit,
+        double amount
     )
     {
         SetExternalId(externalId);
         SetLabel(label);
         SetBfc(calories, protein, fat, carbs);
-        SetQuantity(quantity);
+        SetServingInfo(servingUnit, amount);
     }
 
-    private FoodItem()
-    {
-    }
+    private FoodItem() { }
 
     public string ExternalId { get; private set; }
     public string Label { get; private set; }
-    public int Calories { get; private set; }
-    public int Protein { get; private set; }
-    public int Fat { get; private set; }
-    public int Carbs { get; private set; }
-    public int Quantity { get; private set; }
+    public double Calories { get; private set; }
+    public double Protein { get; private set; }
+    public double Fat { get; private set; }
+    public double Carbs { get; private set; }
+    public string ServingUnit { get; private set; } 
+    public double Amount { get; private set; }
 
     private void SetExternalId(string externalId)
     {
         if (string.IsNullOrWhiteSpace(externalId))
-            throw new DomainValidationException("ExternalId cannot be null or whitespace");
-
+            throw new DomainValidationException("ExternalId cannot be empty");
         ExternalId = externalId;
     }
 
     private void SetLabel(string label)
     {
         if (string.IsNullOrWhiteSpace(label))
-            throw new DomainValidationException("Name cannot be null or whitespace");
-
-        if (label.Length > 20)
-            throw new DomainValidationException("Name must be less than 20 characters long");
-
+            throw new DomainValidationException("Name cannot be empty");
         Label = label;
     }
 
-    private void SetBfc(int calories, int protein, int fat, int carbs)
+    private void SetBfc(double calories, double protein, double fat, double carbs)
     {
         if (calories < 0 || protein < 0 || fat < 0 || carbs < 0)
-            throw new DomainValidationException("BFC values cannot be negative");
-
+            throw new DomainValidationException("Nutrients cannot be negative");
+        
         Calories = calories;
         Protein = protein;
         Fat = fat;
         Carbs = carbs;
     }
 
-    private void SetQuantity(int quantity)
+    private void SetServingInfo(string servingUnit, double amount)
     {
-        if (quantity < 1)
-            throw new DomainValidationException("Quantity must be greater than 0");
+        if (string.IsNullOrWhiteSpace(servingUnit))
+            throw new DomainValidationException("Serving unit is required");
+        if (amount <= 0)
+            throw new DomainValidationException("Amount must be greater than 0");
 
-        Quantity = quantity;
+        ServingUnit = servingUnit;
+        Amount = amount;
     }
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return ExternalId;
-        yield return Quantity;
+        yield return ServingUnit;
+        yield return Amount;
     }
 }

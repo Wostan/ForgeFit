@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.Infrastructure;
+﻿namespace ForgeFit.Infrastructure.Configurations;
 
 public class JwtSettings
 {

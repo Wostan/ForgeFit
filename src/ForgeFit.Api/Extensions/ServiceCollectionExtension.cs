@@ -1,13 +1,8 @@
 ﻿using System.Text;
 using ForgeFit.Application;
-using ForgeFit.Application.Common.Interfaces.Repositories;
-using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Infrastructure;
-using ForgeFit.Infrastructure.Persistence;
-using ForgeFit.Infrastructure.Repositories;
-using ForgeFit.Infrastructure.Services;
+using ForgeFit.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ForgeFit.Api.Extensions;

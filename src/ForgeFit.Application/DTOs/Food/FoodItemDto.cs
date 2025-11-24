@@ -3,9 +3,10 @@
 public record FoodItemDto(
     string ExternalId,
     string Label,
-    int Calories,
-    int Protein,
-    int Fat,
-    int Carbs,
-    int Quantity
+    double Calories, 
+    double Protein,
+    double Fat,
+    double Carbs,
+    string ServingUnit,
+    double Amount
 );

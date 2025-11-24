@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
