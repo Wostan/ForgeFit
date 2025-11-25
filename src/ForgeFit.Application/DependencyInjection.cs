@@ -13,6 +13,7 @@ public static class DependencyInjection
     {
         // Services
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IGoalService, GoalService>();
         
         // Mapper
         var config = TypeAdapterConfig.GlobalSettings;

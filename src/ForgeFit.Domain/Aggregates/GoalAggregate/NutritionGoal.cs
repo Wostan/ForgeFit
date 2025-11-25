@@ -15,7 +15,7 @@ public class NutritionGoal : Entity, ITimeFields
         int waterGoalMl)
     {
         SetUserId(userId);
-        SetNutritionGoal(calories, protein, carbs, fat);
+        SetNutritionGoal(calories, carbs, protein, fat);
         SetWaterGoalMl(waterGoalMl);
         CreatedAt = DateTime.UtcNow;
     }
@@ -44,7 +44,7 @@ public class NutritionGoal : Entity, ITimeFields
         int fat,
         int waterGoalMl)
     {
-        return new NutritionGoal(userId, calories, protein, carbs, fat, waterGoalMl);
+        return new NutritionGoal(userId, calories, carbs, protein, fat, waterGoalMl);
     }
 
     private void SetUserId(Guid userId)
@@ -57,16 +57,16 @@ public class NutritionGoal : Entity, ITimeFields
 
     private void SetNutritionGoal(
         int calories,
-        int protein,
         int carbs,
+        int protein,
         int fat)
     {
-        if (calories <= 0 || protein <= 0 || carbs <= 0 || fat <= 0)
+        if (calories <= 0 || carbs <= 0 || protein <= 0 || fat <= 0)
             throw new DomainValidationException("CPF values must be greater than 0.");
 
         Calories = calories;
-        Protein = protein;
         Carbs = carbs;
+        Protein = protein;
         Fat = fat;
     }
 
@@ -80,11 +80,11 @@ public class NutritionGoal : Entity, ITimeFields
 
     public void UpdateNutritionGoal(
         int calories,
-        int protein,
         int carbs,
+        int protein,
         int fat)
     {
-        SetNutritionGoal(calories, protein, carbs, fat);
+        SetNutritionGoal(calories, carbs, protein, fat);
         UpdatedAt = DateTime.UtcNow;
     }
 

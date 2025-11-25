@@ -6,5 +6,4 @@ public record NutritionGoalResponse(
     int Carbs,
     int Protein,
     int Fat,
-    int WaterGoalMl,
-    DateTime CreatedAt);
+    int WaterGoalMl);

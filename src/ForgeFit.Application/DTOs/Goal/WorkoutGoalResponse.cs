@@ -6,5 +6,4 @@ public record WorkoutGoalResponse(
     Guid Id,
     int WorkoutsPerWeek,
     TimeSpan Duration,
-    WorkoutType WorkoutType,
-    DateTime CreatedAt);
+    WorkoutType WorkoutType);

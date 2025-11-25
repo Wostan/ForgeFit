@@ -144,7 +144,7 @@ public class BodyGoal : Entity, ITimeFields
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void ChangeWeightGoal(Weight weightGoal)
+    public void UpdateWeightGoal(Weight weightGoal)
     {
         if (WeightGoal.ToKg() == weightGoal.ToKg())
             throw new DomainValidationException("Weight goal is the same.");
