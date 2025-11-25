@@ -1,13 +1,16 @@
 ﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Infrastructure.Configurations;
 using ForgeFit.Infrastructure.Persistence;
 using ForgeFit.Infrastructure.Repositories;
 using ForgeFit.Infrastructure.Services;
+using ForgeFit.Infrastructure.Services.ExerciseDBApi;
 using ForgeFit.Infrastructure.Services.FatSecret;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ForgeFit.Infrastructure;
 
@@ -26,6 +29,7 @@ public static class DependencyInjection
         
         // Configurations
         services.Configure<FoodApiSettings>(configuration.GetSection("FoodApiSettings"));
+        services.Configure<ExerciseDbApiSettings>(configuration.GetSection("ExerciseDbApiSettings"));
         
         // Repos
         services.AddScoped<IUserRepository, UserRepository>();
@@ -34,6 +38,11 @@ public static class DependencyInjection
         // Http Clients
         services.AddHttpClient<IFatSecretTokenService, FatSecretTokenService>();
         services.AddHttpClient<IFoodApiService, FoodApiService>();
+        services.AddHttpClient<IWorkoutApiService, WorkoutApiService>((provider, client) =>
+        {
+            var settings = provider.GetRequiredService<IOptions<ExerciseDbApiSettings>>().Value;
+            client.BaseAddress = new Uri(settings.BaseUrl);
+        });
         
         // Services
         services.AddScoped<IPasswordHasherService, PasswordHasherService>();
