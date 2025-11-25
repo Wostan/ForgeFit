@@ -9,16 +9,16 @@ public class FoodItem : ValueObject
         string externalId,
         string label,
         double calories,
+        double carbs,
         double protein,
         double fat,
-        double carbs,
         string servingUnit,
         double amount
     )
     {
         SetExternalId(externalId);
         SetLabel(label);
-        SetBfc(calories, protein, fat, carbs);
+        SetBfc(calories, carbs, protein, fat);
         SetServingInfo(servingUnit, amount);
     }
 
@@ -27,9 +27,9 @@ public class FoodItem : ValueObject
     public string ExternalId { get; private set; }
     public string Label { get; private set; }
     public double Calories { get; private set; }
+    public double Carbs { get; private set; }
     public double Protein { get; private set; }
     public double Fat { get; private set; }
-    public double Carbs { get; private set; }
     public string ServingUnit { get; private set; } 
     public double Amount { get; private set; }
 
@@ -47,15 +47,15 @@ public class FoodItem : ValueObject
         Label = label;
     }
 
-    private void SetBfc(double calories, double protein, double fat, double carbs)
+    private void SetBfc(double calories, double carbs, double protein, double fat)
     {
-        if (calories < 0 || protein < 0 || fat < 0 || carbs < 0)
+        if (calories < 0 || carbs < 0 || protein < 0 || fat < 0)
             throw new DomainValidationException("Nutrients cannot be negative");
         
         Calories = calories;
+        Carbs = carbs;
         Protein = protein;
         Fat = fat;
-        Carbs = carbs;
     }
 
     private void SetServingInfo(string servingUnit, double amount)

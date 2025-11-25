@@ -34,6 +34,9 @@ public static class DependencyInjection
         // Repos
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IBodyGoalRepository, BodyGoalRepository>();
+        services.AddScoped<INutritionGoalRepository, NutritionGoalRepository>();
+        services.AddScoped<IWorkoutGoalRepository, WorkoutGoalRepository>();
         
         // Http Clients
         services.AddHttpClient<IFatSecretTokenService, FatSecretTokenService>();

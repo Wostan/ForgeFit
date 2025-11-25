@@ -91,8 +91,8 @@ public class FoodEntry : Entity, ITimeFields
     private void RecalculateTotals()
     {
         Calories = FoodItems.Sum(i => i.Calories);
-        Protein = FoodItems.Sum(i => i.Protein);
         Carbs = FoodItems.Sum(i => i.Carbs);
+        Protein = FoodItems.Sum(i => i.Protein);
         Fat = FoodItems.Sum(i => i.Fat);
 
         UpdatedAt = DateTime.UtcNow;

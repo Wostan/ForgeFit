@@ -12,7 +12,7 @@ public record FoodServingDto(
     double MetricAmount,
     string MetricUnit,
     double Calories,
+    double Carbs,
     double Protein,
-    double Fat,
-    double Carbs
+    double Fat
 );

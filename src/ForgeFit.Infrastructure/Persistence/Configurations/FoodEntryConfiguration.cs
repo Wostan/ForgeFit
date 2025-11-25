@@ -44,8 +44,8 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
         {
             item.ToTable("FoodItems")
                 .HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories > 0")
-                .HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0")
                 .HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0")
+                .HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0")
                 .HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0")
                 .HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
             
@@ -63,13 +63,13 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
             item.Property(i => i.Calories)
                 .IsRequired();
             
+            item.Property(i => i.Carbs)
+                .IsRequired();
+            
             item.Property(i => i.Protein)
                 .IsRequired();
 
             item.Property(i => i.Fat)
-                .IsRequired();
-            
-            item.Property(i => i.Carbs)
                 .IsRequired();
 
             item.Property(i => i.ServingUnit)

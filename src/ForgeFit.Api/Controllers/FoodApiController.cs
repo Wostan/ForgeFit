@@ -1,5 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Services;
-using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
+﻿using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Food;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

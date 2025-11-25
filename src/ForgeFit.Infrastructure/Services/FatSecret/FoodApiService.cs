@@ -33,7 +33,11 @@ public class FoodApiService(
         var response = await ExecuteFatSecretRequestAsync<FatSecretSearchResponse>(parameters);
 
         return response?.FoodsContainer?.Food?
-            .Select(f => new FoodSearchResponse(f.FoodId, f.FoodName, f.BrandName, f.FoodDescription))
+            .Select(f => new FoodSearchResponse(
+                f.FoodId, 
+                f.FoodName, 
+                f.BrandName, 
+                f.FoodDescription))
             .ToList() ?? [];
     }
 
@@ -84,7 +88,9 @@ public class FoodApiService(
         return await response.Content.ReadFromJsonAsync<T>();
     }
 
-    private async Task<FoodProductResponse> GetFoodDetailsAsync(Dictionary<string, string> parameters, string notFoundMessage)
+    private async Task<FoodProductResponse> GetFoodDetailsAsync(
+        Dictionary<string, string> parameters, 
+        string notFoundMessage)
     {
         var responseData = await ExecuteFatSecretRequestAsync<FatSecretGetResponse>(parameters);
 
@@ -98,9 +104,9 @@ public class FoodApiService(
             ParseFatSecretDouble(s.MetricServingAmount),
             s.MetricServingUnit,
             ParseFatSecretDouble(s.Calories),
+            ParseFatSecretDouble(s.Carbohydrate),
             ParseFatSecretDouble(s.Protein),
-            ParseFatSecretDouble(s.Fat),
-            ParseFatSecretDouble(s.Carbohydrate)
+            ParseFatSecretDouble(s.Fat)
         )).ToList();
 
         return new FoodProductResponse(
@@ -114,6 +120,10 @@ public class FoodApiService(
     private static double ParseFatSecretDouble(string? value)
     {
         if (string.IsNullOrEmpty(value)) return 0;
-        return double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0;
+        return double.TryParse(
+            value, 
+            NumberStyles.Any, 
+            CultureInfo.InvariantCulture, 
+            out var result) ? result : 0;
     }
 }
