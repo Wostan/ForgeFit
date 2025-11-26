@@ -8,6 +8,8 @@ public interface IGoalService
     Task<NutritionGoalResponse> GetNutritionGoalAsync(Guid userId);
     Task<WorkoutGoalResponse> GetWorkoutGoalAsync(Guid userId);
     
+    Task<BodyGoalResponse> CreateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoal);
+    
     Task<BodyGoalResponse> UpdateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoal);
     Task<NutritionGoalResponse> UpdateNutritionGoalAsync(Guid userId, NutritionGoalCreateRequest nutritionGoal);
     Task<WorkoutGoalResponse> UpdateWorkoutGoalAsync(Guid userId, WorkoutGoalCreateRequest workoutGoal);

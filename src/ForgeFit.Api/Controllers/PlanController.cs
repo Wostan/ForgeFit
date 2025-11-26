@@ -15,9 +15,10 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<PlanDto>> Generate([FromBody] GeneratePlanRequest request)
+    public async Task<ActionResult<PlanDto>> Generate()
     {
-        var plan = await planService.GeneratePlanAsync(request);
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var plan = await planService.GeneratePlanAsync(userId);
         
         return Ok(plan);
     }
@@ -46,18 +47,5 @@ public class PlanController(IPlanService planService) : ControllerBase
         var plan = await planService.GetPlanAsync(userId);
         
         return Ok(plan);
-    }
-
-    [HttpPut]
-    [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<string>> Update([FromBody] PlanDto plan)
-    {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await planService.UpdatePlanAsync(userId, plan);
-        
-        return Ok(result);
     }
 }

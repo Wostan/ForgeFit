@@ -3,6 +3,8 @@ using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Goal;
+using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Enums.GoalEnums;
 using ForgeFit.Domain.ValueObjects;
 using MapsterMapper;
 
@@ -41,6 +43,23 @@ public class GoalService(
             ? throw new NotFoundException("Workout goal not found") 
             : mapper.Map<WorkoutGoalResponse>(workoutGoal);
     }
+    
+    public async Task<BodyGoalResponse> CreateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoalRequest)
+    {
+        var bodyGoal = BodyGoal.Create(
+            userId,
+            bodyGoalRequest.Title,
+            bodyGoalRequest.Description,
+            new Weight(bodyGoalRequest.WeightGoal, bodyGoalRequest.WeightUnit),
+            bodyGoalRequest.DueDate,
+            bodyGoalRequest.GoalType,
+            GoalStatus.InProgress);
+        
+        await bodyGoalRepository.AddAsync(bodyGoal);
+        await unitOfWork.SaveChangesAsync();
+        
+        return mapper.Map<BodyGoalResponse>(bodyGoal);
+    }
 
     public async Task<BodyGoalResponse> UpdateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoalRequest)
     {
@@ -71,11 +90,11 @@ public class GoalService(
             throw new NotFoundException("Nutrition goal not found");
         
         nutritionGoal.UpdateNutritionGoal(
-            nutritionGoalRequest.Calories, 
+            nutritionGoalRequest.Calories,
             nutritionGoalRequest.Carbs,
-            nutritionGoalRequest.Protein, 
-            nutritionGoalRequest.Fat);
-        nutritionGoal.UpdateWaterGoalMl(nutritionGoalRequest.WaterGoalMl);
+            nutritionGoalRequest.Protein,
+            nutritionGoalRequest.Fat,
+            nutritionGoalRequest.WaterGoalMl);
         
         await unitOfWork.SaveChangesAsync();
         

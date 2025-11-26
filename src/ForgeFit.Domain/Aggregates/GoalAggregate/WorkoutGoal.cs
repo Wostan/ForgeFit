@@ -2,20 +2,16 @@
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
+using ForgeFit.Domain.ValueObjects.GoalValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
 public class WorkoutGoal : Entity, ITimeFields
 {
-    internal WorkoutGoal(Guid userId,
-        int workoutsPerWeek,
-        TimeSpan duration, 
-        WorkoutType workoutType)
+    internal WorkoutGoal(Guid userId, WorkoutPlan workoutPlan)
     {
         SetUserId(userId);
-        SetWorkoutsPerWeek(workoutsPerWeek);
-        SetDuration(duration);
-        SetWorkoutType(workoutType);
+        SetWorkoutPlan(workoutPlan);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -24,22 +20,16 @@ public class WorkoutGoal : Entity, ITimeFields
     }
     
     public Guid UserId { get; private set; }
-    public int WorkoutsPerWeek { get; private set; }
-    public TimeSpan Duration { get; private set; }
-    public WorkoutType WorkoutType { get; private set; }
+    public WorkoutPlan WorkoutPlan { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
     
     // Navigation properties
     public User User { get; private set; }
     
-    public static WorkoutGoal Create(
-        Guid userId,
-        int workoutsPerWeek,
-        TimeSpan duration, 
-        WorkoutType workoutType)
+    public static WorkoutGoal Create(Guid userId, WorkoutPlan workoutPlan)
     {
-        return new WorkoutGoal(userId, workoutsPerWeek, duration, workoutType);
+        return new WorkoutGoal(userId, workoutPlan);
     }
     
     private void SetUserId(Guid userId)
@@ -50,38 +40,17 @@ public class WorkoutGoal : Entity, ITimeFields
         UserId = userId;
     }
     
-    private void SetWorkoutsPerWeek(int workoutsPerWeek)
+    private void SetWorkoutPlan(WorkoutPlan workoutPlan)
     {
-        if (workoutsPerWeek is < 1 or > 7)
-            throw new DomainValidationException("WorkoutsPerWeek must be between 1 and 7.");
-
-        WorkoutsPerWeek = workoutsPerWeek;
-    }
-    
-    private void SetDuration(TimeSpan recommendedDuration)
-    {
-        if (recommendedDuration < TimeSpan.FromMinutes(10) || recommendedDuration > TimeSpan.FromHours(5))
-            throw new DomainValidationException("Workout duration hours must be between 10 minutes and 5 hours.");
-        
-        Duration = recommendedDuration;
-    }
-    
-    private void SetWorkoutType(WorkoutType recommendedWorkoutType)
-    {
-        if (!Enum.IsDefined(recommendedWorkoutType))
-            throw new DomainValidationException("WorkoutType is not defined.");
-        
-        WorkoutType = recommendedWorkoutType;
+        WorkoutPlan = workoutPlan ?? throw new DomainValidationException("WorkoutPlan cannot be null.");
     }
     
     public void UpdateWorkoutGoal(
         int workoutsPerWeek,
-        TimeSpan duration,
-        WorkoutType recommendedWorkoutType)
+        TimeSpan duration, 
+        WorkoutType workoutType)
     {
-        SetWorkoutsPerWeek(workoutsPerWeek);
-        SetDuration(duration);
-        SetWorkoutType(recommendedWorkoutType);
+        SetWorkoutPlan(new WorkoutPlan(workoutsPerWeek, duration, workoutType));
         UpdatedAt = DateTime.UtcNow;
     }
 }

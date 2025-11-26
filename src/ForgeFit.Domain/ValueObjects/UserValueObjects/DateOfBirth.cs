@@ -23,6 +23,14 @@ public class DateOfBirth : ValueObject
         Value = value;
     }
 
+    public int GetAge()
+    {
+        var today = DateTime.UtcNow;
+        var age = today.Year - Value.Year;
+        if (Value.Date > today.AddYears(-age)) age--;
+        return age;
+    }
+
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;
