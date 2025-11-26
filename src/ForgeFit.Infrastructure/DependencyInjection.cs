@@ -1,6 +1,7 @@
 ﻿using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
+using ForgeFit.Application.Services;
 using ForgeFit.Infrastructure.Configurations;
 using ForgeFit.Infrastructure.Persistence;
 using ForgeFit.Infrastructure.Repositories;
@@ -37,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<IBodyGoalRepository, BodyGoalRepository>();
         services.AddScoped<INutritionGoalRepository, NutritionGoalRepository>();
         services.AddScoped<IWorkoutGoalRepository, WorkoutGoalRepository>();
+        services.AddScoped<IUserService, UserService>();
         
         // Http Clients
         services.AddHttpClient<IFatSecretTokenService, FatSecretTokenService>();
