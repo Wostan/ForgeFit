@@ -6,10 +6,16 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Users");
+        builder.ToTable("Users", tableBuilder =>
+        {
+            tableBuilder.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", "UserProfile_Gender IN (1, 2, 3)");
+            tableBuilder.HasCheckConstraint("CK_Users_WeightCheck", "WeightValue > 0");
+            tableBuilder.HasCheckConstraint("CK_Users_WeightUnitCheck", "WeightUnit IN (1, 2)");
+            tableBuilder.HasCheckConstraint("CK_Users_HeightCheck", "HeightValue > 0");
+            tableBuilder.HasCheckConstraint("CK_Users_HeightUnitCheck", "HeightUnit IN (1, 2)");
+        });
         
         builder.HasKey(u => u.Id);
         
@@ -34,9 +40,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         });
         
         builder.OwnsOne(u => u.UserProfile, profile =>
-        {
-            profile.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", "UserProfile_Gender IN (1, 2, 3)");
-            
+        { 
             profile.Property(p => p.Username)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -60,9 +64,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
             profile.OwnsOne(p => p.Weight, weight =>
             {
-                weight.HasCheckConstraint("CK_Users_WeightCheck", "WeightValue > 0")
-                    .HasCheckConstraint("CK_Users_WeightUnitCheck", "WeightUnit IN (1, 2)");
-                
                 weight.Property(w => w.Value)
                     .IsRequired()
                     .HasColumnName("WeightValue");
@@ -74,9 +75,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
             profile.OwnsOne(p => p.Height, height =>
             {
-                height.HasCheckConstraint("CK_Users_HeightCheck", "HeightValue > 0")
-                    .HasCheckConstraint("CK_Users_HeightUnitCheck", "HeightUnit IN (1, 2)");
-                
                 height.Property(h => h.Value)
                     .IsRequired()
                     .HasColumnName("HeightValue");

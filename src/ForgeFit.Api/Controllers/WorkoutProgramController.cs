@@ -12,28 +12,28 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
 {
     [Authorize]
     [HttpPost]
-    [ProducesResponseType(typeof(WorkoutProgramDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<WorkoutProgramDto>> CreateWorkoutProgramAsync([FromBody] WorkoutProgramDto workoutProgramDto)
+    public async Task<ActionResult<WorkoutProgramResponse>> CreateWorkoutProgramAsync([FromBody] WorkoutProgramRequest workoutProgramRequest)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await workoutProgramService.CreateWorkoutProgramAsync(userId, workoutProgramDto);
+        var result = await workoutProgramService.CreateWorkoutProgramAsync(userId, workoutProgramRequest);
         
         return CreatedAtAction(nameof(GetWorkoutProgramAsync), new { workoutProgramId = result.Id }, result);
     }
     
     [Authorize]
     [HttpPut("{programId:guid}")]
-    [ProducesResponseType(typeof(WorkoutProgramDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<WorkoutProgramDto>> UpdateWorkoutProgramAsync(
+    public async Task<ActionResult<WorkoutProgramResponse>> UpdateWorkoutProgramAsync(
         Guid programId, 
-        [FromBody] WorkoutProgramDto workoutProgramDto)
+        [FromBody] WorkoutProgramRequest workoutProgramRequest)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var result = await workoutProgramService.UpdateWorkoutProgramAsync(userId, programId, workoutProgramDto);
+        var result = await workoutProgramService.UpdateWorkoutProgramAsync(userId, programId, workoutProgramRequest);
         
         return Ok(result);
     }
@@ -53,10 +53,10 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     
     [Authorize]
     [HttpGet]
-    [ProducesResponseType(typeof(List<WorkoutProgramDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<WorkoutProgramResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<List<WorkoutProgramDto>>> GetAllWorkoutProgramsAsync()
+    public async Task<ActionResult<List<WorkoutProgramResponse>>> GetAllWorkoutProgramsAsync()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.GetAllWorkoutProgramsAsync(userId);
@@ -66,11 +66,11 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     
     [Authorize]
     [HttpGet("{workoutProgramId:guid}")]
-    [ProducesResponseType(typeof(WorkoutProgramDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<WorkoutProgramDto>> GetWorkoutProgramAsync(Guid workoutProgramId)
+    public async Task<ActionResult<WorkoutProgramResponse>> GetWorkoutProgramAsync(Guid workoutProgramId)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.GetWorkoutProgramAsync(userId, workoutProgramId);

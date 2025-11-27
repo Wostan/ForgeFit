@@ -6,10 +6,21 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class NutritionGoalConfiguration : IEntityTypeConfiguration<NutritionGoal>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<NutritionGoal> builder)
     {
-        builder.ToTable("NutritionGoals");
+        builder.ToTable("NutritionGoals", tableBuilder =>
+        {
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CaloriesCheck", 
+                    "DailyNutritionPlan_TargetCalories > 1000");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CarbsCheck", 
+                    "DailyNutritionPlan_Carbs > 0");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_ProteinCheck", 
+                    "DailyNutritionPlan_Protein > 0");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_FatCheck", 
+                    "DailyNutritionPlan_Fat > 0");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_WaterGoalMlCheck", 
+                    "DailyNutritionPlan_WaterMl > 1000");
+        });
         
         builder.HasKey(n => n.Id);
         
@@ -21,17 +32,6 @@ public class NutritionGoalConfiguration : IEntityTypeConfiguration<NutritionGoal
         // ValueObject properties
         builder.OwnsOne(n => n.DailyNutritionPlan, dailyNutritionPlan =>
         {
-            dailyNutritionPlan.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CaloriesCheck", 
-                    "DailyNutritionPlan_TargetCalories > 1000")
-                .HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CarbsCheck", 
-                    "DailyNutritionPlan_Carbs > 0")
-                .HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_ProteinCheck", 
-                    "DailyNutritionPlan_Protein > 0")
-                .HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_FatCheck", 
-                    "DailyNutritionPlan_Fat > 0")
-                .HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_WaterGoalMlCheck", 
-                    "DailyNutritionPlan_WaterMl > 1000");
-            
             dailyNutritionPlan.Property(dnp => dnp.TargetCalories)
                 .IsRequired();
             

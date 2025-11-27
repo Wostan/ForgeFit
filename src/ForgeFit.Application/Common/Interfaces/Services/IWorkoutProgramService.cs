@@ -4,10 +4,10 @@ namespace ForgeFit.Application.Common.Interfaces.Services;
 
 public interface IWorkoutProgramService
 {
-    Task<WorkoutProgramDto> CreateWorkoutProgramAsync(Guid userId, WorkoutProgramDto workoutProgramDto);
-    Task<WorkoutProgramDto> UpdateWorkoutProgramAsync(Guid userId, Guid workoutProgramId, WorkoutProgramDto workoutProgramDto);
+    Task<WorkoutProgramResponse> CreateWorkoutProgramAsync(Guid userId, WorkoutProgramRequest workoutProgramResponse);
+    Task<WorkoutProgramResponse> UpdateWorkoutProgramAsync(Guid userId, Guid workoutProgramId, WorkoutProgramRequest workoutProgramResponse);
     Task DeleteWorkoutProgramAsync(Guid userId, Guid workoutProgramId);
     
-    Task<List<WorkoutProgramDto>> GetAllWorkoutProgramsAsync(Guid userId);
-    Task<WorkoutProgramDto> GetWorkoutProgramAsync(Guid userId, Guid workoutProgramId);
+    Task<List<WorkoutProgramResponse>> GetAllWorkoutProgramsAsync(Guid userId);
+    Task<WorkoutProgramResponse> GetWorkoutProgramAsync(Guid userId, Guid workoutProgramId);
 }

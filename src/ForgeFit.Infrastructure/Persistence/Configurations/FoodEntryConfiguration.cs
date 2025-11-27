@@ -6,15 +6,21 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<FoodEntry> builder)
     {
-       builder.ToTable("FoodEntries")
-           .HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories > 0")
-           .HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs > 0")
-           .HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein > 0")
-           .HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat > 0")
-           .HasCheckConstraint("CK_FoodEntries_DayTimeCheck", "DayTime IN (1, 2, 3, 4)"); 
+       builder.ToTable("FoodEntries", tableBuilder =>
+       {
+           tableBuilder.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodEntries_DayTimeCheck", "DayTime IN (1, 2, 3, 4)");
+           tableBuilder.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0");
+           tableBuilder.HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
+       });
         
         builder.HasKey(fe => fe.Id);
         
@@ -42,12 +48,7 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
         // ValueObject properties
         builder.OwnsMany(fe => fe.FoodItems, item =>
         {
-            item.ToTable("FoodItems")
-                .HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories > 0")
-                .HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0")
-                .HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0")
-                .HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0")
-                .HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
+            item.ToTable("FoodItems");
             
             item.WithOwner()
                 .HasForeignKey("FoodEntryId");

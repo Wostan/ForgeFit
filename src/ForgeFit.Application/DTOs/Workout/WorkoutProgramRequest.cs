@@ -1,7 +1,6 @@
 ﻿namespace ForgeFit.Application.DTOs.Workout;
 
-public record WorkoutProgramDto(
-    Guid Id,
+public record WorkoutProgramRequest(
     string Name,
     string? Description,
     List<WorkoutExercisePlanDto> WorkoutExercisePlans);

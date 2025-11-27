@@ -2,5 +2,6 @@
 
 public record WorkoutExercisePlanDto(
     Guid Id,
+    Guid WorkoutProgramId,
     WorkoutExerciseDto WorkoutExercise, 
-    List<WorkoutSetDto> Sets);
+    List<WorkoutSetDto> WorkoutSets);

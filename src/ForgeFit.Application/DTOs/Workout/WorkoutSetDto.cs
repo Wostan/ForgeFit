@@ -6,4 +6,5 @@ public record WorkoutSetDto(
     Guid Id,
     int Order,
     int Reps,
+    TimeSpan restTime,
     Weight Weight);

@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IGoalService, GoalService>();
         services.AddScoped<IPlanService, PlanService>();
+        services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
         
         // Mapper
         var config = TypeAdapterConfig.GlobalSettings;

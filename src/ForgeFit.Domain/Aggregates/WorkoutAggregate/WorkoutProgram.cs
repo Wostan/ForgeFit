@@ -34,6 +34,15 @@ public class WorkoutProgram : Entity, ITimeFields
     // Navigation properties
     public User User { get; private set; }
     public ICollection<WorkoutExercisePlan> WorkoutExercisePlans { get; private set; }
+    
+    public static WorkoutProgram Create(
+        Guid userId,
+        string name,
+        string? description,
+        ICollection<WorkoutExercisePlan> workoutExercises)
+    {
+        return new WorkoutProgram(userId, name, description, workoutExercises);
+    }
 
     private void SetUserId(Guid userId)
     {
@@ -85,11 +94,15 @@ public class WorkoutProgram : Entity, ITimeFields
         WorkoutExercisePlans.Remove(workoutExercise);
         UpdatedAt = DateTime.UtcNow;
     }
-
-    public void UpdateInfo(string name, string? description)
+    
+    public void Update(
+        string name, 
+        string? description,
+        ICollection<WorkoutExercisePlan> workoutExercises)
     {
         SetName(name);
         SetDescription(description);
+        SetWorkoutExercises(workoutExercises);
         UpdatedAt = DateTime.UtcNow;
     }
 

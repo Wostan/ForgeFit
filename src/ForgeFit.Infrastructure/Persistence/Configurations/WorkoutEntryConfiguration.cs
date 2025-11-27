@@ -6,10 +6,13 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<WorkoutEntry> builder)
     {
-        builder.ToTable("WorkoutEntries");
+        builder.ToTable("WorkoutEntries", tableBuilder =>
+        {
+            tableBuilder.HasCheckConstraint("CK_WorkoutEntries_WorkoutSchedule_DurationCheck", 
+                "WorkoutSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
+        });
         
         builder.HasKey(we => we.Id);
         
@@ -20,9 +23,7 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
         
         // ValueObject properties
         builder.OwnsOne(we => we.WorkoutSchedule, schedule =>
-        {
-            schedule.HasCheckConstraint("CK_WorkoutEntries_WorkoutSchedule_DurationCheck", "WorkoutSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
-            
+        { 
             schedule.Property(s => s.Start)
                 .IsRequired();
             

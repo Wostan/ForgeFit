@@ -1,33 +1,25 @@
-﻿using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+﻿using System.Text.Json;
+using ForgeFit.Domain.Aggregates.WorkoutAggregate;
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<WorkoutExercisePlan>
 {
-[Obsolete("Obsolete")]
-public void Configure(EntityTypeBuilder<WorkoutExercisePlan> builder)
+    public void Configure(EntityTypeBuilder<WorkoutExercisePlan> builder)
     {
-        builder.ToTable("WorkoutExercisePlans")
-            .HasCheckConstraint("CK_WorkoutExercisePlan_SetsCheck", "Sets > 0")
-            .HasCheckConstraint("CK_WorkoutExercisePlan_RepsCheck", "Reps > 0");
+        builder.ToTable("WorkoutExercisePlans");
         
         builder.HasKey(wep => wep.Id);
 
         // Properties
-        builder.Property(wep => wep.Sets)
-            .IsRequired();
-
-        builder.Property(wep => wep.Reps)
-            .IsRequired();
-
         builder.Property(wep => wep.CreatedAt)
-            .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
 
-        // Value objects
+        // ValueObjects
         builder.OwnsOne(wep => wep.WorkoutExercise, exercise =>
         {
             exercise.Property(e => e.ExternalId)
@@ -42,60 +34,50 @@ public void Configure(EntityTypeBuilder<WorkoutExercisePlan> builder)
                 .HasConversion(
                     v => v != null ? v.ToString() : null,
                     v => v != null ? new Uri(v) : null
-                );
-
-            exercise.Property(e => e.Instructions)
+                )
                 .HasMaxLength(500);
 
+            ValueConverter<IReadOnlyCollection<TEnum>, string> CreateEnumListConverter<TEnum>() where TEnum : struct, Enum
+            {
+                return new ValueConverter<IReadOnlyCollection<TEnum>, string>(v => 
+                        string.Join(',', v), v => 
+                        v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(Enum.Parse<TEnum>)
+                            .ToList()
+                );
+            }
+
             exercise.Property(e => e.TargetMuscles)
-                .HasConversion(
-                    v => string.Join(',', v.Select(x => x.ToString())),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                          .Select(Enum.Parse<Muscle>)
-                          .ToList()
-                )
+                .HasConversion(CreateEnumListConverter<Muscle>())
                 .IsRequired();
 
             exercise.Property(e => e.BodyParts)
-                .HasConversion(
-                    v => string.Join(',', v.Select(x => x.ToString())),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                          .Select(Enum.Parse<BodyPart>)
-                          .ToList()
-                )
+                .HasConversion(CreateEnumListConverter<BodyPart>())
                 .IsRequired();
 
             exercise.Property(e => e.Equipment)
-                .HasConversion(
-                    v => string.Join(',', v.Select(x => x.ToString())),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                          .Select(Enum.Parse<Equipment>)
-                          .ToList()
-                )
+                .HasConversion(CreateEnumListConverter<Equipment>())
                 .IsRequired();
-        });
-        
-        builder.OwnsOne(p => p.Weight, weight =>
-        {
-            weight.HasCheckConstraint("CK_WorkoutExercisePlan_Weight_WeightValueCheck", "WeightValue > 0")
-                .HasCheckConstraint("CK_WorkoutExercisePlan_Weight_WeightUnitCheck", "WeightUnit IN (1, 2)");
             
-            weight.Property(w => w.Value)
-                .IsRequired()
-                .HasColumnName("WeightValue");
+            exercise.Property(e => e.SecondaryMuscles)
+                .HasConversion(CreateEnumListConverter<Muscle>())
+                .IsRequired();
 
-            weight.Property(w => w.Unit)
-                .IsRequired()
-                .HasColumnName("WeightUnit");
+            exercise.Property(e => e.Instructions)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>()
+                )
+                .HasMaxLength(2000);
         });
         
         // Indexes
         builder.HasIndex(wep => wep.WorkoutProgramId);
         
         // Navigation properties
-        builder.HasOne(wep => wep.WorkoutProgram)
-            .WithMany()
-            .HasForeignKey(wep => wep.WorkoutProgramId)
+        builder.HasMany(wep => wep.WorkoutSets)
+            .WithOne(ws => ws.WorkoutExercisePlan)
+            .HasForeignKey("WorkoutExercisePlanId")
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
