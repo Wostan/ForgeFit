@@ -5,7 +5,7 @@ public record WorkoutEntryDto(
     Guid WorkoutProgramId,
     DateTime Start,
     DateTime End,
+    List<PerformedExerciseDto> Exercises,
     double TotalVolume,
-    double TotalReps,
-    double TotalWeightMoved
+    double TotalReps
     );

@@ -37,38 +37,38 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
                 )
                 .HasMaxLength(500);
 
-            ValueConverter<IReadOnlyCollection<TEnum>, string> CreateEnumListConverter<TEnum>() where TEnum : struct, Enum
-            {
-                return new ValueConverter<IReadOnlyCollection<TEnum>, string>(v => 
-                        string.Join(',', v), v => 
-                        v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                            .Select(Enum.Parse<TEnum>)
-                            .ToList()
-                );
-            }
-
             exercise.Property(e => e.TargetMuscles)
-                .HasConversion(CreateEnumListConverter<Muscle>())
+                .HasConversion(EnumListConverter<Muscle>())
                 .IsRequired();
 
             exercise.Property(e => e.BodyParts)
-                .HasConversion(CreateEnumListConverter<BodyPart>())
+                .HasConversion(EnumListConverter<BodyPart>())
                 .IsRequired();
 
             exercise.Property(e => e.Equipment)
-                .HasConversion(CreateEnumListConverter<Equipment>())
+                .HasConversion(EnumListConverter<Equipment>())
                 .IsRequired();
             
             exercise.Property(e => e.SecondaryMuscles)
-                .HasConversion(CreateEnumListConverter<Muscle>())
+                .HasConversion(EnumListConverter<Muscle>())
                 .IsRequired();
 
             exercise.Property(e => e.Instructions)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>()
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) 
+                         ?? new List<string>()
                 )
                 .HasMaxLength(2000);
+            return;
+
+            ValueConverter<IReadOnlyCollection<TEnum>, string> EnumListConverter<TEnum>() where TEnum : struct, Enum
+            {
+                return new ValueConverter<IReadOnlyCollection<TEnum>, string>(
+                    v => string.Join(',', v), 
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Enum.Parse<TEnum>).ToList()
+                    );
+            }
         });
         
         // Indexes
