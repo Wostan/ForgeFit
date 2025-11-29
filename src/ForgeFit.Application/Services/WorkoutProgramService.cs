@@ -20,7 +20,9 @@ public class WorkoutProgramService(
         WorkoutProgramRequest workoutProgramRequest)
     {
         if (!await userRepository.ExistsAsync(userId))
+        {
             throw new NotFoundException("User not found");
+        }
         
         var program = WorkoutProgram.Create(
             userId,
@@ -29,11 +31,11 @@ public class WorkoutProgramService(
             new List<WorkoutExercisePlan>()
         );
         
-        foreach (var planDto in workoutProgramRequest.WorkoutExercisePlans)
-        {
-            var plan = CreateFromDto(program.Id, userId, planDto);
-            program.AddWorkoutExercise(plan);
-        }
+        var exercises = workoutProgramRequest.WorkoutExercisePlans
+            .Select(planDto => CreateFromDto(program.Id, userId, planDto))
+            .ToList();
+        
+        program.AddWorkoutExercises(exercises);
 
         await workoutProgramRepository.AddAsync(program);
         await unitOfWork.SaveChangesAsync();
@@ -49,22 +51,24 @@ public class WorkoutProgramService(
         var program = await workoutProgramRepository.GetByIdWithNavigationsAsync(workoutProgramId);
         
         if (program == null)
+        {
             throw new NotFoundException("Workout program not found");
+        }
 
         if (program.UserId != userId)
+        {
             throw new UnauthorizedAccessException("You do not own this program");
+        }
         
-        var exercisesToRemove = program.WorkoutExercisePlans.ToList();
-        foreach (var exercise in exercisesToRemove)
-        {
-            program.RemoveWorkoutExercise(exercise);
-        }
-
-        foreach (var planDto in workoutProgramRequest.WorkoutExercisePlans)
-        {
-            var plan = CreateFromDto(program.Id, userId, planDto);
-            program.AddWorkoutExercise(plan);
-        }
+        var newExercises = workoutProgramRequest.WorkoutExercisePlans
+            .Select(planDto => CreateFromDto(program.Id, userId, planDto))
+            .ToList();
+        
+        program.Update(
+            workoutProgramRequest.Name, 
+            workoutProgramRequest.Description, 
+            newExercises
+        );
         
         await unitOfWork.SaveChangesAsync();
 
@@ -76,10 +80,14 @@ public class WorkoutProgramService(
         var program = await workoutProgramRepository.GetByIdAsync(workoutProgramId);
         
         if (program == null)
+        {
             throw new NotFoundException("Workout program not found");
+        }
 
         if (program.UserId != userId)
+        {
             throw new UnauthorizedAccessException("You do not own this program");
+        }
         
         program.SoftDelete();
         await unitOfWork.SaveChangesAsync();
@@ -96,11 +104,16 @@ public class WorkoutProgramService(
         var program = await workoutProgramRepository.GetByIdWithNavigationsAsync(workoutProgramId);
         
         if (program == null)
+        {
             throw new NotFoundException("Workout program not found");
-        
-        return program.UserId != userId 
-            ? throw new UnauthorizedAccessException("You do not own this program") 
-            : mapper.Map<WorkoutProgramResponse>(program);
+        }
+
+        if (program.UserId != userId)
+        {
+            throw new UnauthorizedAccessException("You do not own this program");
+        }
+
+        return mapper.Map<WorkoutProgramResponse>(program);
     }
     
     private static WorkoutExercisePlan CreateFromDto(Guid programId, Guid userId, WorkoutExercisePlanDto dto)
