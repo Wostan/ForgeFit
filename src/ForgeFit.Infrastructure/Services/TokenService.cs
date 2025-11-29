@@ -14,7 +14,7 @@ public class TokenService(IOptions<JwtSettings> jwtOptions) : ITokenService
 {
     private readonly JwtSettings _jwtSettings = jwtOptions.Value;
     
-    public string GenerateAccessToken(User user)
+    public string GenerateAccessTokenString(User user)
     {
         var claims = new List<Claim>
         {

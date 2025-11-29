@@ -13,40 +13,52 @@ namespace ForgeFit.Application.Services;
 public class AuthService(
     IUserRepository userRepository, 
     IRefreshTokenRepository refreshTokenRepository,
-    IUnitOfWork unitOfWork,
     IPasswordHasherService passwordHasherService,
     ITokenService tokenService,
-    IMapper mapper
-    ) : IAuthService
+    IUnitOfWork unitOfWork) : IAuthService
 {
     public async Task<UserSignUpResponse> SignUpAsync(UserSignUpRequest request)
     { 
         if (await userRepository.ExistsByEmailAsync(request.Email))
         {
-            throw new EmailAlreadyExistsException(request.Email);
+            throw new EmailAlreadyExistsException("Email already exists.");
         }
         
         var passwordHash = passwordHasherService.HashPassword(request.Password);
 
+        var email = new Email(request.Email);
+        var avatarUri = string.IsNullOrWhiteSpace(request.Uri) ? null : new Uri(request.Uri);
+        var dateOfBirth = new DateOfBirth(request.DateOfBirth);
+        var weight = new Weight(request.Weight, request.WeightUnit);
+        var height = new Height(request.Height, request.HeightUnit);
+
+        var userProfile = new UserProfile(
+            request.Username,
+            avatarUri, 
+            dateOfBirth,
+            request.Gender,
+            weight,
+            height
+        );
+
         var user = User.Create(
-            new UserProfile(
-                request.Username,
-                string.IsNullOrWhiteSpace(request.Uri) ? null : new Uri(request.Uri),
-                new DateOfBirth(request.DateOfBirth),
-                request.Gender,
-                new Weight(request.Weight, request.WeightUnit),
-                new Height(request.Height, request.HeightUnit)
-            ),
-            new Email(request.Email),
+            userProfile,
+            email,
             passwordHash
         );
         
         await userRepository.AddAsync(user);
-        await unitOfWork.SaveChangesAsync(); 
-        
-        var response = mapper.Map<UserSignUpResponse>(user);
-        
-        return response;
+        await unitOfWork.SaveChangesAsync();
+
+        var accessTokenString = tokenService.GenerateAccessTokenString(user);
+        var refreshToken = tokenService.GenerateRefreshToken(user.Id);
+
+        await refreshTokenRepository.AddAsync(refreshToken);
+        await unitOfWork.SaveChangesAsync();
+
+        var refreshTokenString = refreshToken.Token;
+
+        return new UserSignUpResponse(accessTokenString, refreshTokenString);
     }
 
     public async Task<UserSignInResponse> SignInAsync(UserSignInRequest request)
@@ -62,17 +74,22 @@ public class AuthService(
             throw new InvalidCredentialsException("Invalid password.");
         }
 
-        var accessToken = tokenService.GenerateAccessToken(user);
+        var accessTokenString = tokenService.GenerateAccessTokenString(user);
         var refreshToken = tokenService.GenerateRefreshToken(user.Id);
         
-        await refreshTokenRepository.AddAsync(refreshToken);
+        var existingToken = await refreshTokenRepository.GetByUserIdAsync(user.Id);
+        if (existingToken != null)
+        {
+            existingToken.Update(refreshToken);
+        }
+        else
+        {
+            await refreshTokenRepository.AddAsync(refreshToken);
+        }
+        
         await unitOfWork.SaveChangesAsync();
         
-        return new UserSignInResponse(
-            user.Id.ToString(), 
-            user.Email.Value, 
-            accessToken, 
-            refreshToken.Token);
+        return new UserSignInResponse(accessTokenString, refreshToken.Token);
     }
 
     public async Task<CheckEmailResponse> CheckEmailAsync(CheckEmailRequest request)
@@ -86,13 +103,10 @@ public class AuthService(
     public async Task<UserSignInResponse> RefreshTokenAsync(RefreshTokenRequest request)
     {
         var existingToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken);
-        
         if (existingToken is null || !existingToken.IsActive)
         {
             throw new InvalidCredentialsException("Invalid or expired refresh token.");
         }
-        
-        existingToken.Revoke();
 
         var user = await userRepository.GetByIdAsync(existingToken.UserId);
         if (user is null)
@@ -100,16 +114,12 @@ public class AuthService(
             throw new InvalidCredentialsException("User not found.");
         }
 
-        var newAccessToken = tokenService.GenerateAccessToken(user);
+        var newAccessTokenString = tokenService.GenerateAccessTokenString(user);
         var newRefreshToken = tokenService.GenerateRefreshToken(user.Id);
-
-        await refreshTokenRepository.AddAsync(newRefreshToken);
+        
+        existingToken.Update(newRefreshToken);
         await unitOfWork.SaveChangesAsync();
 
-        return new UserSignInResponse(
-            user.Id.ToString(), 
-            user.Email.Value, 
-            newAccessToken, 
-            newRefreshToken.Token);
+        return new UserSignInResponse(newAccessTokenString, newRefreshToken.Token);
     }
 }

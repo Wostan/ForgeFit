@@ -16,6 +16,11 @@ public class RefreshTokenRepository(AppDbContext dbContext) : IRefreshTokenRepos
         return await dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == token);
     }
 
+    public Task<RefreshToken?> GetByUserIdAsync(Guid userId)
+    {
+        return dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.UserId == userId);
+    }
+
     public async Task<bool> ExistsAsync(Guid id)
     {
         return await dbContext.RefreshTokens.AnyAsync(rt => rt.Id == id);

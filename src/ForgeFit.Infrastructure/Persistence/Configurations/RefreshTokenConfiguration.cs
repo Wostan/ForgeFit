@@ -20,9 +20,6 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
         builder.Property(rt => rt.ExpiryDate)
             .IsRequired();
         
-        builder.Property(rt => rt.IsRevoked)
-            .IsRequired();
-        
         builder.Property(rt => rt.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();

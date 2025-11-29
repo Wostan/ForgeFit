@@ -4,6 +4,6 @@ namespace ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices
 
 public interface ITokenService
 {
-    string GenerateAccessToken(User user);
+    string GenerateAccessTokenString(User user);
     RefreshToken GenerateRefreshToken(Guid userId);
 }
