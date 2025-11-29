@@ -17,19 +17,26 @@ public class UserService(
     public async Task<UserProfileDto> GetProfileByIdAsync(Guid id)
     {
         var user = await userRepository.GetByIdAsync(id);
+
+        if (user == null)
+        {
+            throw new NotFoundException("User not found.");
+        }
         
-        return user is null 
-            ? throw new NotFoundException("User not found") 
-            : mapper.Map<UserProfileDto>(user.UserProfile);
+        return mapper.Map<UserProfileDto>(user.UserProfile);
     }
 
     public async Task<UserProfileDto> UpdateProfileByIdAsync(Guid userId, UserProfileDto profile)
     {
         var user = await userRepository.GetByIdAsync(userId);
-        if (user is null)
+        if (user == null)
+        {
             throw new NotFoundException("User not found");
+        }
+
+        var updatedUserProfile = mapper.Map<UserProfile>(profile);
         
-        user.UpdateUserProfile(mapper.Map<UserProfile>(profile));
+        user.UpdateUserProfile(updatedUserProfile);
         await unitOfWork.SaveChangesAsync();
         
         return mapper.Map<UserProfileDto>(user.UserProfile);
@@ -39,13 +46,17 @@ public class UserService(
     {
         var user = await userRepository.GetByIdAsync(userId);
         if (user is null)
+        {
             throw new NotFoundException("User not found");
+        }
         
         var currentPasswordHash = user.PasswordHash;
         var isPasswordValid = passwordHasherService.VerifyPassword(password.CurrentPassword, currentPasswordHash);
         
         if (!isPasswordValid)
+        {
             throw new BadRequestException("Current password is incorrect");
+        }
         
         var newPasswordHash = passwordHasherService.HashPassword(password.NewPassword);
         
