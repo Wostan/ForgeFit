@@ -18,10 +18,6 @@ public class DailyNutritionPlan : ValueObject
         SetWaterMl(waterMl);
     }
     
-    private DailyNutritionPlan()
-    {
-    }
-    
     public int TargetCalories { get; private set; }
     public int Carbs { get; private set; }
     public int Protein { get; private set; }

@@ -12,10 +12,6 @@ public class Weight : ValueObject
         SetWeightUnit(unit);
     }
 
-    private Weight()
-    {
-    }
-
     public double Value { get; private set; }
     public WeightUnit Unit { get; private set; }
 

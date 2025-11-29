@@ -26,10 +26,6 @@ public class WorkoutExercise : ValueObject
         SetInstructions(instructions);
     }
 
-    private WorkoutExercise()
-    {
-    }
-
     public string ExternalId { get; private set; }
     public string Name { get; private set; }
     public Uri? GifUrl { get; private set; }

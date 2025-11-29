@@ -22,8 +22,6 @@ public class FoodItem : ValueObject
         SetServingInfo(servingUnit, amount);
     }
 
-    private FoodItem() { }
-
     public string ExternalId { get; private set; }
     public string Label { get; private set; }
     public double Calories { get; private set; }
