@@ -21,23 +21,25 @@ public class PlanService(
     IWorkoutGoalRepository workoutGoalRepository,
     IUnitOfWork unitOfWork,
     IPlanGenerationService planGenerationService,
-    IMapper mapper
-    ) : IPlanService
+    IMapper mapper) : IPlanService
 {
     public async Task<PlanDto> GeneratePlanAsync(Guid userId)
     {
         var user = await userRepository.GetByIdAsync(userId);
         if (user == null)
+        {
             throw new NotFoundException("User not found.");
+        }
         
         var userProfile = user.UserProfile;
         
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
         if (bodyGoal == null)
+        {
             throw new NotFoundException("Body goal not found.");
+        }
         
-        var (workoutPlan, nutritionPlan) = 
-            planGenerationService.GenerateFullPlan(userProfile, bodyGoal);
+        var (workoutPlan, nutritionPlan) = planGenerationService.GenerateFullPlan(userProfile, bodyGoal);
 
         var nutritionDto = new NutritionGoalResponse(
             Guid.Empty,
@@ -74,7 +76,7 @@ public class PlanService(
         }
         else 
         {
-             var newBody = BodyGoal.Create(
+             var bodyGoal = BodyGoal.Create(
                 userId,
                 plan.BodyGoal.Title,
                 plan.BodyGoal.Description,
@@ -82,7 +84,7 @@ public class PlanService(
                 plan.BodyGoal.DueDate,
                 plan.BodyGoal.GoalType,
                 GoalStatus.InProgress);
-             await bodyGoalRepository.AddAsync(newBody);
+             await bodyGoalRepository.AddAsync(bodyGoal);
         }
 
         var existingNutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
