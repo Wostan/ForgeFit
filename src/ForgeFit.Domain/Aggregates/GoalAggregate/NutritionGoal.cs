@@ -44,7 +44,7 @@ public class NutritionGoal : Entity, ITimeFields
         DailyNutritionPlan = dailyNutritionPlan ?? throw new DomainValidationException("DailyNutritionPlan cannot be null.");
     }
 
-    public void UpdateNutritionGoal(
+    public void Update(
         int calories,
         int carbs,
         int protein,

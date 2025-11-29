@@ -112,46 +112,12 @@ public class BodyGoal : Entity, ITimeFields
         GoalStatus = goalStatus;
     }
 
-    public void Complete()
-    {
-        if (GoalStatus != GoalStatus.InProgress)
-            throw new DomainValidationException("BodyGoal is not in progress.");
-
-        GoalStatus = GoalStatus.Completed;
-    }
-
-    public void Cancel()
-    {
-        if (GoalStatus != GoalStatus.InProgress)
-            throw new DomainValidationException("BodyGoal is not in progress.");
-
-        GoalStatus = GoalStatus.Cancelled;
-    }
-
-    public void Reopen()
-    {
-        if (GoalStatus != GoalStatus.Cancelled)
-            throw new DomainValidationException("BodyGoal is not cancelled.");
-
-        GoalStatus = GoalStatus.InProgress;
-    }
-
-    public void UpdateInfo(string title, string? desc, DateTime? dueDate)
+    public void Update(string title, string? description, DateTime? dueDate, Weight weightGoal, GoalType goalType)
     {
         SetTitle(title);
-        SetDescription(desc);
+        SetDescription(description);
         SetDueDate(dueDate);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void UpdateWeightGoal(Weight weightGoal)
-    {
         SetWeightGoal(weightGoal);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void UpdateGoalType(GoalType goalType)
-    {
         SetGoalType(goalType);
         UpdatedAt = DateTime.UtcNow;
     }

@@ -45,7 +45,7 @@ public class WorkoutGoal : Entity, ITimeFields
         WorkoutPlan = workoutPlan ?? throw new DomainValidationException("WorkoutPlan cannot be null.");
     }
     
-    public void UpdateWorkoutGoal(
+    public void Update(
         int workoutsPerWeek,
         TimeSpan duration, 
         WorkoutType workoutType)

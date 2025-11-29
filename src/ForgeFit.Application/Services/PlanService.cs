@@ -65,9 +65,12 @@ public class PlanService(
         var existingBodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
         if (existingBodyGoal != null) 
         {
-            existingBodyGoal.UpdateInfo(plan.BodyGoal.Title, plan.BodyGoal.Description, plan.BodyGoal.DueDate);
-            existingBodyGoal.UpdateGoalType(plan.BodyGoal.GoalType);
-            existingBodyGoal.UpdateWeightGoal(new Weight(plan.BodyGoal.WeightGoal, plan.BodyGoal.WeightUnit));
+            existingBodyGoal.Update(
+                plan.BodyGoal.Title,
+                plan.BodyGoal.Description,
+                plan.BodyGoal.DueDate,
+                new Weight(plan.BodyGoal.WeightGoal, plan.BodyGoal.WeightUnit),
+                plan.BodyGoal.GoalType);
         }
         else 
         {
@@ -85,7 +88,7 @@ public class PlanService(
         var existingNutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
         if (existingNutritionGoal != null)
         {
-             existingNutritionGoal.UpdateNutritionGoal(
+             existingNutritionGoal.Update(
                 plan.NutritionGoal.Calories,
                 plan.NutritionGoal.Carbs,
                 plan.NutritionGoal.Protein,
@@ -108,7 +111,7 @@ public class PlanService(
         var existingWorkoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
         if (existingWorkoutGoal != null)
         {
-            existingWorkoutGoal.UpdateWorkoutGoal(
+            existingWorkoutGoal.Update(
                 plan.WorkoutGoal.WorkoutsPerWeek,
                 plan.WorkoutGoal.Duration,
                 plan.WorkoutGoal.WorkoutType);

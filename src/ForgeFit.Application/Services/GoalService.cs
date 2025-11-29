@@ -20,28 +20,37 @@ public class GoalService(
     public async Task<BodyGoalResponse> GetBodyGoalAsync(Guid userId)
     {
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
+
+        if (bodyGoal == null)
+        {
+            throw new NotFoundException("Body goal not found");
+        }
         
-        return bodyGoal is null 
-            ? throw new NotFoundException("Body goal not found") 
-            : mapper.Map<BodyGoalResponse>(bodyGoal);
+        return mapper.Map<BodyGoalResponse>(bodyGoal);
     }
 
     public async Task<NutritionGoalResponse> GetNutritionGoalAsync(Guid userId)
     {
         var nutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
-        
-        return nutritionGoal is null 
-            ? throw new NotFoundException("Nutrition goal not found") 
-            : mapper.Map<NutritionGoalResponse>(nutritionGoal);
+
+        if (nutritionGoal is null)
+        {
+            throw new NotFoundException("Nutrition goal not found");
+        }
+
+        return mapper.Map<NutritionGoalResponse>(nutritionGoal);
     }
 
     public async Task<WorkoutGoalResponse> GetWorkoutGoalAsync(Guid userId)
     {
         var workoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
+
+        if (workoutGoal is null)
+        {
+            throw new NotFoundException("Workout goal not found");
+        }
         
-        return workoutGoal is null 
-            ? throw new NotFoundException("Workout goal not found") 
-            : mapper.Map<WorkoutGoalResponse>(workoutGoal);
+        return mapper.Map<WorkoutGoalResponse>(workoutGoal);
     }
     
     public async Task<BodyGoalResponse> CreateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoalRequest)
@@ -65,16 +74,16 @@ public class GoalService(
     {
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
         if (bodyGoal is null)
+        {
             throw new NotFoundException("Body goal not found");
+        }
         
-        bodyGoal.UpdateInfo(
-            bodyGoalRequest.Title, 
-            bodyGoalRequest.Description, 
-            bodyGoalRequest.DueDate);
-        bodyGoal.UpdateGoalType(bodyGoalRequest.GoalType);
-        
-        var newWeightGoal = new Weight(bodyGoalRequest.WeightGoal, bodyGoalRequest.WeightUnit);
-        bodyGoal.UpdateWeightGoal(newWeightGoal);
+        bodyGoal.Update(
+            bodyGoalRequest.Title,
+            bodyGoalRequest.Description,
+            bodyGoalRequest.DueDate,
+            new Weight(bodyGoalRequest.WeightGoal, bodyGoalRequest.WeightUnit),
+            bodyGoalRequest.GoalType);
         
         await unitOfWork.SaveChangesAsync();
         
@@ -87,9 +96,11 @@ public class GoalService(
     {
         var nutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
         if (nutritionGoal is null)
+        {
             throw new NotFoundException("Nutrition goal not found");
+        }
         
-        nutritionGoal.UpdateNutritionGoal(
+        nutritionGoal.Update(
             nutritionGoalRequest.Calories,
             nutritionGoalRequest.Carbs,
             nutritionGoalRequest.Protein,
@@ -107,9 +118,11 @@ public class GoalService(
     {
         var workoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
         if (workoutGoal is null)
+        {
             throw new NotFoundException("Workout goal not found");
+        }
         
-        workoutGoal.UpdateWorkoutGoal(
+        workoutGoal.Update(
             workoutGoalRequest.WorkoutsPerWeek,
             workoutGoalRequest.Duration,
             workoutGoalRequest.WorkoutType);
