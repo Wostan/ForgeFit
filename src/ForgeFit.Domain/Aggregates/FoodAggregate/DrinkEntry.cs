@@ -6,9 +6,7 @@ namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 
 public class DrinkEntry : Entity, ITimeFields
 {
-    internal DrinkEntry(
-        Guid userId,
-        int volumeMl)
+    internal DrinkEntry(Guid userId, int volumeMl)
     {
         SetUserId(userId);
         SetVolumeMl(volumeMl);
@@ -26,6 +24,11 @@ public class DrinkEntry : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
+
+    public static DrinkEntry Create(Guid userId, int volumeMl)
+    {
+        return new DrinkEntry(userId, volumeMl);
+    }
 
     private void SetUserId(Guid userId)
     {

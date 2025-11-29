@@ -4,10 +4,7 @@ namespace ForgeFit.Domain.Aggregates.UserAggregate;
 
 public class RefreshToken : Entity, ITimeFields
 {
-    internal RefreshToken(
-        Guid userId, 
-        string token, 
-        DateTime expiryDate)
+    internal RefreshToken(Guid userId, string token, DateTime expiryDate)
     {
         UserId = userId;
         Token = token;
@@ -29,10 +26,7 @@ public class RefreshToken : Entity, ITimeFields
     // Navigation property
     public User User { get; private set; }
     
-    public static RefreshToken Create(
-        Guid userId, 
-        string token, 
-        DateTime expiryDate)
+    public static RefreshToken Create(Guid userId, string token, DateTime expiryDate)
     {
         return new RefreshToken(userId, token, expiryDate);
     }

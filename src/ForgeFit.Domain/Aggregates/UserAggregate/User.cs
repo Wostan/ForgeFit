@@ -7,10 +7,7 @@ namespace ForgeFit.Domain.Aggregates.UserAggregate;
 
 public class User : Entity, ITimeFields
 {
-    internal User(
-        UserProfile userProfile,
-        Email email,
-        string passwordHash)
+    internal User(UserProfile userProfile, Email email, string passwordHash)
     {
         SetUserProfile(userProfile);
         SetEmail(email);

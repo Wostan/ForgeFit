@@ -6,9 +6,7 @@ namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
 public class WorkoutEntry : Entity
 {
-    internal WorkoutEntry(
-        Guid workoutProgramId,
-        Schedule workoutSchedule
+    internal WorkoutEntry(Guid workoutProgramId, Schedule workoutSchedule
     )
     {
         SetWorkoutProgramId(workoutProgramId);
@@ -26,6 +24,11 @@ public class WorkoutEntry : Entity
 
     // Navigation properties
     public WorkoutProgram WorkoutProgram { get; private set; }
+    
+    public static WorkoutEntry Create(Guid workoutProgramId, Schedule workoutSchedule)
+    {
+        return new WorkoutEntry(workoutProgramId, workoutSchedule);
+    }
 
     private void SetWorkoutProgramId(Guid workoutProgramId)
     {
