@@ -6,6 +6,8 @@ namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
 public class WorkoutProgram : Entity, ITimeFields
 {
+    private readonly List<WorkoutExercisePlan> _workoutExercisePlans = [];
+    
     internal WorkoutProgram(
         Guid userId,
         string name,
@@ -33,7 +35,7 @@ public class WorkoutProgram : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
-    public ICollection<WorkoutExercisePlan> WorkoutExercisePlans { get; private set; }
+    public IReadOnlyCollection<WorkoutExercisePlan> WorkoutExercisePlans => _workoutExercisePlans.AsReadOnly();
     
     public static WorkoutProgram Create(
         Guid userId,
@@ -47,7 +49,9 @@ public class WorkoutProgram : Entity, ITimeFields
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
+        {
             throw new DomainValidationException("UserId cannot be empty.");
+        }
 
         UserId = userId;
     }
@@ -55,9 +59,13 @@ public class WorkoutProgram : Entity, ITimeFields
     private void SetName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
+        {
             throw new DomainValidationException("Name cannot be null or whitespace.");
+        }
         if (name.Length > 50)
+        {
             throw new DomainValidationException("Name must be less than 50 characters long.");
+        }
 
         Name = name;
     }
@@ -65,33 +73,48 @@ public class WorkoutProgram : Entity, ITimeFields
     private void SetDescription(string? description)
     {
         if (description is not null && description.Length > 300)
+        {
             throw new DomainValidationException("Description must be less than 300 characters long.");
+        }
 
         Description = description;
     }
 
     private void SetWorkoutExercises(ICollection<WorkoutExercisePlan> workoutExercises)
     {
-        WorkoutExercisePlans = workoutExercises ??
-                               throw new DomainValidationException("Workout exercises cannot be null.");
+        if (workoutExercises is null)
+        {
+            throw new DomainValidationException("Workout exercises cannot be null.");
+        }
+
+        _workoutExercisePlans.Clear();
+        
+        if (workoutExercises.Count != 0)
+        {
+            _workoutExercisePlans.AddRange(workoutExercises);
+        }
     }
 
-    public void AddWorkoutExercise(WorkoutExercisePlan workoutExercise)
+    public void AddWorkoutExercises(ICollection<WorkoutExercisePlan> workoutExercises)
     {
-        if (workoutExercise is null)
-            throw new DomainValidationException("Workout exercise cannot be null.");
-
-        WorkoutExercisePlans.Add(workoutExercise);
+        if (workoutExercises is null)
+        {
+            throw new DomainValidationException("Workout exercises cannot be null.");
+        }
+        
+        _workoutExercisePlans.AddRange(workoutExercises);
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void RemoveWorkoutExercise(WorkoutExercisePlan workoutExercise)
     {
         var item = WorkoutExercisePlans.FirstOrDefault(w => w.Id == workoutExercise.Id);
-        if (item is null)
+        if (item == null)
+        {
             throw new DomainValidationException("Workout exercise not found.");
+        }
 
-        WorkoutExercisePlans.Remove(workoutExercise);
+        _workoutExercisePlans.Remove(item);
         UpdatedAt = DateTime.UtcNow;
     }
     
@@ -109,7 +132,9 @@ public class WorkoutProgram : Entity, ITimeFields
     public void SoftDelete()
     {
         if (IsDeleted)
+        {
             throw new DomainValidationException("Workout program is already deleted.");
+        }
 
         IsDeleted = true;
         UpdatedAt = DateTime.UtcNow;
