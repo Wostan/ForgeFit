@@ -6,7 +6,6 @@ using ForgeFit.Application.DTOs.Auth;
 using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
-using MapsterMapper;
 
 namespace ForgeFit.Application.Services;
 
@@ -48,7 +47,6 @@ public class AuthService(
         );
         
         await userRepository.AddAsync(user);
-        await unitOfWork.SaveChangesAsync();
 
         var accessTokenString = tokenService.GenerateAccessTokenString(user);
         var refreshToken = tokenService.GenerateRefreshToken(user.Id);

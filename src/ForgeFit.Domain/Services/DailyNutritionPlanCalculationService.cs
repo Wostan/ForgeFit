@@ -1,7 +1,6 @@
 ﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
 using ForgeFit.Domain.Enums.GoalEnums;
 using ForgeFit.Domain.Enums.ProfileEnums;
-using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Domain.Primitives.Interfaces;
 using ForgeFit.Domain.ValueObjects.GoalValueObjects;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;

@@ -1,6 +1,5 @@
 ﻿using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
-using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
