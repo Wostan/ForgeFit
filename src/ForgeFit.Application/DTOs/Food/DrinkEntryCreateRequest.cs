@@ -1,3 +1,3 @@
 ﻿namespace ForgeFit.Application.DTOs.Food;
 
-public record DrinkEntryCreateRequest(int VolumeMl);
+public record DrinkEntryCreateRequest(int VolumeMl, DateTime Date);
