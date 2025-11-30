@@ -12,10 +12,6 @@ public class Frequency : ValueObject
         SetFrequencyUnit(frequencyUnit);
     }
 
-    private Frequency()
-    {
-    }
-
     public int Interval { get; private set; }
     public FrequencyUnit FrequencyUnit { get; private set; }
 

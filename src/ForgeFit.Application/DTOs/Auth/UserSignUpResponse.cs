@@ -1,7 +1,5 @@
 ﻿namespace ForgeFit.Application.DTOs.Auth;
 
 public record UserSignUpResponse(
-    string Id, 
-    string Email,
-    string Username, 
-    string? AvatarUri);
+    string AccessToken,
+    string RefreshToken);

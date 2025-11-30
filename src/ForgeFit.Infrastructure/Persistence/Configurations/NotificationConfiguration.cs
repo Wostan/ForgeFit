@@ -6,11 +6,15 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
-        builder.ToTable("Notifications")
-            .HasCheckConstraint("CK_Notifications_NotificationTypeCheck", "NotificationType IN (1, 2, 3, 4, 5)");
+        builder.ToTable("Notifications", tableBuilder =>
+        {
+            tableBuilder.HasCheckConstraint("CK_Notifications_NotificationTypeCheck", "NotificationType IN (1, 2, 3, 4, 5)");
+            tableBuilder.HasCheckConstraint("CK_Notifications_Frequency_FrequencyUnitCheck",
+                "Frequency_FrequencyUnit IN (1, 2, 3)");
+            tableBuilder.HasCheckConstraint("CK_Notifications_Frequency_IntervalCheck", "Frequency_Interval > 0");
+        });
         
         builder.HasKey(n => n.Id);
         
@@ -39,11 +43,8 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
             .IsRequired();
         
         // ValueObject properties
-        builder.OwnsOne(h => h.Frequency, freq =>
+        builder.OwnsOne(n => n.Frequency, freq =>
         {
-            freq.HasCheckConstraint("CK_Notifications_Frequency_FrequencyUnitCheck", "Frequency_FrequencyUnit IN (1, 2, 3)")
-                .HasCheckConstraint("CK_Notifications_Frequency_IntervalCheck", "Frequency_Interval > 0");
-            
             freq.Property(f => f.FrequencyUnit)
                 .HasConversion<int>()
                 .IsRequired();

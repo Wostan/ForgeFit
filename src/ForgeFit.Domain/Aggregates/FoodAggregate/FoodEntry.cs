@@ -8,13 +8,19 @@ namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 
 public class FoodEntry : Entity, ITimeFields
 {
+    private readonly HashSet<FoodItem> _foodItems = [];
+    
     internal FoodEntry(
         Guid userId,
-        DayTime dayTime
+        DayTime dayTime,
+        DateTime date,
+        HashSet<FoodItem> foodItems
     )
     {
         SetUserId(userId);
         SetDayTime(dayTime);
+        SetDate(date);
+        SetFoodItems(foodItems);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -23,22 +29,28 @@ public class FoodEntry : Entity, ITimeFields
     }
 
     public Guid UserId { get; private set; }
-    public int Calories { get; private set; }
-    public int Carbs { get; private set; }
-    public int Protein { get; private set; }
-    public int Fat { get; private set; }
+    public double Calories { get; private set; }
+    public double Carbs { get; private set; }
+    public double Protein { get; private set; }
+    public double Fat { get; private set; }
     public DayTime DayTime { get; private set; }
+    public DateTime Date { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
 
     // Navigation properties
     public User User { get; private set; }
-    public HashSet<FoodItem> FoodItems { get; private set; }
+    public IReadOnlyCollection<FoodItem> FoodItems => _foodItems;
+    
+    public static FoodEntry Create(Guid userId, DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
+    {
+        return new FoodEntry(userId, dayTime, date, foodItems);
+    }
 
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
-            throw new DomainValidationException("WorkoutProgramId cannot be empty.");
+            throw new DomainValidationException("UserId cannot be empty.");
 
         UserId = userId;
     }
@@ -50,28 +62,36 @@ public class FoodEntry : Entity, ITimeFields
 
         DayTime = dayTime;
     }
-
-    public void UpdateFoodItem(HashSet<FoodItem> foodItems)
+    
+    private void SetDate(DateTime date)
     {
-        FoodItems = foodItems ?? throw new DomainValidationException("Food items cannot be null.");
+        Date = date;
+    }
+    
+    private void SetFoodItems(HashSet<FoodItem> foodItems)
+    {
+        _foodItems.Clear();
+        
+        foreach (var item in foodItems)
+        {
+            _foodItems.Add(item);
+        }
+        
         RecalculateTotals();
     }
 
-    public void RemoveFoodItem(string foodItemId)
+    public void Update(DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
     {
-        var item = FoodItems.FirstOrDefault(f => f.ExternalId == foodItemId);
-        if (item is null)
-            throw new DomainValidationException("Food item not found.");
-
-        FoodItems.Remove(item);
-        RecalculateTotals();
+        SetDayTime(dayTime);
+        SetDate(date);
+        SetFoodItems(foodItems);
     }
 
     private void RecalculateTotals()
     {
         Calories = FoodItems.Sum(i => i.Calories);
-        Protein = FoodItems.Sum(i => i.Protein);
         Carbs = FoodItems.Sum(i => i.Carbs);
+        Protein = FoodItems.Sum(i => i.Protein);
         Fat = FoodItems.Sum(i => i.Fat);
 
         UpdatedAt = DateTime.UtcNow;

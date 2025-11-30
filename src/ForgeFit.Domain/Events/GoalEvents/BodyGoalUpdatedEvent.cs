@@ -1,5 +1,4 @@
-﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
-using ForgeFit.Domain.Enums.GoalEnums;
+﻿using ForgeFit.Domain.Enums.GoalEnums;
 using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects;
 

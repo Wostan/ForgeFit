@@ -7,10 +7,7 @@ namespace ForgeFit.Domain.Aggregates.UserAggregate;
 
 public class User : Entity, ITimeFields
 {
-    internal User(
-        UserProfile userProfile,
-        Email email,
-        string passwordHash)
+    internal User(UserProfile userProfile, Email email, string passwordHash)
     {
         SetUserProfile(userProfile);
         SetEmail(email);
@@ -27,6 +24,11 @@ public class User : Entity, ITimeFields
     public string PasswordHash { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public static User Create(UserProfile userProfile, Email email, string passwordHash)
+    {
+        return new User(userProfile, email, passwordHash);
+    }
 
     private void SetUserProfile(UserProfile userProfile)
     {

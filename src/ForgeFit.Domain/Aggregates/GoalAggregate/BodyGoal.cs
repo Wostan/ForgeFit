@@ -43,6 +43,18 @@ public class BodyGoal : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
+    
+    public static BodyGoal Create(
+        Guid userId,
+        string title,
+        string? description,
+        Weight weightGoal,
+        DateTime? dueDate,
+        GoalType goalType,
+        GoalStatus goalStatus)
+    {
+        return new BodyGoal(userId, title, description, weightGoal, dueDate, goalType, goalStatus);
+    }
 
     private void SetUserId(Guid userId)
     {
@@ -100,49 +112,12 @@ public class BodyGoal : Entity, ITimeFields
         GoalStatus = goalStatus;
     }
 
-    public void Complete()
-    {
-        if (GoalStatus != GoalStatus.InProgress)
-            throw new DomainValidationException("BodyGoal is not in progress.");
-
-        GoalStatus = GoalStatus.Completed;
-    }
-
-    public void Cancel()
-    {
-        if (GoalStatus != GoalStatus.InProgress)
-            throw new DomainValidationException("BodyGoal is not in progress.");
-
-        GoalStatus = GoalStatus.Cancelled;
-    }
-
-    public void Reopen()
-    {
-        if (GoalStatus != GoalStatus.Cancelled)
-            throw new DomainValidationException("BodyGoal is not cancelled.");
-
-        GoalStatus = GoalStatus.InProgress;
-    }
-
-    public void UpdateInfo(string title, string? desc, DateTime? dueDate)
+    public void Update(string title, string? description, DateTime? dueDate, Weight weightGoal, GoalType goalType)
     {
         SetTitle(title);
-        SetDescription(desc);
+        SetDescription(description);
         SetDueDate(dueDate);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void ChangeWeightGoal(Weight weightGoal)
-    {
-        if (WeightGoal.ToKg() == weightGoal.ToKg())
-            throw new DomainValidationException("Weight goal is the same.");
-
         SetWeightGoal(weightGoal);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void UpdateGoalType(GoalType goalType)
-    {
         SetGoalType(goalType);
         UpdatedAt = DateTime.UtcNow;
     }

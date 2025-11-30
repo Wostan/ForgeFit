@@ -1,28 +1,50 @@
-using ForgeFit.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using ForgeFit.Api.Extensions;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                       ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        connectionString, 
-        sql => sql.MigrationsAssembly("ForgeFit.Infrastructure")
-    ));
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    Log.Information("Starting ForgeFit api");
+
+    var builder = WebApplication.CreateBuilder(args);
+    
+    builder.Host.UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services));
+
+    builder.Services
+        .AddValidation()
+        .AddApi()
+        .AddJwtAuthentication(builder.Configuration)
+        .AddSwaggerDocumentation()
+        .AddApplication()
+        .AddLowercaseUrls()
+        .AddEnumConverter()
+        .AddInfrastructure(builder.Configuration);
+
+    var app = builder.Build();
+    
+    app.UseExceptionHandling();
+    app.UseSerilogRequestLogging(); 
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseApi();
+
+    app.Run();
 }
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

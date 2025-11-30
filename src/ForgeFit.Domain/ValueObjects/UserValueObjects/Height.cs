@@ -12,10 +12,6 @@ public class Height : ValueObject
         SetHeightUnit(unit);
     }
 
-    private Height()
-    {
-    }
-
     public double Value { get; private set; }
     public HeightUnit Unit { get; private set; }
 
