@@ -42,7 +42,7 @@ public class UserService(
         return mapper.Map<UserProfileDto>(user.UserProfile);
     }
 
-    public async Task ChangePasswordByIdAsync(Guid userId, ChangePasswordRequest password)
+    public async Task ChangePasswordByIdAsync(Guid userId, ChangePasswordRequest request)
     {
         var user = await userRepository.GetByIdAsync(userId);
         if (user is null)
@@ -51,14 +51,14 @@ public class UserService(
         }
         
         var currentPasswordHash = user.PasswordHash;
-        var isPasswordValid = passwordHasherService.VerifyPassword(password.CurrentPassword, currentPasswordHash);
+        var isPasswordValid = passwordHasherService.VerifyPassword(request.CurrentPassword, currentPasswordHash);
         
         if (!isPasswordValid)
         {
             throw new BadRequestException("Current password is incorrect");
         }
         
-        var newPasswordHash = passwordHasherService.HashPassword(password.NewPassword);
+        var newPasswordHash = passwordHasherService.HashPassword(request.NewPassword);
         
         user.UpdatePasswordHash(newPasswordHash);
         await unitOfWork.SaveChangesAsync();

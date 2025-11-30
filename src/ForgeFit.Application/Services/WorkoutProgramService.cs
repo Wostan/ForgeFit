@@ -133,7 +133,7 @@ public class WorkoutProgramService(
             userId,
             sDto.Order,
             sDto.Reps,
-            sDto.restTime,
+            sDto.RestTime,
             sDto.Weight
         )).ToList();
 

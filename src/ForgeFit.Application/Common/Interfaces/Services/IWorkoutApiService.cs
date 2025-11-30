@@ -5,7 +5,7 @@ namespace ForgeFit.Application.Common.Interfaces.Services;
 
 public interface IWorkoutApiService
 {
-    Task<List<WorkoutExerciseSearchDto>> SearchAsync(
+    Task<List<WorkoutExerciseSearchResponse>> SearchAsync(
         string query,
         List<Muscle>? muscles,
         List<BodyPart>? bodyParts,

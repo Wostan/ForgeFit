@@ -2,7 +2,7 @@
 
 namespace ForgeFit.Application.DTOs.Workout;
 
-public record WorkoutExerciseSearchDto(
+public record WorkoutExerciseSearchResponse(
     string ExternalId,
     string Name,
     List<Muscle> TargetMuscles,

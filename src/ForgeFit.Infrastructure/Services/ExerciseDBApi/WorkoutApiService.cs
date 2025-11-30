@@ -10,7 +10,7 @@ namespace ForgeFit.Infrastructure.Services.ExerciseDBApi;
 
 public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
 {
-    public async Task<List<WorkoutExerciseSearchDto>> SearchAsync(
+    public async Task<List<WorkoutExerciseSearchResponse>> SearchAsync(
         string query, 
         List<Muscle>? muscles, 
         List<BodyPart>? bodyParts, 
@@ -55,7 +55,7 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
             return [];
         }
 
-        return apiResponse.Data.Select(item => new WorkoutExerciseSearchDto(
+        return apiResponse.Data.Select(item => new WorkoutExerciseSearchResponse(
             item.ExerciseId,
             item.Name,
             ParseEnums<Muscle>(item.TargetMuscles),
