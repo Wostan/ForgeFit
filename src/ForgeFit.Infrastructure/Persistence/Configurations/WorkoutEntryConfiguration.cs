@@ -44,6 +44,9 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
             performedExercises.WithOwner()
                 .HasForeignKey("WorkoutEntryId");
             
+            performedExercises.Property<int>("Id");
+            performedExercises.HasKey("WorkoutEntryId", "Id");
+            
             performedExercises.OwnsOne(pe => pe.Snapshot, snap =>
             {
                 snap.Property(e => e.ExternalId)
@@ -98,15 +101,15 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
                 sets.ToTable("PerformedSets");
                 
                 sets.WithOwner()
-                    .HasForeignKey("PerformedExerciseId");
+                    .HasForeignKey("WorkoutEntryId", "PerformedExerciseId");
+                
+                sets.Property<int>("Id");
+                sets.HasKey("WorkoutEntryId", "PerformedExerciseId", "Id");
                 
                 sets.Property(s => s.Order)
                     .IsRequired();
                 
                 sets.Property(s => s.Reps)
-                    .IsRequired();
-                
-                sets.Property(s => s.Weight)
                     .IsRequired();
                 
                 sets.Property(s => s.IsCompleted)

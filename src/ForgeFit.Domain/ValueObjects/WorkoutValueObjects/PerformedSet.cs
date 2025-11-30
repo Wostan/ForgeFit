@@ -12,6 +12,10 @@ public class PerformedSet : ValueObject
         SetWeight(weight);
         IsCompleted = isCompleted;
     }
+    
+    private PerformedSet()
+    {
+    }
 
     public int Order { get; private set; }
     public int Reps { get; private set; }

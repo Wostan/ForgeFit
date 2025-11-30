@@ -81,7 +81,8 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
                 .IsRequired()
                 .HasDefaultValue(100);
 
-            item.HasKey("ExternalId", "FoodEntryId");
+            item.Property<int>("Id");
+            item.HasKey("Id");
             
             item.HasIndex("FoodEntryId");
         });

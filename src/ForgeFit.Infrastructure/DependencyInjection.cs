@@ -57,8 +57,6 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasherService, PasswordHasherService>();
         services.AddScoped<ITokenService, TokenService>();
         
-        services.AddScoped<IFoodApiService, FoodApiService>();
-        
         return services;
     }
 }

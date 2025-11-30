@@ -10,6 +10,10 @@ public class PerformedExercise : ValueObject
         SetSnapshot(snapshot);
         SetSets(sets);
     }
+    
+    private PerformedExercise()
+    {
+    }
 
     public WorkoutExercise Snapshot { get; private set; }
     

@@ -8,6 +8,8 @@ namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 
 public class FoodEntry : Entity, ITimeFields
 {
+    private readonly HashSet<FoodItem> _foodItems = [];
+    
     internal FoodEntry(
         Guid userId,
         DayTime dayTime,
@@ -38,7 +40,7 @@ public class FoodEntry : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
-    public HashSet<FoodItem> FoodItems { get; private set; }
+    public IReadOnlyCollection<FoodItem> FoodItems => _foodItems;
     
     public static FoodEntry Create(Guid userId, DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
     {
@@ -68,13 +70,13 @@ public class FoodEntry : Entity, ITimeFields
     
     private void SetFoodItems(HashSet<FoodItem> foodItems)
     {
-        FoodItems = foodItems ?? throw new DomainValidationException("Food items cannot be null.");
-        RecalculateTotals();
-    }
-
-    public void UpdateFoodItems(HashSet<FoodItem> foodItems)
-    {
-        FoodItems = foodItems ?? throw new DomainValidationException("Food items cannot be null.");
+        _foodItems.Clear();
+        
+        foreach (var item in foodItems)
+        {
+            _foodItems.Add(item);
+        }
+        
         RecalculateTotals();
     }
 
@@ -82,7 +84,7 @@ public class FoodEntry : Entity, ITimeFields
     {
         SetDayTime(dayTime);
         SetDate(date);
-        UpdateFoodItems(foodItems);
+        SetFoodItems(foodItems);
     }
 
     private void RecalculateTotals()

@@ -23,6 +23,10 @@ public class UserProfile : ValueObject
         SetHeight(height);
     }
 
+    private UserProfile()
+    {
+    }
+
     public string Username { get; private set; }
     public Uri? AvatarUrl { get; private set; }
     public DateOfBirth DateOfBirth { get; private set; }

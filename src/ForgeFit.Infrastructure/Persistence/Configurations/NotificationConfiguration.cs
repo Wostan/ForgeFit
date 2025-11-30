@@ -43,7 +43,7 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
             .IsRequired();
         
         // ValueObject properties
-        builder.OwnsOne(h => h.Frequency, freq =>
+        builder.OwnsOne(n => n.Frequency, freq =>
         {
             freq.Property(f => f.FrequencyUnit)
                 .HasConversion<int>()
