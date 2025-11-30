@@ -3,10 +3,10 @@ using ForgeFit.Api.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddValidation()
     .AddApi()
     .AddJwtAuthentication(builder.Configuration)
     .AddSwaggerDocumentation()
-    .AddValidation()
     .AddApplication()
     .AddLowercaseUrls()
     .AddEnumConverter()
