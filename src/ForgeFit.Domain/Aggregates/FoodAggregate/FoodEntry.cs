@@ -72,20 +72,17 @@ public class FoodEntry : Entity, ITimeFields
         RecalculateTotals();
     }
 
-    public void UpdateFoodItem(HashSet<FoodItem> foodItems)
+    public void UpdateFoodItems(HashSet<FoodItem> foodItems)
     {
         FoodItems = foodItems ?? throw new DomainValidationException("Food items cannot be null.");
         RecalculateTotals();
     }
 
-    public void RemoveFoodItem(string foodItemId)
+    public void Update(DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
     {
-        var item = FoodItems.FirstOrDefault(f => f.ExternalId == foodItemId);
-        if (item is null)
-            throw new DomainValidationException("Food item not found.");
-
-        FoodItems.Remove(item);
-        RecalculateTotals();
+        SetDayTime(dayTime);
+        SetDate(date);
+        UpdateFoodItems(foodItems);
     }
 
     private void RecalculateTotals()
