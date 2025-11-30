@@ -41,6 +41,8 @@ public static class DependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IWorkoutProgramRepository, WorkoutProgramRepository>();
         services.AddScoped<IWorkoutEntryRepository, WorkoutEntryRepository>();
+        services.AddScoped<IFoodEntryRepository, FoodEntryRepository>();
+        services.AddScoped<IDrinkEntryRepository, DrinkEntryRepository>();
         
         // Http Clients
         services.AddHttpClient<IFatSecretTokenService, FatSecretTokenService>();

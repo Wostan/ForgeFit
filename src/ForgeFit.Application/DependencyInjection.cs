@@ -24,6 +24,8 @@ public static class DependencyInjection
         services.AddScoped<IPlanService, PlanService>();
         services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
         services.AddScoped<IWorkoutTrackingService, WorkoutTrackingService>();
+        services.AddScoped<IFoodTrackingService, FoodTrackingService>();
+        services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
         
         // Mapper
         var config = TypeAdapterConfig.GlobalSettings;
