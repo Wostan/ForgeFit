@@ -19,6 +19,9 @@ public class DrinkEntryConfiguration : IEntityTypeConfiguration<DrinkEntry>
         builder.Property(de => de.VolumeMl)
             .IsRequired();
         
+        builder.Property(de => de.Date)
+            .IsRequired();
+        
         builder.Property(de => de.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
