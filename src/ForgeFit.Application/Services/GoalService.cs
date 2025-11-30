@@ -26,6 +26,11 @@ public class GoalService(
             throw new NotFoundException("Body goal not found");
         }
         
+        if (userId != bodyGoal.UserId)
+        {
+            throw new UnauthorizedAccessException("You do not own this body goal");
+        }
+        
         return mapper.Map<BodyGoalResponse>(bodyGoal);
     }
 
@@ -36,6 +41,11 @@ public class GoalService(
         if (nutritionGoal is null)
         {
             throw new NotFoundException("Nutrition goal not found");
+        }
+        
+        if (userId != nutritionGoal.UserId)
+        {
+            throw new UnauthorizedAccessException("You do not own this nutrition goal");
         }
 
         return mapper.Map<NutritionGoalResponse>(nutritionGoal);
@@ -48,6 +58,11 @@ public class GoalService(
         if (workoutGoal is null)
         {
             throw new NotFoundException("Workout goal not found");
+        }
+        
+        if (userId != workoutGoal.UserId)
+        {
+            throw new UnauthorizedAccessException("You do not own this workout goal");
         }
         
         return mapper.Map<WorkoutGoalResponse>(workoutGoal);
@@ -78,6 +93,11 @@ public class GoalService(
             throw new NotFoundException("Body goal not found");
         }
         
+        if (userId != bodyGoal.UserId)
+        {
+            throw new UnauthorizedAccessException("You do not own this body goal");
+        }
+        
         bodyGoal.Update(
             bodyGoalRequest.Title,
             bodyGoalRequest.Description,
@@ -100,6 +120,11 @@ public class GoalService(
             throw new NotFoundException("Nutrition goal not found");
         }
         
+        if (userId != nutritionGoal.UserId)
+        {
+            throw new UnauthorizedAccessException("You do not own this nutrition goal");
+        }
+        
         nutritionGoal.Update(
             nutritionGoalRequest.Calories,
             nutritionGoalRequest.Carbs,
@@ -120,6 +145,11 @@ public class GoalService(
         if (workoutGoal is null)
         {
             throw new NotFoundException("Workout goal not found");
+        }
+        
+        if (userId != workoutGoal.UserId)
+        {
+            throw new UnauthorizedAccessException("You do not own this workout goal");
         }
         
         workoutGoal.Update(

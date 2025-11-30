@@ -107,7 +107,7 @@ public class WorkoutProgramService(
         {
             throw new NotFoundException("Workout program not found");
         }
-
+        
         if (program.UserId != userId)
         {
             throw new UnauthorizedAccessException("You do not own this program");

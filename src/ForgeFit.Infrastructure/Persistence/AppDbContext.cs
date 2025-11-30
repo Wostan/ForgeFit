@@ -15,6 +15,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<WorkoutProgram> WorkoutPrograms { get; set; }
     public DbSet<WorkoutExercisePlan> WorkoutExercisePlans { get; set; }
     public DbSet<WorkoutSet> WorkoutSets { get; set; }
+    public DbSet<WorkoutEntry> WorkoutEntries { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
