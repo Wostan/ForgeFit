@@ -1,22 +1,16 @@
 ﻿using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
+using ForgeFit.Domain.ValueObjects.GoalValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
 public class NutritionGoal : Entity, ITimeFields
 {
-    internal NutritionGoal(
-        Guid userId,
-        int calories,
-        int carbs,
-        int protein,
-        int fat,
-        int waterGoalMl)
+    internal NutritionGoal(Guid userId, DailyNutritionPlan dailyNutritionPlan)
     {
         SetUserId(userId);
-        SetNutritionGoal(calories, protein, carbs, fat);
-        SetWaterGoalMl(waterGoalMl);
+        SetDailyNutritionPlan(dailyNutritionPlan);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -25,26 +19,16 @@ public class NutritionGoal : Entity, ITimeFields
     }
 
     public Guid UserId { get; private set; }
-    public int Calories { get; private set; }
-    public int Carbs { get; private set; }
-    public int Protein { get; private set; }
-    public int Fat { get; private set; }
-    public int WaterGoalMl { get; private set; }
+    public DailyNutritionPlan DailyNutritionPlan { get; private set; }
 
     // Navigation properties
     public User User { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
     
-    public static NutritionGoal Create(
-        Guid userId,
-        int calories,
-        int carbs,
-        int protein,
-        int fat,
-        int waterGoalMl)
+    public static NutritionGoal Create(Guid userId, DailyNutritionPlan dailyNutritionPlan)
     {
-        return new NutritionGoal(userId, calories, protein, carbs, fat, waterGoalMl);
+        return new NutritionGoal(userId, dailyNutritionPlan);
     }
 
     private void SetUserId(Guid userId)
@@ -54,43 +38,20 @@ public class NutritionGoal : Entity, ITimeFields
 
         UserId = userId;
     }
+    
+    private void SetDailyNutritionPlan(DailyNutritionPlan dailyNutritionPlan)
+    {
+        DailyNutritionPlan = dailyNutritionPlan ?? throw new DomainValidationException("DailyNutritionPlan cannot be null.");
+    }
 
-    private void SetNutritionGoal(
+    public void Update(
         int calories,
-        int protein,
         int carbs,
-        int fat)
-    {
-        if (calories <= 0 || protein <= 0 || carbs <= 0 || fat <= 0)
-            throw new DomainValidationException("CPF values must be greater than 0.");
-
-        Calories = calories;
-        Protein = protein;
-        Carbs = carbs;
-        Fat = fat;
-    }
-
-    private void SetWaterGoalMl(int waterGoalMl)
-    {
-        if (waterGoalMl <= 0)
-            throw new DomainValidationException("Water goal must be greater than 0.");
-
-        WaterGoalMl = waterGoalMl;
-    }
-
-    public void UpdateNutritionGoal(
-        int calories,
         int protein,
-        int carbs,
-        int fat)
+        int fat,
+        int waterGoalMl)
     {
-        SetNutritionGoal(calories, protein, carbs, fat);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void UpdateWaterGoalMl(int waterGoalMl)
-    {
-        SetWaterGoalMl(waterGoalMl);
+        SetDailyNutritionPlan(new DailyNutritionPlan(calories, carbs, protein, fat, waterGoalMl));
         UpdatedAt = DateTime.UtcNow;
     }
 }

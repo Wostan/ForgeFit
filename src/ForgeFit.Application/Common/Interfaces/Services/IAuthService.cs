@@ -7,4 +7,5 @@ public interface IAuthService
     Task<UserSignUpResponse> SignUpAsync(UserSignUpRequest request); 
     Task<UserSignInResponse> SignInAsync(UserSignInRequest request);
     Task<CheckEmailResponse> CheckEmailAsync(CheckEmailRequest request);
+    Task<UserSignInResponse> RefreshTokenAsync(RefreshTokenRequest request);
 }

@@ -11,5 +11,4 @@ public record BodyGoalResponse(
     WeightUnit WeightUnit,
     DateTime? DueDate,
     GoalType GoalType,
-    GoalStatus GoalStatus,
-    DateTime CreatedAt);
+    GoalStatus GoalStatus);

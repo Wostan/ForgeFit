@@ -50,4 +50,21 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         return Ok(await authService.CheckEmailAsync(request));
     }
+    
+    [HttpPost("refresh-token")]
+    [ProducesResponseType(typeof(UserSignInResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UserSignInResponse>> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        try
+        {
+            var response = await authService.RefreshTokenAsync(request);
+            return Ok(response);
+        }
+        catch (InvalidCredentialsException e)
+        {
+            return Unauthorized(e.Message);
+        }
+    }
 }

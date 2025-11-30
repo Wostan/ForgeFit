@@ -6,7 +6,8 @@ public record WorkoutExerciseDto(
     string ExternalId,
     string Name,
     Uri? GifUrl,
-    IReadOnlyCollection<Muscle> TargetMuscles,
-    IReadOnlyCollection<BodyPart> BodyParts,
-    IReadOnlyCollection<Equipment> Equipment,
-    string? Instructions);
+    List<Muscle> TargetMuscles,
+    List<BodyPart> BodyParts,
+    List<Equipment> Equipment,
+    List<Muscle> SecondaryMuscles,
+    List<string> Instructions);

@@ -2,6 +2,6 @@
 
 public enum HeightUnit
 {
-    Cm,
+    Cm = 1,
     Inch
 }

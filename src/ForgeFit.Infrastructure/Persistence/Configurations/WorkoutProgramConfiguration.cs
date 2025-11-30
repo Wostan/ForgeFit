@@ -21,8 +21,14 @@ public class WorkoutProgramConfiguration : IEntityTypeConfiguration<WorkoutProgr
             .HasMaxLength(300);
         
         builder.Property(wp => wp.CreatedAt)
-            .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(wp => wp.IsDeleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        // Filters
+        builder.HasQueryFilter(wp => !wp.IsDeleted);
         
         // Indexes
         builder.HasIndex(wp => wp.UserId);
@@ -36,6 +42,6 @@ public class WorkoutProgramConfiguration : IEntityTypeConfiguration<WorkoutProgr
         builder.HasMany(wp => wp.WorkoutExercisePlans)
             .WithOne(wep => wep.WorkoutProgram)
             .HasForeignKey(wep => wep.WorkoutProgramId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -8,6 +8,6 @@ public record FoodEntryDto(
     DateTime Date,
     List<FoodItemDto> FoodItems,
     double TotalCalories,
-    double TotalProtein,
     double TotalCarbs,
+    double TotalProtein,
     double TotalFat);

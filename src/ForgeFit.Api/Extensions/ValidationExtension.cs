@@ -7,8 +7,8 @@ public static class ValidationExtension
 {
     public static IServiceCollection AddValidation(this IServiceCollection services)
     {
+        services.AddValidatorsFromAssemblyContaining<Program>();
         services.AddFluentValidationAutoValidation();
-        services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
         
         return services;
     }

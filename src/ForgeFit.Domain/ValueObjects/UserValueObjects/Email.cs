@@ -11,10 +11,6 @@ public partial class Email : ValueObject
         SetEmail(value);
     }
 
-    private Email()
-    {
-    }
-
     public string Value { get; private set; } = null!;
 
     private void SetEmail(string value)

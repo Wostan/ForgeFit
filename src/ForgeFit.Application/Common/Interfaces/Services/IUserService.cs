@@ -6,5 +6,5 @@ public interface IUserService
 {
     Task<UserProfileDto> GetProfileByIdAsync(Guid id);
     Task<UserProfileDto> UpdateProfileByIdAsync(Guid userId, UserProfileDto profile);
-    Task ChangePasswordByIdAsync(Guid userId, ChangePasswordRequest password);
+    Task ChangePasswordByIdAsync(Guid userId, ChangePasswordRequest request);
 }

@@ -13,7 +13,8 @@ public class WorkoutExercise : ValueObject
         IReadOnlyCollection<Muscle> targetMuscles,
         IReadOnlyCollection<BodyPart> bodyParts,
         IReadOnlyCollection<Equipment> equipment,
-        string? instructions)
+        IReadOnlyCollection<Muscle> secondaryMuscles,
+        IReadOnlyCollection<string> instructions)
     {
         SetExternalId(externalId);
         SetName(name);
@@ -21,11 +22,8 @@ public class WorkoutExercise : ValueObject
         SetTargetMuscles(targetMuscles);
         SetBodyParts(bodyParts);
         SetEquipment(equipment);
+        SetSecondaryMuscles(secondaryMuscles);
         SetInstructions(instructions);
-    }
-
-    private WorkoutExercise()
-    {
     }
 
     public string ExternalId { get; private set; }
@@ -34,7 +32,8 @@ public class WorkoutExercise : ValueObject
     public IReadOnlyCollection<Muscle> TargetMuscles { get; private set; }
     public IReadOnlyCollection<BodyPart> BodyParts { get; private set; }
     public IReadOnlyCollection<Equipment> Equipment { get; private set; }
-    public string? Instructions { get; private set; }
+    public IReadOnlyCollection<Muscle> SecondaryMuscles { get; private set; }
+    public IReadOnlyCollection<string> Instructions { get; private set; }
 
     private void SetExternalId(string externalId)
     {
@@ -83,13 +82,15 @@ public class WorkoutExercise : ValueObject
     {
         Equipment = equipment ?? throw new DomainValidationException("Equipment cannot be null");
     }
-
-    private void SetInstructions(string? instructions)
+    
+    private void SetSecondaryMuscles(IReadOnlyCollection<Muscle> secondaryMuscles)
     {
-        if (instructions is not null && instructions.Length > 500)
-            throw new DomainValidationException("Instructions must be less than 500 characters long");
+        SecondaryMuscles = secondaryMuscles ?? throw new DomainValidationException("SecondaryMuscles cannot be null");
+    }
 
-        Instructions = instructions;
+    private void SetInstructions(IReadOnlyCollection<string> instructions)
+    {
+        Instructions = instructions ?? throw new DomainValidationException("Instructions cannot be null");
     }
 
     protected override IEnumerable<object?> GetEqualityComponents()

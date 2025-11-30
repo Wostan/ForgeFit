@@ -11,10 +11,6 @@ public class Schedule : ValueObject
         SetDurationHours();
     }
 
-    private Schedule()
-    {
-    }
-
     public TimeOnly Start { get; }
     public TimeOnly End { get; }
     public TimeSpan Duration { get; private set; }

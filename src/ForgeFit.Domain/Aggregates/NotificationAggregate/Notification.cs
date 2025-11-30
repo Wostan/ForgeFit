@@ -42,6 +42,17 @@ public class Notification : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
+    
+    public static Notification Create(
+        Guid userId,
+        NotificationType notificationType,
+        string title,
+        string body,
+        Frequency frequency,
+        TimeOnly scheduledAt)
+    {
+        return new Notification(userId, notificationType, title, body, frequency, scheduledAt);
+    }
 
     private void SetUserId(Guid userId)
     {

@@ -6,37 +6,47 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class NutritionGoalConfiguration : IEntityTypeConfiguration<NutritionGoal>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<NutritionGoal> builder)
     {
-        builder.ToTable("NutritionGoals")
-            .HasCheckConstraint("CK_NutritionGoals_CaloriesCheck", "Calories > 0")
-            .HasCheckConstraint("CK_NutritionGoals_CarbsCheck", "Carbs > 0")
-            .HasCheckConstraint("CK_NutritionGoals_ProteinCheck", "Protein > 0")
-            .HasCheckConstraint("CK_NutritionGoals_FatCheck", "Fat > 0")
-            .HasCheckConstraint("CK_NutritionGoals_WaterGoalMlCheck", "WaterGoalMl > 0");
+        builder.ToTable("NutritionGoals", tableBuilder =>
+        {
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CaloriesCheck", 
+                    "DailyNutritionPlan_TargetCalories > 1000");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CarbsCheck", 
+                    "DailyNutritionPlan_Carbs > 0");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_ProteinCheck", 
+                    "DailyNutritionPlan_Protein > 0");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_FatCheck", 
+                    "DailyNutritionPlan_Fat > 0");
+            tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_WaterGoalMlCheck", 
+                    "DailyNutritionPlan_WaterMl > 1000");
+        });
         
         builder.HasKey(n => n.Id);
         
         // Properties
-        builder.Property(n => n.Calories)
-            .IsRequired();
-
-        builder.Property(n => n.Carbs)
-            .IsRequired();
-        
-        builder.Property(n => n.Protein)
-            .IsRequired();
-        
-        builder.Property(n => n.Fat)
-            .IsRequired();
-        
-        builder.Property(n => n.WaterGoalMl)
-            .IsRequired();
-        
         builder.Property(n => n.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+        
+        // ValueObject properties
+        builder.OwnsOne(n => n.DailyNutritionPlan, dailyNutritionPlan =>
+        {
+            dailyNutritionPlan.Property(dnp => dnp.TargetCalories)
+                .IsRequired();
+            
+            dailyNutritionPlan.Property(dnp => dnp.Protein)
+                .IsRequired();
+            
+            dailyNutritionPlan.Property(dnp => dnp.Carbs)
+                .IsRequired();
+            
+            dailyNutritionPlan.Property(dnp => dnp.Fat)
+                .IsRequired();
+            
+            dailyNutritionPlan.Property(dnp => dnp.WaterMl)
+                .IsRequired();
+        });
         
         // Indexes
         builder.HasIndex(n => n.UserId);

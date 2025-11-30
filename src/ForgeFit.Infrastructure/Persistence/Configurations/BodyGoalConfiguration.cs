@@ -6,12 +6,15 @@ namespace ForgeFit.Infrastructure.Persistence.Configurations;
 
 public class BodyGoalConfiguration : IEntityTypeConfiguration<BodyGoal>
 {
-    [Obsolete("Obsolete")]
     public void Configure(EntityTypeBuilder<BodyGoal> builder)
     {
-        builder.ToTable("BodyGoals")
-            .HasCheckConstraint("CK_BodyGoals_GoalTypeCheck", "GoalType IN (1, 2, 3, 4)")
-            .HasCheckConstraint("CK_BodyGoals_GoalStatusCheck", "GoalStatus IN (1, 2, 3)");
+        builder.ToTable("BodyGoals", tableBuilder =>
+        {
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_GoalTypeCheck", "GoalType IN (1, 2, 3, 4)");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_GoalStatusCheck", "GoalStatus IN (1, 2, 3)");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_WeightGoal_ValueCheck", "WeightGoal_Value > 0");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_WeightGoal_UnitCheck", "WeightGoal_Unit IN (1, 2)");
+        });
         
         builder.HasKey(bg => bg.Id);
         
@@ -38,9 +41,6 @@ public class BodyGoalConfiguration : IEntityTypeConfiguration<BodyGoal>
         // ValueObject properties
         builder.OwnsOne(bg => bg.WeightGoal, weightGoal =>
         {
-            weightGoal.HasCheckConstraint("CK_BodyGoals_WeightGoal_ValueCheck", "WeightGoal_Value > 0")
-                .HasCheckConstraint("CK_BodyGoals_WeightGoal_UnitCheck", "WeightGoal_Unit IN (1, 2)");
-            
             weightGoal.Property(wg => wg.Value)
                 .IsRequired();
             

@@ -22,7 +22,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
     {
         context.Response.StatusCode = exception switch
         {
-            DomainValidationException or BadRequestException => StatusCodes.Status400BadRequest,
+            DomainValidationException or BadRequestException or UriFormatException => StatusCodes.Status400BadRequest,
             ServiceUnavailableException => StatusCodes.Status503ServiceUnavailable,
             NotFoundException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError

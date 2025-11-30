@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
+﻿using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
+using ForgeFit.Domain.Aggregates.GoalAggregate;
 
 namespace ForgeFit.Application.Common.Interfaces.Repositories;
 
