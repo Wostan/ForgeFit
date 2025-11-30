@@ -50,7 +50,7 @@ public class FoodEntry : Entity, ITimeFields
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
-            throw new DomainValidationException("WorkoutProgramId cannot be empty.");
+            throw new DomainValidationException("UserId cannot be empty.");
 
         UserId = userId;
     }

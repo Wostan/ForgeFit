@@ -26,4 +26,8 @@
     <ProjectReference Include="..\ForgeFit.Infrastructure\ForgeFit.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validations\" />
+  </ItemGroup>
+
 </Project>
