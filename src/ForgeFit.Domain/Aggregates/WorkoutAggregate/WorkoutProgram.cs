@@ -36,6 +36,7 @@ public class WorkoutProgram : Entity, ITimeFields
     // Navigation properties
     public User User { get; private set; }
     public IReadOnlyCollection<WorkoutExercisePlan> WorkoutExercisePlans => _workoutExercisePlans.AsReadOnly();
+    public ICollection<WorkoutEntry> WorkoutEntries { get; private set; }
     
     public static WorkoutProgram Create(
         Guid userId,

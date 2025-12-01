@@ -48,13 +48,13 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
                 );
         });
         
+        // Indexes
+        builder.HasIndex(ws => ws.UserId);
+        
         // Navigation properties
         builder.HasOne(ws => ws.WorkoutExercisePlan)
             .WithMany(wep => wep.WorkoutSets)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-            
-        // Indexes
-        builder.HasIndex(ws => ws.UserId);
     }
 }

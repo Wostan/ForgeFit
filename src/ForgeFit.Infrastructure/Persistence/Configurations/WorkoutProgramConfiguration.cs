@@ -43,5 +43,10 @@ public class WorkoutProgramConfiguration : IEntityTypeConfiguration<WorkoutProgr
             .WithOne(wep => wep.WorkoutProgram)
             .HasForeignKey(wep => wep.WorkoutProgramId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(wp => wp.WorkoutEntries)
+            .WithOne(we => we.WorkoutProgram)
+            .HasForeignKey(we => we.WorkoutProgramId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

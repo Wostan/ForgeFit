@@ -133,6 +133,11 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
         builder.HasIndex(we => we.WorkoutProgramId);
         
         // Navigation properties
+        builder.HasOne(we => we.User)
+            .WithMany()
+            .HasForeignKey(we => we.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.HasOne(we => we.WorkoutProgram)
             .WithMany()
             .HasForeignKey(we => we.WorkoutProgramId)
