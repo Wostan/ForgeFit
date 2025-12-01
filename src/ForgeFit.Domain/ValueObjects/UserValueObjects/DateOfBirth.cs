@@ -5,8 +5,8 @@ namespace ForgeFit.Domain.ValueObjects.UserValueObjects;
 
 public class DateOfBirth : ValueObject
 {
-    private static readonly DateTime MinDate = new(1900, 1, 1);
-    private static readonly DateTime MaxDate = DateTime.UtcNow.AddYears(-6);
+    public static readonly DateTime EarliestBirthDate = DateTime.UtcNow.AddYears(-100);
+    public static readonly DateTime LatestBirthDate = DateTime.UtcNow.AddYears(-13);
 
     public DateOfBirth(DateTime value)
     {
@@ -17,8 +17,8 @@ public class DateOfBirth : ValueObject
 
     private void SetDate(DateTime value)
     {
-        if (value < MinDate || value > MaxDate)
-            throw new DomainValidationException("The minimum user age is 6 years.");
+        if (value > LatestBirthDate || value < EarliestBirthDate)
+            throw new DomainValidationException("The minimum user age is 13 years.");
 
         Value = value;
     }
