@@ -12,7 +12,7 @@ public class GeneratePlanRequestValidator : AbstractValidator<GeneratePlanReques
         RuleFor(x => x.UserProfile)
             .NotNull()
             .SetValidator(new UserProfileDtoValidator());
-        
+
         RuleFor(x => x.BodyGoal)
             .NotNull()
             .SetValidator(new BodyGoalCreateRequestValidator());

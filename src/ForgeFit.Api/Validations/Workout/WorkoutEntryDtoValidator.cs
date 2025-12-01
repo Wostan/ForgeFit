@@ -9,7 +9,7 @@ public class WorkoutEntryDtoValidator : AbstractValidator<WorkoutEntryDto>
     {
         RuleFor(x => x.End)
             .GreaterThan(x => x.Start).WithMessage("End time must be after start time.");
-        
+
         RuleFor(x => x)
             .Must(x => x.End - x.Start >= TimeSpan.FromMinutes(10))
             .WithMessage("Workout looks too short (< 10 min).")

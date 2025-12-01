@@ -1,6 +1,6 @@
 ﻿namespace ForgeFit.Application.DTOs.Workout;
 
-public record WorkoutEntryDto( 
+public record WorkoutEntryDto(
     Guid Id,
     Guid WorkoutProgramId,
     TimeOnly Start,
@@ -8,4 +8,4 @@ public record WorkoutEntryDto(
     List<PerformedExerciseDto> PerformedExercises,
     double TotalVolume,
     double TotalReps
-    );
+);

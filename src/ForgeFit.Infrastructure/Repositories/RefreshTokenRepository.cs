@@ -11,6 +11,7 @@ public class RefreshTokenRepository(AppDbContext dbContext) : IRefreshTokenRepos
     {
         await dbContext.RefreshTokens.AddAsync(entity);
     }
+
     public async Task<RefreshToken?> GetByTokenAsync(string token)
     {
         return await dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == token);
@@ -27,7 +28,7 @@ public class RefreshTokenRepository(AppDbContext dbContext) : IRefreshTokenRepos
     }
 
     public void Remove(RefreshToken entity)
-    { 
+    {
         dbContext.RefreshTokens.Remove(entity);
     }
 }

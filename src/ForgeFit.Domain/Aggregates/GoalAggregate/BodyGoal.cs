@@ -43,7 +43,7 @@ public class BodyGoal : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
-    
+
     public static BodyGoal Create(
         Guid userId,
         string title,

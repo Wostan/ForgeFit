@@ -10,19 +10,17 @@ using ForgeFit.Domain.ValueObjects.UserValueObjects;
 namespace ForgeFit.Application.Services;
 
 public class AuthService(
-    IUserRepository userRepository, 
+    IUserRepository userRepository,
     IRefreshTokenRepository refreshTokenRepository,
     IPasswordHasherService passwordHasherService,
     ITokenService tokenService,
     IUnitOfWork unitOfWork) : IAuthService
 {
     public async Task<UserSignUpResponse> SignUpAsync(UserSignUpRequest request)
-    { 
+    {
         if (await userRepository.ExistsByEmailAsync(request.Email))
-        {
             throw new EmailAlreadyExistsException("Email already exists.");
-        }
-        
+
         var passwordHash = passwordHasherService.HashPassword(request.Password);
 
         var email = new Email(request.Email);
@@ -33,7 +31,7 @@ public class AuthService(
 
         var userProfile = new UserProfile(
             request.Username,
-            avatarUri, 
+            avatarUri,
             dateOfBirth,
             request.Gender,
             weight,
@@ -45,7 +43,7 @@ public class AuthService(
             email,
             passwordHash
         );
-        
+
         await userRepository.AddAsync(user);
 
         var accessTokenString = tokenService.GenerateAccessTokenString(user);
@@ -62,59 +60,45 @@ public class AuthService(
     public async Task<UserSignInResponse> SignInAsync(UserSignInRequest request)
     {
         var user = await userRepository.GetByEmailAsync(request.Email);
-        if (user == null)
-        {
-            throw new InvalidCredentialsException("Invalid email.");
-        }
+        if (user == null) throw new InvalidCredentialsException("Invalid email.");
 
         if (!passwordHasherService.VerifyPassword(request.Password, user.PasswordHash))
-        {
             throw new InvalidCredentialsException("Invalid password.");
-        }
 
         var accessTokenString = tokenService.GenerateAccessTokenString(user);
         var refreshToken = tokenService.GenerateRefreshToken(user.Id);
-        
+
         var existingToken = await refreshTokenRepository.GetByUserIdAsync(user.Id);
         if (existingToken != null)
-        {
             existingToken.Update(refreshToken);
-        }
         else
-        {
             await refreshTokenRepository.AddAsync(refreshToken);
-        }
-        
+
         await unitOfWork.SaveChangesAsync();
-        
+
         return new UserSignInResponse(accessTokenString, refreshToken.Token);
     }
 
     public async Task<CheckEmailResponse> CheckEmailAsync(CheckEmailRequest request)
     {
-        if(await userRepository.ExistsByEmailAsync(request.Email))
+        if (await userRepository.ExistsByEmailAsync(request.Email))
             return new CheckEmailResponse(true);
-        
+
         return new CheckEmailResponse(false);
     }
-    
+
     public async Task<UserSignInResponse> RefreshTokenAsync(RefreshTokenRequest request)
     {
         var existingToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken);
         if (existingToken is null || !existingToken.IsActive)
-        {
             throw new InvalidCredentialsException("Invalid or expired refresh token.");
-        }
 
         var user = await userRepository.GetByIdAsync(existingToken.UserId);
-        if (user is null)
-        {
-            throw new InvalidCredentialsException("User not found.");
-        }
+        if (user is null) throw new InvalidCredentialsException("User not found.");
 
         var newAccessTokenString = tokenService.GenerateAccessTokenString(user);
         var newRefreshToken = tokenService.GenerateRefreshToken(user.Id);
-        
+
         existingToken.Update(newRefreshToken);
         await unitOfWork.SaveChangesAsync();
 

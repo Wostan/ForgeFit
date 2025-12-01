@@ -12,6 +12,7 @@ public class DrinkEntryCreateRequestValidator : AbstractValidator<DrinkEntryCrea
 
         RuleFor(x => x.Date)
             .NotEmpty()
-            .LessThanOrEqualTo(DateTime.UtcNow.AddHours(24).Date).WithMessage("Cannot log drinks for the day after tomorrow or later.");
+            .LessThanOrEqualTo(DateTime.UtcNow.AddHours(24).Date)
+            .WithMessage("Cannot log drinks for the day after tomorrow or later.");
     }
 }

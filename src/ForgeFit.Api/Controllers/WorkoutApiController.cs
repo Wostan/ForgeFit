@@ -29,10 +29,10 @@ public class WorkoutApiController(IWorkoutApiService workoutApiService) : Contro
             equipment,
             pageNumber,
             pageSize);
-        
+
         return Ok(result);
     }
-    
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(WorkoutExerciseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
@@ -40,7 +40,7 @@ public class WorkoutApiController(IWorkoutApiService workoutApiService) : Contro
     public async Task<ActionResult<WorkoutExerciseDto>> GetByIdAsync(string id)
     {
         var result = await workoutApiService.GetByIdAsync(id);
-        
+
         return Ok(result);
     }
 }

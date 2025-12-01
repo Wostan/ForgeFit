@@ -34,9 +34,9 @@ public class FoodApiService(
 
         return response?.FoodsContainer?.Food?
             .Select(f => new FoodSearchResponse(
-                f.FoodId, 
-                f.FoodName, 
-                f.BrandName, 
+                f.FoodId,
+                f.FoodName,
+                f.BrandName,
                 f.FoodDescription))
             .ToList() ?? [];
     }
@@ -77,7 +77,7 @@ public class FoodApiService(
     private async Task<T?> ExecuteFatSecretRequestAsync<T>(Dictionary<string, string> parameters)
     {
         var token = await fatSecretTokenService.GetAccessTokenAsync();
-        
+
         using var requestMessage = new HttpRequestMessage(HttpMethod.Post, _settings.BaseUrl);
         requestMessage.Content = new FormUrlEncodedContent(parameters);
         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -89,16 +89,16 @@ public class FoodApiService(
     }
 
     private async Task<FoodProductResponse> GetFoodDetailsAsync(
-        Dictionary<string, string> parameters, 
+        Dictionary<string, string> parameters,
         string notFoundMessage)
     {
         var responseData = await ExecuteFatSecretRequestAsync<FatSecretGetResponse>(parameters);
 
-        if (responseData?.Food is null) 
+        if (responseData?.Food is null)
             throw new NotFoundException(notFoundMessage);
 
         var food = responseData.Food;
-        
+
         var servings = food.Servings.Serving.Select(s => new FoodServingDto(
             s.ServingId,
             ParseFatSecretDouble(s.MetricServingAmount),
@@ -121,9 +121,11 @@ public class FoodApiService(
     {
         if (string.IsNullOrEmpty(value)) return 0;
         return double.TryParse(
-            value, 
-            NumberStyles.Any, 
-            CultureInfo.InvariantCulture, 
-            out var result) ? result : 0;
+            value,
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out var result)
+            ? result
+            : 0;
     }
 }

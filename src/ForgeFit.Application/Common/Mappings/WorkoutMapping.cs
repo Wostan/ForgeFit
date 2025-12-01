@@ -17,11 +17,11 @@ public class WorkoutMapping : IRegister
             .Map(dest => dest.TotalReps, src => CalculateTotalReps(src.PerformedExercises))
             .Map(dest => dest.TotalVolume, src => CalculateTotalVolume(src.PerformedExercises))
             .Map(dest => dest.PerformedExercises, src => src.PerformedExercises);
-        
+
         config.NewConfig<PerformedExercise, PerformedExerciseDto>()
             .Map(dest => dest.ExerciseSnapshot, src => src.Snapshot)
             .Map(dest => dest.Sets, src => src.Sets);
-        
+
         config.NewConfig<PerformedSet, PerformedSetDto>()
             .Map(dest => dest.Order, src => src.Order)
             .Map(dest => dest.Reps, src => src.Reps)
@@ -29,7 +29,7 @@ public class WorkoutMapping : IRegister
             .Map(dest => dest.WeightUnit, src => src.Weight.Unit)
             .Map(dest => dest.IsCompleted, src => src.IsCompleted);
     }
-    
+
     private static double CalculateTotalReps(IEnumerable<PerformedExercise> exercises)
     {
         return exercises.Sum(e => e.Sets

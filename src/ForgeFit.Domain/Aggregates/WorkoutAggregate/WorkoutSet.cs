@@ -19,20 +19,20 @@ public class WorkoutSet : Entity
         SetRestTime(restTime);
         SetWeight(weight);
     }
-    
-    private  WorkoutSet()
+
+    private WorkoutSet()
     {
     }
-    
+
     public Guid UserId { get; private set; }
     public int Order { get; private set; }
     public int Reps { get; private set; }
     public TimeSpan RestTime { get; private set; }
     public Weight Weight { get; private set; }
-    
+
     // Navigation properties
     public WorkoutExercisePlan WorkoutExercisePlan { get; private set; }
-    
+
     public static WorkoutSet Create(
         Guid userId,
         int order,
@@ -42,7 +42,7 @@ public class WorkoutSet : Entity
     {
         return new WorkoutSet(userId, order, reps, restTime, weight);
     }
-    
+
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
@@ -50,7 +50,7 @@ public class WorkoutSet : Entity
 
         UserId = userId;
     }
-    
+
     private void SetOrder(int order)
     {
         if (order < 1)
@@ -58,7 +58,7 @@ public class WorkoutSet : Entity
 
         Order = order;
     }
-    
+
     private void SetReps(int reps)
     {
         if (reps < 1)
@@ -66,7 +66,7 @@ public class WorkoutSet : Entity
 
         Reps = reps;
     }
-    
+
     private void SetRestTime(TimeSpan restTime)
     {
         if (restTime < TimeSpan.Zero)
@@ -74,12 +74,12 @@ public class WorkoutSet : Entity
 
         RestTime = restTime;
     }
-    
+
     private void SetWeight(Weight weight)
     {
         Weight = weight ?? throw new DomainValidationException("Weight cannot be null.");
     }
-    
+
     public void Update(int order, int reps, TimeSpan restTime, Weight weight)
     {
         SetOrder(order);

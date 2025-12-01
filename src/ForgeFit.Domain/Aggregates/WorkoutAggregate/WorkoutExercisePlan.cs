@@ -29,7 +29,7 @@ public class WorkoutExercisePlan : Entity, ITimeFields
     // Navigation properties
     public WorkoutProgram WorkoutProgram { get; private set; }
     public ICollection<WorkoutSet> WorkoutSets { get; private set; }
-    
+
     public static WorkoutExercisePlan Create(
         Guid workoutProgramId,
         WorkoutExercise workoutExercise,

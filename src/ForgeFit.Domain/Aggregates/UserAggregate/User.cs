@@ -24,7 +24,7 @@ public class User : Entity, ITimeFields
     public string PasswordHash { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
-    
+
     public static User Create(UserProfile userProfile, Email email, string passwordHash)
     {
         return new User(userProfile, email, passwordHash);

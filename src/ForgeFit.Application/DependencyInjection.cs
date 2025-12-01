@@ -17,7 +17,7 @@ public static class DependencyInjection
         services.AddScoped<IDailyNutritionPlanCalculationService, DailyNutritionPlanCalculationService>();
         services.AddScoped<IWorkoutPlanGenerationService, WorkoutPlanGenerationService>();
         services.AddScoped<IPlanGenerationService, PlanGenerationService>();
-        
+
         // Services
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IGoalService, GoalService>();
@@ -27,13 +27,13 @@ public static class DependencyInjection
         services.AddScoped<IFoodTrackingService, FoodTrackingService>();
         services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
         services.AddScoped<IUserService, UserService>();
-        
+
         // Mapper
         var config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
-        
+
         return services;
     }
 }

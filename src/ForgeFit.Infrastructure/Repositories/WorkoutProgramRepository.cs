@@ -48,7 +48,8 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
             .ToListAsync();
     }
 
-    public async Task<List<WorkoutProgram>> GetAllByUserIdAndWorkoutProgramNameAsync(Guid userId, string workoutProgramName)
+    public async Task<List<WorkoutProgram>> GetAllByUserIdAndWorkoutProgramNameAsync(Guid userId,
+        string workoutProgramName)
     {
         return await context.WorkoutPrograms
             .Where(wp => wp.UserId == userId && wp.Name.Contains(workoutProgramName))

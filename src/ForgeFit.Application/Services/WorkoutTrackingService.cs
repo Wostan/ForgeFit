@@ -19,11 +19,8 @@ public class WorkoutTrackingService(
 {
     public async Task<WorkoutEntryDto> LogEntryAsync(Guid userId, WorkoutEntryDto workoutEntryDto)
     {
-        if (!await userRepository.ExistsAsync(userId))
-        {
-            throw new NotFoundException("User not found");
-        }
-        
+        if (!await userRepository.ExistsAsync(userId)) throw new NotFoundException("User not found");
+
         var performedExercises = GetPerformedFromDto(workoutEntryDto);
 
         var schedule = new Schedule(workoutEntryDto.Start, workoutEntryDto.End);
@@ -42,19 +39,13 @@ public class WorkoutTrackingService(
     }
 
     public async Task<WorkoutEntryDto> UpdateEntryAsync(Guid userId, Guid entryId, WorkoutEntryDto workoutEntryDto)
-    { 
+    {
         var entry = await workoutEntryRepository.GetByIdAsync(entryId);
-        
-        if (entry == null)
-        {
-            throw new NotFoundException("Workout entry not found");
-        }
-        
-        if (userId != entry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this workout entry");
-        }
-        
+
+        if (entry == null) throw new NotFoundException("Workout entry not found");
+
+        if (userId != entry.UserId) throw new UnauthorizedAccessException("You do not own this workout entry");
+
         var schedule = new Schedule(workoutEntryDto.Start, workoutEntryDto.End);
         var performedExercises = GetPerformedFromDto(workoutEntryDto);
 
@@ -66,18 +57,12 @@ public class WorkoutTrackingService(
     }
 
     public async Task DeleteEntryAsync(Guid userId, Guid entryId)
-    { 
+    {
         var entry = await workoutEntryRepository.GetByIdAsync(entryId);
-        
-        if (entry == null)
-        {
-            throw new NotFoundException("Workout entry not found");
-        }
-        
-        if (userId != entry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this workout entry");
-        }
+
+        if (entry == null) throw new NotFoundException("Workout entry not found");
+
+        if (userId != entry.UserId) throw new UnauthorizedAccessException("You do not own this workout entry");
 
         workoutEntryRepository.Remove(entry);
         await unitOfWork.SaveChangesAsync();
@@ -86,16 +71,10 @@ public class WorkoutTrackingService(
     public async Task<WorkoutEntryDto> GetEntryAsync(Guid userId, Guid entryId)
     {
         var entry = await workoutEntryRepository.GetByIdWithNavigationsAsync(entryId);
-        
-        if (entry == null)
-        {
-            throw new NotFoundException("Workout entry not found");
-        }
-        
-        if (userId != entry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this workout entry");
-        }
+
+        if (entry == null) throw new NotFoundException("Workout entry not found");
+
+        if (userId != entry.UserId) throw new UnauthorizedAccessException("You do not own this workout entry");
 
         return mapper.Map<WorkoutEntryDto>(entry);
     }
@@ -109,15 +88,15 @@ public class WorkoutTrackingService(
     public async Task<List<WorkoutEntryDto>> GetEntriesByDateAsync(Guid userId, DateTime from, DateTime to)
     {
         var entries = await workoutEntryRepository.GetAllByUserIdAndDateRangeAsync(
-            userId, 
-            from, 
+            userId,
+            from,
             to);
         return mapper.Map<List<WorkoutEntryDto>>(entries);
     }
-    
+
     public static List<PerformedExercise> GetPerformedFromDto(WorkoutEntryDto workoutEntryDto)
     {
-        return workoutEntryDto.PerformedExercises.Select(performedExerciseDto => 
+        return workoutEntryDto.PerformedExercises.Select(performedExerciseDto =>
         {
             var snapshot = new WorkoutExercise(
                 performedExerciseDto.ExerciseSnapshot.ExternalId,
@@ -130,10 +109,10 @@ public class WorkoutTrackingService(
                 performedExerciseDto.ExerciseSnapshot.Instructions
             );
 
-            var sets = performedExerciseDto.Sets.Select(s => 
+            var sets = performedExerciseDto.Sets.Select(s =>
                 new PerformedSet(
-                    s.Order, 
-                    s.Reps, 
+                    s.Order,
+                    s.Reps,
                     new Weight(s.Weight, s.WeightUnit),
                     s.IsCompleted)
             ).ToList();

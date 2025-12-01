@@ -24,7 +24,7 @@ public class RefreshToken : Entity, ITimeFields
 
     // Navigation property
     public User User { get; private set; }
-    
+
     public static RefreshToken Create(Guid userId, string token, DateTime expiryDate)
     {
         return new RefreshToken(userId, token, expiryDate);

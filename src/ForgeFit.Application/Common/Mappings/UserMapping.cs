@@ -18,7 +18,7 @@ public class UserMapping : IRegister
             .Map(dest => dest.WeightUnit, src => src.Weight.Unit)
             .Map(dest => dest.Height, src => src.Height.Value)
             .Map(dest => dest.HeightUnit, src => src.Height.Unit);
-        
+
         config.NewConfig<UserProfileDto, UserProfile>()
             .MapWith(src => new UserProfile(
                 src.Username,

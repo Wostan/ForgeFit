@@ -22,7 +22,7 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
             query,
             pageNumber,
             pageSize);
-        
+
         return Ok(result);
     }
 
@@ -35,7 +35,7 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
     public async Task<ActionResult<List<FoodProductResponse>>> SearchByBarcodeAsync([FromQuery] string barcode)
     {
         var result = await foodApiService.SearchByBarcodeAsync(barcode);
-        
+
         return Ok(result);
     }
 
@@ -44,13 +44,14 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
     [ProducesResponseType(typeof(List<FoodProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public async Task<ActionResult<List<FoodProductResponse>>> RecognizeByPhotoAsync([FromBody] RecognizeByPhotoRequest request)
+    public async Task<ActionResult<List<FoodProductResponse>>> RecognizeByPhotoAsync(
+        [FromBody] RecognizeByPhotoRequest request)
     {
         var result = await foodApiService.RecognizeByPhotoAsync(request.ImageBase64);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(FoodProductResponse), StatusCodes.Status200OK)]
@@ -60,7 +61,7 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
     public async Task<ActionResult<FoodProductResponse>> GetByIdAsync(string id)
     {
         var result = await foodApiService.GetByIdAsync(id);
-        
+
         return Ok(result);
     }
 }

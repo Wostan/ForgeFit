@@ -7,7 +7,7 @@ namespace ForgeFit.Api.Validations.User;
 
 public class UserProfileDtoValidator : AbstractValidator<UserProfileDto>
 {
-    public UserProfileDtoValidator() 
+    public UserProfileDtoValidator()
     {
         RuleFor(x => x.Username)
             .NotEmpty().WithMessage("Username is required.")
@@ -22,14 +22,14 @@ public class UserProfileDtoValidator : AbstractValidator<UserProfileDto>
             .NotEmpty().WithMessage("Date of birth is required.")
             .LessThan(DateOfBirth.LatestBirthDate)
             .GreaterThan(DateOfBirth.EarliestBirthDate).WithMessage("You must be between 13 and 100 years old.");
-        
+
         RuleFor(x => x.Gender).IsInEnum();
-        
+
         RuleFor(x => x.WeightUnit).IsInEnum();
         RuleFor(x => x.Weight)
             .InclusiveBetween(30, 300).When(x => x.WeightUnit == WeightUnit.Kg)
             .InclusiveBetween(66, 660).When(x => x.WeightUnit == WeightUnit.Lb);
-        
+
         RuleFor(x => x.HeightUnit).IsInEnum();
         RuleFor(x => x.Height)
             .InclusiveBetween(100, 250).When(x => x.HeightUnit == HeightUnit.Cm)

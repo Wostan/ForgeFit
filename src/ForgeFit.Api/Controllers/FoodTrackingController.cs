@@ -19,10 +19,10 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.LogFoodEntryAsync(userId, entryDto);
-        
+
         return CreatedAtRoute("GetFoodEntry", new { entryId = result.Id }, result);
     }
-    
+
     [Authorize]
     [HttpPut("{entryId:guid}")]
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status200OK)]
@@ -35,10 +35,10 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.UpdateFoodEntryAsync(userId, entryId, entryDto);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpDelete("{entryId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -48,10 +48,10 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await foodTrackingService.DeleteFoodEntryAsync(userId, entryId);
-        
+
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpGet("{entryId:guid}", Name = "GetFoodEntry")]
     [ProducesResponseType(typeof(FoodEntryDto), StatusCodes.Status200OK)]
@@ -61,17 +61,17 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await foodTrackingService.GetFoodEntryAsync(userId, entryId);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpGet("by-date")]
     [ProducesResponseType(typeof(List<FoodEntryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<List<FoodEntryDto>>> GetEntriesByDateAsync(
         [FromQuery] DateTime? date,
-        [FromQuery] DateTime? from, 
+        [FromQuery] DateTime? from,
         [FromQuery] DateTime? to)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -79,7 +79,7 @@ public class FoodTrackingController(IFoodTrackingService foodTrackingService) : 
             return Ok(await foodTrackingService.GetFoodEntriesByDateAsync(userId, date.Value));
         if (from.HasValue && to.HasValue)
             return Ok(await foodTrackingService.GetFoodEntriesByDateAsync(userId, from.Value, to.Value));
-        
+
         return Ok(await foodTrackingService.GetFoodEntriesByDateAsync(userId, DateTime.Today));
     }
 }

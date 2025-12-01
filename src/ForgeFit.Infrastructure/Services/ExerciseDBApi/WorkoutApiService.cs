@@ -11,13 +11,13 @@ namespace ForgeFit.Infrastructure.Services.ExerciseDBApi;
 public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
 {
     public async Task<List<WorkoutExerciseSearchResponse>> SearchAsync(
-        string query, 
-        List<Muscle>? muscles, 
-        List<BodyPart>? bodyParts, 
-        List<Equipment>? equipment, 
-        int pageNumber = 1, 
+        string query,
+        List<Muscle>? muscles,
+        List<BodyPart>? bodyParts,
+        List<Equipment>? equipment,
+        int pageNumber = 1,
         int pageSize = 20)
-    { 
+    {
         var offset = (pageNumber - 1) * pageSize;
         var queryParams = new List<string>
         {
@@ -25,35 +25,26 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
             $"limit={pageSize}"
         };
 
-        if (!string.IsNullOrWhiteSpace(query))
-        {
-            queryParams.Add($"search={Uri.EscapeDataString(query)}");
-        }
+        if (!string.IsNullOrWhiteSpace(query)) queryParams.Add($"search={Uri.EscapeDataString(query)}");
 
         if (muscles is { Count: > 0 })
             queryParams.Add($"muscles={EnumsToApiString(muscles)}");
 
         if (bodyParts is { Count: > 0 })
             queryParams.Add($"bodyParts={EnumsToApiString(bodyParts)}");
-        
+
         if (equipment is { Count: > 0 })
             queryParams.Add($"equipment={EnumsToApiString(equipment)}");
-        
-        var requestUrl = $"exercises/filter?{string.Join("&", queryParams)}"; 
+
+        var requestUrl = $"exercises/filter?{string.Join("&", queryParams)}";
 
         var response = await client.GetAsync(requestUrl);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("Failed to retrieve exercises.");
-        }
+
+        if (!response.IsSuccessStatusCode) throw new Exception("Failed to retrieve exercises.");
 
         var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbResponse>();
 
-        if (apiResponse is null || !apiResponse.Success)
-        {
-            return [];
-        }
+        if (apiResponse is null || !apiResponse.Success) return [];
 
         return apiResponse.Data.Select(item => new WorkoutExerciseSearchResponse(
             item.ExerciseId,
@@ -64,21 +55,16 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
     }
 
     public async Task<WorkoutExerciseDto> GetByIdAsync(string id)
-    { 
+    {
         var requestUrl = $"exercises/{id}";
         var response = await client.GetAsync(requestUrl);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new NotFoundException($"Exercise with id {id} not found.");
-        }
+        if (!response.IsSuccessStatusCode) throw new NotFoundException($"Exercise with id {id} not found.");
 
         var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbSingleResponse>();
 
         if (apiResponse is null || !apiResponse.Success || apiResponse.Data is null)
-        {
             throw new ServiceUnavailableException("Failed to retrieve exercise details.");
-        }
 
         var item = apiResponse.Data;
 
@@ -93,11 +79,11 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
             item.Instructions
         );
     }
-    
+
     private static string EnumsToApiString<T>(List<T> enums) where T : Enum
     {
         var result = enums.Select(enumValue =>
-            SplitRegex().Split(enumValue.ToString()))
+                SplitRegex().Split(enumValue.ToString()))
             .Select(w => string.Join(" ", w.Select(s => s.ToLowerInvariant())))
             .ToList();
 
@@ -112,10 +98,7 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         foreach (var value in values)
         {
             var cleanValue = value.Replace(" ", "", StringComparison.OrdinalIgnoreCase);
-            if (Enum.TryParse<T>(cleanValue, true, out var enumValue))
-            {
-                result.Add(enumValue);
-            }
+            if (Enum.TryParse<T>(cleanValue, true, out var enumValue)) result.Add(enumValue);
         }
 
         return result;

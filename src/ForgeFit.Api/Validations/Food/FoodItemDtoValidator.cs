@@ -8,11 +8,11 @@ public class FoodItemDtoValidator : AbstractValidator<FoodItemDto>
     public FoodItemDtoValidator()
     {
         RuleFor(x => x.ExternalId).NotEmpty();
-        
+
         RuleFor(x => x.Label)
             .NotEmpty()
             .MaximumLength(100).WithMessage("Label must not exceed 100 characters.");
-        
+
         RuleFor(x => x.ServingUnit).NotEmpty();
 
         RuleFor(x => x.Amount)

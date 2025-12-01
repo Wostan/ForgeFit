@@ -16,21 +16,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             tableBuilder.HasCheckConstraint("CK_Users_HeightCheck", "HeightValue > 0");
             tableBuilder.HasCheckConstraint("CK_Users_HeightUnitCheck", "HeightUnit IN (1, 2)");
         });
-        
+
         builder.HasKey(u => u.Id);
-        
+
         // Properties
         builder.Property(u => u.PasswordHash)
             .IsRequired()
             .HasMaxLength(256);
-        
+
         builder.Property(u => u.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
-        
+
         // ValueObject properties
         builder.OwnsOne(u => u.Email, email =>
-        { 
+        {
             email.Property(e => e.Value)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -38,9 +38,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             email.HasIndex(e => e.Value)
                 .IsUnique();
         });
-        
+
         builder.OwnsOne(u => u.UserProfile, profile =>
-        { 
+        {
             profile.Property(p => p.Username)
                 .IsRequired()
                 .HasMaxLength(20);

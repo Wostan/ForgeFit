@@ -19,7 +19,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var plan = await planService.GeneratePlanAsync(userId);
-        
+
         return Ok(plan);
     }
 
@@ -32,7 +32,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await planService.ConfirmPlanAsync(userId, plan);
-        
+
         return Created(string.Empty, result);
     }
 
@@ -45,7 +45,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var plan = await planService.GetPlanAsync(userId);
-        
+
         return Ok(plan);
     }
 }

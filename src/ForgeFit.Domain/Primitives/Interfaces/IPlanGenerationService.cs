@@ -6,6 +6,6 @@ namespace ForgeFit.Domain.Primitives.Interfaces;
 
 public interface IPlanGenerationService
 {
-    (WorkoutPlan workoutPlan, DailyNutritionPlan nutritionPlan) 
+    (WorkoutPlan workoutPlan, DailyNutritionPlan nutritionPlan)
         GenerateFullPlan(UserProfile userProfile, BodyGoal bodyGoal);
 }

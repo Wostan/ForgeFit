@@ -15,29 +15,30 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<WorkoutProgramResponse>> CreateWorkoutProgramAsync([FromBody] WorkoutProgramRequest workoutProgramRequest)
+    public async Task<ActionResult<WorkoutProgramResponse>> CreateWorkoutProgramAsync(
+        [FromBody] WorkoutProgramRequest workoutProgramRequest)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.CreateWorkoutProgramAsync(userId, workoutProgramRequest);
-        
+
         return CreatedAtAction(nameof(GetWorkoutProgramAsync), new { workoutProgramId = result.Id }, result);
     }
-    
+
     [Authorize]
     [HttpPut("{programId:guid}")]
     [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<WorkoutProgramResponse>> UpdateWorkoutProgramAsync(
-        Guid programId, 
+        Guid programId,
         [FromBody] WorkoutProgramRequest workoutProgramRequest)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.UpdateWorkoutProgramAsync(userId, programId, workoutProgramRequest);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpDelete("{workoutProgramId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -47,10 +48,10 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await workoutProgramService.DeleteWorkoutProgramAsync(userId, workoutProgramId);
-        
+
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpGet]
     [ProducesResponseType(typeof(List<WorkoutProgramResponse>), StatusCodes.Status200OK)]
@@ -60,10 +61,10 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.GetAllWorkoutProgramsAsync(userId);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpGet("{workoutProgramId:guid}")]
     [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status200OK)]
@@ -74,7 +75,7 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.GetWorkoutProgramAsync(userId, workoutProgramId);
-        
+
         return Ok(result);
     }
 }

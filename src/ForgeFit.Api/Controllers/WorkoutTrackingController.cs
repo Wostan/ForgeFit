@@ -19,10 +19,10 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutTrackingService.LogEntryAsync(userId, entryDto);
-        
+
         return CreatedAtRoute("GetWorkoutEntry", new { entryId = result.Id }, result);
     }
-    
+
     [Authorize]
     [HttpPut("{entryId:guid}")]
     [ProducesResponseType(typeof(WorkoutEntryDto), StatusCodes.Status200OK)]
@@ -35,10 +35,10 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutTrackingService.UpdateEntryAsync(userId, entryId, entryDto);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpDelete("{entryId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -48,10 +48,10 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await workoutTrackingService.DeleteEntryAsync(userId, entryId);
-        
+
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpGet("{entryId:guid}", Name = "GetWorkoutEntry")]
     [ProducesResponseType(typeof(WorkoutEntryDto), StatusCodes.Status200OK)]
@@ -61,17 +61,17 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutTrackingService.GetEntryAsync(userId, entryId);
-        
+
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpGet("by-date")]
     [ProducesResponseType(typeof(List<WorkoutEntryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<List<WorkoutEntryDto>>> GetEntriesByDateAsync(
         [FromQuery] DateTime? date,
-        [FromQuery] DateTime? from, 
+        [FromQuery] DateTime? from,
         [FromQuery] DateTime? to)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -79,7 +79,7 @@ public class WorkoutTrackingController(IWorkoutTrackingService workoutTrackingSe
             return Ok(await workoutTrackingService.GetEntriesByDateAsync(userId, date.Value));
         if (from.HasValue && to.HasValue)
             return Ok(await workoutTrackingService.GetEntriesByDateAsync(userId, from.Value, to.Value));
-        
+
         return Ok(await workoutTrackingService.GetEntriesByDateAsync(userId, DateTime.Today));
     }
 }

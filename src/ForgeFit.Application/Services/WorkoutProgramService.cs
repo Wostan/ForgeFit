@@ -16,25 +16,22 @@ public class WorkoutProgramService(
     IMapper mapper) : IWorkoutProgramService
 {
     public async Task<WorkoutProgramResponse> CreateWorkoutProgramAsync(
-        Guid userId, 
+        Guid userId,
         WorkoutProgramRequest workoutProgramRequest)
     {
-        if (!await userRepository.ExistsAsync(userId))
-        {
-            throw new NotFoundException("User not found");
-        }
-        
+        if (!await userRepository.ExistsAsync(userId)) throw new NotFoundException("User not found");
+
         var program = WorkoutProgram.Create(
             userId,
             workoutProgramRequest.Name,
             workoutProgramRequest.Description,
             new List<WorkoutExercisePlan>()
         );
-        
+
         var exercises = workoutProgramRequest.WorkoutExercisePlans
             .Select(planDto => CreateFromDto(program.Id, userId, planDto))
             .ToList();
-        
+
         program.AddWorkoutExercises(exercises);
 
         await workoutProgramRepository.AddAsync(program);
@@ -44,32 +41,26 @@ public class WorkoutProgramService(
     }
 
     public async Task<WorkoutProgramResponse> UpdateWorkoutProgramAsync(
-        Guid userId, 
-        Guid workoutProgramId, 
+        Guid userId,
+        Guid workoutProgramId,
         WorkoutProgramRequest workoutProgramRequest)
     {
         var program = await workoutProgramRepository.GetByIdWithNavigationsAsync(workoutProgramId);
-        
-        if (program == null)
-        {
-            throw new NotFoundException("Workout program not found");
-        }
 
-        if (program.UserId != userId)
-        {
-            throw new UnauthorizedAccessException("You do not own this program");
-        }
-        
+        if (program == null) throw new NotFoundException("Workout program not found");
+
+        if (program.UserId != userId) throw new UnauthorizedAccessException("You do not own this program");
+
         var newExercises = workoutProgramRequest.WorkoutExercisePlans
             .Select(planDto => CreateFromDto(program.Id, userId, planDto))
             .ToList();
-        
+
         program.Update(
-            workoutProgramRequest.Name, 
-            workoutProgramRequest.Description, 
+            workoutProgramRequest.Name,
+            workoutProgramRequest.Description,
             newExercises
         );
-        
+
         await unitOfWork.SaveChangesAsync();
 
         return mapper.Map<WorkoutProgramResponse>(program);
@@ -78,17 +69,11 @@ public class WorkoutProgramService(
     public async Task DeleteWorkoutProgramAsync(Guid userId, Guid workoutProgramId)
     {
         var program = await workoutProgramRepository.GetByIdAsync(workoutProgramId);
-        
-        if (program == null)
-        {
-            throw new NotFoundException("Workout program not found");
-        }
 
-        if (program.UserId != userId)
-        {
-            throw new UnauthorizedAccessException("You do not own this program");
-        }
-        
+        if (program == null) throw new NotFoundException("Workout program not found");
+
+        if (program.UserId != userId) throw new UnauthorizedAccessException("You do not own this program");
+
         program.SoftDelete();
         await unitOfWork.SaveChangesAsync();
     }
@@ -102,20 +87,14 @@ public class WorkoutProgramService(
     public async Task<WorkoutProgramResponse> GetWorkoutProgramAsync(Guid userId, Guid workoutProgramId)
     {
         var program = await workoutProgramRepository.GetByIdWithNavigationsAsync(workoutProgramId);
-        
-        if (program == null)
-        {
-            throw new NotFoundException("Workout program not found");
-        }
-        
-        if (program.UserId != userId)
-        {
-            throw new UnauthorizedAccessException("You do not own this program");
-        }
+
+        if (program == null) throw new NotFoundException("Workout program not found");
+
+        if (program.UserId != userId) throw new UnauthorizedAccessException("You do not own this program");
 
         return mapper.Map<WorkoutProgramResponse>(program);
     }
-    
+
     private static WorkoutExercisePlan CreateFromDto(Guid programId, Guid userId, WorkoutExercisePlanDto dto)
     {
         var exerciseVo = new WorkoutExercise(

@@ -12,6 +12,6 @@ public interface IWorkoutApiService
         List<Equipment>? equipment,
         int pageNumber = 1,
         int pageSize = 20);
-    
+
     Task<WorkoutExerciseDto> GetByIdAsync(string id);
 }

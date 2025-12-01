@@ -28,7 +28,7 @@ public class FoodItem : ValueObject
     public double Carbs { get; private set; }
     public double Protein { get; private set; }
     public double Fat { get; private set; }
-    public string ServingUnit { get; private set; } 
+    public string ServingUnit { get; private set; }
     public double Amount { get; private set; }
 
     private void SetExternalId(string externalId)
@@ -49,7 +49,7 @@ public class FoodItem : ValueObject
     {
         if (calories < 0 || carbs < 0 || protein < 0 || fat < 0)
             throw new DomainValidationException("Nutrients cannot be negative");
-        
+
         Calories = calories;
         Carbs = carbs;
         Protein = protein;

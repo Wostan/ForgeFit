@@ -12,16 +12,16 @@ public class FoodMapping : IRegister
         config.NewConfig<FoodEntry, FoodEntryDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.DayTime, src => src.DayTime)
-            .Map(dest => dest.Date, src => src.Date) 
+            .Map(dest => dest.Date, src => src.Date)
             .Map(dest => dest.TotalCalories, src => src.Calories)
             .Map(dest => dest.TotalProtein, src => src.Protein)
             .Map(dest => dest.TotalFat, src => src.Fat)
             .Map(dest => dest.TotalCarbs, src => src.Carbs)
             .Map(dest => dest.FoodItems, src => src.FoodItems);
-        
+
         config.NewConfig<FoodItemDto, FoodItem>()
             .MapToConstructor(true);
-        
+
         config.NewConfig<FoodItem, FoodItemDto>();
     }
 }

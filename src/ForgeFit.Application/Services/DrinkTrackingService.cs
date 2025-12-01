@@ -16,16 +16,13 @@ public class DrinkTrackingService(
 {
     public async Task<DrinkEntryResponse> LogDrinkEntryAsync(Guid userId, DrinkEntryCreateRequest request)
     {
-        if (!await userRepository.ExistsAsync(userId))
-        {
-            throw new NotFoundException("User not found");
-        }
+        if (!await userRepository.ExistsAsync(userId)) throw new NotFoundException("User not found");
 
         var drinkEntry = DrinkEntry.Create(
-            userId, 
-            request.VolumeMl, 
+            userId,
+            request.VolumeMl,
             request.Date);
-        
+
         await drinkEntryRepository.AddAsync(drinkEntry);
         await unitOfWork.SaveChangesAsync();
 
@@ -36,16 +33,10 @@ public class DrinkTrackingService(
         DrinkEntryCreateRequest request)
     {
         var drinkEntry = await drinkEntryRepository.GetByIdAsync(entryId);
-        
-        if (drinkEntry == null)
-        {
-            throw new NotFoundException("Drink entry not found");
-        }
 
-        if (userId != drinkEntry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this drink entry");
-        }
+        if (drinkEntry == null) throw new NotFoundException("Drink entry not found");
+
+        if (userId != drinkEntry.UserId) throw new UnauthorizedAccessException("You do not own this drink entry");
 
         drinkEntry.Update(request.VolumeMl, request.Date);
         await unitOfWork.SaveChangesAsync();
@@ -56,16 +47,10 @@ public class DrinkTrackingService(
     public async Task DeleteDrinkEntryAsync(Guid userId, Guid entryId)
     {
         var drinkEntry = await drinkEntryRepository.GetByIdAsync(entryId);
-        
-        if (drinkEntry == null)
-        {
-            throw new NotFoundException("Drink entry not found");
-        }
 
-        if (userId != drinkEntry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this drink entry");
-        }
+        if (drinkEntry == null) throw new NotFoundException("Drink entry not found");
+
+        if (userId != drinkEntry.UserId) throw new UnauthorizedAccessException("You do not own this drink entry");
 
         drinkEntryRepository.Remove(drinkEntry);
         await unitOfWork.SaveChangesAsync();
@@ -74,16 +59,10 @@ public class DrinkTrackingService(
     public async Task<DrinkEntryResponse> GetDrinkEntryAsync(Guid userId, Guid entryId)
     {
         var drinkEntry = await drinkEntryRepository.GetByIdAsync(entryId);
-        
-        if (drinkEntry == null)
-        {
-            throw new NotFoundException("Drink entry not found");
-        }
 
-        if (userId != drinkEntry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this drink entry");
-        }
+        if (drinkEntry == null) throw new NotFoundException("Drink entry not found");
+
+        if (userId != drinkEntry.UserId) throw new UnauthorizedAccessException("You do not own this drink entry");
 
         return mapper.Map<DrinkEntryResponse>(drinkEntry);
     }

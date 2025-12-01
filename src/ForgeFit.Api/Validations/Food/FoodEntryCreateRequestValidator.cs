@@ -8,10 +8,11 @@ public class FoodEntryCreateRequestValidator : AbstractValidator<FoodEntryCreate
     public FoodEntryCreateRequestValidator()
     {
         RuleFor(x => x.DayTime).IsInEnum();
-        
+
         RuleFor(x => x.Date)
             .NotEmpty()
-            .LessThanOrEqualTo(DateTime.UtcNow.AddHours(24).Date).WithMessage("Cannot log food for the day after tomorrow or later.");
+            .LessThanOrEqualTo(DateTime.UtcNow.AddHours(24).Date)
+            .WithMessage("Cannot log food for the day after tomorrow or later.");
 
         RuleFor(x => x.FoodItems)
             .NotEmpty().WithMessage("At least one food item is required.")

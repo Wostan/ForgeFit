@@ -82,7 +82,7 @@ public class WorkoutExercise : ValueObject
     {
         Equipment = equipment ?? throw new DomainValidationException("Equipment cannot be null");
     }
-    
+
     private void SetSecondaryMuscles(IReadOnlyCollection<Muscle> secondaryMuscles)
     {
         SecondaryMuscles = secondaryMuscles ?? throw new DomainValidationException("SecondaryMuscles cannot be null");

@@ -19,10 +19,10 @@ public class UserController(IUserService userService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var profile = await userService.GetProfileByIdAsync(userId);
-        
+
         return Ok(profile);
     }
-    
+
     [Authorize]
     [HttpPut("profile")]
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
@@ -32,10 +32,10 @@ public class UserController(IUserService userService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var updatedProfile = await userService.UpdateProfileByIdAsync(userId, profile);
-        
+
         return Ok(updatedProfile);
     }
-    
+
     [Authorize]
     [HttpPut("change-password")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -45,7 +45,7 @@ public class UserController(IUserService userService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await userService.ChangePasswordByIdAsync(userId, password);
-        
+
         return Ok("Password changed.");
     }
 }

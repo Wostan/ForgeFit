@@ -12,7 +12,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
     public void Configure(EntityTypeBuilder<WorkoutExercisePlan> builder)
     {
         builder.ToTable("WorkoutExercisePlans");
-        
+
         builder.HasKey(wep => wep.Id);
 
         // Properties
@@ -27,7 +27,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
                 .HasMaxLength(100);
 
             exercise.Property(e => e.Name)
-                .IsRequired()                
+                .IsRequired()
                 .HasMaxLength(50);
 
             exercise.Property(e => e.GifUrl)
@@ -48,7 +48,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
             exercise.Property(e => e.Equipment)
                 .HasConversion(EnumListConverter<Equipment>())
                 .IsRequired();
-            
+
             exercise.Property(e => e.SecondaryMuscles)
                 .HasConversion(EnumListConverter<Muscle>())
                 .IsRequired();
@@ -56,7 +56,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
             exercise.Property(e => e.Instructions)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) 
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null)
                          ?? new List<string>()
                 )
                 .HasMaxLength(2000);
@@ -65,15 +65,15 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
             ValueConverter<IReadOnlyCollection<TEnum>, string> EnumListConverter<TEnum>() where TEnum : struct, Enum
             {
                 return new ValueConverter<IReadOnlyCollection<TEnum>, string>(
-                    v => string.Join(',', v), 
+                    v => string.Join(',', v),
                     v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Enum.Parse<TEnum>).ToList()
-                    );
+                );
             }
         });
-        
+
         // Indexes
         builder.HasIndex(wep => wep.WorkoutProgramId);
-        
+
         // Navigation properties
         builder.HasMany(wep => wep.WorkoutSets)
             .WithOne(ws => ws.WorkoutExercisePlan)

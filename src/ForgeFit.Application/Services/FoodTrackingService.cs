@@ -17,10 +17,7 @@ public class FoodTrackingService(
 {
     public async Task<FoodEntryDto> LogFoodEntryAsync(Guid userId, FoodEntryCreateRequest request)
     {
-        if (!await userRepository.ExistsAsync(userId))
-        {
-            throw new NotFoundException("User not found");
-        }
+        if (!await userRepository.ExistsAsync(userId)) throw new NotFoundException("User not found");
 
         var foodItems = GetFoodItemsFromDto(request.FoodItems);
 
@@ -38,18 +35,12 @@ public class FoodTrackingService(
     }
 
     public async Task<FoodEntryDto> UpdateFoodEntryAsync(Guid userId, Guid entryId, FoodEntryCreateRequest request)
-    { 
+    {
         var foodEntry = await foodEntryRepository.GetByIdAsync(entryId);
-        
-        if (foodEntry == null)
-        {
-            throw new NotFoundException("Food entry not found");
-        }
 
-        if (userId != foodEntry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this food entry");
-        }
+        if (foodEntry == null) throw new NotFoundException("Food entry not found");
+
+        if (userId != foodEntry.UserId) throw new UnauthorizedAccessException("You do not own this food entry");
 
         var foodItems = GetFoodItemsFromDto(request.FoodItems);
 
@@ -62,16 +53,10 @@ public class FoodTrackingService(
     public async Task DeleteFoodEntryAsync(Guid userId, Guid entryId)
     {
         var foodEntry = await foodEntryRepository.GetByIdAsync(entryId);
-        
-        if (foodEntry == null)
-        {
-            throw new NotFoundException("Food entry not found");
-        }
 
-        if (userId != foodEntry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this food entry");
-        }
+        if (foodEntry == null) throw new NotFoundException("Food entry not found");
+
+        if (userId != foodEntry.UserId) throw new UnauthorizedAccessException("You do not own this food entry");
 
         foodEntryRepository.Remove(foodEntry);
         await unitOfWork.SaveChangesAsync();
@@ -80,16 +65,10 @@ public class FoodTrackingService(
     public async Task<FoodEntryDto> GetFoodEntryAsync(Guid userId, Guid entryId)
     {
         var foodEntry = await foodEntryRepository.GetByIdWithNavigationsAsync(entryId);
-        
-        if (foodEntry == null)
-        {
-            throw new NotFoundException("Food entry not found");
-        }
 
-        if (userId != foodEntry.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this food entry");
-        }
+        if (foodEntry == null) throw new NotFoundException("Food entry not found");
+
+        if (userId != foodEntry.UserId) throw new UnauthorizedAccessException("You do not own this food entry");
 
         return mapper.Map<FoodEntryDto>(foodEntry);
     }
@@ -105,7 +84,7 @@ public class FoodTrackingService(
         var foodEntries = await foodEntryRepository.GetAllByUserIdAndDateRangeAsync(userId, from, to);
         return mapper.Map<List<FoodEntryDto>>(foodEntries);
     }
-    
+
     private static HashSet<FoodItem> GetFoodItemsFromDto(List<FoodItemDto> foodItemDtos)
     {
         return foodItemDtos.Select(dto => new FoodItem(

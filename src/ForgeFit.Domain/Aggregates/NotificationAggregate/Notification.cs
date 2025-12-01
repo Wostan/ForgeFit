@@ -42,7 +42,7 @@ public class Notification : Entity, ITimeFields
 
     // Navigation properties
     public User User { get; private set; }
-    
+
     public static Notification Create(
         Guid userId,
         NotificationType notificationType,

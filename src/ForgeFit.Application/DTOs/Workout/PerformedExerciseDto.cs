@@ -1,6 +1,6 @@
 ﻿namespace ForgeFit.Application.DTOs.Workout;
 
 public record PerformedExerciseDto(
-    WorkoutExerciseDto ExerciseSnapshot, 
+    WorkoutExerciseDto ExerciseSnapshot,
     List<PerformedSetDto> Sets
 );

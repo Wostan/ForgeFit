@@ -10,7 +10,7 @@ try
     Log.Information("Starting ForgeFit api");
 
     var builder = WebApplication.CreateBuilder(args);
-    
+
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services));
@@ -26,9 +26,9 @@ try
         .AddInfrastructure(builder.Configuration);
 
     var app = builder.Build();
-    
+
     app.UseExceptionHandling();
-    app.UseSerilogRequestLogging(); 
+    app.UseSerilogRequestLogging();
 
     if (app.Environment.IsDevelopment())
     {

@@ -9,7 +9,7 @@ public class WorkoutExercisePlanDtoValidator : AbstractValidator<WorkoutExercise
     {
         RuleFor(x => x.WorkoutExercise)
             .NotNull();
-        
+
         RuleFor(x => x.WorkoutSets)
             .NotNull()
             .Must(x => x.Count > 0).WithMessage("Exercise must have at least one set.")

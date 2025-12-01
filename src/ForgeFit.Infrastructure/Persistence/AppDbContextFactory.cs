@@ -12,7 +12,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
             "Server=localhost;Database=ForgeFit;Trusted_Connection=True;TrustServerCertificate=True;",
             sql => sql.MigrationsAssembly("ForgeFit.Infrastructure")
         );
-        
+
         return new AppDbContext(optionsBuilder.Options);
     }
 }

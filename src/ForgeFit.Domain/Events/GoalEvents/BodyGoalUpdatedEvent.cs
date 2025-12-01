@@ -5,10 +5,10 @@ using ForgeFit.Domain.ValueObjects;
 namespace ForgeFit.Domain.Events.GoalEvents;
 
 public class BodyGoalUpdatedEvent(
-    Guid goalId, 
-    Weight weightGoal, 
-    DateTime? dueDate, 
-    GoalType goalType, 
+    Guid goalId,
+    Weight weightGoal,
+    DateTime? dueDate,
+    GoalType goalType,
     GoalStatus goalStatus) : DomainEvent
 {
     public Guid GoalId { get; } = goalId;

@@ -12,10 +12,10 @@ public class NutritionGoalCreateRequestValidator : AbstractValidator<NutritionGo
 
         RuleFor(x => x.Carbs)
             .GreaterThanOrEqualTo(0).WithMessage("Carbs must be greater than or equal to 0.");
-        
+
         RuleFor(x => x.Protein)
             .GreaterThanOrEqualTo(0).WithMessage("Protein must be greater than or equal to 0.");
-        
+
         RuleFor(x => x.Fat)
             .GreaterThanOrEqualTo(0).WithMessage("Fat must be greater than or equal to 0.");
 

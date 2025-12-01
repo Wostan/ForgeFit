@@ -47,12 +47,12 @@ public class DrinkEntry : Entity, ITimeFields
 
         VolumeMl = volumeMl;
     }
-    
+
     private void SetDate(DateTime date)
-    { 
+    {
         Date = date;
     }
-    
+
     public void Update(int volumeMl, DateTime date)
     {
         SetVolumeMl(volumeMl);
