@@ -10,7 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users", tableBuilder =>
         {
-            tableBuilder.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", "UserProfile_Gender IN (1, 2, 3)");
+            tableBuilder.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", "UserProfile_Gender IN (1, 2)");
             tableBuilder.HasCheckConstraint("CK_Users_WeightCheck", "WeightValue > 0");
             tableBuilder.HasCheckConstraint("CK_Users_WeightUnitCheck", "WeightUnit IN (1, 2)");
             tableBuilder.HasCheckConstraint("CK_Users_HeightCheck", "HeightValue > 0");
