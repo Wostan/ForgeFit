@@ -41,11 +41,7 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
 
             weight.Property(w => w.Unit)
                 .IsRequired()
-                .HasColumnName("WeightUnit")
-                .HasConversion(
-                    v => v.ToString(),
-                    v => Enum.Parse<WeightUnit>(v)
-                );
+                .HasColumnName("WeightUnit");
         });
 
         // Indexes
