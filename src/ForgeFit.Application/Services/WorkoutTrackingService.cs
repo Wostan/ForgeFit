@@ -1,5 +1,4 @@
-﻿using System.Security.Authentication;
-using ForgeFit.Application.Common.Exceptions;
+﻿using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;

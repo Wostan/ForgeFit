@@ -19,11 +19,11 @@ public class WorkoutSetDtoValidator : AbstractValidator<WorkoutSetDto>
         RuleFor(x => x.Weight)
             .NotNull();
 
-        RuleFor(x => x.Weight.Value)
+        RuleFor(x => x.Weight)
             .GreaterThanOrEqualTo(0)
             .LessThan(1500).WithMessage("Weight seems unreasonably high (>1500).");
 
-        RuleFor(x => x.Weight.Unit)
+        RuleFor(x => x.WeightUnit)
             .IsInEnum();
     }
 }

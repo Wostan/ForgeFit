@@ -4,6 +4,7 @@ using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 using MapsterMapper;
 
@@ -113,7 +114,7 @@ public class WorkoutProgramService(
             sDto.Order,
             sDto.Reps,
             sDto.RestTime,
-            sDto.Weight
+            new Weight(sDto.Weight, sDto.WeightUnit)
         )).ToList();
 
         return WorkoutExercisePlan.Create(programId, exerciseVo, sets);
