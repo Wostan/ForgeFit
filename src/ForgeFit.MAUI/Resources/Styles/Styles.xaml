@@ -286,33 +286,21 @@
     </Style>
 
     <Style TargetType="Switch">
-        <Setter Property="OnColor" Value="{StaticResource Primary}" />
-        <Setter Property="ThumbColor" Value="White" />
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="OnColor" Value="{StaticResource SurfaceLight}" />
-                            <Setter Property="ThumbColor" Value="{StaticResource TextDisabled}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="On">
-                        <VisualState.Setters>
-                            <Setter Property="OnColor" Value="{StaticResource PrimaryDark}" />
-                            <Setter Property="ThumbColor" Value="{StaticResource Primary}" />
-                            <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Off">
-                        <VisualState.Setters>
-                            <Setter Property="ThumbColor" Value="{StaticResource TextDisabled}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
+        <Setter Property="OnColor" Value="{StaticResource PrimaryDark}" />
+        <Setter Property="ThumbColor" Value="{StaticResource SurfaceLight}" />
+        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+        <Style.Triggers>
+            <DataTrigger TargetType="Switch" Binding="{Binding IsToggled, Source={RelativeSource Self}}" Value="True">
+                <Setter Property="ThumbColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+            </DataTrigger>
+
+            <Trigger TargetType="Switch" Property="IsEnabled" Value="False">
+                <Setter Property="OnColor" Value="{StaticResource BorderColor}" />
+                <Setter Property="ThumbColor" Value="{StaticResource SurfaceLight}" />
+                <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="TimePicker">

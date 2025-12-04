@@ -87,7 +87,7 @@
                 </HorizontalStackLayout>
 
                 <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
-                    <Switch IsToggled="True" OnColor="{StaticResource Primary}" />
+                    <Switch IsToggled="True" />
                     <Label Text="Switch Active" VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
