@@ -1,4 +1,6 @@
-﻿using Android.Graphics.Drawables;
+﻿#if ANDROID
+    using Android.Graphics.Drawables;
+#endif
 
 namespace ForgeFit.MAUI.Behaviors;
 
