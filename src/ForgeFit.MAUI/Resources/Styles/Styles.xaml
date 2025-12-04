@@ -7,13 +7,13 @@
     
     <Shadow x:Key="SharedPrimaryGlow"
             Radius="8"
-            Opacity="0.3"
+            Opacity="0.2"
             Brush="{StaticResource Primary}" 
             Offset="0,3" />
     
     <Shadow x:Key="SharedSoftGlow"
             Radius="6"
-            Opacity="0.3"
+            Opacity="0.2"
             Brush="{StaticResource BorderColor}" 
             Offset="0,3" />
 
@@ -159,6 +159,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="behaviors:EntryAnimationBehavior.IsAnimated" Value="true"/>
     </Style>
 
     <Style TargetType="ImageButton">
