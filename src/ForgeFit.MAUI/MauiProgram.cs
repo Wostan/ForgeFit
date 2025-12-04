@@ -6,6 +6,7 @@ using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels;
 using ForgeFit.MAUI.Views;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace ForgeFit.MAUI;
 
@@ -25,6 +26,25 @@ public static class MauiProgram
             {
                 fonts.AddFont("Montserrat-Regular.ttf", "MontserratRegular");
                 fonts.AddFont("Montserrat-SemiBold.ttf", "MontserratSemiBold");
+            })
+            .ConfigureLifecycleEvents(events =>
+            {
+#if ANDROID
+                events.AddAndroid(android => android.OnCreate((activity, _) => MakeStatusBarTranslucent(activity)));
+
+                static void MakeStatusBarTranslucent(Android.App.Activity activity)
+                {
+                    activity.Window!.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
+
+                    activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+                    activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
+
+#pragma warning disable CA1422
+                    activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+                    activity.Window.SetNavigationBarColor(Android.Graphics.Color.Transparent);
+#pragma warning restore CA1422
+                }
+#endif
             });
 
 #if DEBUG
@@ -48,6 +68,7 @@ public static class MauiProgram
         builder.Services.AddScoped<DiaryPageView>();
         builder.Services.AddScoped<WorkoutPageView>();
         builder.Services.AddScoped<ProfilePageView>();
+        builder.Services.AddScoped<DesignSystemPageView>();
 
         return builder;
     }

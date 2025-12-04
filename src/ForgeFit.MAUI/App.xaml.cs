@@ -10,22 +10,26 @@ public partial class App : Application
     public App(IAuthService authService)
     {
         InitializeComponent();
+        Current!.UserAppTheme = AppTheme.Dark;
+        
         _authService = authService;
     }
 
     protected override async void OnStart()
     {
-        try
-        {
-            base.OnStart();
-
-            if (!await _authService.IsAuthenticatedAsync()) 
-                await Shell.Current.GoToAsync(nameof(LoginPageView), false);
-        }
-        catch (Exception)
-        {
-            await Shell.Current.GoToAsync(nameof(LoginPageView), false);
-        }
+        // try
+        // {
+        //     base.OnStart();
+        //
+        //     if (!await _authService.IsAuthenticatedAsync()) 
+        //         await Shell.Current.GoToAsync(nameof(LoginPageView), false);
+        // }
+        // catch (Exception)
+        // {
+        //     await Shell.Current.GoToAsync(nameof(LoginPageView), false);
+        // }
+        
+        await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}");
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

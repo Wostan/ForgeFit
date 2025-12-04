@@ -6,25 +6,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:ForgeFit.MAUI.Views"
     xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
-    Title="ForgeFit.MAUI">
+    FlyoutBehavior="Disabled"
+    Title="ForgeFit">
 
     <TabBar>
         <Tab Title="{x:Static strings:AppResources.DiaryPageTitle}">
             <ShellContent
-                ContentTemplate="{DataTemplate views:DiaryPageView}"
+                Content="{views:DiaryPageView}"
                 Route="DiaryPageView" />
         </Tab>
 
         <Tab Title="{x:Static strings:AppResources.WorkoutPageTitle}">
             <ShellContent
-                ContentTemplate="{DataTemplate views:WorkoutPageView}"
+                Content="{views:WorkoutPageView}"
                 Route="WorkoutPageView" />
         </Tab>
 
         <Tab Title="{x:Static strings:AppResources.ProfilePageTitle}">
             <ShellContent
-                ContentTemplate="{DataTemplate views:ProfilePageView}"
+                Content="{views:ProfilePageView}"
                 Route="ProfilePageView" />
+        </Tab>
+        
+        <Tab Title="UI">
+            <ShellContent
+                Content="{views:DesignSystemPageView}"
+                Route="DesignSystemPageView" />
         </Tab>
     </TabBar>
 
