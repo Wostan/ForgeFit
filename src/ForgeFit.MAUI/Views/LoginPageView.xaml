@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
+             x:Class="ForgeFit.MAUI.Views.LoginPageView" x:DataType="local:LoginPageViewModel">
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+                <Image Source="dotnet_bot.png" 
+                       HeightRequest="150" 
+                       HorizontalOptions="Center" />
+
+                <Label Text="{x:Static strings:AppResources.LoginTitle}"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#512BD4"/>
+
+                <Entry Placeholder="{x:Static strings:AppResources.EmailPlaceholder}"
+                       Text="{Binding Email}"
+                       Keyboard="Email" 
+                       ClearButtonVisibility="WhileEditing"/>
+
+                <Entry Placeholder="{x:Static strings:AppResources.PasswordPlaceholder}"
+                       Text="{Binding Password}"
+                       IsPassword="True" />
+
+                <Button Text="{x:Static strings:AppResources.LoginButton}"
+                        Command="{Binding LoginCommand}"
+                        IsEnabled="{Binding IsNotLoading}"
+                        HeightRequest="50"
+                        CornerRadius="10"
+                        BackgroundColor="#512BD4"
+                        TextColor="White"
+                        FontAttributes="Bold"/>
+
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Opacity="{Binding IsLoading}"
+                                   HorizontalOptions="Center"
+                                   Color="#512BD4"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

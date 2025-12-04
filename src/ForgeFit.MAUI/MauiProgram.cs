@@ -1,5 +1,10 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
+using ForgeFit.MAUI.Handlers;
+using ForgeFit.MAUI.Services;
+using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels;
+using ForgeFit.MAUI.Views;
 using Microsoft.Extensions.Logging;
 
 namespace ForgeFit.MAUI;
@@ -13,6 +18,9 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMarkup()
+            .RegisterViewModels()
+            .RegisterViews()
+            .RegisterServices()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("Montserrat-Regular.ttf", "MontserratRegular");
@@ -24,5 +32,44 @@ public static class MauiProgram
 #endif
 
         return builder.Build();
+    }
+    
+    private static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
+    {
+        builder.Services.AddScoped<LoginPageViewModel>();
+        
+        return builder;
+    }
+    
+    private static MauiAppBuilder RegisterViews(this MauiAppBuilder builder)
+    {
+        builder.Services.AddScoped<RegisterPageView>();
+        builder.Services.AddScoped<LoginPageView>();
+        builder.Services.AddScoped<DiaryPageView>();
+        builder.Services.AddScoped<WorkoutPageView>();
+        builder.Services.AddScoped<ProfilePageView>();
+        
+        return builder;
+    }
+    
+    private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
+    { 
+        builder.Services.AddTransient<AuthHeaderHandler>();
+        
+        builder.Services.AddScoped<IAlertService, AlertService>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        
+        builder.Services.AddHttpClient<IApiService, ApiService>(client =>
+            {
+                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
+                    ? "http://10.0.2.2:5052"
+                    : "http://localhost:5052";
+
+                client.BaseAddress = new Uri(baseAddress);
+                client.Timeout = TimeSpan.FromSeconds(10);
+            })
+            .AddHttpMessageHandler<AuthHeaderHandler>();
+        
+        return builder;
     }
 }
