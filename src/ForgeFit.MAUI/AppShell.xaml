@@ -27,7 +27,7 @@
                 Content="{views:ProfilePageView}"
                 Route="ProfilePageView" />
         </Tab>
-        
+
         <Tab Title="UI">
             <ShellContent
                 Content="{views:DesignSystemPageView}"

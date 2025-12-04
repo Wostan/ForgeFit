@@ -1,5 +1,4 @@
 ﻿using ForgeFit.Domain.Aggregates.WorkoutAggregate;
-using ForgeFit.Domain.Enums.ProfileEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

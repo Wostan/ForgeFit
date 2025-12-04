@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Headers;
 using ForgeFit.MAUI.Constants;
-using ForgeFit.MAUI.Services.Interfaces;
 
 namespace ForgeFit.MAUI.Handlers;
 

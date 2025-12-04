@@ -11,7 +11,7 @@ public partial class App : Application
     {
         InitializeComponent();
         Current!.UserAppTheme = AppTheme.Dark;
-        
+
         _authService = authService;
     }
 
@@ -28,7 +28,7 @@ public partial class App : Application
         // {
         //     await Shell.Current.GoToAsync(nameof(LoginPageView), false);
         // }
-        
+
         await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}");
     }
 

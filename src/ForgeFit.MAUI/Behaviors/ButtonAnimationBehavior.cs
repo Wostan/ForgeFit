@@ -2,13 +2,13 @@
 
 public class ButtonAnimationBehavior : Behavior<Button>
 {
-    public static readonly BindableProperty IsAnimatedProperty = 
+    public static readonly BindableProperty IsAnimatedProperty =
         BindableProperty.CreateAttached(
-            "IsAnimated", 
-            typeof(bool), typeof(ButtonAnimationBehavior), 
-            false, 
+            "IsAnimated",
+            typeof(bool), typeof(ButtonAnimationBehavior),
+            false,
             propertyChanged: OnIsAnimatedChanged);
-    
+
     private const uint PressDuration = 200;
     private const uint ReleaseDuration = 400;
     private const double PressedScaleX = 0.97;
@@ -33,27 +33,27 @@ public class ButtonAnimationBehavior : Behavior<Button>
     private static async void OnButtonPressed(object? sender, EventArgs e)
     {
         if (sender is not Button button) return;
-        
+
         button.CancelAnimations();
 
         await Task.WhenAll(
-            button.ScaleXTo(PressedScaleX, PressDuration, Easing.CubicOut), 
+            button.ScaleXTo(PressedScaleX, PressDuration, Easing.CubicOut),
             button.ScaleYTo(PressedScaleY, PressDuration, Easing.CubicOut)
-            );
+        );
     }
 
     private static async void OnButtonReleased(object? sender, EventArgs e)
     {
         if (sender is not Button button) return;
-        
+
         button.CancelAnimations();
-        
+
         await Task.WhenAll(
-            button.ScaleXTo(ReleasedScaleX, ReleaseDuration, Easing.CubicOut), 
+            button.ScaleXTo(ReleasedScaleX, ReleaseDuration, Easing.CubicOut),
             button.ScaleYTo(ReleasedScaleY, ReleaseDuration, Easing.CubicOut)
-            );
+        );
     }
-    
+
     public static bool GetIsAnimated(BindableObject view)
     {
         return (bool)view.GetValue(IsAnimatedProperty);
@@ -63,7 +63,7 @@ public class ButtonAnimationBehavior : Behavior<Button>
     {
         view.SetValue(IsAnimatedProperty, value);
     }
-    
+
     private static void OnIsAnimatedChanged(BindableObject view, object oldValue, object newValue)
     {
         if (view is not Button button) return;
@@ -73,17 +73,12 @@ public class ButtonAnimationBehavior : Behavior<Button>
         if (isAnimated)
         {
             if (!button.Behaviors.Any(b => b is ButtonAnimationBehavior))
-            {
                 button.Behaviors.Add(new ButtonAnimationBehavior());
-            }
         }
         else
         {
             var existingBehavior = button.Behaviors.FirstOrDefault(b => b is ButtonAnimationBehavior);
-            if (existingBehavior != null)
-            {
-                button.Behaviors.Remove(existingBehavior);
-            }
+            if (existingBehavior != null) button.Behaviors.Remove(existingBehavior);
         }
     }
 }

@@ -1,25 +1,26 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary 
+
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors">
-    
+
     <Shadow x:Key="SharedPrimaryGlow"
             Radius="8"
             Opacity="0.2"
-            Brush="{StaticResource Primary}" 
+            Brush="{StaticResource Primary}"
             Offset="0,3" />
-    
+
     <Shadow x:Key="SharedSoftGlow"
             Radius="6"
             Opacity="0.2"
-            Brush="{StaticResource BorderColor}" 
+            Brush="{StaticResource BorderColor}"
             Offset="0,3" />
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
+        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
     </Style>
 
     <Style TargetType="IndicatorView">
@@ -31,17 +32,17 @@
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="StrokeShape" Value="Rectangle" />
         <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
-    
+
     <Style TargetType="Border" x:Key="InputWrapper">
-        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
-        <Setter Property="StrokeThickness" Value="1"/>
-        <Setter Property="Stroke" Value="{StaticResource BorderColor}"/>
-        <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/> 
-        <Setter Property="Padding" Value="12,0"/>
-        <Setter Property="HeightRequest" Value="50"/>
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+        <Setter Property="Padding" Value="12,0" />
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -55,14 +56,14 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-    
+
     <Style TargetType="Border" x:Key="CardStyle">
         <Setter Property="Padding" Value="16" />
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}"/>
+        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
     </Style>
 
     <Style TargetType="BoxView">
@@ -70,7 +71,7 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{StaticResource TextPrimaryDark}" /> 
+        <Setter Property="TextColor" Value="{StaticResource TextPrimaryDark}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="18" />
@@ -78,7 +79,7 @@
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Padding" Value="14,10" />
         <Setter Property="MinimumHeightRequest" Value="50" />
-        <Setter Property="behaviors:ButtonAnimationBehavior.IsAnimated" Value="true"/>
+        <Setter Property="behaviors:ButtonAnimationBehavior.IsAnimated" Value="true" />
         <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -96,7 +97,7 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-    
+
     <Style TargetType="Button" x:Key="SecondaryButton">
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="BorderWidth" Value="1" />
@@ -104,12 +105,12 @@
         <Setter Property="TextColor" Value="{StaticResource Primary}" />
         <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
     </Style>
-    
+
     <Style TargetType="Button" x:Key="TextButton">
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
     </Style>
 
@@ -120,12 +121,12 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" >
+                    <VisualState x:Name="Normal">
                         <VisualState.Setters>
                             <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
                         </VisualState.Setters>
                     </VisualState>
-                    <VisualState x:Name="Checked" >
+                    <VisualState x:Name="Checked">
                         <VisualState.Setters>
                             <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
                         </VisualState.Setters>
@@ -150,6 +151,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="behaviors:EditorAnimationBehavior.IsAnimated" Value="true" />
     </Style>
 
     <Style TargetType="Entry">
@@ -159,7 +161,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="behaviors:EntryAnimationBehavior.IsAnimated" Value="true"/>
+        <Setter Property="behaviors:EntryAnimationBehavior.IsAnimated" Value="true" />
     </Style>
 
     <Style TargetType="ImageButton">
@@ -203,25 +205,25 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
-    
-    <Style TargetType="Label" x:Key="LabelH1" >
+
+    <Style TargetType="Label" x:Key="LabelH1">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="LabelH2" >
+    <Style TargetType="Label" x:Key="LabelH2">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
-        <Setter Property="Margin" Value="0,10,0,5"/>
+        <Setter Property="Margin" Value="0,10,0,5" />
     </Style>
 
-    <Style TargetType="Label" x:Key="LabelBody" >
+    <Style TargetType="Label" x:Key="LabelBody">
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
-        <Setter Property="LineHeight" Value="1.4"/>
+        <Setter Property="LineHeight" Value="1.4" />
     </Style>
 
     <Style TargetType="ListView">
@@ -240,7 +242,7 @@
 
     <Style TargetType="ProgressBar">
         <Setter Property="ProgressColor" Value="{StaticResource Primary}" />
-        <Setter Property="Height" Value="4"/>
+        <Setter Property="Height" Value="4" />
     </Style>
 
     <Style TargetType="RadioButton">
@@ -248,7 +250,7 @@
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontSize" Value="14" />
-        
+
     </Style>
 
     <Style TargetType="RefreshView">
@@ -300,7 +302,7 @@
                         <VisualState.Setters>
                             <Setter Property="OnColor" Value="{StaticResource PrimaryDark}" />
                             <Setter Property="ThumbColor" Value="{StaticResource Primary}" />
-                            <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
+                            <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Off">
@@ -333,7 +335,7 @@
         <Setter Property="DisabledColor" Value="{StaticResource TextDisabled}" />
         <Setter Property="UnselectedColor" Value="{StaticResource TextDisabled}" />
         <Setter Property="NavBarHasShadow" Value="False" />
-        
+
         <Setter Property="TabBarBackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="TabBarForegroundColor" Value="{StaticResource Primary}" />
         <Setter Property="TabBarTitleColor" Value="{StaticResource Primary}" />

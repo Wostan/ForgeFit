@@ -4,26 +4,26 @@ namespace ForgeFit.MAUI.Behaviors;
 
 public class EntryAnimationBehavior : Behavior<Entry>
 {
+    public static readonly BindableProperty IsAnimatedProperty =
+        BindableProperty.CreateAttached(
+            "IsAnimated",
+            typeof(bool),
+            typeof(EntryAnimationBehavior),
+            false,
+            propertyChanged: OnIsAnimatedChanged);
+
     private const uint AnimationDuration = 250;
     private const int AnimationRate = 16;
     private const double FocusedTranslationY = 4.0;
     private const double UnfocusedTranslationY = 0.0;
-    
+
     private const string StrokeAnimationName = "StrokeColorAnim";
     private const string PrimaryColorKey = "Primary";
     private const string BorderColorKey = "BorderColor";
-    
+
 #if ANDROID
     private Drawable? _originalBackground;
 #endif
-
-    public static readonly BindableProperty IsAnimatedProperty = 
-        BindableProperty.CreateAttached(
-            "IsAnimated", 
-            typeof(bool), 
-            typeof(EntryAnimationBehavior), 
-            false, 
-            propertyChanged: OnIsAnimatedChanged);
 
     public static bool GetIsAnimated(BindableObject view)
     {
@@ -70,7 +70,7 @@ public class EntryAnimationBehavior : Behavior<Entry>
     private async void OnEntryFocused(object? sender, FocusEventArgs e)
     {
         if (sender is not Entry entry) return;
-        
+
 #if ANDROID
         if (entry.Handler?.PlatformView is Android.Widget.EditText nativeEditText)
         {
@@ -83,8 +83,10 @@ public class EntryAnimationBehavior : Behavior<Entry>
 
         var colorTask = Task.CompletedTask;
         if (entry.Parent is Border border &&
-            Application.Current!.Resources.TryGetValue(PrimaryColorKey, out var primaryObj) && primaryObj is Color primaryColor &&
-            Application.Current.Resources.TryGetValue(BorderColorKey, out var borderObj) && borderObj is Color borderColor)
+            Application.Current!.Resources.TryGetValue(PrimaryColorKey, out var primaryObj) &&
+            primaryObj is Color primaryColor &&
+            Application.Current.Resources.TryGetValue(BorderColorKey, out var borderObj) &&
+            borderObj is Color borderColor)
         {
             var startBrush = border.Stroke as SolidColorBrush ?? new SolidColorBrush(borderColor);
             colorTask = AnimateBorderStrokeAsync(border, startBrush, primaryColor);
@@ -96,23 +98,23 @@ public class EntryAnimationBehavior : Behavior<Entry>
     private async void OnEntryUnfocused(object? sender, FocusEventArgs e)
     {
         if (sender is not Entry entry) return;
-        
+
 #if ANDROID
         if (entry.Handler?.PlatformView is Android.Widget.EditText nativeEditText && _originalBackground != null)
-        {
             nativeEditText.Background = _originalBackground;
-        }
 #endif
 
         var translationTask = entry.TranslateTo(0, UnfocusedTranslationY, AnimationDuration, Easing.CubicOut);
 
         var colorTask = Task.CompletedTask;
         if (entry.Parent is Border border &&
-            Application.Current!.Resources.TryGetValue(PrimaryColorKey, out var primaryObj) && primaryObj is Color primaryColor &&
-            Application.Current.Resources.TryGetValue(BorderColorKey, out var borderObj) && borderObj is Color borderColor)
+            Application.Current!.Resources.TryGetValue(PrimaryColorKey, out var primaryObj) &&
+            primaryObj is Color primaryColor &&
+            Application.Current.Resources.TryGetValue(BorderColorKey, out var borderObj) &&
+            borderObj is Color borderColor)
         {
-             var startBrush = border.Stroke as SolidColorBrush ?? new SolidColorBrush(primaryColor);
-             colorTask = AnimateBorderStrokeAsync(border, startBrush, borderColor);
+            var startBrush = border.Stroke as SolidColorBrush ?? new SolidColorBrush(primaryColor);
+            colorTask = AnimateBorderStrokeAsync(border, startBrush, borderColor);
         }
 
         await Task.WhenAll(translationTask, colorTask);
@@ -132,11 +134,11 @@ public class EntryAnimationBehavior : Behavior<Entry>
             var b = startColor.Blue + (endColor.Blue - startColor.Blue) * v;
             var a = startColor.Alpha + (endColor.Alpha - startColor.Alpha) * v;
 
-            border.Stroke = new Color((float)r, (float)g, (float)b, (float)a); 
+            border.Stroke = new Color((float)r, (float)g, (float)b, (float)a);
         });
 
-        animation.Commit(border, StrokeAnimationName, AnimationRate, AnimationDuration, Easing.CubicOut, 
-            finished: (_, _) => tcs.SetResult(true));
+        animation.Commit(border, StrokeAnimationName, AnimationRate, AnimationDuration, Easing.CubicOut,
+            (_, _) => tcs.SetResult(true));
 
         return tcs.Task;
     }
