@@ -6,10 +6,14 @@
         <value>1.3</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <data name="ConnectionFailedMessage" xml:space="preserve">
         <value>Не вдалося підключитися до сервера.</value>
@@ -55,5 +59,14 @@
     </data>
     <data name="UnexpectedErrorMessage" xml:space="preserve">
         <value>Сталася непередбачена помилка.</value>
+    </data>
+    <data name="DiaryPageTitle" xml:space="preserve">
+        <value>Харчування</value>
+    </data>
+    <data name="WorkoutPageTitle" xml:space="preserve">
+        <value>Тренування</value>
+    </data>
+    <data name="ProfilePageTitle" xml:space="preserve">
+        <value>Профіль</value>
     </data>
 </root>

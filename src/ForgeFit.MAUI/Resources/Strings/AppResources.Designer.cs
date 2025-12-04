@@ -78,6 +78,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diary.
+        /// </summary>
+        internal static string DiaryPageTitle {
+            get {
+                return ResourceManager.GetString("DiaryPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string EmailPlaceholder {
@@ -159,6 +168,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        internal static string ProfilePageTitle {
+            get {
+                return ResourceManager.GetString("ProfilePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server error: .
         /// </summary>
         internal static string ServerErrorPrefix {
@@ -191,6 +209,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string UnexpectedErrorMessage {
             get {
                 return ResourceManager.GetString("UnexpectedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workout.
+        /// </summary>
+        internal static string WorkoutPageTitle {
+            get {
+                return ResourceManager.GetString("WorkoutPageTitle", resourceCulture);
             }
         }
     }

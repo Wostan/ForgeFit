@@ -1,10 +1,31 @@
-﻿namespace ForgeFit.MAUI;
+﻿using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.Views;
+
+namespace ForgeFit.MAUI;
 
 public partial class App : Application
 {
-    public App()
+    private readonly IAuthService _authService;
+
+    public App(IAuthService authService)
     {
         InitializeComponent();
+        _authService = authService;
+    }
+
+    protected override async void OnStart()
+    {
+        try
+        {
+            base.OnStart();
+
+            if (!await _authService.IsAuthenticatedAsync()) 
+                await Shell.Current.GoToAsync(nameof(LoginPageView), false);
+        }
+        catch (Exception)
+        {
+            await Shell.Current.GoToAsync(nameof(LoginPageView), false);
+        }
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

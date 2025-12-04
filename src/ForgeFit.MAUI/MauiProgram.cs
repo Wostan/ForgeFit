@@ -33,14 +33,14 @@ public static class MauiProgram
 
         return builder.Build();
     }
-    
+
     private static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
     {
         builder.Services.AddScoped<LoginPageViewModel>();
-        
+
         return builder;
     }
-    
+
     private static MauiAppBuilder RegisterViews(this MauiAppBuilder builder)
     {
         builder.Services.AddScoped<RegisterPageView>();
@@ -48,17 +48,17 @@ public static class MauiProgram
         builder.Services.AddScoped<DiaryPageView>();
         builder.Services.AddScoped<WorkoutPageView>();
         builder.Services.AddScoped<ProfilePageView>();
-        
+
         return builder;
     }
-    
+
     private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
-    { 
+    {
         builder.Services.AddTransient<AuthHeaderHandler>();
-        
+
         builder.Services.AddScoped<IAlertService, AlertService>();
         builder.Services.AddScoped<IAuthService, AuthService>();
-        
+
         builder.Services.AddHttpClient<IApiService, ApiService>(client =>
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
@@ -69,7 +69,7 @@ public static class MauiProgram
                 client.Timeout = TimeSpan.FromSeconds(10);
             })
             .AddHttpMessageHandler<AuthHeaderHandler>();
-        
+
         return builder;
     }
 }
