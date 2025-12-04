@@ -19,6 +19,7 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
 
         <!-- Display name -->
         <ApplicationTitle>ForgeFit.MAUI</ApplicationTitle>
@@ -60,12 +61,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
-        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="7.0.0" />
+        <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0"/>
+        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="7.0.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0"/>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
     </ItemGroup>
 
     <ItemGroup>

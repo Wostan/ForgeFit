@@ -1,5 +1,5 @@
 ﻿#if ANDROID
-    using Android.Graphics.Drawables;
+using Android.Graphics.Drawables;
 #endif
 
 namespace ForgeFit.MAUI.Behaviors;
@@ -81,7 +81,7 @@ public class EntryAnimationBehavior : Behavior<Entry>
         }
 #endif
 
-        var translationTask = entry.TranslateTo(0, FocusedTranslationY, AnimationDuration, Easing.CubicOut);
+        var translationTask = entry.TranslateToAsync(0, FocusedTranslationY, AnimationDuration, Easing.CubicOut);
 
         var colorTask = Task.CompletedTask;
         if (entry.Parent is Border border &&
@@ -106,7 +106,7 @@ public class EntryAnimationBehavior : Behavior<Entry>
             nativeEditText.Background = _originalBackground;
 #endif
 
-        var translationTask = entry.TranslateTo(0, UnfocusedTranslationY, AnimationDuration, Easing.CubicOut);
+        var translationTask = entry.TranslateToAsync(0, UnfocusedTranslationY, AnimationDuration, Easing.CubicOut);
 
         var colorTask = Task.CompletedTask;
         if (entry.Parent is Border border &&

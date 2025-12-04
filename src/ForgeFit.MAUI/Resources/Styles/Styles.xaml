@@ -250,7 +250,6 @@
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontSize" Value="14" />
-
     </Style>
 
     <Style TargetType="RefreshView">
@@ -287,20 +286,23 @@
 
     <Style TargetType="Switch">
         <Setter Property="OnColor" Value="{StaticResource PrimaryDark}" />
+        <Setter Property="OffColor" Value="{StaticResource Surface}" />
         <Setter Property="ThumbColor" Value="{StaticResource SurfaceLight}" />
         <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
-        <Style.Triggers>
-            <DataTrigger TargetType="Switch" Binding="{Binding IsToggled, Source={RelativeSource Self}}" Value="True">
-                <Setter Property="ThumbColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
-            </DataTrigger>
-
-            <Trigger TargetType="Switch" Property="IsEnabled" Value="False">
-                <Setter Property="OnColor" Value="{StaticResource BorderColor}" />
-                <Setter Property="ThumbColor" Value="{StaticResource SurfaceLight}" />
-                <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="behaviors:SwitchAnimationBehavior.IsAnimated" Value="True" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="OnColor" Value="{StaticResource BorderColor}" />
+                            <Setter Property="OffColor" Value="{StaticResource BorderColor}" />
+                            <Setter Property="ThumbColor" Value="{StaticResource BorderColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style TargetType="TimePicker">
