@@ -7,16 +7,16 @@
     xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors">
 
     <Shadow x:Key="SharedPrimaryGlow"
-            Radius="8"
-            Opacity="0.2"
+            Radius="10"
+            Opacity="0.3"
             Brush="{StaticResource Primary}"
-            Offset="0,3" />
+            Offset="3,3" />
 
     <Shadow x:Key="SharedSoftGlow"
             Radius="6"
-            Opacity="0.2"
+            Opacity="0.3"
             Brush="{StaticResource BorderColor}"
-            Offset="0,3" />
+            Offset="3,3" />
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -31,13 +31,13 @@
     <Style TargetType="Border">
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="StrokeShape" Value="Rectangle" />
-        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
 
     <Style TargetType="Border" x:Key="InputWrapper">
-        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
-        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="Padding" Value="12,0" />
@@ -62,7 +62,7 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
-        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
     </Style>
 
@@ -75,8 +75,9 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+        <Setter Property="CornerRadius" Value="16" />
         <Setter Property="Padding" Value="14,10" />
         <Setter Property="MinimumHeightRequest" Value="50" />
         <Setter Property="behaviors:ButtonAnimationBehavior.IsAnimated" Value="true" />
@@ -91,6 +92,7 @@
                             <Setter Property="TextColor" Value="{StaticResource TextDisabled}" />
                             <Setter Property="BackgroundColor" Value="{StaticResource SurfaceLight}" />
                             <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+                            <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -100,7 +102,7 @@
 
     <Style TargetType="Button" x:Key="SecondaryButton">
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
-        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="BorderWidth" Value="2" />
         <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
         <Setter Property="TextColor" Value="{StaticResource Primary}" />
         <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />

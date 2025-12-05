@@ -27,7 +27,7 @@ public class FloatingTabBarAppearanceTracker(IShellContext shellContext, ShellIt
 {
     public override void SetAppearance(BottomNavigationView bottomView, IShellAppearanceElement appearance)
     {
-        const float borderWidthDp = 1.5f; 
+        const float borderWidthDp = 2f; 
         const int marginDp = 20;
         const int bottomMarginDp = 20;
         
