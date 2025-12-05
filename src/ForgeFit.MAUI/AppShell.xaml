@@ -7,7 +7,11 @@
     xmlns:views="clr-namespace:ForgeFit.MAUI.Views"
     xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
     FlyoutBehavior="Disabled"
-    Title="ForgeFit">
+    Title="ForgeFit"
+    Shell.TabBarBackgroundColor="{StaticResource Surface}"
+    Shell.TabBarTitleColor="{StaticResource Primary}"
+    Shell.TabBarUnselectedColor="{StaticResource TextSecondary}"
+    Shell.TabBarForegroundColor="{StaticResource Primary}">
 
     <TabBar>
         <Tab Title="{x:Static strings:AppResources.DiaryPageTitle}">

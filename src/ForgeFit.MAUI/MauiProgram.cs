@@ -7,6 +7,7 @@ using ForgeFit.MAUI.ViewModels;
 using ForgeFit.MAUI.Views;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using Sharpnado.MaterialFrame;
 
 namespace ForgeFit.MAUI;
 
@@ -19,6 +20,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMarkup()
+            .UseSharpnadoMaterialFrame(false)
             .RegisterViewModels()
             .RegisterViews()
             .RegisterServices()
@@ -40,11 +42,19 @@ public static class MauiProgram
                     activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
                     activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
 
+                    activity.Window.DecorView.SetBackgroundColor(Android.Graphics.Color.Black);
+
 #pragma warning disable CA1422
                     activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
                     activity.Window.SetNavigationBarColor(Android.Graphics.Color.Transparent);
 #pragma warning restore CA1422
                 }
+#endif
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+#if ANDROID
+                handlers.AddHandler<Shell, CustomShellHandler>();
 #endif
             });
 

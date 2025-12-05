@@ -11,12 +11,12 @@ public class SwitchAnimationBehavior : Behavior<Switch>
             propertyChanged: OnIsAnimatedChanged);
 
     private const uint AnimationDuration = 250;
-    
+
     private const string ThumbColorAnimationName = "ThumbColorAnim";
 
     private const string PrimaryColorKey = "Primary";
     private const string SurfaceLightColorKey = "SurfaceLight";
-    
+
     private const string ShadowPrimaryKey = "SharedPrimaryGlow";
     private const string ShadowSoftKey = "SharedSoftGlow";
 
@@ -52,8 +52,8 @@ public class SwitchAnimationBehavior : Behavior<Switch>
     {
         base.OnAttachedTo(switchControl);
         switchControl.Toggled += OnSwitchToggled;
-        
-        _ = UpdateVisualState(switchControl, switchControl.IsToggled, animate: false);
+
+        _ = UpdateVisualState(switchControl, switchControl.IsToggled, false);
     }
 
     protected override void OnDetachingFrom(Switch switchControl)
@@ -65,8 +65,8 @@ public class SwitchAnimationBehavior : Behavior<Switch>
     private static async void OnSwitchToggled(object? sender, ToggledEventArgs e)
     {
         if (sender is not Switch switchControl) return;
-        
-        await UpdateVisualState(switchControl, e.Value, animate: true);
+
+        await UpdateVisualState(switchControl, e.Value, true);
     }
 
     private static async Task UpdateVisualState(Switch switchControl, bool isToggled, bool animate)
@@ -78,10 +78,8 @@ public class SwitchAnimationBehavior : Behavior<Switch>
             colorObj is not Color targetThumbColor ||
             !Application.Current.Resources.TryGetValue(targetShadowKey, out var shadowObj) ||
             shadowObj is not Shadow targetShadow)
-        {
             return;
-        }
-        
+
         switchControl.Shadow = targetShadow;
 
         if (!animate || !switchControl.IsEnabled)

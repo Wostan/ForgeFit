@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Auth;
 using ForgeFit.MAUI.Resources.Strings;
-// using ForgeFit.MAUI.Resources.Strings;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.Views;
 
 namespace ForgeFit.MAUI.ViewModels;
 
@@ -54,7 +54,7 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
                 return;
             }
 
-            // await Shell.Current.GoToAsync($"://{nameof(DashboardPage)}");
+            await Shell.Current.GoToAsync($"{nameof(DiaryPageView)}");
         }
         catch (Exception)
         {
