@@ -228,10 +228,7 @@
         <Setter Property="LineHeight" Value="1.4" />
     </Style>
 
-    <Style TargetType="ListView">
-        <Setter Property="SeparatorColor" Value="{StaticResource BorderColor}" />
-        <Setter Property="RefreshControlColor" Value="{StaticResource Primary}" />
-    </Style>
+    <Style TargetType="CollectionView" />
 
     <Style TargetType="Picker">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
