@@ -10,13 +10,13 @@
             Radius="10"
             Opacity="0.3"
             Brush="{StaticResource Primary}"
-            Offset="3,3" />
+            Offset="0,4" />
 
     <Shadow x:Key="SharedSoftGlow"
             Radius="6"
             Opacity="0.3"
             Brush="{StaticResource BorderColor}"
-            Offset="3,3" />
+            Offset="0,4" />
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
