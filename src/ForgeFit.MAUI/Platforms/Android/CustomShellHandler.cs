@@ -68,7 +68,7 @@ public class FloatingTabBarAppearanceTracker(IShellContext shellContext, ShellIt
 
         return drawable;
     }
-    
+
     private static void ApplyCustomFont(ViewGroup viewGroup, string fontName)
     {
         var context = viewGroup.Context;
@@ -86,13 +86,8 @@ public class FloatingTabBarAppearanceTracker(IShellContext shellContext, ShellIt
         {
             var child = viewGroup.GetChildAt(i);
             if (child is ViewGroup childGroup)
-            {
                 ApplyCustomFont(childGroup, fontName);
-            }
-            else if (child is TextView textView)
-            {
-                textView.Typeface = typeface;
-            }
+            else if (child is TextView textView) textView.Typeface = typeface;
         }
     }
 

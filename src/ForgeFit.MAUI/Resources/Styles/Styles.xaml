@@ -138,6 +138,12 @@
         </Setter>
     </Style>
 
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}" />
+        <Setter Property="behaviors:PageAnimationBehavior.IsAnimated" Value="True" />
+    </Style>
+
     <Style TargetType="DatePicker">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />

@@ -16,9 +16,9 @@ public static class MauiProgram
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMarkup()
             .ConfigureUiSettings()
-            .RegisterServices()   
-            .RegisterViewModels() 
-            .RegisterViews()      
+            .RegisterServices()
+            .RegisterViewModels()
+            .RegisterViews()
             .ConfigureLifecycle();
 
 #if DEBUG

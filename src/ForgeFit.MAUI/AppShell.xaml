@@ -8,6 +8,7 @@
     xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
     FlyoutBehavior="Disabled"
     Title="ForgeFit"
+    Shell.PresentationMode="NotAnimated"
     Shell.TabBarBackgroundColor="{StaticResource Surface}"
     Shell.TabBarTitleColor="{StaticResource Primary}"
     Shell.TabBarUnselectedColor="{StaticResource TextSecondary}"

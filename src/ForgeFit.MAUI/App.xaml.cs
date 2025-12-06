@@ -29,7 +29,7 @@ public partial class App : Application
         //     await Shell.Current.GoToAsync(nameof(LoginPageView), false);
         // }
 
-        await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}");
+        await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}", false);
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
