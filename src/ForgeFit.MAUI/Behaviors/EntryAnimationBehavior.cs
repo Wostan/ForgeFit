@@ -16,7 +16,7 @@ public class EntryAnimationBehavior : Behavior<Entry>
 
     private const uint AnimationDuration = 250;
     private const int AnimationRate = 16;
-    private const double FocusedTranslationY = 4.0;
+    private const double FocusedTranslationY = 3.0;
     private const double UnfocusedTranslationY = 0.0;
 
     private const string StrokeAnimationName = "StrokeColorAnim";
