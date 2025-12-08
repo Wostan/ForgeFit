@@ -87,6 +87,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t have an account?.
+        /// </summary>
+        internal static string DontHaveAnAccount {
+            get {
+                return ResourceManager.GetString("DontHaveAnAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string EmailPlaceholder {
@@ -114,6 +123,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forgot Password?.
+        /// </summary>
+        internal static string ForgotPassword {
+            get {
+                return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid email or password..
         /// </summary>
         internal static string InvalidCredentialsMessage {
@@ -128,24 +146,6 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string LoadingText {
             get {
                 return ResourceManager.GetString("LoadingText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Login.
-        /// </summary>
-        internal static string LoginButton {
-            get {
-                return ResourceManager.GetString("LoginButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Welcome Back!.
-        /// </summary>
-        internal static string LoginTitle {
-            get {
-                return ResourceManager.GetString("LoginTitle", resourceCulture);
             }
         }
         
@@ -191,6 +191,33 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string ServerUnavailableMessage {
             get {
                 return ResourceManager.GetString("ServerUnavailableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign In.
+        /// </summary>
+        internal static string SignInButton {
+            get {
+                return ResourceManager.GetString("SignInButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign Up.
+        /// </summary>
+        internal static string SignUpButton {
+            get {
+                return ResourceManager.GetString("SignUpButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For athletes, by athletes!.
+        /// </summary>
+        internal static string Slogan {
+            get {
+                return ResourceManager.GetString("Slogan", resourceCulture);
             }
         }
         

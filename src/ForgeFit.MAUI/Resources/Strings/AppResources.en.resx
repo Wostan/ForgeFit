@@ -36,11 +36,11 @@
     <data name="LoadingText" xml:space="preserve">
         <value>Please wait...</value>
     </data>
-    <data name="LoginButton" xml:space="preserve">
-        <value>Login</value>
+    <data name="SignInButton" xml:space="preserve">
+        <value>Sign In</value>
     </data>
-    <data name="LoginTitle" xml:space="preserve">
-        <value>Welcome Back!</value>
+    <data name="Slogan" xml:space="preserve">
+        <value>For athletes, by athletes!</value>
     </data>
     <data name="NoInternetConnectionMessage" xml:space="preserve">
         <value>Check your internet connection!</value>
@@ -68,5 +68,14 @@
     </data>
     <data name="ProfilePageTitle" xml:space="preserve">
         <value>Profile</value>
+    </data>
+    <data name="DontHaveAnAccount" xml:space="preserve">
+        <value>Don't have an account?</value>
+    </data>
+    <data name="SignUpButton" xml:space="preserve">
+        <value>Sign Up</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Forgot Password?</value>
     </data>
 </root>

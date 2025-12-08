@@ -36,11 +36,11 @@
     <data name="LoadingText" xml:space="preserve">
         <value>Заждіть...</value>
     </data>
-    <data name="LoginButton" xml:space="preserve">
+    <data name="SignInButton" xml:space="preserve">
         <value>Увійти</value>
     </data>
-    <data name="LoginTitle" xml:space="preserve">
-        <value>З поверненням!</value>
+    <data name="Slogan" xml:space="preserve">
+        <value>Для спортсменів, від спортсменів!</value>
     </data>
     <data name="NoInternetConnectionMessage" xml:space="preserve">
         <value>Перевірте ваше з'єднання з інтернетом!</value>
@@ -68,5 +68,14 @@
     </data>
     <data name="ProfilePageTitle" xml:space="preserve">
         <value>Профіль</value>
+    </data>
+    <data name="DontHaveAnAccount" xml:space="preserve">
+        <value>Ще не зареєстровані?</value>
+    </data>
+    <data name="SignUpButton" xml:space="preserve">
+        <value>Зареєструватися</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Забули пароль?</value>
     </data>
 </root>

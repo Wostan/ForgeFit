@@ -9,23 +9,16 @@ public class EntryAnimationBehavior : Behavior<Entry>
     public static readonly BindableProperty IsAnimatedProperty =
         BindableProperty.CreateAttached(
             "IsAnimated",
-            typeof(bool),
-            typeof(EntryAnimationBehavior),
+            typeof(bool), typeof(EntryAnimationBehavior),
             false,
-            propertyChanged: OnIsAnimatedChanged);
+            propertyChanged: OnPropertyChanged);
 
-    private const uint AnimationDuration = 250;
-    private const int AnimationRate = 16;
-    private const double FocusedTranslationY = 3.0;
-    private const double UnfocusedTranslationY = 0.0;
-
-    private const string StrokeAnimationName = "StrokeColorAnim";
-    private const string PrimaryColorKey = "Primary";
-    private const string BorderColorKey = "BorderColor";
-
-#if ANDROID
-    private Drawable? _originalBackground;
-#endif
+    public static readonly BindableProperty IsErrorProperty =
+        BindableProperty.CreateAttached(
+            "IsError",
+            typeof(bool), typeof(EntryAnimationBehavior),
+            false,
+            propertyChanged: OnPropertyChanged);
 
     public static bool GetIsAnimated(BindableObject view)
     {
@@ -37,89 +30,109 @@ public class EntryAnimationBehavior : Behavior<Entry>
         view.SetValue(IsAnimatedProperty, value);
     }
 
-    private static void OnIsAnimatedChanged(BindableObject view, object oldValue, object newValue)
+    public static bool GetIsError(BindableObject view)
+    {
+        return (bool)view.GetValue(IsErrorProperty);
+    }
+
+    public static void SetIsError(BindableObject view, bool value)
+    {
+        view.SetValue(IsErrorProperty, value);
+    }
+
+    private const uint AnimationDuration = 250;
+    private const int AnimationRate = 16;
+    private const double FocusedY = 3.0;
+    private const double UnfocusedY = 0.0;
+
+    private const string StrokeAnimationName = "StrokeColorAnim";
+    private const string PrimaryKey = "Primary";
+    private const string BorderKey = "BorderColor";
+    private const string ErrorKey = "Error";
+
+#if ANDROID
+    private Drawable? _originalBackground;
+#endif
+
+    private static void OnPropertyChanged(BindableObject view, object oldValue, object newValue)
     {
         if (view is not Entry entry) return;
 
-        var isAnimated = (bool)newValue;
-        if (isAnimated)
+        if (!entry.Behaviors.Any(b => b is EntryAnimationBehavior))
         {
-            if (!entry.Behaviors.Any(b => b is EntryAnimationBehavior))
-                entry.Behaviors.Add(new EntryAnimationBehavior());
+            entry.Behaviors.Add(new EntryAnimationBehavior());
         }
         else
         {
-            var existing = entry.Behaviors.FirstOrDefault(b => b is EntryAnimationBehavior);
-            if (existing != null)
-                entry.Behaviors.Remove(existing);
+            var behavior = entry.Behaviors.FirstOrDefault(b => b is EntryAnimationBehavior) as EntryAnimationBehavior;
+            behavior?.UpdateVisualState(entry);
         }
     }
 
     protected override void OnAttachedTo(Entry entry)
     {
         base.OnAttachedTo(entry);
-        entry.Focused += OnEntryFocused;
-        entry.Unfocused += OnEntryUnfocused;
+        entry.Focused += OnFocusChanged;
+        entry.Unfocused += OnFocusChanged;
+        UpdateVisualState(entry);
     }
 
     protected override void OnDetachingFrom(Entry entry)
     {
-        entry.Focused -= OnEntryFocused;
-        entry.Unfocused -= OnEntryUnfocused;
+        entry.Focused -= OnFocusChanged;
+        entry.Unfocused -= OnFocusChanged;
         base.OnDetachingFrom(entry);
     }
 
-    private async void OnEntryFocused(object? sender, FocusEventArgs e)
+    private void OnFocusChanged(object? sender, FocusEventArgs e)
     {
-        if (sender is not Entry entry) return;
+        if (sender is Entry entry) UpdateVisualState(entry);
+    }
+
+    private async void UpdateVisualState(Entry entry)
+    {
+        var isFocused = entry.IsFocused;
+        var isError = GetIsError(entry);
+        var isAnimated = GetIsAnimated(entry);
 
 #if ANDROID
         if (entry.Handler?.PlatformView is Android.Widget.EditText nativeEditText)
         {
-            _originalBackground ??= nativeEditText.Background;
-            nativeEditText.Background = new ColorDrawable(Android.Graphics.Color.Transparent);
+            if (isFocused)
+            {
+                _originalBackground ??= nativeEditText.Background;
+                nativeEditText.Background = new ColorDrawable(Android.Graphics.Color.Transparent);
+            }
+            else if (_originalBackground != null)
+            {
+                nativeEditText.Background = _originalBackground;
+            }
         }
 #endif
 
-        var translationTask = entry.TranslateToAsync(0, FocusedTranslationY, AnimationDuration, Easing.CubicOut);
+        var translateTask = Task.CompletedTask;
+        var borderStrokeTask = Task.CompletedTask;
 
-        var colorTask = Task.CompletedTask;
-        if (entry.Parent is Border border &&
-            Application.Current!.Resources.TryGetValue(PrimaryColorKey, out var primaryObj) &&
-            primaryObj is Color primaryColor &&
-            Application.Current.Resources.TryGetValue(BorderColorKey, out var borderObj) &&
-            borderObj is Color borderColor)
+
+        if (isAnimated)
         {
-            var startBrush = border.Stroke as SolidColorBrush ?? new SolidColorBrush(borderColor);
-            colorTask = AnimateBorderStrokeAsync(border, startBrush, primaryColor);
+            var targetY = isFocused ? FocusedY : UnfocusedY;
+            translateTask = entry.TranslateToAsync(0, targetY, AnimationDuration, Easing.CubicOut);
         }
 
-        await Task.WhenAll(translationTask, colorTask);
-    }
-
-    private async void OnEntryUnfocused(object? sender, FocusEventArgs e)
-    {
-        if (sender is not Entry entry) return;
-
-#if ANDROID
-        if (entry.Handler?.PlatformView is Android.Widget.EditText nativeEditText && _originalBackground != null)
-            nativeEditText.Background = _originalBackground;
-#endif
-
-        var translationTask = entry.TranslateToAsync(0, UnfocusedTranslationY, AnimationDuration, Easing.CubicOut);
-
-        var colorTask = Task.CompletedTask;
-        if (entry.Parent is Border border &&
-            Application.Current!.Resources.TryGetValue(PrimaryColorKey, out var primaryObj) &&
-            primaryObj is Color primaryColor &&
-            Application.Current.Resources.TryGetValue(BorderColorKey, out var borderObj) &&
-            borderObj is Color borderColor)
+        if (entry.Parent is Border border)
         {
-            var startBrush = border.Stroke as SolidColorBrush ?? new SolidColorBrush(primaryColor);
-            colorTask = AnimateBorderStrokeAsync(border, startBrush, borderColor);
+            string colorKey;
+            var startBrush = border.Stroke as SolidColorBrush ?? new SolidColorBrush(Colors.White);
+
+            if (isError) colorKey = ErrorKey;
+            else colorKey = isFocused ? PrimaryKey : BorderKey;
+
+            if (Application.Current!.Resources.TryGetValue(colorKey, out var colorObj) && colorObj is Color targetColor)
+                borderStrokeTask = AnimateBorderStrokeAsync(border, startBrush, targetColor);
         }
 
-        await Task.WhenAll(translationTask, colorTask);
+        await Task.WhenAll(translateTask, borderStrokeTask);
     }
 
     private static Task<bool> AnimateBorderStrokeAsync(Border border, SolidColorBrush startBrush, Color endColor)

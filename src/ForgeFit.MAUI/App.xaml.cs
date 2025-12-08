@@ -17,19 +17,17 @@ public partial class App : Application
 
     protected override async void OnStart()
     {
-        // try
-        // {
-        //     base.OnStart();
-        //
-        //     if (!await _authService.IsAuthenticatedAsync()) 
-        //         await Shell.Current.GoToAsync(nameof(LoginPageView), false);
-        // }
-        // catch (Exception)
-        // {
-        //     await Shell.Current.GoToAsync(nameof(LoginPageView), false);
-        // }
+        try
+        {
+            base.OnStart();
 
-        await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}", false);
+            if (!await _authService.IsAuthenticatedAsync())
+                await Shell.Current.GoToAsync(nameof(LoginPageView), false);
+        }
+        catch (Exception)
+        {
+            await Shell.Current.GoToAsync(nameof(LoginPageView), false);
+        }
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

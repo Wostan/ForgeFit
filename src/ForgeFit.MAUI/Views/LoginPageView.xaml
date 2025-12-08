@@ -4,46 +4,108 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ForgeFit.MAUI.Views.LoginPageView"
              x:DataType="local:LoginPageViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
     <ContentPage.Content>
-        <ScrollView>
-            <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
-                <Image Source="dotnet_bot.png"
-                       HeightRequest="150"
-                       HorizontalOptions="Center" />
+        <Grid RowDefinitions="*, Auto" Padding="30, 0">
 
-                <Label Text="{x:Static strings:AppResources.LoginTitle}"
-                       FontSize="28"
-                       FontAttributes="Bold"
+            <VerticalStackLayout Grid.Row="0"
+                                 Spacing="25"
+                                 VerticalOptions="Center">
+
+                <VerticalStackLayout HorizontalOptions="Center" Margin="0,0,0,30">
+                    <Label Text="ForgeFit"
+                           FontSize="64"
+                           HorizontalOptions="Center"
+                           x:Name="ForgeFitLabel"
+                           Style="{StaticResource Headline}"
+                           TextColor="{StaticResource Primary}"
+                           Shadow="{StaticResource SharedPrimaryGlow}" />
+
+                    <Label Text="{x:Static strings:AppResources.Slogan}"
+                           HorizontalOptions="Center"
+                           Style="{StaticResource LabelH1}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Entry Text="{Binding Email}"
+                               x:Name="EmailEntry"
+                               Placeholder="{x:Static strings:AppResources.EmailPlaceholder}"
+                               behaviors:EntryAnimationBehavior.IsError="{Binding IsEmptyEmailField}"
+                               IsEnabled="{Binding IsNotLoading}"
+                               Keyboard="Email"
+                               ReturnType="Next"
+                               ClearButtonVisibility="WhileEditing">
+                            <Entry.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                                BindingContext="{Binding Path=BindingContext, Source={x:Reference EmailEntry}}"
+                                                                Command="{Binding EntryChangedCommand}" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Entry Text="{Binding Password}"
+                               x:Name="PasswordEntry"
+                               Placeholder="{x:Static strings:AppResources.PasswordPlaceholder}"
+                               behaviors:EntryAnimationBehavior.IsError="{Binding IsEmptyPasswordField}"
+                               IsEnabled="{Binding IsNotLoading}"
+                               IsPassword="True"
+                               ReturnType="Done">
+                            <Entry.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                                BindingContext="{Binding Path=BindingContext, Source={x:Reference PasswordEntry}}"
+                                                                Command="{Binding EntryChangedCommand}" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+
+                    <Label Text="{x:Static strings:AppResources.ForgotPassword}"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </VerticalStackLayout>
+
+                <Grid>
+                    <Button Text="{x:Static strings:AppResources.SignInButton}"
+                            Command="{Binding SignInCommand}"
+                            behaviors:ButtonAnimationBehavior.IsLoading="{Binding IsLoading}" />
+
+                    <ActivityIndicator IsRunning="{Binding IsLoading}" />
+                </Grid>
+
+                <Label Text="{Binding Error}"
+                       Opacity="{Binding IsError}"
+                       TextColor="{StaticResource Error}"
                        HorizontalOptions="Center"
-                       TextColor="#512BD4" />
+                       HorizontalTextAlignment="Center" />
 
-                <Entry Placeholder="{x:Static strings:AppResources.EmailPlaceholder}"
-                       Text="{Binding Email}"
-                       Keyboard="Email"
-                       ClearButtonVisibility="WhileEditing" />
-
-                <Entry Placeholder="{x:Static strings:AppResources.PasswordPlaceholder}"
-                       Text="{Binding Password}"
-                       IsPassword="True" />
-
-                <Button Text="{x:Static strings:AppResources.LoginButton}"
-                        Command="{Binding LoginCommand}"
-                        IsEnabled="{Binding IsNotLoading}"
-                        HeightRequest="50"
-                        CornerRadius="10"
-                        BackgroundColor="#512BD4"
-                        TextColor="White"
-                        FontAttributes="Bold" />
-
-                <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                   Opacity="{Binding IsLoading}"
-                                   HorizontalOptions="Center"
-                                   Color="#512BD4" />
             </VerticalStackLayout>
-        </ScrollView>
+
+            <VerticalStackLayout Grid.Row="1"
+                                 HorizontalOptions="Center"
+                                 Margin="0, 0, 0, 40">
+                <Label Text="{x:Static strings:AppResources.DontHaveAnAccount}"
+                       TextColor="{StaticResource TextSecondary}" />
+                <Label Text="{x:Static strings:AppResources.SignUpButton}"
+                       TextColor="{StaticResource Primary}"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

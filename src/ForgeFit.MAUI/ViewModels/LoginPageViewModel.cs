@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// ReSharper disable once RedundantUsingDirective
+
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Auth;
 using ForgeFit.MAUI.Resources.Strings;
@@ -13,7 +16,12 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
 
     [ObservableProperty] private string? _password;
 
-    [ObservableProperty] private string? _error = string.Empty;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsError))]
+    private string? _error = string.Empty;
+
+    [ObservableProperty] private bool _isEmptyEmailField;
+
+    [ObservableProperty] private bool _isEmptyPasswordField;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsNotLoading))]
     private bool _isLoading;
@@ -24,28 +32,41 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
     [RelayCommand]
     private void OnEntryChanged()
     {
-        if (IsError)
-            Error = null;
+        Error = null;
+        IsEmptyEmailField = false;
+        IsEmptyPasswordField = false;
     }
 
     [RelayCommand]
-    private async Task LoginAsync()
+    private async Task SignInAsync()
     {
         if (IsLoading) return;
 
         try
         {
-            IsLoading = true;
+            Error = null;
+            var isEmptyEntry = false;
 
-            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                IsEmptyEmailField = true;
+                isEmptyEntry = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                IsEmptyPasswordField = true;
+                isEmptyEntry = true;
+            }
+
+            if (isEmptyEntry)
             {
                 Error = AppResources.EmptyFieldsMessage;
                 return;
             }
 
-            var result =
-                await authService.SignInAsync(new UserSignInRequest(Email, Password));
-
+            IsLoading = true;
+            var result = await authService.SignInAsync(new UserSignInRequest(Email!, Password!));
             var isSuccess = result.Data;
 
             if (!isSuccess)
