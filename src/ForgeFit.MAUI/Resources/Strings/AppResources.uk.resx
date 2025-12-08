@@ -78,4 +78,7 @@
     <data name="ForgotPassword" xml:space="preserve">
         <value>Забули пароль?</value>
     </data>
+    <data name="EmailErrorMessage" xml:space="preserve">
+        <value>Некоректна Email адреса.</value>
+    </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿// ReSharper disable once RedundantUsingDirective
 
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Auth;
@@ -19,7 +20,7 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsError))]
     private string? _error = string.Empty;
 
-    [ObservableProperty] private bool _isEmptyEmailField;
+    [ObservableProperty] private bool _isEmailError;
 
     [ObservableProperty] private bool _isEmptyPasswordField;
 
@@ -33,7 +34,7 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
     private void OnEntryChanged()
     {
         Error = null;
-        IsEmptyEmailField = false;
+        IsEmailError = false;
         IsEmptyPasswordField = false;
     }
 
@@ -49,7 +50,7 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
 
             if (string.IsNullOrWhiteSpace(Email))
             {
-                IsEmptyEmailField = true;
+                IsEmailError = true;
                 isEmptyEntry = true;
             }
 
@@ -62,6 +63,14 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
             if (isEmptyEntry)
             {
                 Error = AppResources.EmptyFieldsMessage;
+                return;
+            }
+            
+            var emailRegex = EmailRegex();
+            if (!emailRegex.IsMatch(Email!))
+            {
+                IsEmailError = true;
+                Error = AppResources.EmailErrorMessage;
                 return;
             }
 
@@ -86,4 +95,7 @@ public partial class LoginPageViewModel(IAuthService authService, IAlertService 
             IsLoading = false;
         }
     }
+
+    [GeneratedRegex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")]
+    private static partial Regex EmailRegex();
 }

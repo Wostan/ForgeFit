@@ -96,6 +96,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect Email..
+        /// </summary>
+        internal static string EmailErrorMessage {
+            get {
+                return ResourceManager.GetString("EmailErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string EmailPlaceholder {

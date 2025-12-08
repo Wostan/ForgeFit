@@ -37,7 +37,7 @@
                         <Entry Text="{Binding Email}"
                                x:Name="EmailEntry"
                                Placeholder="{x:Static strings:AppResources.EmailPlaceholder}"
-                               behaviors:EntryAnimationBehavior.IsError="{Binding IsEmptyEmailField}"
+                               behaviors:EntryAnimationBehavior.IsError="{Binding IsEmailError}"
                                IsEnabled="{Binding IsNotLoading}"
                                Keyboard="Email"
                                ReturnType="Next"
