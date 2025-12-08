@@ -3,30 +3,57 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
-             xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="ForgeFit.MAUI.Views.LoginPageView"
              x:DataType="local:LoginPageViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
     <ContentPage.Content>
         <Grid RowDefinitions="*, Auto" Padding="30, 0">
+            
+            <Border Grid.Row="0"
+                    Style="{StaticResource InputWrapper}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End">
+                <Grid ColumnDefinitions="*">
+                    <Picker Grid.Column="0"
+                            ItemsSource="{Binding Languages}"
+                            SelectedItem="{Binding SelectedLanguage}"
+                            ItemDisplayBinding="{Binding Name}"
+                            VerticalOptions="Center"
+                            MaximumWidthRequest="20"
+                            BackgroundColor="Transparent"
+                            TextColor="Transparent" />
+                    <Image Grid.Column="0"
+                           Source="language.svg"
+                           HeightRequest="40" WidthRequest="40"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           ZIndex="1">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Image.Behaviors>
+                    </Image>
+                </Grid>
+            </Border>
 
             <VerticalStackLayout Grid.Row="0"
                                  Spacing="25"
                                  VerticalOptions="Center">
-
                 <VerticalStackLayout HorizontalOptions="Center" Margin="0,0,0,30">
                     <Label Text="ForgeFit"
                            FontSize="64"
-                           HorizontalOptions="Center"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="NoWrap"
                            x:Name="ForgeFitLabel"
                            Style="{StaticResource Headline}"
                            TextColor="{StaticResource Primary}"
                            Shadow="{StaticResource SharedPrimaryGlow}" />
 
-                    <Label Text="{x:Static strings:AppResources.Slogan}"
+                    <Label Text="{maui:Translate Slogan}"
                            HorizontalOptions="Center"
                            Style="{StaticResource LabelH1}" />
                 </VerticalStackLayout>
@@ -36,7 +63,7 @@
                     <Border Style="{StaticResource InputWrapper}">
                         <Entry Text="{Binding Email}"
                                x:Name="EmailEntry"
-                               Placeholder="{x:Static strings:AppResources.EmailPlaceholder}"
+                               Placeholder="{maui:Translate EmailPlaceholder}"
                                behaviors:EntryAnimationBehavior.IsError="{Binding IsEmailError}"
                                IsEnabled="{Binding IsNotLoading}"
                                Keyboard="Email"
@@ -53,7 +80,7 @@
                     <Border Style="{StaticResource InputWrapper}">
                         <Entry Text="{Binding Password}"
                                x:Name="PasswordEntry"
-                               Placeholder="{x:Static strings:AppResources.PasswordPlaceholder}"
+                               Placeholder="{maui:Translate PasswordPlaceholder}"
                                behaviors:EntryAnimationBehavior.IsError="{Binding IsEmptyPasswordField}"
                                IsEnabled="{Binding IsNotLoading}"
                                IsPassword="True"
@@ -66,7 +93,7 @@
                         </Entry>
                     </Border>
 
-                    <Label Text="{x:Static strings:AppResources.ForgotPassword}"
+                    <Label Text="{maui:Translate ForgotPassword}"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="End">
                         <Label.GestureRecognizers>
@@ -76,14 +103,14 @@
                 </VerticalStackLayout>
 
                 <Grid>
-                    <Button Text="{x:Static strings:AppResources.SignInButton}"
+                    <Button Text="{maui:Translate SignInButton}"
                             Command="{Binding SignInCommand}"
                             behaviors:ButtonAnimationBehavior.IsLoading="{Binding IsLoading}" />
 
                     <ActivityIndicator IsRunning="{Binding IsLoading}" />
                 </Grid>
 
-                <Label Text="{Binding Error}"
+                <Label Text="{Binding Error.Localized}"
                        Opacity="{Binding IsError}"
                        TextColor="{StaticResource Error}"
                        HorizontalOptions="Center"
@@ -94,9 +121,9 @@
             <VerticalStackLayout Grid.Row="1"
                                  HorizontalOptions="Center"
                                  Margin="0, 0, 0, 40">
-                <Label Text="{x:Static strings:AppResources.DontHaveAnAccount}"
+                <Label Text="{maui:Translate DontHaveAnAccount}"
                        TextColor="{StaticResource TextSecondary}" />
-                <Label Text="{x:Static strings:AppResources.SignUpButton}"
+                <Label Text="{maui:Translate SignUpButton}"
                        TextColor="{StaticResource Primary}"
                        FontAttributes="Bold"
                        HorizontalTextAlignment="Center">
