@@ -71,7 +71,7 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         return new WorkoutExerciseDto(
             item.ExerciseId,
             item.Name,
-            string.IsNullOrEmpty(item.GifUrl) ? null : new Uri(item.GifUrl),
+            string.IsNullOrEmpty(item.GifUrl) ? null : item.GifUrl,
             ParseEnums<Muscle>(item.TargetMuscles),
             ParseEnums<BodyPart>(item.BodyParts),
             ParseEnums<Equipment>(item.Equipments),

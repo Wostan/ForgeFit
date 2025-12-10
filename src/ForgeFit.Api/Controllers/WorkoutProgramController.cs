@@ -21,7 +21,7 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await workoutProgramService.CreateWorkoutProgramAsync(userId, workoutProgramRequest);
 
-        return CreatedAtAction(nameof(GetWorkoutProgramAsync), new { workoutProgramId = result.Id }, result);
+        return CreatedAtRoute("GetWorkoutProgram", new { workoutProgramId = result.Id }, result);
     }
 
     [Authorize]
@@ -66,7 +66,7 @@ public class WorkoutProgramController(IWorkoutProgramService workoutProgramServi
     }
 
     [Authorize]
-    [HttpGet("{workoutProgramId:guid}")]
+    [HttpGet("{workoutProgramId:guid}", Name = "GetWorkoutProgram")]
     [ProducesResponseType(typeof(WorkoutProgramResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

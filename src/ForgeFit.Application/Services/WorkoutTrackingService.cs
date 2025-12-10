@@ -100,7 +100,7 @@ public class WorkoutTrackingService(
             var snapshot = new WorkoutExercise(
                 performedExerciseDto.ExerciseSnapshot.ExternalId,
                 performedExerciseDto.ExerciseSnapshot.Name,
-                performedExerciseDto.ExerciseSnapshot.GifUrl,
+                performedExerciseDto.ExerciseSnapshot.GifUrl is null ? null : new Uri(performedExerciseDto.ExerciseSnapshot.GifUrl),
                 performedExerciseDto.ExerciseSnapshot.TargetMuscles,
                 performedExerciseDto.ExerciseSnapshot.BodyParts,
                 performedExerciseDto.ExerciseSnapshot.Equipment,

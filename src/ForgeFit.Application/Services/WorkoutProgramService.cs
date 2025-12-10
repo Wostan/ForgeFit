@@ -101,7 +101,7 @@ public class WorkoutProgramService(
         var exerciseVo = new WorkoutExercise(
             dto.WorkoutExercise.ExternalId,
             dto.WorkoutExercise.Name,
-            dto.WorkoutExercise.GifUrl,
+            dto.WorkoutExercise.GifUrl is null ? null : new Uri(dto.WorkoutExercise.GifUrl),
             dto.WorkoutExercise.TargetMuscles,
             dto.WorkoutExercise.BodyParts,
             dto.WorkoutExercise.Equipment,

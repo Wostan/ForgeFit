@@ -5,7 +5,7 @@ namespace ForgeFit.Application.DTOs.Workout;
 public record WorkoutExerciseDto(
     string ExternalId,
     string Name,
-    Uri? GifUrl,
+    string? GifUrl,
     List<Muscle> TargetMuscles,
     List<BodyPart> BodyParts,
     List<Equipment> Equipment,
