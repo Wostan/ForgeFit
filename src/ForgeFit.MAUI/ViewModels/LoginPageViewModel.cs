@@ -22,8 +22,8 @@ public partial class LoginPageViewModel : ObservableObject
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsNotLoading))]
     private bool _isLoading;
-    [ObservableProperty]
-    private LocalizedString _error = new(() => string.Empty);
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsError))]
+    private LocalizedString? _error;
 
     [ObservableProperty] private LanguageItem? _selectedLanguage;
     
@@ -106,7 +106,7 @@ public partial class LoginPageViewModel : ObservableObject
                 return;
             }
 
-            await Shell.Current.GoToAsync($"{nameof(DiaryPageView)}");
+            await Shell.Current.GoToAsync($"///{nameof(DiaryPageView)}", false);
         }
         catch (Exception)
         {
