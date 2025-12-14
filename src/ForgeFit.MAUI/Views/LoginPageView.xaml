@@ -45,7 +45,7 @@
                 <VerticalStackLayout HorizontalOptions="Center" Margin="0,0,0,30">
                     <Label Text="ForgeFit"
                            FontSize="64"
-                           HorizontalOptions="Fill"
+                           HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            LineBreakMode="NoWrap"
                            x:Name="ForgeFitLabel"
@@ -53,8 +53,10 @@
                            TextColor="{StaticResource Primary}"
                            Shadow="{StaticResource SharedPrimaryGlow}" />
 
-                    <Label Text="{maui:Translate Slogan}"
-                           HorizontalOptions="Center"
+                    <Label Text="{maui:Translate WelcomeBack}"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="NoWrap"
                            Style="{StaticResource LabelH1}" />
                 </VerticalStackLayout>
 

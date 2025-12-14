@@ -222,15 +222,6 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For athletes, by athletes!.
-        /// </summary>
-        internal static string Slogan {
-            get {
-                return ResourceManager.GetString("Slogan", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Success!.
         /// </summary>
         internal static string SuccessTitle {
@@ -245,6 +236,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string UnexpectedErrorMessage {
             get {
                 return ResourceManager.GetString("UnexpectedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome back!.
+        /// </summary>
+        internal static string WelcomeBack {
+            get {
+                return ResourceManager.GetString("WelcomeBack", resourceCulture);
             }
         }
         

@@ -70,18 +70,21 @@ public class ButtonAnimationBehavior : Behavior<Button>
 
         button.Dispatcher.Dispatch(async void () =>
         {
+            button.InputTransparent = isLoading;
+
+            button.CancelAnimations();
+
             if (isLoading)
             {
                 VisualStateManager.GoToState(button, "Normal");
                 await button.FadeToAsync(0, FadeDuration, Easing.CubicOut);
-                button.InputTransparent = true;
             }
             else
             {
-                button.InputTransparent = false;
                 button.ScaleX = ReleasedScaleX;
                 button.ScaleY = ReleasedScaleY;
                 VisualStateManager.GoToState(button, "Normal");
+                
                 await button.FadeToAsync(1, FadeDuration, Easing.CubicOut);
             }
         });

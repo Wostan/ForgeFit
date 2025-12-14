@@ -39,8 +39,8 @@
     <data name="SignInButton" xml:space="preserve">
         <value>Sign In</value>
     </data>
-    <data name="Slogan" xml:space="preserve">
-        <value>For athletes, by athletes!</value>
+    <data name="WelcomeBack" xml:space="preserve">
+        <value>Welcome back!</value>
     </data>
     <data name="NoInternetConnectionMessage" xml:space="preserve">
         <value>Check your internet connection!</value>
