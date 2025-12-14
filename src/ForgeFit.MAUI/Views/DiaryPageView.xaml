@@ -2,8 +2,40 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
              x:Class="ForgeFit.MAUI.Views.DiaryPageView">
     <ContentPage.Content>
-
+        <ScrollView>
+            <VerticalStackLayout Padding="20">
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *">
+                        <progressRing:ProgressRing Grid.Row="0" Grid.Column="0"
+                                                   HeightRequest="100"
+                                                   Progress="0.3"
+                                                   Smooth="True"
+                                                   WidthRequest="100"
+                                                   StrokeLineCap="Butt"
+                                                   Color="LightGreen" 
+                                                   Thickness="5" />
+                        <progressRing:ProgressRing Grid.Row="0" Grid.Column="1"
+                                                   HeightRequest="100"
+                                                   Progress="0.5"
+                                                   Smooth="True"
+                                                   WidthRequest="100"
+                                                   StrokeLineCap="Butt"
+                                                   Color="LightCoral" 
+                                                   Thickness="5" />
+                        <progressRing:ProgressRing Grid.Row="0" Grid.Column="2"
+                                                   HeightRequest="100"
+                                                   Progress="0.4"
+                                                   Smooth="True"
+                                                   WidthRequest="100"
+                                                   StrokeLineCap="Butt"
+                                                   Color="LightGoldenrodYellow" 
+                                                   Thickness="5" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

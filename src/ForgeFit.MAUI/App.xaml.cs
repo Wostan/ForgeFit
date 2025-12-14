@@ -17,6 +17,9 @@ public partial class App : Application
 
     protected override async void OnStart()
     {
+#if DEBUG
+        await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}", false);
+#else
         try
         {
             base.OnStart();
@@ -28,8 +31,7 @@ public partial class App : Application
         {
             await Shell.Current.GoToAsync(nameof(LoginPageView), false);
         }
-        
-        // await Shell.Current.GoToAsync($"///{nameof(DesignSystemPageView)}", false);
+#endif
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
