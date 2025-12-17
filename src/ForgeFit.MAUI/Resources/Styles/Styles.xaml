@@ -8,16 +8,46 @@
     xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing">
 
     <Shadow x:Key="SharedPrimaryGlow"
-            Radius="10"
-            Opacity="0.3"
+            Radius="20"           
+            Opacity="0.15"        
             Brush="{StaticResource Primary}"
-            Offset="0,4" />
+            Offset="0,8" />
 
     <Shadow x:Key="SharedSoftGlow"
             Radius="6"
             Opacity="0.3"
             Brush="{StaticResource BorderColor}"
             Offset="0,4" />
+    
+    <Shadow x:Key="CaloriesGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource Primary}"
+            Offset="0,0" /> 
+    
+    <Shadow x:Key="WaterGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource WaterColor}"
+            Offset="0,0" /> 
+    
+    <Shadow x:Key="CarbsGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource CarbsColor}"
+            Offset="0,0" /> 
+    
+    <Shadow x:Key="ProteinGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource ProteinColor}"
+            Offset="0,0" />
+
+    <Shadow x:Key="FatGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource FatColor}"
+            Offset="0,0" />
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -256,6 +286,7 @@
     <Style TargetType="ProgressBar">
         <Setter Property="ProgressColor" Value="{StaticResource Primary}" />
         <Setter Property="Height" Value="4" />
+        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
     </Style>
 
     <Style TargetType="RadioButton">
@@ -361,11 +392,12 @@
     <Style TargetType="progressRing:ProgressRing">
         <Setter Property="HeightRequest" Value="100" />
         <Setter Property="WidthRequest" Value="100" />
-        <Setter Property="MinimumHeightRequest" Value="100" />
-        <Setter Property="MinimumWidthRequest" Value="100" />
+        <Setter Property="MinimumHeightRequest" Value="50" />
+        <Setter Property="MinimumWidthRequest" Value="50" />
         <Setter Property="Smooth" Value="True" />
         <Setter Property="Thickness" Value="5" />
         <Setter Property="StrokeLineCap" Value="Butt"/>
+        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
     </Style>
 
 </ResourceDictionary>
