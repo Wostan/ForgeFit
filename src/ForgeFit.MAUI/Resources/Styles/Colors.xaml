@@ -21,4 +21,8 @@
 
     <Color x:Key="Error">#CF6679</Color>
     <Color x:Key="Success">#00C853</Color>
+    
+    <Color x:Key="CarbsColor">#69F0AE</Color>
+    <Color x:Key="ProteinColor">#FF8A80</Color>
+    <Color x:Key="FatColor">#FFE57F</Color>
 </ResourceDictionary>

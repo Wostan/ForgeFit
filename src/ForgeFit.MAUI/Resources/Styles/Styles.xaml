@@ -4,7 +4,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors">
+    xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+    xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing">
 
     <Shadow x:Key="SharedPrimaryGlow"
             Radius="10"
@@ -208,10 +209,10 @@
 
     <Style TargetType="Label" x:Key="SubHeadline">
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
-        <Setter Property="FontFamily" Value="MontserratRegular" />
+        <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="20" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
     </Style>
 
     <Style TargetType="Label" x:Key="LabelH1">
@@ -229,7 +230,14 @@
 
     <Style TargetType="Label" x:Key="LabelBody">
         <Setter Property="FontFamily" Value="MontserratRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="LineHeight" Value="1.4" />
+    </Style>
+    
+    <Style TargetType="Label" x:Key="LabelBodyBold">
+        <Setter Property="FontFamily" Value="MontserratSemiBold" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="LineHeight" Value="1.4" />
     </Style>
@@ -348,6 +356,16 @@
         <Setter Property="BarTextColor" Value="{StaticResource Primary}" />
         <Setter Property="UnselectedTabColor" Value="{StaticResource TextDisabled}" />
         <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+    </Style>
+    
+    <Style TargetType="progressRing:ProgressRing">
+        <Setter Property="HeightRequest" Value="100" />
+        <Setter Property="WidthRequest" Value="100" />
+        <Setter Property="MinimumHeightRequest" Value="100" />
+        <Setter Property="MinimumWidthRequest" Value="100" />
+        <Setter Property="Smooth" Value="True" />
+        <Setter Property="Thickness" Value="5" />
+        <Setter Property="StrokeLineCap" Value="Butt"/>
     </Style>
 
 </ResourceDictionary>

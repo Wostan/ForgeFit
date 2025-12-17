@@ -6,35 +6,131 @@
              x:Class="ForgeFit.MAUI.Views.DiaryPageView">
     <ContentPage.Content>
         <ScrollView>
-            <VerticalStackLayout Padding="20">
-                <Border Style="{StaticResource CardStyle}">
-                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *">
-                        <progressRing:ProgressRing Grid.Row="0" Grid.Column="0"
-                                                   HeightRequest="100"
-                                                   Progress="0.3"
-                                                   Smooth="True"
-                                                   WidthRequest="100"
-                                                   StrokeLineCap="Butt"
-                                                   Color="LightGreen" 
-                                                   Thickness="5" />
-                        <progressRing:ProgressRing Grid.Row="0" Grid.Column="1"
-                                                   HeightRequest="100"
-                                                   Progress="0.5"
-                                                   Smooth="True"
-                                                   WidthRequest="100"
-                                                   StrokeLineCap="Butt"
-                                                   Color="LightCoral" 
-                                                   Thickness="5" />
-                        <progressRing:ProgressRing Grid.Row="0" Grid.Column="2"
-                                                   HeightRequest="100"
-                                                   Progress="0.4"
-                                                   Smooth="True"
-                                                   WidthRequest="100"
-                                                   StrokeLineCap="Butt"
-                                                   Color="LightGoldenrodYellow" 
-                                                   Thickness="5" />
-                    </Grid>
-                </Border>
+            <VerticalStackLayout Padding="20, 0" Spacing="20">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
+                    <DatePicker Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
+                </Grid>
+
+                <VerticalStackLayout Spacing="4">
+                    
+                    <Label Style="{StaticResource LabelBodyBold}"
+                           Text="Summary"
+                           TextColor="{StaticResource TextSecondary}" />
+                    
+                    <Border Style="{StaticResource CardStyle}">
+                        <Grid RowDefinitions="Auto, Auto"
+                              ColumnDefinitions="*, *, *"
+                              RowSpacing="24"
+                              ColumnSpacing="10">
+
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <progressRing:ProgressRing Progress="0.75"
+                                                           Color="{StaticResource CarbsColor}" />
+
+                                <VerticalStackLayout VerticalOptions="Center"
+                                                     HorizontalOptions="Center"
+                                                     Spacing="-4">
+                                    <Label Text="Carbs"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           FontSize="10"
+                                           TextTransform="Uppercase"
+                                           HorizontalOptions="Center" />
+
+                                    <Label Text="35 g"
+                                           Style="{StaticResource LabelH2}"
+                                           FontSize="18"
+                                           Margin="0"
+                                           HorizontalOptions="Center" />
+
+                                    <Label Text="328 g"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           FontSize="12"
+                                           HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <progressRing:ProgressRing Progress="0.39"
+                                                           Color="{StaticResource ProteinColor}" />
+
+                                <VerticalStackLayout VerticalOptions="Center"
+                                                     HorizontalOptions="Center"
+                                                     Spacing="-4">
+                                    <Label Text="Protein"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           FontSize="10"
+                                           TextTransform="Uppercase"
+                                           HorizontalOptions="Center" />
+
+                                    <Label Text="35 g"
+                                           Style="{StaticResource LabelH2}"
+                                           FontSize="18"
+                                           Margin="0"
+                                           HorizontalOptions="Center" />
+
+                                    <Label Text="128 g"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           FontSize="12"
+                                           HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="2">
+                                <progressRing:ProgressRing Progress="0.39"
+                                                           Color="{StaticResource FatColor}" />
+
+                                <VerticalStackLayout VerticalOptions="Center"
+                                                     HorizontalOptions="Center"
+                                                     Spacing="-4">
+                                    <Label Text="Fats"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           FontSize="10"
+                                           TextTransform="Uppercase"
+                                           HorizontalOptions="Center" />
+
+                                    <Label Text="35 g"
+                                           Style="{StaticResource LabelH2}"
+                                           FontSize="18"
+                                           Margin="0"
+                                           HorizontalOptions="Center" />
+
+                                    <Label Text="54 g"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           FontSize="12"
+                                           HorizontalOptions="Center" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Text="Calories"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           TextTransform="Uppercase" />
+
+                                    <Label Style="{StaticResource LabelBodyBold}"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="End"
+                                           Text="1322 / 2894 kcal">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="1322"
+                                                      Style="{StaticResource LabelBodyBold}"
+                                                      TextColor="{StaticResource TextPrimary}" />
+                                                <Span Text=" / 2894 kcal"
+                                                      Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                                <ProgressBar Progress="0.45"
+                                             ProgressColor="{StaticResource Primary}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+
             </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>
