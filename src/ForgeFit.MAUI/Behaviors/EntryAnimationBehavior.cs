@@ -48,7 +48,7 @@ public class EntryAnimationBehavior : Behavior<Entry>
     private const string StrokeAnimationName = "StrokeColorAnim";
     private const string PrimaryKey = "Primary";
     private const string BorderKey = "BorderColor";
-    private const string ErrorKey = "Error";
+    private const string ErrorKey = "DangerColor";
 
 #if ANDROID
     private Drawable? _originalBackground;

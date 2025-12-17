@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="ForgeFit.MAUI.Views.DiaryPageControlTemplates.DiaryMealsView">
+    <VerticalStackLayout Spacing="4">
+                                        
+        <Label Style="{StaticResource LabelBodyBold}"
+               Text="Meals"
+               TextColor="{StaticResource TextSecondary}" />
+        
+        <Border Style="{StaticResource CardStyle}"
+                Padding="0">
+            <VerticalStackLayout Padding="16" Spacing="16">
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30" 
+                                               HeightRequest="30"
+                                               Progress="0.75" /> 
+                    <Label Text="🍳" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Breakfast" 
+                               Style="{StaticResource LabelBodyBold}" 
+                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="431"
+                                          Style="{StaticResource LabelBodyBold}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / 824 kcal"
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+                    
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+                
+                <BoxView Color="{StaticResource BorderColor}" 
+                         HeightRequest="1"/>
+                
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30" 
+                                               HeightRequest="30"
+                                               Progress="0.75" /> 
+                    <Label Text="🍲" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Lunch" 
+                               Style="{StaticResource LabelBodyBold}" 
+                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="621"
+                                          Style="{StaticResource LabelBodyBold}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / 1023 kcal"
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+                    
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+                
+                <BoxView Color="{StaticResource BorderColor}" 
+                         HeightRequest="1"/>
+                
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30" 
+                                               HeightRequest="30"
+                                               Progress="0.95" /> 
+                    <Label Text="🍝" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Dinner" 
+                               Style="{StaticResource LabelBodyBold}" 
+                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="621"
+                                          Style="{StaticResource LabelBodyBold}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / 664 kcal"
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+                    
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+                    
+                </Grid> 
+                
+                <BoxView Color="{StaticResource BorderColor}" 
+                         HeightRequest="1"/>
+                
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30" 
+                                               HeightRequest="30"
+                                               Progress="0.5" /> 
+                    <Label Text="🍌" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Snack" 
+                               Style="{StaticResource LabelBodyBold}" 
+                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="121"
+                                          Style="{StaticResource LabelBodyBold}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / 264 kcal"
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+                    
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+                    
+                </Grid> 
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

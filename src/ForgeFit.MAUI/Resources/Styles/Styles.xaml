@@ -48,6 +48,12 @@
             Opacity="0.2"
             Brush="{StaticResource FatColor}"
             Offset="0,0" />
+    
+    <Shadow x:Key="DangerGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource DangerColor}"
+            Offset="0,0" />
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -396,7 +402,6 @@
         <Setter Property="MinimumWidthRequest" Value="50" />
         <Setter Property="Smooth" Value="True" />
         <Setter Property="Thickness" Value="5" />
-        <Setter Property="StrokeLineCap" Value="Butt"/>
         <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
     </Style>
 

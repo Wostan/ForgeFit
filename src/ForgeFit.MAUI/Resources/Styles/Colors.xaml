@@ -19,12 +19,17 @@
     <Color x:Key="TextDisabled">#606060</Color>
     <Color x:Key="BorderColor">#333333</Color>
 
-    <Color x:Key="Error">#CF6679</Color>
-    <Color x:Key="Success">#00C853</Color>
+    <Color x:Key="DangerColor">#CF6679</Color>
+    <Color x:Key="SuccessColor">#00C853</Color>
     
     <Color x:Key="CarbsColor">#69F0AE</Color>
     <Color x:Key="ProteinColor">#FF8A80</Color>
     <Color x:Key="FatColor">#FFE57F</Color>
     
     <Color x:Key="WaterColor">#81D4FA</Color>
+    <LinearGradientBrush x:Key="WaterCardGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0E0E0E" Offset="0.0" /> 
+        <GradientStop Color="#385B7D" Offset="0.8" /> 
+    </LinearGradientBrush>
+    
 </ResourceDictionary>
