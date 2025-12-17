@@ -25,8 +25,7 @@ public static class MauiProgram
             .ConfigureUiSettings()
             .RegisterServices()
             .RegisterViewModels()
-            .RegisterViews()
-            .ConfigureLifecycle();
+            .RegisterViews();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Markup;
-using Sharpnado.MaterialFrame;
+﻿using Sharpnado.MaterialFrame;
 
 namespace ForgeFit.MAUI.Extensions;
 
@@ -18,7 +16,7 @@ public static class UiExtensions
             .ConfigureMauiHandlers(handlers =>
             {
 #if ANDROID
-                handlers.AddHandler<Shell, CustomShellHandler>();
+                handlers.AddHandler<Shell, ShellHandler>();
 #endif
             });
 
