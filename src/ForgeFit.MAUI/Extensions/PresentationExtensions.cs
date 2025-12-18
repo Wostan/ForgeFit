@@ -8,6 +8,7 @@ public static class PresentationExtensions
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
     {
         builder.Services.AddScoped<LoginPageViewModel>();
+        builder.Services.AddScoped<DiaryPageViewModel>();
         return builder;
     }
 

@@ -3,6 +3,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:diaryPageControlTemplates="clr-namespace:ForgeFit.MAUI.Views.DiaryPageControlTemplates"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             x:DataType="local:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.DiaryPageView">
     <ContentPage.Content>
         <ScrollView>
@@ -16,6 +18,8 @@
                 <diaryPageControlTemplates:DiaryMealsView />
                 <diaryPageControlTemplates:DiaryHydrationView />
                 <diaryPageControlTemplates:DiaryWeightView />
+                
+                <Label Text="{Binding Test}"/>
 
             </VerticalStackLayout>
         </ScrollView>

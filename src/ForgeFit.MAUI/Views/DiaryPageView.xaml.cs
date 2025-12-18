@@ -1,9 +1,12 @@
-﻿namespace ForgeFit.MAUI.Views;
+﻿using ForgeFit.MAUI.ViewModels;
+
+namespace ForgeFit.MAUI.Views;
 
 public partial class DiaryPageView : ContentPage
 {
-    public DiaryPageView()
+    public DiaryPageView(DiaryPageViewModel viewModel)
     {
         InitializeComponent();
+        BindingContext = viewModel;
     }
 }
