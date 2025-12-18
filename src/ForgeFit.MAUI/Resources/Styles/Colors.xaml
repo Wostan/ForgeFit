@@ -27,9 +27,7 @@
     <Color x:Key="FatColor">#FFE57F</Color>
 
     <Color x:Key="WaterColor">#81D4FA</Color>
-    <LinearGradientBrush x:Key="WaterCardGradient" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#0E0E0E" Offset="0.0" />
-        <GradientStop Color="#385B7D" Offset="0.8" />
-    </LinearGradientBrush>
+    
+    <Color x:Key="WeightColor">#FFAB91</Color>
 
 </ResourceDictionary>

@@ -30,6 +30,12 @@
             Opacity="0.2"
             Brush="{StaticResource WaterColor}"
             Offset="0,0" />
+    
+    <Shadow x:Key="WeightGlow"
+            Radius="20"
+            Opacity="0.2"
+            Brush="{StaticResource WeightColor}"
+            Offset="0,0" />
 
     <Shadow x:Key="CarbsGlow"
             Radius="20"

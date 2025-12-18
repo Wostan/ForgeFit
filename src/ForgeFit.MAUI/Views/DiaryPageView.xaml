@@ -15,6 +15,7 @@
                 <diaryPageControlTemplates:DiarySummaryView />
                 <diaryPageControlTemplates:DiaryMealsView />
                 <diaryPageControlTemplates:DiaryHydrationView />
+                <diaryPageControlTemplates:DiaryWeightView />
 
             </VerticalStackLayout>
         </ScrollView>
