@@ -6,25 +6,25 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ForgeFit.MAUI.Views.DiaryPageControlTemplates.DiaryMealsView">
     <VerticalStackLayout Spacing="4">
-                                        
+
         <Label Style="{StaticResource LabelBodyBold}"
                Text="Meals"
                TextColor="{StaticResource TextSecondary}" />
-        
+
         <Border Style="{StaticResource CardStyle}"
                 Padding="0">
             <VerticalStackLayout Padding="16" Spacing="16">
                 <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
-                                               WidthRequest="30" 
+                                               WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.75" /> 
-                    <Label Text="🍳" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    
+                                               Progress="0.75" />
+                    <Label Text="🍳" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+
                     <VerticalStackLayout Grid.Column="1">
-                        <Label Text="Breakfast" 
-                               Style="{StaticResource LabelBodyBold}" 
-                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label Text="Breakfast"
+                               Style="{StaticResource LabelBodyBold}"
+                               TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
@@ -37,7 +37,7 @@
                             </Label.FormattedText>
                         </Label>
                     </VerticalStackLayout>
-                    
+
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg">
@@ -47,21 +47,21 @@
                     </Button>
 
                 </Grid>
-                
-                <BoxView Color="{StaticResource BorderColor}" 
-                         HeightRequest="1"/>
-                
+
+                <BoxView Color="{StaticResource BorderColor}"
+                         HeightRequest="1" />
+
                 <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
-                                               WidthRequest="30" 
+                                               WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.75" /> 
-                    <Label Text="🍲" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    
+                                               Progress="0.75" />
+                    <Label Text="🍲" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+
                     <VerticalStackLayout Grid.Column="1">
-                        <Label Text="Lunch" 
-                               Style="{StaticResource LabelBodyBold}" 
-                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label Text="Lunch"
+                               Style="{StaticResource LabelBodyBold}"
+                               TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
@@ -74,7 +74,7 @@
                             </Label.FormattedText>
                         </Label>
                     </VerticalStackLayout>
-                    
+
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg">
@@ -84,21 +84,21 @@
                     </Button>
 
                 </Grid>
-                
-                <BoxView Color="{StaticResource BorderColor}" 
-                         HeightRequest="1"/>
-                
+
+                <BoxView Color="{StaticResource BorderColor}"
+                         HeightRequest="1" />
+
                 <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
-                                               WidthRequest="30" 
+                                               WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.95" /> 
-                    <Label Text="🍝" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    
+                                               Progress="0.95" />
+                    <Label Text="🍝" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+
                     <VerticalStackLayout Grid.Column="1">
-                        <Label Text="Dinner" 
-                               Style="{StaticResource LabelBodyBold}" 
-                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label Text="Dinner"
+                               Style="{StaticResource LabelBodyBold}"
+                               TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
@@ -111,7 +111,7 @@
                             </Label.FormattedText>
                         </Label>
                     </VerticalStackLayout>
-                    
+
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg">
@@ -119,23 +119,23 @@
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>
                     </Button>
-                    
-                </Grid> 
-                
-                <BoxView Color="{StaticResource BorderColor}" 
-                         HeightRequest="1"/>
-                
+
+                </Grid>
+
+                <BoxView Color="{StaticResource BorderColor}"
+                         HeightRequest="1" />
+
                 <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
-                                               WidthRequest="30" 
+                                               WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.5" /> 
-                    <Label Text="🍌" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    
+                                               Progress="0.5" />
+                    <Label Text="🍌" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+
                     <VerticalStackLayout Grid.Column="1">
-                        <Label Text="Snack" 
-                               Style="{StaticResource LabelBodyBold}" 
-                               TextColor="{StaticResource TextPrimary}"/>
+                        <Label Text="Snack"
+                               Style="{StaticResource LabelBodyBold}"
+                               TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
@@ -148,7 +148,7 @@
                             </Label.FormattedText>
                         </Label>
                     </VerticalStackLayout>
-                    
+
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg">
@@ -156,8 +156,8 @@
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>
                     </Button>
-                    
-                </Grid> 
+
+                </Grid>
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>

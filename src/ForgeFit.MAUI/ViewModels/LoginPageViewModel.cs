@@ -22,30 +22,33 @@ public partial class LoginPageViewModel : ObservableObject
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsNotLoading))]
     private bool _isLoading;
+
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsError))]
     private LocalizedString? _error;
 
     [ObservableProperty] private LanguageItem? _selectedLanguage;
-    
+
     private readonly IAuthService _authService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
 
-    public LoginPageViewModel(IAuthService authService, IAlertService alertService, ILocalizationResourceManager localizationManager)
+    public LoginPageViewModel(IAuthService authService, IAlertService alertService,
+        ILocalizationResourceManager localizationManager)
     {
         _authService = authService;
         _alertService = alertService;
         _localizationManager = localizationManager;
-        
+
         var currentCode = _localizationManager.CurrentCulture.TwoLetterISOLanguageName;
-        SelectedLanguage = Languages.FirstOrDefault(l => l.Code == currentCode) 
+        SelectedLanguage = Languages.FirstOrDefault(l => l.Code == currentCode)
                            ?? Languages.FirstOrDefault(l => l.Code == "en");
     }
-    
+
     public bool IsError => !string.IsNullOrWhiteSpace(Error.Localized);
     public bool IsNotLoading => !IsLoading;
 
     public record LanguageItem(string Name, string Code);
+
     public List<LanguageItem> Languages { get; } =
     [
         new("English", "en"),
@@ -87,12 +90,12 @@ public partial class LoginPageViewModel : ObservableObject
                 Error = new LocalizedString(() => _localizationManager["EmptyFieldsMessage"]);
                 return;
             }
-            
+
             var emailRegex = EmailRegex();
             if (!emailRegex.IsMatch(Email!))
             {
                 IsEmailError = true;
-                Error = new LocalizedString(() => _localizationManager["EmailErrorMessage"]); 
+                Error = new LocalizedString(() => _localizationManager["EmailErrorMessage"]);
                 return;
             }
 
@@ -118,7 +121,7 @@ public partial class LoginPageViewModel : ObservableObject
             IsLoading = false;
         }
     }
-    
+
     partial void OnSelectedLanguageChanged(LanguageItem? value)
     {
         if (value is null) return;

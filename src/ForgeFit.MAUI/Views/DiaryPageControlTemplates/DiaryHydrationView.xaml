@@ -5,11 +5,11 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ForgeFit.MAUI.Views.DiaryPageControlTemplates.DiaryHydrationView">
     <VerticalStackLayout Spacing="4">
-        
+
         <Label Style="{StaticResource LabelBodyBold}"
                Text="Hydration"
                TextColor="{StaticResource TextSecondary}" />
-        
+
         <Border Style="{StaticResource CardStyle}"
                 Padding="0">
             <Grid RowDefinitions="Auto, Auto, Auto" Padding="16" RowSpacing="16">
@@ -18,67 +18,67 @@
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="1322" Style="{StaticResource LabelH1}"/>
-                                    <Span Text=" / 2894 ml" Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text="1322" Style="{StaticResource LabelH1}" />
+                                    <Span Text=" / 2894 ml" Style="{StaticResource LabelBodyBold}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                
-                        <Label Text="💧" FontSize="24" 
+
+                        <Label Text="💧" FontSize="24"
                                VerticalOptions="Center" HorizontalOptions="End"
                                Shadow="{StaticResource WaterGlow}" />
                     </Grid>
-                
+
                     <ProgressBar Progress="0.45" ProgressColor="{StaticResource WaterColor}"
                                  Shadow="{StaticResource WaterGlow}" />
                 </VerticalStackLayout>
-                
-                <Label Grid.Row="1" Text="Drink your first glass of water!" 
+
+                <Label Grid.Row="1" Text="Drink your first glass of water!"
                        Style="{StaticResource LabelBodyBold}"
                        IsVisible="{Binding HasNoWaterEntries}" />
-                
+
                 <CollectionView Grid.Row="1">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="50, Auto, *, Auto" ColumnSpacing="8">
-                                <Label Text="{Binding .}" 
-                                       Style="{StaticResource LabelBodyBold}" 
+                                <Label Text="{Binding .}"
+                                       Style="{StaticResource LabelBodyBold}"
                                        FontSize="14"
                                        VerticalOptions="Center" />
-                                
+
                                 <Image Grid.Column="1" Source="water.svg" VerticalOptions="Center">
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{StaticResource WaterColor}" />
-                                    </Image.Behaviors>  
+                                    </Image.Behaviors>
                                 </Image>
-                                
-                                <Label Grid.Column="2" 
-                                       Text="250 ml" 
-                                       Style="{StaticResource LabelBodyBold}" 
+
+                                <Label Grid.Column="2"
+                                       Text="250 ml"
+                                       Style="{StaticResource LabelBodyBold}"
                                        TextColor="{StaticResource TextPrimary}"
-                                       VerticalOptions="Center"/>
-                                
-                                <Button Grid.Column="3"  
+                                       VerticalOptions="Center" />
+
+                                <Button Grid.Column="3"
                                         Style="{StaticResource TextButton}"
                                         ImageSource="delete.svg"
                                         Shadow="{StaticResource DangerGlow}"
                                         VerticalOptions="Center">
                                     <Button.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{StaticResource DangerColor}" />
-                                    </Button.Behaviors>  
+                                    </Button.Behaviors>
                                 </Button>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                
+
                 <Grid Grid.Row="2" ColumnDefinitions="*, Auto">
                     <Button BackgroundColor="{StaticResource WaterColor}"
                             BorderColor="{StaticResource WaterColor}"
                             Shadow="{StaticResource WaterGlow}"
-                            Text="+ 250 ml"/>
-                    <Button Grid.Column="1" 
-                            Style="{StaticResource TextButton}" 
+                            Text="+ 250 ml" />
+                    <Button Grid.Column="1"
+                            Style="{StaticResource TextButton}"
                             ImageSource="edit.svg"
                             Shadow="{StaticResource WaterGlow}">
                         <Button.Behaviors>
@@ -88,6 +88,6 @@
                 </Grid>
             </Grid>
         </Border>
-        
+
     </VerticalStackLayout>
 </ContentView>

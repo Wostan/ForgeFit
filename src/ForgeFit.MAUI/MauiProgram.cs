@@ -2,7 +2,7 @@
 using CommunityToolkit.Maui.Markup;
 using ForgeFit.MAUI.Extensions;
 using ForgeFit.MAUI.Resources.Strings;
-using LocalizationResourceManager.Maui; // Не забудьте подключить namespace
+using LocalizationResourceManager.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace ForgeFit.MAUI;
@@ -20,7 +20,7 @@ public static class MauiProgram
             .UseLocalizationResourceManager(settings =>
             {
                 settings.AddResource(AppResources.ResourceManager);
-                settings.RestoreLatestCulture(true); 
+                settings.RestoreLatestCulture(true);
             })
             .ConfigureUiSettings()
             .RegisterServices()

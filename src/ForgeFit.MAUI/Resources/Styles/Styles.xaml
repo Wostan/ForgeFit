@@ -8,8 +8,8 @@
     xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing">
 
     <Shadow x:Key="SharedPrimaryGlow"
-            Radius="20"           
-            Opacity="0.15"        
+            Radius="20"
+            Opacity="0.15"
             Brush="{StaticResource Primary}"
             Offset="0,8" />
 
@@ -18,25 +18,25 @@
             Opacity="0.3"
             Brush="{StaticResource BorderColor}"
             Offset="0,4" />
-    
+
     <Shadow x:Key="CaloriesGlow"
             Radius="20"
             Opacity="0.2"
             Brush="{StaticResource Primary}"
-            Offset="0,0" /> 
-    
+            Offset="0,0" />
+
     <Shadow x:Key="WaterGlow"
             Radius="20"
             Opacity="0.2"
             Brush="{StaticResource WaterColor}"
-            Offset="0,0" /> 
-    
+            Offset="0,0" />
+
     <Shadow x:Key="CarbsGlow"
             Radius="20"
             Opacity="0.2"
             Brush="{StaticResource CarbsColor}"
-            Offset="0,0" /> 
-    
+            Offset="0,0" />
+
     <Shadow x:Key="ProteinGlow"
             Radius="20"
             Opacity="0.2"
@@ -48,7 +48,7 @@
             Opacity="0.2"
             Brush="{StaticResource FatColor}"
             Offset="0,0" />
-    
+
     <Shadow x:Key="DangerGlow"
             Radius="20"
             Opacity="0.2"
@@ -270,7 +270,7 @@
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="LineHeight" Value="1.4" />
     </Style>
-    
+
     <Style TargetType="Label" x:Key="LabelBodyBold">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="16" />
@@ -292,7 +292,7 @@
     <Style TargetType="ProgressBar">
         <Setter Property="ProgressColor" Value="{StaticResource Primary}" />
         <Setter Property="Height" Value="4" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
+        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
     </Style>
 
     <Style TargetType="RadioButton">
@@ -394,7 +394,7 @@
         <Setter Property="UnselectedTabColor" Value="{StaticResource TextDisabled}" />
         <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
     </Style>
-    
+
     <Style TargetType="progressRing:ProgressRing">
         <Setter Property="HeightRequest" Value="100" />
         <Setter Property="WidthRequest" Value="100" />
@@ -402,7 +402,7 @@
         <Setter Property="MinimumWidthRequest" Value="50" />
         <Setter Property="Smooth" Value="True" />
         <Setter Property="Thickness" Value="5" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}"/>
+        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
     </Style>
 
 </ResourceDictionary>

@@ -5,15 +5,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:ForgeFit.MAUI.Views"
-    xmlns:strings="clr-namespace:ForgeFit.MAUI.Resources.Strings"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     FlyoutBehavior="Disabled"
     Title="ForgeFit"
-    Shell.PresentationMode="NotAnimated"
-    Shell.TabBarBackgroundColor="{StaticResource Surface}"
-    Shell.TabBarTitleColor="{StaticResource Primary}"
-    Shell.TabBarUnselectedColor="{StaticResource TextSecondary}"
-    Shell.TabBarForegroundColor="{StaticResource Primary}">
+    NavBarVisibilityAnimationEnabled="True"
+    PresentationMode="NotAnimated"
+    TabBarBackgroundColor="{StaticResource Surface}"
+    TabBarTitleColor="{StaticResource Primary}"
+    TabBarUnselectedColor="{StaticResource TextSecondary}"
+    TabBarForegroundColor="{StaticResource Primary}">
 
     <TabBar>
         <Tab Title="{maui:Translate DiaryPageTitle}"

@@ -30,13 +30,14 @@ public class BorderedBottomNavTracker(IShellContext shellContext, ShellItem shel
 
         var backgroundColor = appearance.EffectiveTabBarBackgroundColor.ToPlatform();
         var borderColor = GetThemeColor("BorderColor")?.ToPlatform() ?? Android.Graphics.Color.ParseColor("#333333");
-        
+
         bottomView.SetBackground(CreateTopBorderBackground(backgroundColor, borderColor, bottomView.Context));
 
         ApplyCustomFont(bottomView, "Montserrat-SemiBold.ttf");
     }
 
-    private LayerDrawable? CreateTopBorderBackground(Android.Graphics.Color bgColor, Android.Graphics.Color borderColor, Context? context)
+    private LayerDrawable? CreateTopBorderBackground(Android.Graphics.Color bgColor, Android.Graphics.Color borderColor,
+        Context? context)
     {
         if (context?.Resources?.DisplayMetrics == null) return null;
         var density = context.Resources.DisplayMetrics.Density;
@@ -47,7 +48,7 @@ public class BorderedBottomNavTracker(IShellContext shellContext, ShellItem shel
 
         var layers = new Drawable[] { borderDrawable, backgroundDrawable };
         var layerDrawable = new LayerDrawable(layers);
-        
+
         layerDrawable.SetLayerInset(1, 0, borderWidthPx, 0, 0);
 
         return layerDrawable;
@@ -71,11 +72,11 @@ public class BorderedBottomNavTracker(IShellContext shellContext, ShellItem shel
             var child = viewGroup.GetChildAt(i);
             if (child is ViewGroup childGroup)
                 ApplyCustomFont(childGroup, fontName);
-            else if (child is TextView textView) 
+            else if (child is TextView textView)
                 textView.Typeface = typeface;
         }
     }
-    
+
     private static Color? GetThemeColor(string key)
     {
         if (Application.Current!.Resources.TryGetValue(key, out var obj) && obj is Color color) return color;

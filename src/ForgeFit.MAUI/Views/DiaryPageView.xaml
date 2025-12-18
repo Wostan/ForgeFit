@@ -11,11 +11,11 @@
                     <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
                     <DatePicker Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
                 </Grid>
-                
+
                 <diaryPageControlTemplates:DiarySummaryView />
                 <diaryPageControlTemplates:DiaryMealsView />
                 <diaryPageControlTemplates:DiaryHydrationView />
-                
+
             </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -5,11 +5,11 @@
              xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
              x:Class="ForgeFit.MAUI.Views.DiaryPageControlTemplates.DiarySummaryView">
     <VerticalStackLayout Spacing="4">
-                    
+
         <Label Style="{StaticResource LabelBodyBold}"
                Text="Summary"
                TextColor="{StaticResource TextSecondary}" />
-        
+
         <Border Style="{StaticResource CardStyle}" Padding="0">
             <Grid RowDefinitions="Auto, *, *"
                   ColumnDefinitions="*, *, *"
@@ -126,7 +126,7 @@
                     </Grid>
                     <ProgressBar Progress="0.45" />
                 </VerticalStackLayout>
-                
+
                 <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="3">
                     <Grid ColumnDefinitions="*, Auto">
                         <Label Text="Water"

@@ -84,7 +84,7 @@ public class ButtonAnimationBehavior : Behavior<Button>
                 button.ScaleX = ReleasedScaleX;
                 button.ScaleY = ReleasedScaleY;
                 VisualStateManager.GoToState(button, "Normal");
-                
+
                 await button.FadeToAsync(1, FadeDuration, Easing.CubicOut);
             }
         });

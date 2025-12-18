@@ -1,13 +1,10 @@
-﻿using Sharpnado.MaterialFrame;
-
-namespace ForgeFit.MAUI.Extensions;
+﻿namespace ForgeFit.MAUI.Extensions;
 
 public static class UiExtensions
 {
     public static MauiAppBuilder ConfigureUiSettings(this MauiAppBuilder builder)
     {
         builder
-            .UseSharpnadoMaterialFrame(false)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("Montserrat-Regular.ttf", "MontserratRegular");
