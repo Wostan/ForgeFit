@@ -6,7 +6,7 @@
              x:Class="ForgeFit.MAUI.Views.DiaryPageView">
     <ContentPage.Content>
         <ScrollView>
-            <VerticalStackLayout Padding="20, 0" Spacing="20">
+            <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
                 <Grid ColumnDefinitions="*, Auto">
                     <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
                     <DatePicker Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />

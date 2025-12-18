@@ -54,6 +54,29 @@
             Opacity="0.2"
             Brush="{StaticResource DangerColor}"
             Offset="0,0" />
+    
+    <LinearGradientBrush x:Key="StatusBarScrim" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#000000" Offset="0.0" />
+        <GradientStop Color="#80000000" Offset="0.6" />
+        <GradientStop Color="Transparent" Offset="1.0" />
+    </LinearGradientBrush>
+    
+    <Style TargetType="BoxView" x:Key="StatusBarGradient">
+        <Setter Property="HeightRequest" Value="40" /> 
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="InputTransparent" Value="True" />
+        <Setter Property="ZIndex" Value="10" />
+        <Setter Property="Background" Value="{StaticResource StatusBarScrim}" />
+    </Style>
+    
+    <ControlTemplate x:Key="DefaultPageTemplate">
+        <Grid>
+            <ContentPresenter />
+
+            <BoxView Style="{StaticResource StatusBarGradient}" />
+        </Grid>
+    </ControlTemplate>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -176,6 +199,7 @@
     </Style>
 
     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="ControlTemplate" Value="{StaticResource DefaultPageTemplate}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}" />
         <Setter Property="behaviors:PageAnimationBehavior.IsAnimated" Value="True" />
@@ -403,6 +427,11 @@
         <Setter Property="Smooth" Value="True" />
         <Setter Property="Thickness" Value="5" />
         <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+    </Style>
+    
+    <Style TargetType="VerticalStackLayout" x:Key="MainContentStackLayout">
+        <Setter Property="Padding" Value="20, 40" />
+        <Setter Property="Spacing" Value="20" />
     </Style>
 
 </ResourceDictionary>
