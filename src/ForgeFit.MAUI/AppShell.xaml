@@ -19,28 +19,22 @@
         <Tab Title="{maui:Translate DiaryPageTitle}"
              Icon="diary.svg">
             <ShellContent
-                Content="{views:DiaryPageView}"
+                ContentTemplate="{DataTemplate views:DiaryPageView}"
                 Route="DiaryPageView" />
         </Tab>
 
         <Tab Title="{maui:Translate WorkoutPageTitle}"
              Icon="workout.svg">
             <ShellContent
-                Content="{views:WorkoutPageView}"
+                ContentTemplate="{DataTemplate views:WorkoutPageView}"
                 Route="WorkoutPageView" />
         </Tab>
 
         <Tab Title="{maui:Translate ProfilePageTitle}"
              Icon="profile.svg">
             <ShellContent
-                Content="{views:ProfilePageView}"
+                ContentTemplate="{DataTemplate views:ProfilePageView}"
                 Route="ProfilePageView" />
-        </Tab>
-
-        <Tab Title="UI">
-            <ShellContent
-                Content="{views:DesignSystemPageView}"
-                Route="DesignSystemPageView" />
         </Tab>
     </TabBar>
 

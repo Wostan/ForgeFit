@@ -18,8 +18,6 @@
                 <diaryPageControlTemplates:DiaryMealsView />
                 <diaryPageControlTemplates:DiaryHydrationView />
                 <diaryPageControlTemplates:DiaryWeightView />
-                
-                <Label Text="{Binding Test}"/>
 
             </VerticalStackLayout>
         </ScrollView>
