@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="ForgeFit.MAUI.Views.Controls.NavigationHeader"
+             x:Name="ThisControl">
+
+    <VerticalStackLayout ZIndex="11">
+        <Border Background="{StaticResource Surface}"
+                VerticalOptions="Start"
+                StrokeThickness="0"
+                Padding="0,45,0,0">
+             <Grid ColumnDefinitions="Auto, *">
+                  <Button Grid.Column="0"
+                          Style="{StaticResource TextButton}"
+                          HorizontalOptions="Start"
+                          ImageSource="arrow_back.svg"
+                          Command="{Binding BackCommand, Source={x:Reference ThisControl}}"
+                          Margin="16,0,0,0">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
+                    </Button.Behaviors>
+                </Button>
+
+                <Label Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding Title, Source={x:Reference ThisControl}}" 
+                       Style="{StaticResource LabelH2}" 
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       InputTransparent="True"/>
+             </Grid>
+        </Border>
+        
+        <BoxView Color="{StaticResource BorderColor}" 
+                 HeightRequest="1.7" />
+    </VerticalStackLayout>
+</ContentView>

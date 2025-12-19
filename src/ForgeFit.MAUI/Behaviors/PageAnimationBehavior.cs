@@ -2,6 +2,23 @@
 
 public class PageAnimationBehavior : Behavior<ContentPage>
 {
+    public static readonly BindableProperty AnimationTypeProperty =
+        BindableProperty.CreateAttached(
+            "AnimationType",
+            typeof(PageAnimationType),
+            typeof(PageAnimationBehavior),
+            PageAnimationType.SlideUp);
+
+    public static PageAnimationType GetAnimationType(BindableObject view)
+    {
+        return (PageAnimationType)view.GetValue(AnimationTypeProperty);
+    }
+
+    public static void SetAnimationType(BindableObject view, PageAnimationType value)
+    {
+        view.SetValue(AnimationTypeProperty, value);
+    }
+
     public static readonly BindableProperty IsAnimatedProperty =
         BindableProperty.CreateAttached(
             "IsAnimated",
@@ -12,8 +29,12 @@ public class PageAnimationBehavior : Behavior<ContentPage>
 
     private const uint AnimationDuration = 300;
     private const double StartingScaleX = 0.95;
-    private const double StartingScaleY = 1.15;
+    private const double StartingScaleY = 1.05;
     private const double StartingTranslationY = 50.0;
+
+    private const uint FadeDuration = 200;
+    private const uint PopDuration = 300;
+    private const double PopStartingScale = 0.92;
 
     private ContentPage? _page;
     private bool _isAnimatingOut;
@@ -52,7 +73,7 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         _page = page;
 
         if (page.Content is { } content)
-            InitializeState(content);
+            InitializeState(content, GetAnimationType(page));
         else
             page.PropertyChanged += OnPagePropertyChanged;
 
@@ -78,18 +99,34 @@ public class PageAnimationBehavior : Behavior<ContentPage>
             return;
 
         page.PropertyChanged -= OnPagePropertyChanged;
-        InitializeState(content);
+        InitializeState(content, GetAnimationType(page));
     }
 
-    private static void InitializeState(View content)
+    private static void InitializeState(View content, PageAnimationType type)
     {
         content.IsVisible = false;
         content.Opacity = 0;
         content.AnchorX = 0.5;
         content.AnchorY = 0.5;
-        content.ScaleX = StartingScaleX;
-        content.ScaleY = StartingScaleY;
-        content.TranslationY = StartingTranslationY;
+
+        content.ScaleX = 1;
+        content.ScaleY = 1;
+        content.TranslationY = 0;
+
+        switch (type)
+        {
+            case PageAnimationType.SlideUp:
+                content.ScaleX = StartingScaleX;
+                content.ScaleY = StartingScaleY;
+                content.TranslationY = StartingTranslationY;
+                break;
+            case PageAnimationType.Pop:
+                content.ScaleX = PopStartingScale;
+                content.ScaleY = PopStartingScale;
+                break;
+            case PageAnimationType.Fade:
+                break;
+        }
     }
 
     private void OnPageAppearing(object? sender, EventArgs e)
@@ -102,10 +139,9 @@ public class PageAnimationBehavior : Behavior<ContentPage>
 
         if (sender is not ContentPage { Content: { } content } page) return;
 
-        content.Opacity = 0;
-        content.ScaleX = StartingScaleX;
-        content.ScaleY = StartingScaleY;
-        content.TranslationY = StartingTranslationY;
+        var type = GetAnimationType(page);
+
+        InitializeState(content, type);
 
         page.Dispatcher.Dispatch(async void () =>
         {
@@ -115,12 +151,29 @@ public class PageAnimationBehavior : Behavior<ContentPage>
 
             content.CancelAnimations();
 
-            await Task.WhenAll(
-                content.FadeToAsync(1, AnimationDuration, Easing.CubicOut),
-                content.ScaleXToAsync(1.0, (int)(AnimationDuration * 1.5), Easing.CubicOut),
-                content.ScaleYToAsync(1.0, (int)(AnimationDuration * 1.5), Easing.CubicOut),
-                content.TranslateToAsync(0, 0, AnimationDuration, Easing.CubicOut)
-            );
+            switch (type)
+            {
+                case PageAnimationType.SlideUp:
+                    await Task.WhenAll(
+                        content.FadeToAsync(1, AnimationDuration, Easing.CubicOut),
+                        content.ScaleXToAsync(1.0, (int)(AnimationDuration * 1.2), Easing.CubicOut),
+                        content.ScaleYToAsync(1.0, AnimationDuration, Easing.CubicOut),
+                        content.TranslateToAsync(0, 0, AnimationDuration, Easing.CubicOut)
+                    );
+                    break;
+
+                case PageAnimationType.Pop:
+                    await Task.WhenAll(
+                        content.FadeToAsync(1, PopDuration, Easing.CubicOut),
+                        content.ScaleXToAsync(1.0, PopDuration, Easing.CubicOut),
+                        content.ScaleYToAsync(1.0, PopDuration, Easing.CubicOut)
+                    );
+                    break;
+
+                case PageAnimationType.Fade:
+                    await content.FadeToAsync(1, FadeDuration);
+                    break;
+            }
         });
     }
 
@@ -147,15 +200,42 @@ public class PageAnimationBehavior : Behavior<ContentPage>
 
         content.CancelAnimations();
 
-        await Task.WhenAll(
-            content.FadeToAsync(0, 200, Easing.CubicIn),
-            content.ScaleXToAsync(StartingScaleX, 200, Easing.CubicIn),
-            content.ScaleYToAsync(StartingScaleY, 200, Easing.CubicIn),
-            content.TranslateToAsync(0, -50, 200, Easing.CubicIn)
-        );
+        var type = GetAnimationType(_page);
+        Task exitAnimationTask;
+
+        switch (type)
+        {
+            case PageAnimationType.Pop:
+                exitAnimationTask = Task.WhenAll(
+                    content.FadeToAsync(0, FadeDuration, Easing.CubicIn),
+                    content.ScaleXToAsync(PopStartingScale, FadeDuration, Easing.CubicIn),
+                    content.ScaleYToAsync(PopStartingScale, FadeDuration, Easing.CubicIn)
+                );
+                break;
+
+            default:
+                exitAnimationTask = content.FadeToAsync(0, FadeDuration);
+                break;
+        }
+
+        if (source == ShellNavigationSource.Pop)
+        {
+            await exitAnimationTask;
+        }
+        else
+        {
+            _ = exitAnimationTask;
+        }
 
         await Shell.Current.GoToAsync(e.Target.Location, false);
 
         _isAnimatingOut = false;
     }
+}
+
+public enum PageAnimationType
+{
+    SlideUp,
+    Pop,
+    Fade
 }
