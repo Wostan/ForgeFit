@@ -27,7 +27,7 @@
     <Color x:Key="FatColor">#FFE57F</Color>
 
     <Color x:Key="WaterColor">#81D4FA</Color>
-    
+
     <Color x:Key="WeightColor">#FFAB91</Color>
 
 </ResourceDictionary>

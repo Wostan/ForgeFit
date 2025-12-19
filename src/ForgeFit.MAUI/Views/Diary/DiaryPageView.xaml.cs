@@ -1,6 +1,6 @@
 ﻿using ForgeFit.MAUI.ViewModels;
 
-namespace ForgeFit.MAUI.Views;
+namespace ForgeFit.MAUI.Views.Diary;
 
 public partial class DiaryPageView : ContentPage
 {

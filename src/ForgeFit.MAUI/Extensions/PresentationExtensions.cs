@@ -1,5 +1,8 @@
 ﻿using ForgeFit.MAUI.ViewModels;
 using ForgeFit.MAUI.Views;
+using ForgeFit.MAUI.Views.Diary;
+using LoginPageView = ForgeFit.MAUI.Views.Auth.LoginPageView;
+using RegisterPageView = ForgeFit.MAUI.Views.Auth.RegisterPageView;
 
 namespace ForgeFit.MAUI.Extensions;
 

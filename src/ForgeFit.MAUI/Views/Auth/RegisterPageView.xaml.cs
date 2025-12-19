@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.MAUI.Views;
+﻿namespace ForgeFit.MAUI.Views.Auth;
 
 public partial class RegisterPageView : ContentPage
 {

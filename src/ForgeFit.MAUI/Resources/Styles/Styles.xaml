@@ -30,7 +30,7 @@
             Opacity="0.2"
             Brush="{StaticResource WaterColor}"
             Offset="0,0" />
-    
+
     <Shadow x:Key="WeightGlow"
             Radius="20"
             Opacity="0.2"
@@ -60,22 +60,22 @@
             Opacity="0.2"
             Brush="{StaticResource DangerColor}"
             Offset="0,0" />
-    
+
     <LinearGradientBrush x:Key="StatusBarScrim" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="#000000" Offset="0.0" />
         <GradientStop Color="#80000000" Offset="0.6" />
         <GradientStop Color="Transparent" Offset="1.0" />
     </LinearGradientBrush>
-    
+
     <Style TargetType="BoxView" x:Key="StatusBarGradient">
-        <Setter Property="HeightRequest" Value="40" /> 
+        <Setter Property="HeightRequest" Value="40" />
         <Setter Property="HorizontalOptions" Value="Fill" />
         <Setter Property="VerticalOptions" Value="Start" />
         <Setter Property="InputTransparent" Value="True" />
         <Setter Property="ZIndex" Value="10" />
         <Setter Property="Background" Value="{StaticResource StatusBarScrim}" />
     </Style>
-    
+
     <ControlTemplate x:Key="DefaultPageTemplate">
         <Grid>
             <ContentPresenter />
@@ -434,7 +434,7 @@
         <Setter Property="Thickness" Value="5" />
         <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
     </Style>
-    
+
     <Style TargetType="VerticalStackLayout" x:Key="MainContentStackLayout">
         <Setter Property="Padding" Value="20, 40" />
         <Setter Property="Spacing" Value="20" />

@@ -1,6 +1,6 @@
 ﻿using ForgeFit.MAUI.ViewModels;
 
-namespace ForgeFit.MAUI.Views;
+namespace ForgeFit.MAUI.Views.Auth;
 
 public partial class LoginPageView : ContentPage
 {

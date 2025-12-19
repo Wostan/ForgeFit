@@ -89,6 +89,37 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>AppResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Views\Diary\DiaryPageView.xaml.cs">
+            <DependentUpon>DiaryPageView.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Auth\LoginPageView.xaml.cs">
+            <DependentUpon>LoginPageView.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Auth\RegisterPageView.xaml.cs">
+            <DependentUpon>RegisterPageView.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="Views\Diary\Templates\DiaryHydrationView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\Templates\DiaryMealsView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\Templates\DiarySummaryView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\Templates\DiaryWeightView.xaml"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <MauiXaml Update="Views\Diary\DiaryPageView.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Auth\LoginPageView.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Auth\RegisterPageView.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
 </Project>
