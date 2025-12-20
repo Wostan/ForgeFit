@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
+             x:DataType="local:MealDetailsPageViewModel"
+             behaviors:PageAnimationBehavior.AnimationType="Pop"
+             x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsPageView"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto, *, Auto">
+
+            <controls:NavigationHeader Grid.Row="0"
+                                       Title="Breakfast"
+                                       BackCommand="{Binding GoBackCommand}" />
+
+            <Grid Grid.Row="1"
+                  RowDefinitions="Auto, *"
+                  Padding="20,20"
+                  RowSpacing="20">
+
+                <VerticalStackLayout Grid.Row="0">
+
+                    <Label Text="🍳" FontSize="64" HorizontalOptions="Center" />
+
+                    <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
+                        <VerticalStackLayout VerticalOptions="Center" Spacing="-4">
+                            <Label Text="Calories"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   Margin="0, 0, 0, 5"
+                                   FontSize="12"
+                                   TextTransform="Uppercase"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="431 kcal"
+                                   Style="{StaticResource LabelH2}"
+                                   FontSize="16"
+                                   Margin="0"
+                                   HorizontalOptions="Center" />
+
+                            <ProgressBar Progress="0.5" />
+
+                            <Label Text="824 kcal"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   FontSize="12"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1"
+                                             VerticalOptions="Center"
+                                             Spacing="-4">
+                            <Label Text="Carbs"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   Margin="0, 0, 0, 5"
+                                   FontSize="12"
+                                   TextTransform="Uppercase"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="35 g"
+                                   Style="{StaticResource LabelH2}"
+                                   FontSize="16"
+                                   Margin="0"
+                                   HorizontalOptions="Center" />
+
+                            <ProgressBar Progress="0.5"
+                                         ProgressColor="{StaticResource CarbsColor}"
+                                         Shadow="{StaticResource CarbsGlow}" />
+
+                            <Label Text="328 g"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   FontSize="12"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="2"
+                                             VerticalOptions="Center"
+                                             Spacing="-4">
+                            <Label Text="Protein"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   Margin="0, 0, 0, 5"
+                                   FontSize="12"
+                                   TextTransform="Uppercase"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="35 g"
+                                   Style="{StaticResource LabelH2}"
+                                   FontSize="16"
+                                   Margin="0"
+                                   HorizontalOptions="Center" />
+
+                            <ProgressBar Progress="0.5"
+                                         ProgressColor="{StaticResource ProteinColor}"
+                                         Shadow="{StaticResource ProteinGlow}" />
+
+                            <Label Text="328 g"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   FontSize="12"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="3"
+                                             VerticalOptions="Center"
+                                             Spacing="-4">
+                            <Label Text="Fat"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   Margin="0, 0, 0, 5"
+                                   FontSize="12"
+                                   TextTransform="Uppercase"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="35 g"
+                                   Style="{StaticResource LabelH2}"
+                                   FontSize="16"
+                                   Margin="0"
+                                   HorizontalOptions="Center" />
+
+                            <ProgressBar Progress="0.5"
+                                         ProgressColor="{StaticResource FatColor}"
+                                         Shadow="{StaticResource FatGlow}" />
+
+                            <Label Text="328 g"
+                                   Style="{StaticResource LabelBodyBold}"
+                                   FontSize="12"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <Grid Grid.Row="1"
+                      RowDefinitions="Auto, *">
+
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelBodyBold}"
+                           Text="Food Products"
+                           TextColor="{StaticResource TextSecondary}" />
+
+                    <Border Grid.Row="1"
+                            Style="{StaticResource CardStyle}"
+                            VerticalOptions="Fill"
+                            Padding="16,0">
+                        <CollectionView ItemsSource="{Binding FoodItems}"
+                                        VerticalScrollBarVisibility="Never"
+                                        SelectionMode="None">
+
+                            <CollectionView.EmptyView>
+                                <Label Style="{StaticResource LabelBodyBold}"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Text="Add your first food!" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                            </CollectionView.ItemsLayout>
+                            
+                            <CollectionView.Header>
+                                <BoxView HeightRequest="6" Color="Transparent" />
+                            </CollectionView.Header>
+                            
+                            <CollectionView.Footer>
+                                <BoxView HeightRequest="6" Color="Transparent" />
+                            </CollectionView.Footer>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:FoodItemDto">
+                                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+
+                                        <VerticalStackLayout Grid.Column="0" Spacing="-4">
+                                            <Label Text="{Binding Label}"
+                                                   Style="{StaticResource LabelBodyBold}"
+                                                   TextColor="{StaticResource TextPrimary}" />
+
+                                            <Label Style="{StaticResource LabelBodyBold}"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource TextSecondary}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Amount}"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              FontSize="14" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding ServingUnit}"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              FontSize="12" />
+                                                        <Span Text="  •  "
+                                                              Style="{StaticResource LabelBodyBold}" />
+
+                                                        <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              TextColor="{StaticResource CarbsColor}"
+                                                              FontSize="14" />
+                                                        <Span Text=" / "
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              FontSize="12" />
+                                                        <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              TextColor="{StaticResource ProteinColor}"
+                                                              FontSize="14" />
+                                                        <Span Text=" / "
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              FontSize="12" />
+                                                        <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              TextColor="{StaticResource FatColor}"
+                                                              FontSize="14" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </VerticalStackLayout>
+
+                                        <Label Grid.Column="1" Grid.RowSpan="2"
+                                               VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          TextColor="{StaticResource TextPrimary}"
+                                                          FontSize="18" />
+                                                    <Span Text=" kcal"
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          FontSize="14" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Border>
+                </Grid>
+
+            </Grid>
+
+            <Button Grid.Row="2"
+                    ImageSource="add_big.svg"
+                    Text="Add Food"
+                    Margin="20,0,20,20"
+                    VerticalOptions="End" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

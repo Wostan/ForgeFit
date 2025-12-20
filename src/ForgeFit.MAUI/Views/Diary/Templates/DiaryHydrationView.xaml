@@ -33,11 +33,16 @@
                                  Shadow="{StaticResource WaterGlow}" />
                 </VerticalStackLayout>
 
-                <Label Grid.Row="1" Text="Drink your first glass of water!"
-                       Style="{StaticResource LabelBodyBold}"
-                       IsVisible="{Binding HasNoWaterEntries}" />
+                <CollectionView Grid.Row="1" MinimumHeightRequest="30">
+                    <CollectionView.EmptyView>
+                        <Grid>
+                             <Label Text="Drink your first glass of water!"
+                                    Style="{StaticResource LabelBodyBold}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </CollectionView.EmptyView>
 
-                <CollectionView Grid.Row="1">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="50, Auto, *, Auto" ColumnSpacing="8">

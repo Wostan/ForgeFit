@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Auth;
 using ForgeFit.MAUI.Services.Interfaces;
-using ForgeFit.MAUI.Views;
 using ForgeFit.MAUI.Views.Diary;
 using LocalizationResourceManager.Maui;
 

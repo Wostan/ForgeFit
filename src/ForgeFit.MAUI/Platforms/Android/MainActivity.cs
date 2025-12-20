@@ -3,7 +3,6 @@ using Android.Content.PM;
 using Android.OS;
 using AndroidX.Core.View;
 using View = Android.Views.View;
-using Android.Views;
 using Color = Android.Graphics.Color;
 
 namespace ForgeFit.MAUI;

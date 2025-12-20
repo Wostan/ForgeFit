@@ -1,5 +1,5 @@
 ﻿using ForgeFit.MAUI.Services.Interfaces;
-using ForgeFit.MAUI.Views;
+using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;
 
 namespace ForgeFit.MAUI;

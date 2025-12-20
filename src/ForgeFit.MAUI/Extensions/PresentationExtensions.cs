@@ -11,7 +11,10 @@ public static class PresentationExtensions
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
     {
         builder.Services.AddScoped<LoginPageViewModel>();
+
         builder.Services.AddScoped<DiaryPageViewModel>();
+        builder.Services.AddScoped<MealDetailsPageViewModel>();
+
         return builder;
     }
 
@@ -19,9 +22,14 @@ public static class PresentationExtensions
     {
         builder.Services.AddScoped<RegisterPageView>();
         builder.Services.AddScoped<LoginPageView>();
+
         builder.Services.AddScoped<DiaryPageView>();
+        builder.Services.AddScoped<MealDetailsPageView>();
+
         builder.Services.AddScoped<WorkoutPageView>();
+
         builder.Services.AddScoped<ProfilePageView>();
+
         builder.Services.AddScoped<DesignSystemPageView>();
 
         return builder;
