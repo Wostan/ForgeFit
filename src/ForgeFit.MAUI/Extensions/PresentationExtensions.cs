@@ -32,8 +32,6 @@ public static class PresentationExtensions
 
         builder.Services.AddScoped<ProfilePageView>();
 
-        builder.Services.AddScoped<DesignSystemPageView>();
-
         return builder;
     }
 }
