@@ -35,12 +35,10 @@
 
                 <CollectionView Grid.Row="1" MinimumHeightRequest="30">
                     <CollectionView.EmptyView>
-                        <Grid>
-                             <Label Text="Drink your first glass of water!"
-                                    Style="{StaticResource LabelBodyBold}"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center" />
-                        </Grid>
+                        <Label Text="Drink your first glass of water!"
+                               Style="{StaticResource LabelBodyBold}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
                     </CollectionView.EmptyView>
 
                     <CollectionView.ItemTemplate>
