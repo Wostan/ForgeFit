@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Food;
+using ForgeFit.MAUI.Views.Diary;
 
 namespace ForgeFit.MAUI.ViewModels;
 
@@ -18,6 +19,12 @@ public partial class MealDetailsPageViewModel : ObservableObject
     private static async Task GoBack()
     {
         await Shell.Current.GoToAsync("..");
+    }
+    
+    [RelayCommand]
+    private static async Task GoToFoodSearch()
+    {
+        await Shell.Current.GoToAsync(nameof(FoodSearchPageView), false);
     }
 
     private void LoadTestData()

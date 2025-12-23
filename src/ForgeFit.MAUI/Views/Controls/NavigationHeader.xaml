@@ -5,9 +5,17 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ForgeFit.MAUI.Views.Controls.NavigationHeader"
              x:Name="ThisControl">
-
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="NavigationBarScrim" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#90000000" Offset="0.5" />
+                <GradientStop Color="Transparent" Offset="1.0" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
     <VerticalStackLayout ZIndex="11">
-        <Border Background="{StaticResource Surface}"
+        <Border Background="{StaticResource NavigationBarScrim}"
                 VerticalOptions="Start"
                 StrokeThickness="0"
                 Padding="0,45,0,0">
@@ -31,8 +39,5 @@
                        InputTransparent="True" />
             </Grid>
         </Border>
-
-        <BoxView Color="{StaticResource BorderColor}"
-                 HeightRequest="1.7" />
     </VerticalStackLayout>
 </ContentView>

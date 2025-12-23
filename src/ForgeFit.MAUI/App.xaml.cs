@@ -19,7 +19,7 @@ public partial class App : Application
     protected override async void OnStart()
     {
 #if DEBUG
-        await Shell.Current.GoToAsync($"///{nameof(DiaryPageView)}", false);
+        await Shell.Current.GoToAsync($"{nameof(FoodSearchPageView)}", false);
 #else
         try
         {

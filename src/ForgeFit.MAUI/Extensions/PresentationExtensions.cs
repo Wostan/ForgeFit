@@ -14,6 +14,7 @@ public static class PresentationExtensions
 
         builder.Services.AddScoped<DiaryPageViewModel>();
         builder.Services.AddScoped<MealDetailsPageViewModel>();
+        builder.Services.AddScoped<FoodSearchPageViewModel>();
 
         return builder;
     }
@@ -25,6 +26,7 @@ public static class PresentationExtensions
 
         builder.Services.AddScoped<DiaryPageView>();
         builder.Services.AddScoped<MealDetailsPageView>();
+        builder.Services.AddScoped<FoodSearchPageView>();
 
         builder.Services.AddScoped<WorkoutPageView>();
 

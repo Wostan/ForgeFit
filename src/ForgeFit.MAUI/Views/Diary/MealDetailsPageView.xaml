@@ -6,10 +6,10 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
-             x:DataType="local:MealDetailsPageViewModel"
              behaviors:PageAnimationBehavior.AnimationType="Pop"
-             x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsPageView"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             x:DataType="local:MealDetailsPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsPageView">
     <ContentPage.Content>
         <Grid RowDefinitions="Auto, *, Auto">
 
@@ -240,7 +240,8 @@
                     ImageSource="add_big.svg"
                     Text="Add Food"
                     Margin="20,0,20,20"
-                    VerticalOptions="End" />
+                    VerticalOptions="End"
+                    Command="{Binding GoToFoodSearchCommand}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

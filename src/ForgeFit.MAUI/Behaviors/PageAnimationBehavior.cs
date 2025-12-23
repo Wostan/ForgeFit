@@ -33,7 +33,7 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         view.SetValue(IsAnimatedProperty, value);
     }
 
-    private const uint AnimationDuration = 300;
+    private const uint AnimationDuration = 200;
     private const uint ExitDuration = 200;
 
     private const double SlideScaleX = 0.95;
@@ -150,13 +150,13 @@ public class PageAnimationBehavior : Behavior<ContentPage>
 
                 case PageAnimationType.Pop:
                     await Task.WhenAll(
-                        content.FadeToAsync(1, 400, Easing.CubicOut),
-                        content.ScaleToAsync(1.0, 350, Easing.CubicOut)
+                        content.FadeToAsync(1, AnimationDuration, Easing.CubicOut),
+                        content.ScaleToAsync(1.0, AnimationDuration, Easing.CubicOut)
                     );
                     break;
 
                 case PageAnimationType.Fade:
-                    await content.FadeToAsync(1, 400, Easing.CubicOut);
+                    await content.FadeToAsync(1, AnimationDuration, Easing.CubicOut);
                     break;
             }
         });
