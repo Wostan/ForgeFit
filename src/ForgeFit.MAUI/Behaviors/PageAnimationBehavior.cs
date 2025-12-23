@@ -132,7 +132,7 @@ public class PageAnimationBehavior : Behavior<ContentPage>
 
         page.Dispatcher.Dispatch(async void () =>
         {
-            await Task.Delay(20);
+            await Task.Delay(100);
             content.CancelAnimations();
 
             var type = GetAnimationType(page);
@@ -172,10 +172,6 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         if (_page == null || Shell.Current?.CurrentPage != _page) return;
         if (_isAnimatingOut) return;
 
-        var source = e.Source;
-        if (source is not (ShellNavigationSource.ShellSectionChanged or ShellNavigationSource.Pop
-            or ShellNavigationSource.Push)) return;
-
         var content = _page.Content;
         if (content == null) return;
 
@@ -185,7 +181,6 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         content.CancelAnimations();
 
         var type = GetAnimationType(_page);
-
         Task exitAnimationTask;
 
         switch (type)
@@ -210,18 +205,9 @@ public class PageAnimationBehavior : Behavior<ContentPage>
                 exitAnimationTask = content.FadeToAsync(0, ExitDuration);
                 break;
         }
-
-        if (source == ShellNavigationSource.Push)
-        {
-            var navigationTask = Shell.Current.GoToAsync(e.Target.Location, false);
-
-            await Task.WhenAll(exitAnimationTask, navigationTask);
-        }
-        else
-        {
-            await exitAnimationTask;
-            await Shell.Current.GoToAsync(e.Target.Location, false);
-        }
+    
+        await exitAnimationTask;
+        await Shell.Current.GoToAsync(e.Target.Location, false);
 
         _isAnimatingOut = false;
     }
