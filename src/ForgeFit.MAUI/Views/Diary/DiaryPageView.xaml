@@ -14,12 +14,8 @@
             <controls:NavigationHeader ZIndex="11" ShowBackButton="False">
                 <controls:NavigationHeader.CustomTitleView>
                     <Grid ColumnDefinitions="Auto, *, Auto">
-                        <Border Style="{StaticResource InputWrapper}" Shadow="{x:Null}">
-                            <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
-                        </Border>
-                        <Border Grid.Column="2" Style="{StaticResource InputWrapper}" Shadow="{x:Null}">
-                            <DatePicker VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
-                        </Border>
+                        <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
+                        <DatePicker Grid.Column="2" VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
                     </Grid>
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>

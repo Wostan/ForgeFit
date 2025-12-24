@@ -9,8 +9,8 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="NavigationBarScrim" StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#000000" Offset="0.0" />
-                <GradientStop Color="#90000000" Offset="0.6" />
+                <GradientStop Color="#99000000" Offset="0.0" />
+                <GradientStop Color="#95000000" Offset="0.6" />
                 <GradientStop Color="Transparent" Offset="1.0" />
             </LinearGradientBrush>
         </ResourceDictionary>

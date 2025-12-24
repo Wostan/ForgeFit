@@ -39,7 +39,9 @@
                                    Margin="0"
                                    HorizontalOptions="Center" />
 
-                            <ProgressBar Progress="0.5" />
+                            <ProgressBar Progress="0.5"
+                                         ProgressColor="{StaticResource Primary}"
+                                         Shadow="{StaticResource CaloriesGlow}"/>
 
                             <Label Text="824 kcal"
                                    Style="{StaticResource LabelBodyBold}"
