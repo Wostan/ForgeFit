@@ -436,7 +436,7 @@
     </Style>
 
     <Style TargetType="VerticalStackLayout" x:Key="MainContentStackLayout">
-        <Setter Property="Padding" Value="20, 40" />
+        <Setter Property="Padding" Value="20,120,20,20" />
         <Setter Property="Spacing" Value="20" />
     </Style>
 

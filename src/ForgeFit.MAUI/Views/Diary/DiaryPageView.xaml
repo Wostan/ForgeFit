@@ -5,23 +5,35 @@
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.Templates"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryPageView">
     <ContentPage.Content>
-        <ScrollView>
-            <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
-                <Grid ColumnDefinitions="*, Auto">
-                    <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
-                    <DatePicker Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
-                </Grid>
+        <Grid>
+            <controls:NavigationHeader ZIndex="11" ShowBackButton="False">
+                <controls:NavigationHeader.CustomTitleView>
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Border Style="{StaticResource InputWrapper}" Shadow="{x:Null}">
+                            <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
+                        </Border>
+                        <Border Grid.Column="2" Style="{StaticResource InputWrapper}" Shadow="{x:Null}">
+                            <DatePicker VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
+                        </Border>
+                    </Grid>
+                </controls:NavigationHeader.CustomTitleView>
+            </controls:NavigationHeader>
 
-                <templates:DiarySummaryView />
-                <templates:DiaryMealsView />
-                <templates:DiaryHydrationView />
-                <templates:DiaryWeightView />
+            <ScrollView>
+                <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
 
-            </VerticalStackLayout>
-        </ScrollView>
+                    <templates:DiarySummaryView />
+                    <templates:DiaryMealsView />
+                    <templates:DiaryHydrationView />
+                    <templates:DiaryWeightView />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

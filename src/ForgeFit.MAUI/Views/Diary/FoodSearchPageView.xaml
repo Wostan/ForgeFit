@@ -8,9 +8,7 @@
              Shell.NavBarIsVisible="False"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchPageView">
     <ContentPage.Content>
-        <controls:NavigationHeader/>
-        
-        
-        
+        <controls:NavigationHeader Title="Search" />
+
     </ContentPage.Content>
 </ContentPage>

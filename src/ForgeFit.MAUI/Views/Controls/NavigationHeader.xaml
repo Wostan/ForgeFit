@@ -5,38 +5,56 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ForgeFit.MAUI.Views.Controls.NavigationHeader"
              x:Name="ThisControl">
+
     <ContentView.Resources>
         <ResourceDictionary>
             <LinearGradientBrush x:Key="NavigationBarScrim" StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#90000000" Offset="0.5" />
+                <GradientStop Color="#000000" Offset="0.0" />
+                <GradientStop Color="#90000000" Offset="0.6" />
                 <GradientStop Color="Transparent" Offset="1.0" />
             </LinearGradientBrush>
         </ResourceDictionary>
     </ContentView.Resources>
-    
-    <VerticalStackLayout ZIndex="11">
+
+    <VerticalStackLayout ZIndex="11" BindingContext="{x:Reference ThisControl}">
+
         <Border Background="{StaticResource NavigationBarScrim}"
                 VerticalOptions="Start"
                 StrokeThickness="0"
+                MinimumHeightRequest="100"
                 Padding="0,45,0,0">
-            <Grid ColumnDefinitions="Auto, *">
+
+            <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,16">
+
+                <Grid Grid.Column="0" Grid.ColumnSpan="2"
+                      HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+
+                    <Label x:Name="TitleLabel"
+                           Text="{Binding Title}"
+                           Style="{StaticResource LabelH2}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           InputTransparent="True" />
+
+                    <ContentView x:Name="CustomContentContainer"
+                                 Content="{Binding CustomTitleView}"
+                                 HorizontalOptions="Fill"
+                                 Margin="16,0"
+                                 IsVisible="False" />
+                </Grid>
+
                 <Button Grid.Column="0"
                         Style="{StaticResource TextButton}"
                         HorizontalOptions="Start"
                         ImageSource="arrow_back.svg"
-                        Command="{Binding BackCommand, Source={x:Reference ThisControl}}"
+                        IsVisible="{Binding ShowBackButton}"
+                        Command="{Binding DefaultBackCommand}"
                         Margin="16,0,0,0">
                     <Button.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
                     </Button.Behaviors>
                 </Button>
-
-                <Label Grid.Column="0" Grid.ColumnSpan="2"
-                       Text="{Binding Title, Source={x:Reference ThisControl}}"
-                       Style="{StaticResource LabelH2}"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"
-                       InputTransparent="True" />
             </Grid>
         </Border>
     </VerticalStackLayout>

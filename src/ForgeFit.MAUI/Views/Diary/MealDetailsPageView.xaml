@@ -13,9 +13,7 @@
     <ContentPage.Content>
         <Grid RowDefinitions="Auto, *, Auto">
 
-            <controls:NavigationHeader Grid.Row="0"
-                                       Title="Breakfast"
-                                       BackCommand="{Binding GoBackCommand}" />
+            <controls:NavigationHeader Grid.Row="0" Title="Breakfast" />
 
             <Grid Grid.Row="1"
                   RowDefinitions="Auto, *"
@@ -156,11 +154,11 @@
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
                             </CollectionView.ItemsLayout>
-                            
+
                             <CollectionView.Header>
                                 <BoxView HeightRequest="6" Color="Transparent" />
                             </CollectionView.Header>
-                            
+
                             <CollectionView.Footer>
                                 <BoxView HeightRequest="6" Color="Transparent" />
                             </CollectionView.Footer>

@@ -10,4 +10,3 @@ public partial class FoodSearchPageView : ContentPage
         BindingContext = viewModel;
     }
 }
-

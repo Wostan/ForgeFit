@@ -4,5 +4,4 @@ namespace ForgeFit.MAUI.ViewModels;
 
 public class FoodSearchPageViewModel : ObservableObject
 {
-    
 }

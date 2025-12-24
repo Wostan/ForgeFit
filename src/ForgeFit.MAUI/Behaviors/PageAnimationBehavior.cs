@@ -205,7 +205,7 @@ public class PageAnimationBehavior : Behavior<ContentPage>
                 exitAnimationTask = content.FadeToAsync(0, ExitDuration);
                 break;
         }
-    
+
         await exitAnimationTask;
         await Shell.Current.GoToAsync(e.Target.Location, false);
 

@@ -16,12 +16,6 @@ public partial class MealDetailsPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private static async Task GoBack()
-    {
-        await Shell.Current.GoToAsync("..", false);
-    }
-    
-    [RelayCommand]
     private static async Task GoToFoodSearch()
     {
         await Shell.Current.GoToAsync(nameof(FoodSearchPageView), false);
