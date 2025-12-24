@@ -17,10 +17,10 @@
 
             <Grid Grid.Row="1"
                   RowDefinitions="Auto, *"
-                  Padding="20,20"
+                  Padding="20,0"
                   RowSpacing="20">
 
-                <VerticalStackLayout Grid.Row="0">
+                <VerticalStackLayout Grid.Row="0" Spacing="20">
 
                     <Label Text="🍳" FontSize="64" HorizontalOptions="Center" />
 
@@ -172,11 +172,10 @@
                                         <VerticalStackLayout Grid.Column="0" Spacing="-4">
                                             <Label Text="{Binding Label}"
                                                    Style="{StaticResource LabelBodyBold}"
+                                                   FontSize="14"
                                                    TextColor="{StaticResource TextPrimary}" />
 
-                                            <Label Style="{StaticResource LabelBodyBold}"
-                                                   FontSize="12"
-                                                   TextColor="{StaticResource TextSecondary}">
+                                            <Label Style="{StaticResource LabelBodyBold}">
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="{Binding Amount}"
@@ -219,10 +218,10 @@
                                                     <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
                                                           Style="{StaticResource LabelBodyBold}"
                                                           TextColor="{StaticResource TextPrimary}"
-                                                          FontSize="18" />
+                                                          FontSize="14" />
                                                     <Span Text=" kcal"
                                                           Style="{StaticResource LabelBodyBold}"
-                                                          FontSize="14" />
+                                                          FontSize="12" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -239,7 +238,7 @@
             <Button Grid.Row="2"
                     ImageSource="add_big.svg"
                     Text="Add Food"
-                    Margin="20,0,20,20"
+                    Margin="20"
                     VerticalOptions="End"
                     Command="{Binding GoToFoodSearchCommand}" />
         </Grid>
