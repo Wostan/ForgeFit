@@ -33,14 +33,14 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         view.SetValue(IsAnimatedProperty, value);
     }
 
-    private const uint AnimationDuration = 200;
+    private const uint AnimationDuration = 300;
     private const uint ExitDuration = 200;
 
     private const double SlideScaleX = 0.95;
     private const double SlideScaleY = 1.05;
     private const double SlideTransY = 30.0;
 
-    private const double PopScale = 0.90;
+    private const double PopScale = 0.95;
 
     private ContentPage? _page;
     private bool _isAnimatingOut;
@@ -141,22 +141,22 @@ public class PageAnimationBehavior : Behavior<ContentPage>
             {
                 case PageAnimationType.SlideUp:
                     await Task.WhenAll(
-                        content.FadeToAsync(1, AnimationDuration, Easing.CubicOut),
-                        content.ScaleXToAsync(1.0, (int)(AnimationDuration * 1.5), Easing.CubicOut),
-                        content.ScaleYToAsync(1.0, AnimationDuration, Easing.CubicOut),
-                        content.TranslateToAsync(0, 0, AnimationDuration, Easing.CubicOut)
+                        content.FadeToAsync(1, AnimationDuration, Easing.SinOut),
+                        content.ScaleXToAsync(1.0, AnimationDuration, Easing.SinOut),
+                        content.ScaleYToAsync(1.0, AnimationDuration, Easing.SinOut),
+                        content.TranslateToAsync(0, 0, AnimationDuration, Easing.SinOut)
                     );
                     break;
 
                 case PageAnimationType.Pop:
                     await Task.WhenAll(
-                        content.FadeToAsync(1, AnimationDuration, Easing.CubicOut),
-                        content.ScaleToAsync(1.0, AnimationDuration, Easing.CubicOut)
+                        content.FadeToAsync(1, AnimationDuration, Easing.SinOut),
+                        content.ScaleToAsync(1.0, AnimationDuration, Easing.SinOut)
                     );
                     break;
 
                 case PageAnimationType.Fade:
-                    await content.FadeToAsync(1, AnimationDuration, Easing.CubicOut);
+                    await content.FadeToAsync(1, AnimationDuration, Easing.SinOut);
                     break;
             }
         });

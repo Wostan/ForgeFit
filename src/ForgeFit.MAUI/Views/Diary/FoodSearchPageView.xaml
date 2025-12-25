@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
-             behaviors:PageAnimationBehavior.AnimationType="Pop"
+             behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchPageView">
     <ContentPage.Content>
