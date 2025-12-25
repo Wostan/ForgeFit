@@ -97,13 +97,12 @@
     <Style TargetType="Border">
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="StrokeShape" Value="Rectangle" />
-        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
 
     <Style TargetType="Border" x:Key="InputWrapper">
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="Padding" Value="12,0" />
@@ -128,7 +127,6 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
-        <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
     </Style>
 

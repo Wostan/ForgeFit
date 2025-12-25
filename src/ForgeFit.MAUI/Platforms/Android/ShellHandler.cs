@@ -41,7 +41,7 @@ public class BorderedBottomNavTracker(IShellContext shellContext, ShellItem shel
     {
         if (context?.Resources?.DisplayMetrics == null) return null;
         var density = context.Resources.DisplayMetrics.Density;
-        var borderWidthPx = (int)(2 * density);
+        var borderWidthPx = (int)(1 * density);
 
         var borderDrawable = new ColorDrawable(borderColor);
         var backgroundDrawable = new ColorDrawable(bgColor);
