@@ -51,7 +51,7 @@
                            x:Name="ForgeFitLabel"
                            Style="{StaticResource Headline}"
                            TextColor="{StaticResource Primary}"
-                           Shadow="{StaticResource SharedPrimaryGlow}" />
+                           Shadow="{StaticResource PrimaryGlow}" />
 
                     <Label Text="{maui:Translate WelcomeBack}"
                            HorizontalOptions="Fill"

@@ -4,4 +4,9 @@ public record FoodSearchResponse(
     string ExternalId,
     string Label,
     string? BrandName,
-    string Description);
+    double Calories,
+    double Carbs,
+    double Protein,
+    double Fat,
+    string ServingUnit
+    );

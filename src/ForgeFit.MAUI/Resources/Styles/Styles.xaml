@@ -7,13 +7,19 @@
     xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
     xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing">
 
-    <Shadow x:Key="SharedPrimaryGlow"
+    <Shadow x:Key="PrimaryGlow"
             Radius="25"
             Opacity="0.3"
             Brush="{StaticResource Primary}"
             Offset="0,8" />
+    
+    <Shadow x:Key="TextGlow"
+            Radius="12"
+            Opacity="0.3"
+            Brush="{StaticResource TextPrimary}"
+            Offset="0,0" />
 
-    <Shadow x:Key="SharedSoftGlow"
+    <Shadow x:Key="SoftGlow"
             Radius="12"
             Opacity="0.5"
             Brush="{StaticResource BorderColor}"
@@ -86,7 +92,7 @@
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
     </Style>
 
     <Style TargetType="IndicatorView">
@@ -97,7 +103,7 @@
     <Style TargetType="Border">
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="StrokeShape" Value="Rectangle" />
-        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeThickness" Value="2" />
         <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
 
@@ -107,7 +113,7 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="Padding" Value="12,0" />
         <Setter Property="HeightRequest" Value="50" />
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -127,7 +133,7 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
     </Style>
 
     <Style TargetType="BoxView">
@@ -145,7 +151,7 @@
         <Setter Property="Padding" Value="14,10" />
         <Setter Property="MinimumHeightRequest" Value="50" />
         <Setter Property="behaviors:ButtonAnimationBehavior.IsAnimated" Value="true" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -155,7 +161,7 @@
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{StaticResource TextDisabled}" />
                             <Setter Property="BackgroundColor" Value="{StaticResource SurfaceLight}" />
-                            <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+                            <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
                             <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
                         </VisualState.Setters>
                     </VisualState>
@@ -169,7 +175,7 @@
         <Setter Property="BorderWidth" Value="2" />
         <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
         <Setter Property="TextColor" Value="{StaticResource Primary}" />
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
     </Style>
 
     <Style TargetType="Button" x:Key="TextButton">
@@ -177,7 +183,7 @@
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
     </Style>
 
     <Style TargetType="CheckBox">
@@ -189,12 +195,12 @@
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">
                         <VisualState.Setters>
-                            <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+                            <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Checked">
                         <VisualState.Setters>
-                            <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+                            <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -261,6 +267,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="Shadow" Value="{StaticResource TextGlow}" />
     </Style>
 
     <Style TargetType="Label" x:Key="Headline">
@@ -277,6 +284,7 @@
         <Setter Property="FontSize" Value="20" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="Shadow" Value="{x:Null}" />
     </Style>
 
     <Style TargetType="Label" x:Key="LabelH1">
@@ -297,6 +305,7 @@
         <Setter Property="FontSize" Value="16" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="LineHeight" Value="1.4" />
+        <Setter Property="Shadow" Value="{x:Null}" />
     </Style>
 
     <Style TargetType="Label" x:Key="LabelBodyBold">
@@ -304,6 +313,7 @@
         <Setter Property="FontSize" Value="16" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="LineHeight" Value="1.4" />
+        <Setter Property="Shadow" Value="{x:Null}" />
     </Style>
 
     <Style TargetType="CollectionView" />
@@ -320,7 +330,7 @@
     <Style TargetType="ProgressBar">
         <Setter Property="ProgressColor" Value="{StaticResource Primary}" />
         <Setter Property="Height" Value="4" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
     </Style>
 
     <Style TargetType="RadioButton">
@@ -366,7 +376,7 @@
         <Setter Property="OnColor" Value="{StaticResource PrimaryDark}" />
         <Setter Property="OffColor" Value="{StaticResource Surface}" />
         <Setter Property="ThumbColor" Value="{StaticResource SurfaceLight}" />
-        <Setter Property="Shadow" Value="{StaticResource SharedSoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
         <Setter Property="behaviors:SwitchAnimationBehavior.IsAnimated" Value="True" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -430,7 +440,7 @@
         <Setter Property="MinimumWidthRequest" Value="50" />
         <Setter Property="Smooth" Value="True" />
         <Setter Property="Thickness" Value="5" />
-        <Setter Property="Shadow" Value="{StaticResource SharedPrimaryGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
     </Style>
 
     <Style TargetType="VerticalStackLayout" x:Key="MainContentStackLayout">

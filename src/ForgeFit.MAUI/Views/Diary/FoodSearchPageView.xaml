@@ -4,11 +4,192 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
+             x:DataType="local:FoodSearchPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchPageView">
     <ContentPage.Content>
-        <controls:NavigationHeader Title="Search" />
+        <Grid>
+            <controls:NavigationHeader ZIndex="11">
+                <controls:NavigationHeader.CustomTitleView>
+                    <VerticalStackLayout Spacing="-10">
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Label Text="Add to " Style="{StaticResource LabelH2}" />
+                            <Label Text="Breakfast" Style="{StaticResource LabelH2}" />
+                        </HorizontalStackLayout>
+                        <Label Text="Results for 'Egg'"
+                               MaximumWidthRequest="275"
+                               Style="{StaticResource LabelBodyBold}"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Center"
+                               LineBreakMode="TailTruncation" />
+                    </VerticalStackLayout>
+                </controls:NavigationHeader.CustomTitleView>
+            </controls:NavigationHeader>
 
+            <CollectionView ItemsSource="{Binding SearchResults}"
+                            SelectionMode="Single">
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Spacing="10"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                        <Image Source="search.svg"
+                               WidthRequest="48"
+                               HeightRequest="48">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
+                            </Image.Behaviors>
+                        </Image>
+                        <Label Style="{StaticResource LabelBodyBold}"
+                               TextColor="{StaticResource TextPrimary}"
+                               Text="Nothing found..."
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.Header>
+                    <BoxView HeightRequest="100" BackgroundColor="Transparent" />
+                </CollectionView.Header>
+
+                <CollectionView.Footer>
+                    <BoxView HeightRequest="80" BackgroundColor="Transparent" />
+                </CollectionView.Footer>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FoodSearchResponse">
+                        <Border Style="{StaticResource CardStyle}"
+                                Padding="0" Margin="16,0"
+                                Shadow="{x:Null}">
+                            <Grid ColumnDefinitions="*, Auto, Auto"
+                                  RowDefinitions="Auto, Auto"
+                                  Padding="16, 0, 0, 0">
+
+                                <VerticalStackLayout Grid.Column="0"
+                                                     VerticalOptions="Center"
+                                                     Margin="0,0,16,0">
+
+                                    <Label Text="{Binding Label}"
+                                           Style="{StaticResource LabelBodyBold}"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           FontSize="14"
+                                           LineBreakMode="TailTruncation"
+                                           HorizontalOptions="Start"
+                                           Margin="0,-5,0,0"
+                                           Shadow="{StaticResource TextGlow}" />
+
+                                    <FlexLayout Wrap="NoWrap"
+                                                AlignItems="Center"
+                                                JustifyContent="Start">
+
+                                        <Label Text="{Binding BrandName}"
+                                               Style="{StaticResource LabelBodyBold}"
+                                               VerticalOptions="End"
+                                               FontSize="12"
+                                               FlexLayout.Shrink="1"
+                                               LineBreakMode="TailTruncation"
+                                               IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
+
+                                        <Label Text=" • "
+                                               Style="{StaticResource LabelBodyBold}"
+                                               FlexLayout.Shrink="0"
+                                               IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
+
+                                        <Label Style="{StaticResource LabelBodyBold}"
+                                               LineBreakMode="NoWrap"
+                                               FlexLayout.Shrink="0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding ServingUnit}"
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          FontSize="12" />
+
+                                                    <Span Text=" • "
+                                                          Style="{StaticResource LabelBodyBold}" />
+
+                                                    <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          TextColor="{StaticResource CarbsColor}"
+                                                          FontSize="12" />
+                                                    <Span Text=" / "
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          FontSize="10" />
+                                                    <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          TextColor="{StaticResource ProteinColor}"
+                                                          FontSize="12" />
+                                                    <Span Text=" / "
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          FontSize="10" />
+                                                    <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
+                                                          Style="{StaticResource LabelBodyBold}"
+                                                          TextColor="{StaticResource FatColor}"
+                                                          FontSize="12" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </FlexLayout>
+                                </VerticalStackLayout>
+
+                                <Label Grid.Column="1" Grid.RowSpan="2"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="End">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
+                                                  Style="{StaticResource LabelBodyBold}"
+                                                  TextColor="{StaticResource TextPrimary}"
+                                                  FontSize="16" />
+                                            <Span Text=" kcal"
+                                                  Style="{StaticResource LabelBodyBold}"
+                                                  FontSize="12"
+                                                  TextColor="{StaticResource TextSecondary}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Button Grid.Column="2" Grid.Row="0"
+                                        Style="{StaticResource TextButton}"
+                                        ImageSource="add.svg">
+                                    <Button.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                                    </Button.Behaviors>
+                                </Button>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Border Style="{StaticResource CardStyle}"
+                    Margin="16"
+                    VerticalOptions="End"
+                    Padding="0">
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="-10">
+                    <SearchBar Grid.Column="0"
+                               Placeholder="What did you ate?"
+                               ReturnType="Done"
+                               IsTextPredictionEnabled="True"
+                               Text="{Binding SearchText}"
+                               SearchCommand="{Binding PerformSearchCommand}"
+                               SearchIconColor="{StaticResource TextPrimary}" />
+                    <Button Grid.Column="1"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="barcode_scanner.svg">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
