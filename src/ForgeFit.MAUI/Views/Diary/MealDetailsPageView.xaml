@@ -212,6 +212,7 @@
                                         </VerticalStackLayout>
 
                                         <Label Grid.Column="1" Grid.RowSpan="2"
+                                               Style="{StaticResource LabelBodyBold}"
                                                VerticalOptions="Center">
                                             <Label.FormattedText>
                                                 <FormattedString>
