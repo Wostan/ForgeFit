@@ -183,7 +183,8 @@
                                SearchIconColor="{StaticResource TextPrimary}" />
                     <Button Grid.Column="1"
                             Style="{StaticResource TextButton}"
-                            ImageSource="barcode_scanner.svg">
+                            ImageSource="barcode_scanner.svg"
+                            Command="{Binding ToggleScannerCommand}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>

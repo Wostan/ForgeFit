@@ -15,7 +15,7 @@
                 <controls:NavigationHeader.CustomTitleView>
                     <Grid ColumnDefinitions="Auto, *, Auto">
                         <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
-                        <DatePicker Grid.Column="2" VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
+                        <DatePicker Grid.Column="2" VerticalOptions="Center" FontSize="16" />
                     </Grid>
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>

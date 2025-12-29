@@ -4,6 +4,7 @@ using ForgeFit.MAUI.Extensions;
 using ForgeFit.MAUI.Resources.Strings;
 using LocalizationResourceManager.Maui;
 using Microsoft.Extensions.Logging;
+using ZXing.Net.Maui.Controls;
 
 namespace ForgeFit.MAUI;
 
@@ -17,6 +18,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMarkup()
+            .UseBarcodeReader()
             .UseLocalizationResourceManager(settings =>
             {
                 settings.AddResource(AppResources.ResourceManager);

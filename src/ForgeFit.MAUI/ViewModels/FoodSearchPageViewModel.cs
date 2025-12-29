@@ -7,16 +7,25 @@ namespace ForgeFit.MAUI.ViewModels;
 
 public partial class FoodSearchPageViewModel : ObservableObject
 {
+    [ObservableProperty] 
+    private bool _isScannerVisible;
+    
+    [ObservableProperty]
+    private string _searchText = string.Empty;
+    
     private readonly List<FoodSearchResponse> _allFoodItems = [];
 
     public ObservableCollection<FoodSearchResponse> SearchResults { get; } = [];
 
-    [ObservableProperty]
-    private string _searchText = string.Empty;
-
     public FoodSearchPageViewModel()
     {
         LoadTestData();
+    }
+    
+    [RelayCommand]
+    private void ToggleScanner()
+    {
+        IsScannerVisible = !IsScannerVisible;
     }
 
     [RelayCommand]
