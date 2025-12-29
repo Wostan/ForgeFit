@@ -32,6 +32,7 @@
             <scanner:CameraBarcodeReaderView Grid.Row="1"
                                              x:Name="CameraView"
                                              IsVisible="True" 
+                                             IsTorchOn="{Binding IsTorchOn}"
                                              Options="{Binding BarcodeOptions}">
                 <scanner:CameraBarcodeReaderView.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="BarcodesDetected"
@@ -71,6 +72,31 @@
                     <toolkit:IconTintColorBehavior TintColor="White" />
                 </Image.Behaviors>
             </Image>
+            
+            <Button Grid.Row="1" ZIndex="2"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="light_off.svg" 
+                    Margin="8"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Shadow="{StaticResource TextGlow}"
+                    Command="{Binding ToggleTorchCommand}"
+                    AutomationProperties.Name="Turn flashlight on">
+                
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="White" />
+                </Button.Behaviors>
+
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding IsTorchOn}"
+                                 Value="True">
+                        <Setter Property="ImageSource" Value="light_on.svg" />
+                        <Setter Property="AutomationProperties.Name" Value="Turn flashlight off" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            
         </Grid>
     </Border>
 </ContentView>

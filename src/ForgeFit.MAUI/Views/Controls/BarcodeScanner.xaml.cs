@@ -1,4 +1,6 @@
-﻿namespace ForgeFit.MAUI.Views.Controls;
+﻿using ForgeFit.MAUI.ViewModels;
+
+namespace ForgeFit.MAUI.Views.Controls;
 
 public partial class BarcodeScanner : ContentView
 {
@@ -60,6 +62,11 @@ public partial class BarcodeScanner : ContentView
         {
             control.CameraCurtain.IsVisible = true;
             await control.CameraCurtain.FadeToAsync(1, 200, Easing.SinOut);
+            
+            if (control.BindingContext is FoodSearchPageViewModel vm)
+            {
+                vm.IsTorchOn = false;
+            }
             
             control.CameraView.IsDetecting = false;
             control.CameraView.IsTorchOn = false;

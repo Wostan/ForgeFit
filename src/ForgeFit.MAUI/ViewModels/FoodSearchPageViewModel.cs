@@ -12,6 +12,9 @@ public partial class FoodSearchPageViewModel : ObservableObject
     private bool _isScannerVisible;
     
     [ObservableProperty]
+    private bool _isTorchOn;
+    
+    [ObservableProperty]
     private string _searchText = string.Empty;
     
     public BarcodeReaderOptions BarcodeOptions { get; } = new()
@@ -27,6 +30,12 @@ public partial class FoodSearchPageViewModel : ObservableObject
     private void ToggleScanner()
     {
         IsScannerVisible = !IsScannerVisible;
+    }
+    
+    [RelayCommand]
+    private void ToggleTorch()
+    {
+        IsTorchOn = !IsTorchOn;
     }
 
     [RelayCommand]
