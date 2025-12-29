@@ -30,22 +30,30 @@
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
 
-            <CollectionView ItemsSource="{Binding SearchResults}"
-                            SelectionMode="Single">
+            <CollectionView ItemsSource="{Binding SearchResults}">
+                
+                <CollectionView.Triggers>
+                    <DataTrigger TargetType="CollectionView"
+                                 Binding="{Binding SearchResults, Converter={toolkit:IsListNullOrEmptyConverter}}"
+                                 Value="True">
+                        <Setter Property="InputTransparent" Value="True" />
+                        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
+                    </DataTrigger>
+                </CollectionView.Triggers>
 
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Spacing="10"
                                          VerticalOptions="Center"
-                                         HorizontalOptions="Center">
+                                         HorizontalOptions="Center"
+                                         Opacity="0.5">
                         <Image Source="search.svg"
                                WidthRequest="100"
                                HeightRequest="100">
                             <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
                             </Image.Behaviors>
                         </Image>
                         <Label Style="{StaticResource LabelBodyBold}"
-                               TextColor="{StaticResource TextPrimary}"
                                Text="Nothing found..."
                                HorizontalOptions="Center" />
                     </VerticalStackLayout>
