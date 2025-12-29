@@ -38,8 +38,8 @@
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center">
                         <Image Source="search.svg"
-                               WidthRequest="48"
-                               HeightRequest="48">
+                               WidthRequest="100"
+                               HeightRequest="100">
                             <Image.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
                             </Image.Behaviors>
@@ -191,6 +191,9 @@
                     </Button>
                 </Grid>
             </Border>
+            
+            <controls:BarcodeScanner ZIndex="11"
+                                     IsActive="{Binding IsScannerVisible}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>
