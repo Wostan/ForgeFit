@@ -12,11 +12,11 @@ public partial class FoodSearchPageView : ContentPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (BindingContext is not FoodSearchPageViewModel vm || vm is { IsFoodDetailsVisible: false, IsScannerVisible: false }) return base.OnBackButtonPressed();
+        if (BindingContext is not FoodSearchPageViewModel vm ||
+            vm is { IsFoodDetailsVisible: false, IsScannerVisible: false }) return base.OnBackButtonPressed();
 
         vm.IsScannerVisible = false;
         vm.IsFoodDetailsVisible = false;
         return true;
-
     }
 }

@@ -32,7 +32,7 @@
             </controls:NavigationHeader>
 
             <CollectionView ItemsSource="{Binding SearchResults}">
-                
+
                 <CollectionView.Triggers>
                     <DataTrigger TargetType="CollectionView"
                                  Binding="{Binding SearchResults, Converter={toolkit:IsListNullOrEmptyConverter}}"
@@ -77,13 +77,13 @@
                         <Border Style="{StaticResource CardStyle}"
                                 Padding="0" Margin="16,0"
                                 Shadow="{x:Null}">
-                            
+
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer 
+                                <TapGestureRecognizer
                                     Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenFoodDetailsCommand}"
                                     CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
-                            
+
                             <Grid ColumnDefinitions="*, Auto, Auto"
                                   RowDefinitions="Auto, Auto"
                                   Padding="16, 0, 0, 0">
@@ -209,10 +209,10 @@
                     </Button>
                 </Grid>
             </Border>
-            
+
             <controls:BarcodeScanner ZIndex="11"
                                      IsActive="{Binding IsScannerVisible}" />
-            
+
             <controls:FoodDetails ZIndex="12">
                 <controls:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />

@@ -56,16 +56,16 @@ public class FadeVisibilityBehavior : Behavior<VisualElement>
         if (bindable is not FadeVisibilityBehavior behavior || behavior._element is null) return;
 
         var isVisible = (bool)newValue;
-        
+
         behavior._element?.CancelAnimations();
 
         if (isVisible)
         {
-            behavior._element?.IsVisible = true; 
+            behavior._element?.IsVisible = true;
             await behavior._element!.FadeToAsync(1, 200, Easing.SinOut);
         }
         else
-        { 
+        {
             await behavior._element!.FadeToAsync(0, 200, Easing.SinIn);
             behavior._element!.IsVisible = false;
         }

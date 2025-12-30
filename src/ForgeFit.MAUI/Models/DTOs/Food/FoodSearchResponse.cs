@@ -9,4 +9,4 @@ public record FoodSearchResponse(
     double Protein,
     double Fat,
     string ServingUnit
-    );
+);

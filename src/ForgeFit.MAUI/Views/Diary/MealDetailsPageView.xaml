@@ -41,7 +41,7 @@
 
                             <ProgressBar Progress="0.5"
                                          ProgressColor="{StaticResource Primary}"
-                                         Shadow="{StaticResource CaloriesGlow}"/>
+                                         Shadow="{StaticResource CaloriesGlow}" />
 
                             <Label Text="824 kcal"
                                    Style="{StaticResource LabelBodyBold}"

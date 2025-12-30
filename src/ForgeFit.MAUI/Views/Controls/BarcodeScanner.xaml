@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:scanner="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
@@ -11,9 +12,9 @@
              InputTransparent="False">
 
     <ContentView.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding ToggleScannerCommand}"/> 
+        <TapGestureRecognizer Command="{Binding ToggleScannerCommand}" />
     </ContentView.GestureRecognizers>
-    
+
     <Border Style="{StaticResource CardStyle}"
             VerticalOptions="Center"
             HorizontalOptions="Fill"
@@ -22,7 +23,7 @@
             StrokeThickness="3">
 
         <Grid RowDefinitions="Auto, 175" BackgroundColor="{StaticResource Surface}">
-            
+
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer />
             </Grid.GestureRecognizers>
@@ -35,7 +36,7 @@
 
             <scanner:CameraBarcodeReaderView Grid.Row="1"
                                              x:Name="CameraView"
-                                             IsVisible="True" 
+                                             IsVisible="True"
                                              IsTorchOn="{Binding IsTorchOn}"
                                              Options="{Binding BarcodeOptions}">
                 <scanner:CameraBarcodeReaderView.Behaviors>
@@ -63,7 +64,7 @@
                     <toolkit:IconTintColorBehavior TintColor="White" />
                 </Image.Behaviors>
             </Image>
-            
+
             <Image Grid.Row="1" ZIndex="2"
                    Source="barcode.svg"
                    HorizontalOptions="Center"
@@ -76,17 +77,17 @@
                     <toolkit:IconTintColorBehavior TintColor="White" />
                 </Image.Behaviors>
             </Image>
-            
+
             <Button Grid.Row="1" ZIndex="2"
                     Style="{StaticResource TextButton}"
-                    ImageSource="light_off.svg" 
+                    ImageSource="light_off.svg"
                     Margin="8"
                     HorizontalOptions="End"
                     VerticalOptions="End"
                     Shadow="{StaticResource TextGlow}"
                     Command="{Binding ToggleTorchCommand}"
                     AutomationProperties.Name="Turn flashlight on">
-                
+
                 <Button.Behaviors>
                     <toolkit:IconTintColorBehavior TintColor="White" />
                 </Button.Behaviors>
@@ -100,7 +101,7 @@
                     </DataTrigger>
                 </Button.Triggers>
             </Button>
-            
+
         </Grid>
     </Border>
 </ContentView>

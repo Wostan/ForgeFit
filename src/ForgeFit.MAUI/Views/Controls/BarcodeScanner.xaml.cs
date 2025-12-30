@@ -5,9 +5,9 @@ namespace ForgeFit.MAUI.Views.Controls;
 public partial class BarcodeScanner : ContentView
 {
     public static readonly BindableProperty IsActiveProperty = BindableProperty.Create(
-        nameof(IsActive), 
+        nameof(IsActive),
         typeof(bool),
-        typeof(BarcodeScanner), 
+        typeof(BarcodeScanner),
         false,
         propertyChanged: OnIsActiveChanged);
 
@@ -20,12 +20,12 @@ public partial class BarcodeScanner : ContentView
     public BarcodeScanner()
     {
         InitializeComponent();
-        
+
         IsVisible = false;
         Opacity = 0;
-        
+
         CameraView.IsDetecting = false;
-        
+
         CameraCurtain.Opacity = 1;
         CameraCurtain.IsVisible = true;
     }
@@ -39,7 +39,7 @@ public partial class BarcodeScanner : ContentView
         if (isVisible)
         {
             control.CameraView.IsEnabled = true;
-            
+
             control.CameraCurtain.Opacity = 1;
             control.CameraCurtain.IsVisible = true;
 
@@ -64,17 +64,14 @@ public partial class BarcodeScanner : ContentView
         {
             control.CameraCurtain.IsVisible = true;
             await control.CameraCurtain.FadeToAsync(1, 200, Easing.SinOut);
-            
-            if (control.BindingContext is FoodSearchPageViewModel vm)
-            {
-                vm.IsTorchOn = false;
-            }
-            
+
+            if (control.BindingContext is FoodSearchPageViewModel vm) vm.IsTorchOn = false;
+
             control.CameraView.IsDetecting = false;
             control.CameraView.IsTorchOn = false;
-            
+
             control.CameraView.IsEnabled = false;
-            
+
             await control.FadeToAsync(0, 200, Easing.SinIn);
             control.IsVisible = false;
         }
