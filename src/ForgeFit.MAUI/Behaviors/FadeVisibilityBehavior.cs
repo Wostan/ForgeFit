@@ -6,9 +6,9 @@ public class FadeVisibilityBehavior : Behavior<VisualElement>
 
     public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
         nameof(IsVisible),
-        typeof(bool), 
+        typeof(bool),
         typeof(FadeVisibilityBehavior),
-        false, 
+        false,
         propertyChanged: OnIsVisibleChanged);
 
     public bool IsVisible
@@ -20,15 +20,35 @@ public class FadeVisibilityBehavior : Behavior<VisualElement>
     protected override void OnAttachedTo(VisualElement bindable)
     {
         base.OnAttachedTo(bindable);
+
         _element = bindable;
-        _element.Opacity = 0;
-        _element.IsVisible = false;
+
+        BindingContext = bindable.BindingContext;
+        bindable.BindingContextChanged += OnAssociatedObjectBindingContextChanged;
+
+        if (IsVisible)
+        {
+            _element.Opacity = 1;
+            _element.IsVisible = true;
+        }
+        else
+        {
+            _element.Opacity = 0;
+            _element.IsVisible = false;
+        }
     }
 
     protected override void OnDetachingFrom(VisualElement bindable)
     {
         base.OnDetachingFrom(bindable);
+        bindable.BindingContextChanged -= OnAssociatedObjectBindingContextChanged;
         _element = null;
+    }
+
+    private void OnAssociatedObjectBindingContextChanged(object? sender, EventArgs e)
+    {
+        if (_element != null)
+            BindingContext = _element.BindingContext;
     }
 
     private static async void OnIsVisibleChanged(BindableObject bindable, object oldValue, object newValue)
@@ -36,18 +56,18 @@ public class FadeVisibilityBehavior : Behavior<VisualElement>
         if (bindable is not FadeVisibilityBehavior behavior || behavior._element is null) return;
 
         var isVisible = (bool)newValue;
-
-        behavior._element.CancelAnimations();
+        
+        behavior._element?.CancelAnimations();
 
         if (isVisible)
         {
-            behavior._element.IsVisible = true;
-            await behavior._element.FadeToAsync(1, 250, Easing.SinOut);
+            behavior._element?.IsVisible = true; 
+            await behavior._element!.FadeToAsync(1, 250, Easing.SinOut);
         }
         else
-        {
-            await behavior._element.FadeToAsync(0, 250, Easing.SinIn);
-            behavior._element.IsVisible = false;
+        { 
+            await behavior._element!.FadeToAsync(0, 250, Easing.SinIn);
+            behavior._element!.IsVisible = false;
         }
     }
 }
