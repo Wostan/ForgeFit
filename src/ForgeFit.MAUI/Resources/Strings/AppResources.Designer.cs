@@ -60,6 +60,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Action_Add {
+            get {
+                return ResourceManager.GetString("Action_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Food.
+        /// </summary>
+        internal static string Action_AddFood {
+            get {
+                return ResourceManager.GetString("Action_AddFood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect to the server..
         /// </summary>
         internal static string ConnectionFailedMessage {
@@ -74,6 +92,78 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string ConnectionTimedOutMessage {
             get {
                 return ResourceManager.GetString("ConnectionTimedOutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add your first food!.
+        /// </summary>
+        internal static string Details_Empty {
+            get {
+                return ResourceManager.GetString("Details_Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Food Products.
+        /// </summary>
+        internal static string Details_FoodProducts {
+            get {
+                return ResourceManager.GetString("Details_FoodProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit.
+        /// </summary>
+        internal static string Details_Unit {
+            get {
+                return ResourceManager.GetString("Details_Unit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hydration.
+        /// </summary>
+        internal static string Diary_Hydration {
+            get {
+                return ResourceManager.GetString("Diary_Hydration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meals.
+        /// </summary>
+        internal static string Diary_Meals {
+            get {
+                return ResourceManager.GetString("Diary_Meals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary.
+        /// </summary>
+        internal static string Diary_Summary {
+            get {
+                return ResourceManager.GetString("Diary_Summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        internal static string Diary_Title {
+            get {
+                return ResourceManager.GetString("Diary_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight.
+        /// </summary>
+        internal static string Diary_Weight {
+            get {
+                return ResourceManager.GetString("Diary_Weight", resourceCulture);
             }
         }
         
@@ -141,6 +231,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drink your first glass of water!.
+        /// </summary>
+        internal static string Hydration_Empty {
+            get {
+                return ResourceManager.GetString("Hydration_Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ml.
+        /// </summary>
+        internal static string Hydration_Ml {
+            get {
+                return ResourceManager.GetString("Hydration_Ml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid email or password..
         /// </summary>
         internal static string InvalidCredentialsMessage {
@@ -159,11 +267,101 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Breakfast.
+        /// </summary>
+        internal static string Meal_Breakfast {
+            get {
+                return ResourceManager.GetString("Meal_Breakfast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dinner.
+        /// </summary>
+        internal static string Meal_Dinner {
+            get {
+                return ResourceManager.GetString("Meal_Dinner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lunch.
+        /// </summary>
+        internal static string Meal_Lunch {
+            get {
+                return ResourceManager.GetString("Meal_Lunch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snack.
+        /// </summary>
+        internal static string Meal_Snack {
+            get {
+                return ResourceManager.GetString("Meal_Snack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check your internet connection!.
         /// </summary>
         internal static string NoInternetConnectionMessage {
             get {
                 return ResourceManager.GetString("NoInternetConnectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calories.
+        /// </summary>
+        internal static string Nutrient_Calories {
+            get {
+                return ResourceManager.GetString("Nutrient_Calories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Carbs.
+        /// </summary>
+        internal static string Nutrient_Carbs {
+            get {
+                return ResourceManager.GetString("Nutrient_Carbs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fat.
+        /// </summary>
+        internal static string Nutrient_Fat {
+            get {
+                return ResourceManager.GetString("Nutrient_Fat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kcal.
+        /// </summary>
+        internal static string Nutrient_Kcal {
+            get {
+                return ResourceManager.GetString("Nutrient_Kcal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protein.
+        /// </summary>
+        internal static string Nutrient_Protein {
+            get {
+                return ResourceManager.GetString("Nutrient_Protein", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water.
+        /// </summary>
+        internal static string Nutrient_Water {
+            get {
+                return ResourceManager.GetString("Nutrient_Water", resourceCulture);
             }
         }
         
@@ -182,6 +380,42 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string ProfilePageTitle {
             get {
                 return ResourceManager.GetString("ProfilePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan barcode.
+        /// </summary>
+        internal static string Search_Barcode {
+            get {
+                return ResourceManager.GetString("Search_Barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing found....
+        /// </summary>
+        internal static string Search_Empty {
+            get {
+                return ResourceManager.GetString("Search_Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add to.
+        /// </summary>
+        internal static string Search_Header_Add {
+            get {
+                return ResourceManager.GetString("Search_Header_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What did you eat?.
+        /// </summary>
+        internal static string Search_Placeholder {
+            get {
+                return ResourceManager.GetString("Search_Placeholder", resourceCulture);
             }
         }
         
@@ -236,6 +470,33 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string UnexpectedErrorMessage {
             get {
                 return ResourceManager.GetString("UnexpectedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goal.
+        /// </summary>
+        internal static string Weight_Goal {
+            get {
+                return ResourceManager.GetString("Weight_Goal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kg.
+        /// </summary>
+        internal static string Weight_Kg {
+            get {
+                return ResourceManager.GetString("Weight_Kg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left.
+        /// </summary>
+        internal static string Weight_Left {
+            get {
+                return ResourceManager.GetString("Weight_Left", resourceCulture);
             }
         }
         

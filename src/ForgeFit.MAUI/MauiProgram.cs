@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui;
+﻿using System.Globalization;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
 using ForgeFit.MAUI.Extensions;
 using ForgeFit.MAUI.Resources.Strings;
@@ -22,6 +23,7 @@ public static class MauiProgram
             .UseLocalizationResourceManager(settings =>
             {
                 settings.AddResource(AppResources.ResourceManager);
+                settings.InitialCulture(new CultureInfo("uk-UA"));
                 settings.RestoreLatestCulture(true);
             })
             .ConfigureUiSettings()

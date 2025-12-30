@@ -7,6 +7,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
              x:DataType="local:FoodSearchPageViewModel"
@@ -18,7 +19,7 @@
                 <controls:NavigationHeader.CustomTitleView>
                     <VerticalStackLayout Spacing="-10">
                         <HorizontalStackLayout HorizontalOptions="Center">
-                            <Label Text="Add to " Style="{StaticResource LabelH2}" />
+                            <Label Text="{maui:Translate Search_Header_Add}" Style="{StaticResource LabelH2}" />
                             <Label Text="Breakfast" Style="{StaticResource LabelH2}" />
                         </HorizontalStackLayout>
                         <Label Text="Results for 'Egg'"
@@ -55,7 +56,7 @@
                             </Image.Behaviors>
                         </Image>
                         <Label Style="{StaticResource LabelBodyBold}"
-                               Text="Nothing found..."
+                               Text="{maui:Translate Search_Empty}"
                                HorizontalOptions="Center" />
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
@@ -163,7 +164,10 @@
                                                   Style="{StaticResource LabelBodyBold}"
                                                   TextColor="{StaticResource TextPrimary}"
                                                   FontSize="16" />
-                                            <Span Text=" kcal"
+                                            <Span Text=" "
+                                                  Style="{StaticResource LabelBodyBold}"
+                                                  FontSize="12" />
+                                            <Span Text="{maui:Translate Nutrient_Kcal}"
                                                   Style="{StaticResource LabelBodyBold}"
                                                   FontSize="12"
                                                   TextColor="{StaticResource TextSecondary}" />

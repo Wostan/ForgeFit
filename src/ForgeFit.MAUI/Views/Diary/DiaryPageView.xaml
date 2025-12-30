@@ -6,6 +6,7 @@
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.Templates"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryPageView">
@@ -14,7 +15,7 @@
             <controls:NavigationHeader ZIndex="11" ShowBackButton="False">
                 <controls:NavigationHeader.CustomTitleView>
                     <Grid ColumnDefinitions="Auto, *, Auto">
-                        <Label Style="{StaticResource Headline}" Text="Today" VerticalOptions="Center" />
+                        <Label Style="{StaticResource Headline}" Text="{maui:Translate Diary_Title}" VerticalOptions="Center" />
                         <DatePicker Grid.Column="2" VerticalOptions="Center" FontSize="16" />
                     </Grid>
                 </controls:NavigationHeader.CustomTitleView>

@@ -81,4 +81,91 @@
     <data name="EmailErrorMessage" xml:space="preserve">
         <value>Некоректна Email адреса.</value>
     </data>
+    <data name="Diary_Title" xml:space="preserve">
+        <value>Сьогодні</value>
+    </data>
+    <data name="Diary_Summary" xml:space="preserve">
+        <value>Зведення</value>
+    </data>
+    <data name="Diary_Meals" xml:space="preserve">
+        <value>Прийоми їжі</value>
+    </data>
+    <data name="Diary_Hydration" xml:space="preserve">
+        <value>Гідратація</value>
+    </data>
+    <data name="Diary_Weight" xml:space="preserve">
+        <value>Вага</value>
+    </data>
+    <data name="Nutrient_Carbs" xml:space="preserve">
+        <value>Вуглеводи</value>
+    </data>
+    <data name="Nutrient_Protein" xml:space="preserve">
+        <value>Білки</value>
+    </data>
+    <data name="Nutrient_Fat" xml:space="preserve">
+        <value>Жири</value>
+    </data>
+    <data name="Nutrient_Calories" xml:space="preserve">
+        <value>Калорії</value>
+    </data>
+    <data name="Nutrient_Kcal" xml:space="preserve">
+        <value>ккал</value>
+    </data>
+    <data name="Nutrient_Water" xml:space="preserve">
+        <value>Вода</value>
+    </data>
+    <data name="Meal_Breakfast" xml:space="preserve">
+        <value>Сніданок</value>
+    </data>
+    <data name="Meal_Lunch" xml:space="preserve">
+        <value>Обід</value>
+    </data>
+    <data name="Meal_Dinner" xml:space="preserve">
+        <value>Вечеря</value>
+    </data>
+    <data name="Meal_Snack" xml:space="preserve">
+        <value>Перекус</value>
+    </data>
+    <data name="Weight_Goal" xml:space="preserve">
+        <value>Ціль</value>
+    </data>
+    <data name="Weight_Left" xml:space="preserve">
+        <value>Залишилось</value>
+    </data>
+    <data name="Action_Add" xml:space="preserve">
+        <value>Додати</value>
+    </data>
+    <data name="Action_AddFood" xml:space="preserve">
+        <value>Додати їжу</value>
+    </data>
+    <data name="Search_Header_Add" xml:space="preserve">
+        <value>Додати у</value>
+    </data>
+    <data name="Search_Placeholder" xml:space="preserve">
+        <value>Що сьогодні з'їли?</value>
+    </data>
+    <data name="Search_Empty" xml:space="preserve">
+        <value>Ми шукали, а тут пусто...</value>
+    </data>
+    <data name="Search_Barcode" xml:space="preserve">
+        <value>Сканувати штрихкод</value>
+    </data>
+    <data name="Details_FoodProducts" xml:space="preserve">
+        <value>Продукти</value>
+    </data>
+    <data name="Details_Empty" xml:space="preserve">
+        <value>Додай свій перший продукт!</value>
+    </data>
+    <data name="Details_Unit" xml:space="preserve">
+        <value>Порція</value>
+    </data>
+    <data name="Hydration_Empty" xml:space="preserve">
+        <value>Час випити води!</value>
+    </data>
+    <data name="Hydration_Ml" xml:space="preserve">
+        <value>мл</value>
+    </data>
+    <data name="Weight_Kg" xml:space="preserve">
+        <value>кг</value>
+    </data>
 </root>

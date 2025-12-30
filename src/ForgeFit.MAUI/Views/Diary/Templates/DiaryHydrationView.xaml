@@ -3,11 +3,12 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryHydrationView">
     <VerticalStackLayout Spacing="4">
 
         <Label Style="{StaticResource LabelBodyBold}"
-               Text="Hydration"
+               Text="{maui:Translate Diary_Hydration}"
                TextColor="{StaticResource TextSecondary}" />
 
         <Border Style="{StaticResource CardStyle}"
@@ -19,7 +20,10 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="1322" Style="{StaticResource LabelH1}" />
-                                    <Span Text=" / 2894 ml" Style="{StaticResource LabelBodyBold}" />
+                                    <Span Text=" / " Style="{StaticResource LabelBodyBold}" />
+                                    <Span Text="2894" Style="{StaticResource LabelBodyBold}" />
+                                    <Span Text=" " Style="{StaticResource LabelBodyBold}" />
+                                    <Span Text="{maui:Translate Hydration_Ml}" Style="{StaticResource LabelBodyBold}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -35,7 +39,7 @@
 
                 <CollectionView Grid.Row="1" MinimumHeightRequest="30">
                     <CollectionView.EmptyView>
-                        <Label Text="Drink your first glass of water!"
+                        <Label Text="{maui:Translate Hydration_Empty}"
                                Style="{StaticResource LabelBodyBold}"
                                HorizontalOptions="Center"
                                VerticalOptions="Center" />
@@ -56,10 +60,15 @@
                                 </Image>
 
                                 <Label Grid.Column="2"
-                                       Text="250 ml"
-                                       Style="{StaticResource LabelBodyBold}"
-                                       TextColor="{StaticResource TextPrimary}"
-                                       VerticalOptions="Center" />
+                                       VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="250" Style="{StaticResource LabelBodyBold}" TextColor="{StaticResource TextPrimary}" />
+                                            <Span Text=" " Style="{StaticResource LabelBodyBold}" TextColor="{StaticResource TextPrimary}" />
+                                            <Span Text="{maui:Translate Hydration_Ml}" Style="{StaticResource LabelBodyBold}" TextColor="{StaticResource TextPrimary}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
 
                                 <Button Grid.Column="3"
                                         Style="{StaticResource TextButton}"

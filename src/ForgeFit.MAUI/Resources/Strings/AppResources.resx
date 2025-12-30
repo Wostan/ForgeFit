@@ -89,4 +89,91 @@
     <data name="EmailErrorMessage" xml:space="preserve">
         <value>Incorrect Email.</value>
     </data>
+    <data name="Diary_Title" xml:space="preserve">
+        <value>Today</value>
+    </data>
+    <data name="Diary_Summary" xml:space="preserve">
+        <value>Summary</value>
+    </data>
+    <data name="Diary_Meals" xml:space="preserve">
+        <value>Meals</value>
+    </data>
+    <data name="Diary_Hydration" xml:space="preserve">
+        <value>Hydration</value>
+    </data>
+    <data name="Diary_Weight" xml:space="preserve">
+        <value>Weight</value>
+    </data>
+    <data name="Nutrient_Carbs" xml:space="preserve">
+        <value>Carbs</value>
+    </data>
+    <data name="Nutrient_Protein" xml:space="preserve">
+        <value>Protein</value>
+    </data>
+    <data name="Nutrient_Fat" xml:space="preserve">
+        <value>Fat</value>
+    </data>
+    <data name="Nutrient_Calories" xml:space="preserve">
+        <value>Calories</value>
+    </data>
+    <data name="Nutrient_Kcal" xml:space="preserve">
+        <value>kcal</value>
+    </data>
+    <data name="Nutrient_Water" xml:space="preserve">
+        <value>Water</value>
+    </data>
+    <data name="Meal_Breakfast" xml:space="preserve">
+        <value>Breakfast</value>
+    </data>
+    <data name="Meal_Lunch" xml:space="preserve">
+        <value>Lunch</value>
+    </data>
+    <data name="Meal_Dinner" xml:space="preserve">
+        <value>Dinner</value>
+    </data>
+    <data name="Meal_Snack" xml:space="preserve">
+        <value>Snack</value>
+    </data>
+    <data name="Weight_Goal" xml:space="preserve">
+        <value>Goal</value>
+    </data>
+    <data name="Weight_Left" xml:space="preserve">
+        <value>Left</value>
+    </data>
+    <data name="Action_Add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="Action_AddFood" xml:space="preserve">
+        <value>Add Food</value>
+    </data>
+    <data name="Search_Header_Add" xml:space="preserve">
+        <value>Add to</value>
+    </data>
+    <data name="Search_Placeholder" xml:space="preserve">
+        <value>What did you eat?</value>
+    </data>
+    <data name="Search_Empty" xml:space="preserve">
+        <value>Nothing found...</value>
+    </data>
+    <data name="Search_Barcode" xml:space="preserve">
+        <value>Scan barcode</value>
+    </data>
+    <data name="Details_FoodProducts" xml:space="preserve">
+        <value>Food Products</value>
+    </data>
+    <data name="Details_Empty" xml:space="preserve">
+        <value>Add your first food!</value>
+    </data>
+    <data name="Details_Unit" xml:space="preserve">
+        <value>Unit</value>
+    </data>
+    <data name="Hydration_Empty" xml:space="preserve">
+        <value>Drink your first glass of water!</value>
+    </data>
+    <data name="Hydration_Ml" xml:space="preserve">
+        <value>ml</value>
+    </data>
+    <data name="Weight_Kg" xml:space="preserve">
+        <value>kg</value>
+    </data>
 </root>

@@ -4,11 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiarySummaryView">
     <VerticalStackLayout Spacing="4">
 
         <Label Style="{StaticResource LabelBodyBold}"
-               Text="Summary"
+               Text="{maui:Translate Diary_Summary}"
                TextColor="{StaticResource TextSecondary}" />
 
         <Border Style="{StaticResource CardStyle}" Padding="0">
@@ -31,7 +32,7 @@
                             <VerticalStackLayout VerticalOptions="Center"
                                                  HorizontalOptions="Center"
                                                  Spacing="-4">
-                                <Label Text="Carbs"
+                                <Label Text="{maui:Translate Nutrient_Carbs}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="10"
                                        TextTransform="Uppercase"
@@ -64,7 +65,7 @@
                             <VerticalStackLayout VerticalOptions="Center"
                                                  HorizontalOptions="Center"
                                                  Spacing="-4">
-                                <Label Text="Protein"
+                                <Label Text="{maui:Translate Nutrient_Protein}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="10"
                                        TextTransform="Uppercase"
@@ -97,7 +98,7 @@
                             <VerticalStackLayout VerticalOptions="Center"
                                                  HorizontalOptions="Center"
                                                  Spacing="-4">
-                                <Label Text="Fats"
+                                <Label Text="{maui:Translate Nutrient_Fat}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="10"
                                        TextTransform="Uppercase"
@@ -120,7 +121,7 @@
 
                 <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3">
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Text="Calories"
+                        <Label Text="{maui:Translate Nutrient_Calories}"
                                Style="{StaticResource LabelBodyBold}"
                                TextTransform="Uppercase" />
 
@@ -132,7 +133,13 @@
                                     <Span Text="1322"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
-                                    <Span Text=" / 2894 kcal"
+                                    <Span Text=" / "
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                    <Span Text="2894"
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                    <Span Text=" "
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                    <Span Text="{maui:Translate Nutrient_Kcal}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                 </FormattedString>
                             </Label.FormattedText>
@@ -143,7 +150,7 @@
 
                 <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="3">
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Text="Water"
+                        <Label Text="{maui:Translate Nutrient_Water}"
                                Style="{StaticResource LabelBodyBold}"
                                TextTransform="Uppercase" />
 
@@ -155,7 +162,13 @@
                                     <Span Text="1322"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
-                                    <Span Text=" / 2894 ml"
+                                    <Span Text=" / "
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                    <Span Text="2894"
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                    <Span Text=" "
+                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                    <Span Text="{maui:Translate Hydration_Ml}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                 </FormattedString>
                             </Label.FormattedText>

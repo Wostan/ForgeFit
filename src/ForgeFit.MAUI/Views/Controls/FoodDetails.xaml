@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="ForgeFit.MAUI.Views.Controls.FoodDetails"
              x:DataType="local:FoodSearchPageViewModel"
              BackgroundColor="#90000000"
@@ -63,7 +64,7 @@
                            TextColor="{StaticResource Primary}"
                            Shadow="{StaticResource CaloriesGlow}"
                            HorizontalOptions="Center" />
-                    <Label Text="kcal"
+                    <Label Text="{maui:Translate Nutrient_Kcal}"
                            Style="{StaticResource LabelBodyBold}"
                            FontSize="12"
                            TextTransform="Uppercase"
@@ -78,7 +79,7 @@
                            TextColor="{StaticResource CarbsColor}"
                            Shadow="{StaticResource CarbsGlow}"
                            HorizontalOptions="Center" />
-                    <Label Text="carbs"
+                    <Label Text="{maui:Translate Nutrient_Carbs}"
                            Style="{StaticResource LabelBodyBold}"
                            FontSize="12"
                            TextTransform="Uppercase"
@@ -93,7 +94,7 @@
                            TextColor="{StaticResource ProteinColor}"
                            Shadow="{StaticResource ProteinGlow}"
                            HorizontalOptions="Center" />
-                    <Label Text="proteins"
+                    <Label Text="{maui:Translate Nutrient_Protein}"
                            Style="{StaticResource LabelBodyBold}"
                            FontSize="12"
                            TextTransform="Uppercase"
@@ -108,7 +109,7 @@
                            TextColor="{StaticResource FatColor}"
                            Shadow="{StaticResource FatGlow}"
                            HorizontalOptions="Center" />
-                    <Label Text="fat"
+                    <Label Text="{maui:Translate Nutrient_Fat}"
                            Style="{StaticResource LabelBodyBold}"
                            FontSize="12"
                            TextTransform="Uppercase"
@@ -129,12 +130,12 @@
                     <Picker ItemsSource="{Binding SelectedFoodDetail.Servings}"
                             ItemDisplayBinding="{Binding MetricUnit}"
                             SelectedItem="{Binding SelectedServing}"
-                            Title="Unit" />
+                            Title="{maui:Translate Details_Unit}" />
                 </Border>
             </Grid>
 
             <Button ImageSource="add.svg"
-                    Text="Add"
+                    Text="{maui:Translate Action_Add}"
                     Command="{Binding AddFoodCommand}" />
         </VerticalStackLayout>
     </Border>

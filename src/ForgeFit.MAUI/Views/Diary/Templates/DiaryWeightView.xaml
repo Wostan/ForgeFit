@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryWeightView">
     <ContentView.Resources>
         <Style x:Key="WeightEntryStyle" TargetType="Entry">
@@ -22,7 +23,7 @@
     <VerticalStackLayout Spacing="4">
 
         <Label Style="{StaticResource LabelBodyBold}"
-               Text="Weight"
+               Text="{maui:Translate Diary_Weight}"
                TextColor="{StaticResource TextSecondary}" />
 
         <Border Style="{StaticResource CardStyle}"
@@ -35,10 +36,14 @@
                                VerticalOptions="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="Goal: " Style="{StaticResource LabelBody}"
+                                    <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
-                                    <Span Text="65 kg" Style="{StaticResource LabelBodyBold}"
+                                    <Span Text=": " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text="65" Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"
+                                          TextColor="{StaticResource TextSecondary}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -48,9 +53,13 @@
                                VerticalOptions="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="Left: " Style="{StaticResource LabelBody}"
+                                    <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
-                                    <Span Text="5.5 kg" Style="{StaticResource LabelBodyBold}"
+                                    <Span Text=": " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text="5.5" Style="{StaticResource LabelBodyBold}"
+                                          TextColor="{StaticResource WeightColor}" />
+                                    <Span Text=" " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource WeightColor}" />
                                 </FormattedString>
                             </Label.FormattedText>
