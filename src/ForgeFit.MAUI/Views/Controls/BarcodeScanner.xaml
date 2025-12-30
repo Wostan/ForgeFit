@@ -22,6 +22,10 @@
             StrokeThickness="3">
 
         <Grid RowDefinitions="Auto, 175" BackgroundColor="{StaticResource Surface}">
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer />
+            </Grid.GestureRecognizers>
 
             <controls:NavigationHeader Grid.Row="0"
                                        Title="Scan barcode"

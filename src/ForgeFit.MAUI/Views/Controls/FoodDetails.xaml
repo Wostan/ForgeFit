@@ -17,6 +17,10 @@
             HorizontalOptions="Fill"
             Padding="0"
             Margin="20">
+                
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
 
         <VerticalStackLayout Spacing="16" Padding="20">
             

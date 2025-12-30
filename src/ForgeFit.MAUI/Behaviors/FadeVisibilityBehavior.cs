@@ -62,11 +62,11 @@ public class FadeVisibilityBehavior : Behavior<VisualElement>
         if (isVisible)
         {
             behavior._element?.IsVisible = true; 
-            await behavior._element!.FadeToAsync(1, 250, Easing.SinOut);
+            await behavior._element!.FadeToAsync(1, 200, Easing.SinOut);
         }
         else
         { 
-            await behavior._element!.FadeToAsync(0, 250, Easing.SinIn);
+            await behavior._element!.FadeToAsync(0, 200, Easing.SinIn);
             behavior._element!.IsVisible = false;
         }
     }

@@ -38,11 +38,13 @@ public partial class BarcodeScanner : ContentView
 
         if (isVisible)
         {
+            control.CameraView.IsEnabled = true;
+            
             control.CameraCurtain.Opacity = 1;
             control.CameraCurtain.IsVisible = true;
 
             control.IsVisible = true;
-            await control.FadeToAsync(1, 250, Easing.SinOut);
+            await control.FadeToAsync(1, 200, Easing.SinOut);
 
             MainThread.BeginInvokeOnMainThread(async void () =>
             {
@@ -71,8 +73,9 @@ public partial class BarcodeScanner : ContentView
             control.CameraView.IsDetecting = false;
             control.CameraView.IsTorchOn = false;
             
-            await control.FadeToAsync(0, 200, Easing.SinIn);
+            control.CameraView.IsEnabled = false;
             
+            await control.FadeToAsync(0, 200, Easing.SinIn);
             control.IsVisible = false;
         }
     }
