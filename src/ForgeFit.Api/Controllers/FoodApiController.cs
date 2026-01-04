@@ -10,10 +10,10 @@ public class FoodApiController(IFoodApiService foodApiService) : ControllerBase
 {
     [Authorize]
     [HttpGet("search")]
-    [ProducesResponseType(typeof(List<FoodProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<FoodSearchResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public async Task<ActionResult<List<FoodProductResponse>>> SearchByQueryAsync(
+    public async Task<ActionResult<List<FoodSearchResponse>>> SearchByQueryAsync(
         [FromQuery] string query,
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 20)

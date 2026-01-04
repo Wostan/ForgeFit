@@ -21,7 +21,7 @@ public class FoodApiService(
     {
         var parameters = new Dictionary<string, string>
         {
-            { "method", "foods.search" },
+            { "method", "foods.search.v4" },
             { "search_expression", query },
             { "page_number", (pageNumber - 1).ToString() },
             { "max_results", pageSize.ToString() },
@@ -30,15 +30,28 @@ public class FoodApiService(
             { "format", "json" }
         };
 
-        var response = await ExecuteFatSecretRequestAsync<FatSecretSearchResponse>(parameters);
+        var response = await ExecuteFatSecretRequestAsync<FatSecretSearchRoot>(parameters);
+        
+        var foods = response?.SearchResponse?.Results?.Food ?? [];
 
-        return response?.FoodsContainer?.Food?
-            .Select(f => new FoodSearchResponse(
-                f.FoodId,
-                f.FoodName,
-                f.BrandName,
-                f.FoodDescription))
-            .ToList() ?? [];
+        return foods.Select(f =>
+        {
+            var serving = f.Servings?.Serving?.FirstOrDefault();
+
+            var amount = ParseFatSecretDouble(serving?.MetricServingAmount);
+            var unit = serving?.MetricServingUnit ?? "g";
+
+            return new FoodSearchResponse(
+                ExternalId: f.FoodId,
+                Label: f.FoodName,
+                BrandName: f.BrandName,
+                Calories: ParseFatSecretDouble(serving?.Calories),
+                Carbs: ParseFatSecretDouble(serving?.Carbohydrate),
+                Protein: ParseFatSecretDouble(serving?.Protein),
+                Fat: ParseFatSecretDouble(serving?.Fat),
+                Serving: $"{amount:0.##} {unit}" 
+            );
+        }).ToList();
     }
 
     public async Task<FoodProductResponse> SearchByBarcodeAsync(string barcode)
