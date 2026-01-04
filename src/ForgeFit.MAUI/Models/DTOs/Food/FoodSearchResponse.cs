@@ -8,5 +8,5 @@ public record FoodSearchResponse(
     double Carbs,
     double Protein,
     double Fat,
-    string ServingUnit
+    string Serving
 );

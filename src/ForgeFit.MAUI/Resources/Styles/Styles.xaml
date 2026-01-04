@@ -300,7 +300,6 @@
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
-        <Setter Property="Margin" Value="0,10,0,5" />
     </Style>
 
     <Style TargetType="Label" x:Key="LabelBody">
