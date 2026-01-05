@@ -1,4 +1,5 @@
 ﻿using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;
 
 namespace ForgeFit.MAUI;
@@ -14,12 +15,9 @@ public partial class App : Application
 
         _authService = authService;
     }
-
+    
     protected override async void OnStart()
     {
-#if DEBUG
-        await Shell.Current.GoToAsync($"{nameof(FoodSearchPageView)}", false);
-#else
         try
         {
             base.OnStart();
@@ -31,7 +29,6 @@ public partial class App : Application
         {
             await Shell.Current.GoToAsync(nameof(LoginPageView), false);
         }
-#endif
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

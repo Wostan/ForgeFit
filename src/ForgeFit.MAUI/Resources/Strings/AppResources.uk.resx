@@ -168,4 +168,10 @@
     <data name="Weight_Kg" xml:space="preserve">
         <value>кг</value>
     </data>
+    <data name="Error_Oops" xml:space="preserve">
+        <value>Упс!</value>
+    </data>
+    <data name="Action_Retry" xml:space="preserve">
+        <value>Повторити спробу</value>
+    </data>
 </root>

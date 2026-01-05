@@ -78,6 +78,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        internal static string Action_Retry {
+            get {
+                return ResourceManager.GetString("Action_Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect to the server..
         /// </summary>
         internal static string ConnectionFailedMessage {
@@ -209,6 +218,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string EmptyFieldsMessage {
             get {
                 return ResourceManager.GetString("EmptyFieldsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops!.
+        /// </summary>
+        internal static string Error_Oops {
+            get {
+                return ResourceManager.GetString("Error_Oops", resourceCulture);
             }
         }
         

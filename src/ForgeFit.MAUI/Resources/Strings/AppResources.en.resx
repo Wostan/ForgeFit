@@ -168,4 +168,10 @@
     <data name="Weight_Kg" xml:space="preserve">
         <value>kg</value>
     </data>
+    <data name="Error_Oops" xml:space="preserve">
+        <value>Oops!</value>
+    </data>
+    <data name="Action_Retry" xml:space="preserve">
+        <value>Retry</value>
+    </data>
 </root>
