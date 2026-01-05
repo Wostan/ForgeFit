@@ -10,22 +10,32 @@ public static class ServiceExtensions
     {
         // Handlers
         builder.Services.AddTransient<AuthHeaderHandler>();
+        builder.Services.AddTransient<RefreshTokenHandler>();
 
         // Services
         builder.Services.AddScoped<IAlertService, AlertService>();
         builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<IDiaryService, DiaryService>();
+        builder.Services.AddScoped<IFoodService, FoodService>();
 
         // API Client configuration
+        var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
+            ? "http://10.0.2.2:5052"
+            : "http://localhost:5052";
+        
         builder.Services.AddHttpClient<IApiService, ApiService>(client =>
             {
-                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                    ? "http://10.0.2.2:5052"
-                    : "http://localhost:5052";
-
                 client.BaseAddress = new Uri(baseAddress);
                 client.Timeout = TimeSpan.FromSeconds(10);
             })
-            .AddHttpMessageHandler<AuthHeaderHandler>();
+            .AddHttpMessageHandler<AuthHeaderHandler>()
+            .AddHttpMessageHandler<RefreshTokenHandler>();
+        
+        builder.Services.AddHttpClient("RefreshClient", client =>
+        {
+            client.BaseAddress = new Uri(baseAddress);
+            client.Timeout = TimeSpan.FromSeconds(10);
+        });
 
         return builder;
     }
