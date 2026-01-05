@@ -6,6 +6,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:enums="clr-namespace:ForgeFit.MAUI.Models.Enums.FoodEnums"
              x:DataType="local:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryMealsView">
     <VerticalStackLayout Spacing="4">
@@ -21,7 +22,7 @@
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
                                                WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.75" />
+                                               Progress="{Binding Breakfast.Progress}" />
                     <Label Text="🍳" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
 
                     <VerticalStackLayout Grid.Column="1">
@@ -31,12 +32,12 @@
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="431"
+                                    <Span Text="{Binding Breakfast.CurrentCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="824"
+                                    <Span Text="{Binding Breakfast.TargetCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -50,7 +51,8 @@
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg"
-                            Command="{Binding GoToMealDetailsCommand}">
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Breakfast}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>
@@ -65,7 +67,7 @@
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
                                                WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.75" />
+                                               Progress="{Binding Lunch.Progress}" />
                     <Label Text="🍲" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
 
                     <VerticalStackLayout Grid.Column="1">
@@ -75,12 +77,12 @@
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="431"
+                                    <Span Text="{Binding Lunch.CurrentCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="824"
+                                    <Span Text="{Binding Lunch.TargetCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -94,7 +96,8 @@
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg"
-                            Command="{Binding GoToMealDetailsCommand}">
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Lunch}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>
@@ -109,7 +112,7 @@
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
                                                WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.95" />
+                                               Progress="{Binding Dinner.Progress}" />
                     <Label Text="🍝" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
 
                     <VerticalStackLayout Grid.Column="1">
@@ -119,12 +122,12 @@
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="431"
+                                    <Span Text="{Binding Dinner.CurrentCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="824"
+                                    <Span Text="{Binding Dinner.TargetCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -138,7 +141,8 @@
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg"
-                            Command="{Binding GoToMealDetailsCommand}">
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Dinner}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>
@@ -153,7 +157,7 @@
                     <progressRing:ProgressRing Color="{StaticResource Primary}"
                                                WidthRequest="30"
                                                HeightRequest="30"
-                                               Progress="0.5" />
+                                               Progress="{Binding Snack.Progress}" />
                     <Label Text="🍌" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
 
                     <VerticalStackLayout Grid.Column="1">
@@ -163,12 +167,12 @@
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="431"
+                                    <Span Text="{Binding Snack.CurrentCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="824"
+                                    <Span Text="{Binding Snack.TargetCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -182,7 +186,8 @@
                     <Button Grid.Column="2"
                             Style="{StaticResource TextButton}"
                             ImageSource="add.svg"
-                            Command="{Binding GoToMealDetailsCommand}">
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Snack}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>

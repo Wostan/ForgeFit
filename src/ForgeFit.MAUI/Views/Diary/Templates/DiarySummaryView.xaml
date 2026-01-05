@@ -5,6 +5,8 @@
              xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             x:DataType="local:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiarySummaryView">
     <VerticalStackLayout Spacing="4">
 
@@ -23,7 +25,7 @@
                     <controls:ViewBox Stretch="Uniform">
                         <Grid WidthRequest="100" HeightRequest="100">
 
-                            <progressRing:ProgressRing Progress="0.75"
+                            <progressRing:ProgressRing Progress="{Binding CarbsProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
                                                        Color="{StaticResource CarbsColor}"
@@ -38,13 +40,13 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="35 g"
+                                <Label Text="{Binding CurrentCarbs, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="18"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="328 g"
+                                <Label Text="{Binding TargetCarbs, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -56,7 +58,7 @@
                 <Grid Grid.Row="0" Grid.Column="1">
                     <controls:ViewBox>
                         <Grid WidthRequest="100" HeightRequest="100">
-                            <progressRing:ProgressRing Progress="0.39"
+                            <progressRing:ProgressRing Progress="{Binding ProteinProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
                                                        Color="{StaticResource ProteinColor}"
@@ -71,13 +73,13 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="35 g"
+                                <Label Text="{Binding CurrentProtein, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="18"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="128 g"
+                                <Label Text="{Binding TargetProtein, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -89,7 +91,7 @@
                 <Grid Grid.Row="0" Grid.Column="2">
                     <controls:ViewBox>
                         <Grid WidthRequest="100" HeightRequest="100">
-                            <progressRing:ProgressRing Progress="0.39"
+                            <progressRing:ProgressRing Progress="{Binding FatProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
                                                        Color="{StaticResource FatColor}"
@@ -104,13 +106,13 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="35 g"
+                                <Label Text="{Binding CurrentFat, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="18"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="54 g"
+                                <Label Text="{Binding TargetFat, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -130,12 +132,12 @@
                                HorizontalTextAlignment="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="1322"
+                                    <Span Text="{Binding CurrentCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="2894"
+                                    <Span Text="{Binding TargetCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -145,7 +147,7 @@
                             </Label.FormattedText>
                         </Label>
                     </Grid>
-                    <ProgressBar Progress="0.45" />
+                    <ProgressBar Progress="{Binding CaloriesProgress}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="3">
@@ -159,12 +161,12 @@
                                HorizontalTextAlignment="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="1322"
+                                    <Span Text="{Binding CurrentWater}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="2894"
+                                    <Span Text="{Binding TargetWater}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -174,7 +176,7 @@
                             </Label.FormattedText>
                         </Label>
                     </Grid>
-                    <ProgressBar Progress="0.45"
+                    <ProgressBar Progress="{Binding WaterProgress}"
                                  ProgressColor="{StaticResource WaterColor}" />
                 </VerticalStackLayout>
             </Grid>

@@ -6,31 +6,45 @@
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.Templates"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
-             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:DiaryPageViewModel"
-             x:Class="ForgeFit.MAUI.Views.Diary.DiaryPageView">
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryPageView"
+             x:Name="ThisPage">
     <ContentPage.Content>
         <Grid>
             <controls:NavigationHeader ZIndex="11" ShowBackButton="False">
                 <controls:NavigationHeader.CustomTitleView>
-                    <Grid ColumnDefinitions="Auto, *, Auto">
-                        <Label Style="{StaticResource Headline}" Text="{maui:Translate Diary_Title}" VerticalOptions="Center" />
-                        <DatePicker Grid.Column="2" VerticalOptions="Center" FontSize="16" />
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Label Style="{StaticResource Headline}" 
+                               Text="{Binding BindingContext.DateTitle, Source={x:Reference ThisPage}}" 
+                               VerticalOptions="Center" />
+
+                        <DatePicker Grid.Column="2" 
+                                    Date="{Binding BindingContext.SelectedDate, Source={x:Reference ThisPage}, Mode=TwoWay}"
+                                    VerticalOptions="Center" 
+                                    FontSize="16" />
                     </Grid>
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
 
-            <ScrollView>
-                <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
+            <controls:StateContainer IsLoading="{Binding IsLoading}"
+                                     IsError="{Binding IsError}"
+                                     ErrorMessage="{Binding Error.Localized}"
+                                     RetryCommand="{Binding InitializeCommand}">
+                <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                             Command="{Binding RefreshCommand}">
+                    <ScrollView>
+                        <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
 
-                    <templates:DiarySummaryView />
-                    <templates:DiaryMealsView />
-                    <templates:DiaryHydrationView />
-                    <templates:DiaryWeightView />
+                            <templates:DiarySummaryView />
+                            <templates:DiaryMealsView />
+                            <templates:DiaryHydrationView />
+                            <templates:DiaryWeightView />
 
-                </VerticalStackLayout>
-            </ScrollView>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </RefreshView>
+            </controls:StateContainer>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

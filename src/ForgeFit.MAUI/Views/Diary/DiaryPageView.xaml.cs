@@ -9,4 +9,14 @@ public partial class DiaryPageView : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        if (BindingContext is DiaryPageViewModel vm)
+        {
+            vm.InitializeCommand.Execute(null);
+        }
+    }
 }
