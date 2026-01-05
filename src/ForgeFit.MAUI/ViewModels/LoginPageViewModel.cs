@@ -12,19 +12,13 @@ using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels;
 
-public partial class LoginPageViewModel : ObservableObject
+public partial class LoginPageViewModel : BaseViewModel
 {
     [ObservableProperty] private string? _email;
     [ObservableProperty] private string? _password;
 
     [ObservableProperty] private bool _isEmailError;
     [ObservableProperty] private bool _isEmptyPasswordField;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsNotLoading))]
-    private bool _isLoading;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsError))]
-    private LocalizedString? _error;
 
     [ObservableProperty] private LanguageItem? _selectedLanguage;
 
@@ -44,7 +38,6 @@ public partial class LoginPageViewModel : ObservableObject
                            ?? Languages.FirstOrDefault(l => l.Code == "en");
     }
 
-    public bool IsError => !string.IsNullOrWhiteSpace(Error.Localized);
     public bool IsNotLoading => !IsLoading;
 
     public record LanguageItem(string Name, string Code);
@@ -114,7 +107,7 @@ public partial class LoginPageViewModel : ObservableObject
         catch (Exception)
         {
             var error = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]).Localized;
-            await _alertService.ShowErrorAsync(error, "OK");
+            await _alertService.ShowToastAsync(error);
         }
         finally
         {
