@@ -96,15 +96,15 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("FoodEntries", null, t =>
                         {
-                            t.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories >= 0");
 
-                            t.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs >= 0");
 
                             t.HasCheckConstraint("CK_FoodEntries_DayTimeCheck", "DayTime IN (1, 2, 3, 4)");
 
-                            t.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat >= 0");
 
-                            t.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein >= 0");
                         });
                 });
 
@@ -543,13 +543,13 @@ namespace ForgeFit.Infrastructure.Migrations
                                 {
                                     t.HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories >= 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs >= 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat >= 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein >= 0");
                                 });
 
                             b1.WithOwner()
