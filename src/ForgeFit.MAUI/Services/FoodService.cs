@@ -21,4 +21,34 @@ public class FoodService(IApiService apiService) : IFoodService
     {
         return await apiService.GetAsync<FoodProductResponse>($"/api/food-api/barcode?barcode={barcode}");
     }
+    
+    public async Task<ServiceResponse<List<FoodProductResponse>>> RecognizeFoodFromImageAsync(FileResult file)
+    {
+        try
+        {
+            string base64String;
+
+            await using (var stream = await file.OpenReadAsync())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    var imageBytes = memoryStream.ToArray();
+
+                    base64String = Convert.ToBase64String(imageBytes);
+                }
+            }
+
+            var requestDto = new RecognizeByPhotoRequest(base64String);
+            
+            return await apiService.PostAsync<RecognizeByPhotoRequest, List<FoodProductResponse>>(
+                "/api/food-api/by-photo", 
+                requestDto
+            );
+        }
+        catch (Exception ex)
+        {
+            return ServiceResponse<List<FoodProductResponse>>.Error($"Error processing image: {ex.Message}");
+        }
+    }
 }
