@@ -3,6 +3,20 @@ using ForgeFit.Infrastructure.Services.FatSecret.Converters;
 
 namespace ForgeFit.Infrastructure.Services.FatSecret.Models;
 
+internal record FatSecretRecognitionRoot(
+    [property: JsonPropertyName("food_response")] 
+    List<FatSecretRecognitionItem>? FoodResponse
+);
+
+internal record FatSecretRecognitionItem(
+    [property: JsonPropertyName("food_id")] 
+    long FoodId,
+    [property: JsonPropertyName("food_entry_name")] 
+    string FoodEntryName,
+    [property: JsonPropertyName("food")] 
+    FatSecretDetailedFood? Food
+);
+
 internal record FatSecretSearchRoot(
     [property: JsonPropertyName("foods_search")] FatSecretSearchResponse? SearchResponse
 );

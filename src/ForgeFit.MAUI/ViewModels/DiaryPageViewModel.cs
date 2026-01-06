@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -21,7 +22,6 @@ public partial class DiaryPageViewModel : BaseViewModel
     
     [ObservableProperty] private bool _isRefreshing;
     
-    // Токен для отмены запросов
     private CancellationTokenSource? _cts;
 
     [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
@@ -67,10 +67,10 @@ public partial class DiaryPageViewModel : BaseViewModel
         
         UpdateDateTitle();
         
-        WeakReferenceMessenger.Default.Register<DiaryPageViewModel, string>(
+        WeakReferenceMessenger.Default.Register<DiaryPageViewModel, DiaryUpdatedMessage>(
             this,
-            "UpdateDiary",
-            (_, _) => RefreshCommand.Execute(null));
+            (r, _) => { r.RefreshCommand.Execute(null); }
+        );
     }
     
     partial void OnSelectedDateChanged(DateTime value)

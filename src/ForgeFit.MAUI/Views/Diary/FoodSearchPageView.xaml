@@ -5,7 +5,6 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
@@ -13,41 +12,89 @@
              x:DataType="local:FoodSearchPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchPageView"
              x:Name="ThisPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:BoolToObjectConverter x:Key="StateIconConverter"
+                                           TrueObject="check.svg"
+                                           FalseObject="add.svg" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
-            <controls:NavigationHeader ZIndex="11">
+            <controls:NavigationHeader ZIndex="11"
+                                       BackCommand="{Binding BackCommand}">
                 <controls:NavigationHeader.CustomTitleView>
-                    <VerticalStackLayout Spacing="-10">
+                    <VerticalStackLayout Spacing="-5">
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Label Text="{maui:Translate Search_Header_Add}" Style="{StaticResource LabelH2}" />
-                            <Label Text="Breakfast" Style="{StaticResource LabelH2}" />
+                            <Label Text=" " Style="{StaticResource LabelH2}" />
+                            <Label Text="{Binding BindingContext.MealTitle, Source={x:Reference ThisPage}}"
+                                   Style="{StaticResource LabelH2}" />
                         </HorizontalStackLayout>
-                        <Label Text="Results for 'Egg'"
-                               MaximumWidthRequest="275"
-                               Style="{StaticResource LabelBodyBold}"
-                               TextColor="{StaticResource TextSecondary}"
+
+                        <Label MaximumWidthRequest="275"
                                HorizontalOptions="Center"
-                               LineBreakMode="TailTruncation" />
+                               LineBreakMode="TailTruncation">
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="FormattedText">
+                                        <Setter.Value>
+                                            <FormattedString>
+                                                <Span Text="{maui:Translate Search_Recent}"
+                                                      Style="{StaticResource LabelBodyBold}"
+                                                      TextColor="{StaticResource TextSecondary}" />
+                                            </FormattedString>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Label"
+                                                     Binding="{Binding BindingContext.SearchText,
+                                               Source={x:Reference ThisPage},
+                                               Converter={toolkit:IsStringNotNullOrEmptyConverter}}"
+                                                     Value="True">
+                                            <Setter Property="FormattedText">
+                                                <Setter.Value>
+                                                    <FormattedString>
+                                                        <Span Text="{maui:Translate Search_ResultsFor}"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              TextColor="{StaticResource TextSecondary}" />
+
+                                                        <Span Text=" '"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              TextColor="{StaticResource TextSecondary}" />
+
+                                                        <Span
+                                                            Text="{Binding BindingContext.SearchText, Source={x:Reference ThisPage}}"
+                                                            Style="{StaticResource LabelBodyBold}"
+                                                            TextColor="{StaticResource TextSecondary}" />
+
+                                                        <Span Text="'"
+                                                              Style="{StaticResource LabelBodyBold}"
+                                                              TextColor="{StaticResource TextSecondary}" />
+                                                    </FormattedString>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
                     </VerticalStackLayout>
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
 
-            <CollectionView ItemsSource="{Binding SearchResults}">
-
-                <CollectionView.Triggers>
-                    <DataTrigger TargetType="CollectionView"
-                                 Binding="{Binding SearchResults, Converter={toolkit:IsListNullOrEmptyConverter}}"
-                                 Value="True">
-                        <Setter Property="InputTransparent" Value="True" />
-                        <Setter Property="VerticalScrollBarVisibility" Value="Never" />
-                    </DataTrigger>
-                </CollectionView.Triggers>
-
+            <CollectionView ItemsSource="{Binding SearchResults}"
+                            RemainingItemsThreshold="5"
+                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                            Opacity="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
+                
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Spacing="10"
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center"
-                                         Opacity="0.5">
+                                         Opacity="0.5"
+                                         IsVisible="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
                         <Image Source="search.svg"
                                WidthRequest="100"
                                HeightRequest="100">
@@ -74,7 +121,7 @@
                 </CollectionView.Footer>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:FoodSearchResponse">
+                    <DataTemplate x:DataType="local:FoodSearchItemViewModel">
                         <Border Style="{StaticResource CardStyle}"
                                 Padding="0" Margin="16,0"
                                 Shadow="{x:Null}">
@@ -85,7 +132,7 @@
                                     CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
 
-                            <Grid ColumnDefinitions="*, Auto, Auto"
+                            <Grid ColumnDefinitions="*, Auto, 50"
                                   RowDefinitions="Auto, Auto"
                                   Padding="16, 0, 0, 0">
 
@@ -175,15 +222,29 @@
                                     </Label.FormattedText>
                                 </Label>
 
-                                <Button Grid.Column="2" Grid.Row="0"
-                                        Style="{StaticResource TextButton}"
-                                        ImageSource="add.svg"
-                                        Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenFoodDetailsCommand}"
-                                        CommandParameter="{Binding .}">
-                                    <Button.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
-                                    </Button.Behaviors>
-                                </Button>
+                                <Grid Grid.Column="2"
+                                      WidthRequest="50"
+                                      HeightRequest="50">
+
+                                    <ImageButton Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleItemCommand}"
+                                                 CommandParameter="{Binding .}"
+                                                 IsVisible="{Binding IsAdding, Converter={toolkit:InvertedBoolConverter}}"
+                                                 Source="{Binding IsAdded, Converter={StaticResource StateIconConverter}}"
+                                                 Shadow="{StaticResource PrimaryGlow}"
+                                                 Aspect="Center">
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
+
+                                    <ActivityIndicator IsRunning="{Binding IsAdding}"
+                                                       IsVisible="{Binding IsAdding}"
+                                                       Color="{StaticResource Primary}"
+                                                       HeightRequest="24"
+                                                       WidthRequest="24"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                </Grid>
 
                             </Grid>
                         </Border>
@@ -191,17 +252,24 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               ZIndex="5" />
+
             <Border Style="{StaticResource CardStyle}"
                     Margin="16"
                     VerticalOptions="End"
                     Padding="0">
                 <Grid ColumnDefinitions="*, Auto" ColumnSpacing="-10">
                     <SearchBar Grid.Column="0"
-                               Placeholder="What did you ate?"
+                               Placeholder="{maui:Translate Search_Placeholder}"
                                ReturnType="Done"
                                IsTextPredictionEnabled="True"
                                Text="{Binding SearchText}"
-                               SearchCommand="{Binding PerformSearchCommand}"
                                SearchIconColor="{StaticResource TextPrimary}" />
                     <Button Grid.Column="1"
                             Style="{StaticResource TextButton}"

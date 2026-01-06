@@ -182,4 +182,10 @@
     <data name="Action_Retry" xml:space="preserve">
         <value>Retry</value>
     </data>
+    <data name="Search_ResultsFor" xml:space="preserve">
+        <value>Results for</value>
+    </data>
+    <data name="Search_Recent" xml:space="preserve">
+        <value>Showing recent</value>
+    </data>
 </root>

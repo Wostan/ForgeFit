@@ -157,13 +157,23 @@
                                Text="{maui:Translate Details_FoodProducts}"
                                TextColor="{StaticResource TextSecondary}" />
 
-                        <Border Grid.Row="1"
-                                Style="{StaticResource CardStyle}"
-                                VerticalOptions="Fill"
-                                Padding="0">
-                            <CollectionView ItemsSource="{Binding FoodItems}"
-                                            VerticalScrollBarVisibility="Never"
-                                            SelectionMode="None">
+                        <Grid Grid.Row="1">
+                            
+                            <Grid IsVisible="{Binding IsLoading}"
+                                  BackgroundColor="#80000000"
+                                  ZIndex="20">
+                                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                            </Grid>
+                            
+                            <Border Style="{StaticResource CardStyle}"
+                                    VerticalOptions="Fill"
+                                    Padding="0">
+                                
+                                <CollectionView ItemsSource="{Binding FoodItems}"
+                                                VerticalScrollBarVisibility="Never"
+                                                SelectionMode="None">
 
                                 <CollectionView.EmptyView>
                                     <Label Style="{StaticResource LabelBodyBold}"
@@ -302,6 +312,7 @@
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
                         </Border>
+                        </Grid>
                     </Grid>
 
                 </Grid>
@@ -319,14 +330,6 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </controls:FoodDetails.Behaviors>
             </controls:FoodDetails>
-
-            <Grid IsVisible="{Binding IsLoading}"
-                  BackgroundColor="#80000000"
-                  ZIndex="20">
-                <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
-            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

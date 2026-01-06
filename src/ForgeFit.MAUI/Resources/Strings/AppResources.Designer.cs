@@ -438,6 +438,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Showing recent.
+        /// </summary>
+        internal static string Search_Recent {
+            get {
+                return ResourceManager.GetString("Search_Recent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results for.
+        /// </summary>
+        internal static string Search_ResultsFor {
+            get {
+                return ResourceManager.GetString("Search_ResultsFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server error: .
         /// </summary>
         internal static string ServerErrorPrefix {

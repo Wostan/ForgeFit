@@ -1,4 +1,5 @@
 ﻿using ForgeFit.MAUI.ViewModels;
+using ZXing.Net.Maui;
 
 namespace ForgeFit.MAUI.Views.Controls;
 
@@ -20,6 +21,13 @@ public partial class BarcodeScanner : ContentView
     public BarcodeScanner()
     {
         InitializeComponent();
+        
+        CameraView.Options = new BarcodeReaderOptions
+        {
+            Formats = BarcodeFormats.All, 
+            TryHarder = true, 
+            AutoRotate = true 
+        };
 
         IsVisible = false;
         Opacity = 0;
@@ -74,6 +82,22 @@ public partial class BarcodeScanner : ContentView
 
             await control.FadeToAsync(0, 200, Easing.SinIn);
             control.IsVisible = false;
+        }
+    }
+
+    private void CameraView_OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs e)
+    {
+        var code = e.Results?.FirstOrDefault()?.Value;
+    
+        if (!string.IsNullOrEmpty(code))
+        {
+            MainThread.BeginInvokeOnMainThread(() => 
+            {
+                if (BindingContext is FoodSearchPageViewModel vm)
+                {
+                    vm.BarcodeDetectedCommand.Execute(code);
+                }
+            });
         }
     }
 }

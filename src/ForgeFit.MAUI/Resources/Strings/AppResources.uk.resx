@@ -174,4 +174,10 @@
     <data name="Action_Retry" xml:space="preserve">
         <value>Повторити спробу</value>
     </data>
+    <data name="Search_ResultsFor" xml:space="preserve">
+        <value>Результати для</value>
+    </data>
+    <data name="Search_Recent" xml:space="preserve">
+        <value>Показано нещодавні</value>
+    </data>
 </root>

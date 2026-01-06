@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using ForgeFit.MAUI.Models;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -17,7 +17,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private readonly IFoodService _foodService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
-    
+
     private CancellationTokenSource? _cts;
 
     [ObservableProperty] private string _dateStr = string.Empty;
@@ -30,7 +30,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private DateTime _date;
     private DayTime _mealType;
     private Guid? _entryId;
-    
+
     private FoodEntryDto? _currentEntry;
 
     public ObservableCollection<FoodItemDto> FoodItems { get; } = [];
@@ -39,17 +39,17 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     [ObservableProperty] private double _totalCarbs;
     [ObservableProperty] private double _totalProtein;
     [ObservableProperty] private double _totalFat;
-    
+
     [ObservableProperty] private double _caloriesProgress;
     [ObservableProperty] private double _carbsProgress;
     [ObservableProperty] private double _proteinProgress;
     [ObservableProperty] private double _fatProgress;
-    
+
     private double _dailyTargetCalories = 2500;
     private double _dailyTargetCarbs = 300;
     private double _dailyTargetProtein = 180;
     private double _dailyTargetFat = 80;
-    
+
     [ObservableProperty] private double _mealTargetCalories;
     [ObservableProperty] private double _mealTargetCarbs;
     [ObservableProperty] private double _mealTargetProtein;
@@ -58,9 +58,10 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     [ObservableProperty] private bool _isFoodDetailsVisible;
     [ObservableProperty] private FoodProductResponse? _selectedFoodDetail;
     [ObservableProperty] private FoodServingDto? _selectedServing;
-    [NotifyCanExecuteChangedFor(nameof(EditFoodCommand))] 
-    [ObservableProperty] private double? _inputAmount;
-    
+
+    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
+    private double? _inputAmount;
+
     private FoodItemDto? _editingItem;
 
     public MealDetailsPageViewModel(
@@ -74,10 +75,10 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _alertService = alertService;
         _localizationManager = localizationManager;
 
-        WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, string>(
-            this, 
-            "UpdateDiary", 
-            async void (_, _) => await LoadDataAsync());
+        WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, DiaryUpdatedMessage>(
+            this,
+            (r, m) => { _ = r.LoadDataAsync(); }
+        );
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -102,19 +103,19 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             _entryId = id;
             EntryIdStr = id.ToString();
         }
-        
+
         LoadDataCommand.Execute(null);
     }
 
     private void ResetState()
     {
         _cts?.Cancel();
-        
+
         FoodItems.Clear();
         _currentEntry = null;
         _entryId = null;
         _editingItem = null;
-        
+
         IsFoodDetailsVisible = false;
         SelectedFoodDetail = null;
         SelectedServing = null;
@@ -124,12 +125,12 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         TotalCarbs = 0;
         TotalProtein = 0;
         TotalFat = 0;
-        
+
         CaloriesProgress = 0;
         CarbsProgress = 0;
         ProteinProgress = 0;
         FatProgress = 0;
-        
+
         IsLoading = false;
     }
 
@@ -150,104 +151,67 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             DayTime.Dinner => _localizationManager["Meal_Dinner"],
             _ => _localizationManager["Meal_Snack"]
         };
-        
+
         RecalculateTargetsOnly();
     }
 
     [RelayCommand]
     private async Task LoadDataAsync()
     {
-        _cts?.Cancel(); 
-        _cts?.Dispose(); 
+        _cts?.Cancel();
+        _cts?.Dispose();
         _cts = new CancellationTokenSource();
         var token = _cts.Token;
-        
+
         IsLoading = true;
 
         try
         {
-            ServiceResponse<FoodEntryDto?> result;
+            if (_entryId == null)
+            {
+                ClearEntryState();
+                return;
+            }
 
-            if (_entryId.HasValue)
-            {
-                result = await _diaryService.GetEntryAsync(_entryId.Value, token);
-            }
-            else 
-            {
-                var listResult = await _diaryService.GetEntriesByDateAsync(_date, token);
-                
-                if (token.IsCancellationRequested) return;
-                
-                if (listResult is { Success: true, Data: not null })
-                {
-                    var entry = listResult.Data.FirstOrDefault(e => e.DayTime == _mealType);
-                    
-                    if (entry != null)
-                    {
-                        _entryId = entry.Id;
-                        result = ServiceResponse<FoodEntryDto?>.Ok(entry);
-                    }
-                    else
-                    {
-                        if (token.IsCancellationRequested) return;
-                        
-                        _currentEntry = null;
-                        _entryId = null;
-                        FoodItems.Clear();
-                        RecalculateMacros();
-                        return;
-                    }
-                }
-                else
-                {
-                    if (token.IsCancellationRequested) return;
-                    var errorMsg = new LocalizedString(() => listResult.Message);
-                    await _alertService.ShowToastAsync(errorMsg.Localized);
-                    return;
-                }
-            }
-            
+            var response = await _diaryService.GetEntryAsync(_entryId.Value, token);
             if (token.IsCancellationRequested) return;
 
-            if (result is { Success: true })
+            if (!response.Success || response.Data == null)
             {
-                var entry = result.Data;
-                _currentEntry = entry;
+                ClearEntryState();
+                return;
+            }
 
-                FoodItems.Clear();
-                if (entry != null)
-                {
-                    foreach (var item in entry.FoodItems) 
-                        FoodItems.Add(item);
-                }
-                
-                RecalculateMacros();
-            }
-            else
-            {
-                if (!token.IsCancellationRequested)
-                {
-                    var errorMsg = new LocalizedString(() => result.Message);
-                    await _alertService.ShowToastAsync(errorMsg.Localized);
-                }
-            }
+            _currentEntry = response.Data;
+
+            FoodItems.Clear();
+            foreach (var item in _currentEntry.FoodItems)
+                FoodItems.Add(item);
+
+            RecalculateMacros();
         }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException)
+        {
+        }
         catch (Exception)
         {
             if (!token.IsCancellationRequested)
-            {
                 await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
-            }
         }
         finally
         {
-            if (!token.IsCancellationRequested)
-            {
-                IsLoading = false;
-            }
+            IsLoading = false;
         }
     }
+
+    private void ClearEntryState()
+    {
+        _entryId = null;
+        _currentEntry = null;
+        FoodItems.Clear();
+        RecalculateMacros();
+    }
+
 
     [RelayCommand]
     private async Task DeleteItem(FoodItemDto item)
@@ -265,7 +229,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 var result = await _diaryService.DeleteEntryAsync(_entryId.Value);
                 if (result.Success)
                 {
-                    WeakReferenceMessenger.Default.Send("UpdateDiary");
                     _entryId = null;
                     _currentEntry = null;
                     RecalculateMacros();
@@ -281,16 +244,12 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             {
                 var request = new FoodEntryCreateRequest(_mealType, _date, FoodItems.ToList());
                 var result = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
-                
-                if (result.Success)
-                {
-                    WeakReferenceMessenger.Default.Send("UpdateDiary");
-                }
-                else
+
+                if (!result.Success)
                 {
                     if (deletedIndex >= 0) FoodItems.Insert(deletedIndex, item);
                     else FoodItems.Add(item);
-                    
+
                     RecalculateMacros();
                     var errorMsg = new LocalizedString(() => result.Message);
                     await _alertService.ShowToastAsync(errorMsg.Localized);
@@ -312,8 +271,8 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
         try
         {
-            IsLoading = true; 
-            
+            IsLoading = true;
+
             var result = await _foodService.GetProductByIdAsync(item.ExternalId);
 
             if (result is { Success: true, Data: not null })
@@ -322,7 +281,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 _editingItem = item;
                 SelectedFoodDetail = details;
 
-                SelectedServing = details.Servings.FirstOrDefault(s => s.MetricUnit == item.ServingUnit) 
+                SelectedServing = details.Servings.FirstOrDefault(s => s.MetricUnit == item.ServingUnit)
                                   ?? details.Servings.FirstOrDefault();
 
                 InputAmount = item.Amount;
@@ -351,15 +310,16 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _editingItem = null;
         InputAmount = null;
     }
-    
+
     [RelayCommand(CanExecute = nameof(CanSaveFood))]
-    private async Task EditFood()
+    private async Task SaveFood()
     {
-        if (_editingItem == null || SelectedFoodDetail == null || SelectedServing == null || !InputAmount.HasValue) return;
+        if (_editingItem == null || SelectedFoodDetail == null || SelectedServing == null ||
+            !InputAmount.HasValue) return;
         if (_entryId == null) return;
 
         IsFoodDetailsVisible = false;
-        
+
         var amount = InputAmount.Value;
         var ratio = amount / SelectedServing.MetricAmount;
 
@@ -375,7 +335,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
         var index = FoodItems.IndexOf(_editingItem);
         if (index >= 0) FoodItems[index] = updatedItem;
-        
+
         RecalculateMacros();
         _editingItem = null;
 
@@ -383,12 +343,8 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         {
             var request = new FoodEntryCreateRequest(_mealType, _date, FoodItems.ToList());
             var response = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
-            
-            if (response is { Success: true, Data: not null })
-            {
-                WeakReferenceMessenger.Default.Send("UpdateDiary");
-            }
-            else
+
+            if (!response.Success || response.Data is null)
             {
                 var errorMsg = new LocalizedString(() => response.Message);
                 await _alertService.ShowToastAsync(errorMsg.Localized);
@@ -399,13 +355,16 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
         }
     }
-    
-    private bool CanSaveFood() => InputAmount is > 0;
+
+    private bool CanSaveFood()
+    {
+        return InputAmount is > 0;
+    }
 
     [RelayCommand]
     private async Task GoToFoodSearch()
     {
-        await Shell.Current.GoToAsync($"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}");
+        await Shell.Current.GoToAsync($"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
     }
 
     public double CurrentCalories => CalculateNutrient(s => s.Calories);
@@ -416,15 +375,22 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private double CalculateNutrient(Func<FoodServingDto, double> selector)
     {
         var amount = InputAmount.GetValueOrDefault();
-        
-        if (SelectedServing == null || SelectedServing.MetricAmount == 0 || amount <= 0) 
+
+        if (SelectedServing == null || SelectedServing.MetricAmount == 0 || amount <= 0)
             return 0;
-        
+
         return amount * selector(SelectedServing) / SelectedServing.MetricAmount;
     }
 
-    partial void OnInputAmountChanged(double? value) => NotifyPopupUpdates();
-    partial void OnSelectedServingChanged(FoodServingDto? value) => NotifyPopupUpdates();
+    partial void OnInputAmountChanged(double? value)
+    {
+        NotifyPopupUpdates();
+    }
+
+    partial void OnSelectedServingChanged(FoodServingDto? value)
+    {
+        NotifyPopupUpdates();
+    }
 
     private void NotifyPopupUpdates()
     {
@@ -443,7 +409,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             DayTime.Dinner => 0.25,
             _ => 0.15
         };
-        
+
         MealTargetCalories = _dailyTargetCalories * ratio;
         MealTargetCarbs = _dailyTargetCarbs * ratio;
         MealTargetProtein = _dailyTargetProtein * ratio;
@@ -458,7 +424,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         TotalFat = FoodItems.Sum(x => x.Fat);
 
         RecalculateTargetsOnly();
-        
+
         CaloriesProgress = MealTargetCalories > 0 ? TotalCalories / MealTargetCalories : 0;
         CarbsProgress = MealTargetCarbs > 0 ? TotalCarbs / MealTargetCarbs : 0;
         ProteinProgress = MealTargetProtein > 0 ? TotalProtein / MealTargetProtein : 0;

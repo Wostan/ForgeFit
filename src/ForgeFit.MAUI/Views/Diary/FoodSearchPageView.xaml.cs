@@ -9,14 +9,23 @@ public partial class FoodSearchPageView : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
-
+    
     protected override bool OnBackButtonPressed()
     {
-        if (BindingContext is not FoodSearchPageViewModel vm ||
-            vm is { IsFoodDetailsVisible: false, IsScannerVisible: false }) return base.OnBackButtonPressed();
+        if (BindingContext is not FoodSearchPageViewModel vm)
+            return base.OnBackButtonPressed();
 
-        vm.IsScannerVisible = false;
-        vm.IsFoodDetailsVisible = false;
+        if (vm is { IsFoodDetailsVisible: true } or { IsScannerVisible: true })
+        {
+            vm.IsScannerVisible = false;
+            vm.IsFoodDetailsVisible = false;
+            return true;
+        }
+
+        if (!vm.BackCommand.CanExecute(null)) return base.OnBackButtonPressed();
+        
+        vm.BackCommand.Execute(null);
         return true;
+
     }
 }
