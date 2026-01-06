@@ -70,10 +70,7 @@ public partial class DiaryPageViewModel : BaseViewModel
         WeakReferenceMessenger.Default.Register<DiaryPageViewModel, string>(
             this,
             "UpdateDiary",
-            (_, _) =>
-            {
-                RefreshCommand.Execute(null);
-            });
+            (_, _) => RefreshCommand.Execute(null));
     }
     
     partial void OnSelectedDateChanged(DateTime value)

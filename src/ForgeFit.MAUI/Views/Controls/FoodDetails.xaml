@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              x:Class="ForgeFit.MAUI.Views.Controls.FoodDetails"
              x:DataType="local:FoodSearchPageViewModel"
              BackgroundColor="#90000000"
@@ -120,14 +121,20 @@
             <Grid ColumnDefinitions="*, 3*" ColumnSpacing="-2">
 
                 <Border Grid.Column="0" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 16,0,16,0">
-                    <Entry Text="{Binding InputAmount}"
+                    <Entry Text="{Binding InputAmount, TargetNullValue='0'}"
                            Keyboard="Numeric"
                            Placeholder="{Binding SelectedServing.MetricAmount}"
-                           HorizontalTextAlignment="Center" />
+                           HorizontalTextAlignment="Center">
+                        <Entry.Behaviors>
+                            <behaviors:PositiveOnlyBehavior /> 
+                        </Entry.Behaviors>
+                    </Entry>
                 </Border>
 
                 <Border Grid.Column="1" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 0,16,0,16">
-                    <Picker ItemsSource="{Binding SelectedFoodDetail.Servings}"
+                    <Picker x:Name="UnitPicker" 
+                            IsEnabled="False"
+                            ItemsSource="{Binding SelectedFoodDetail.Servings}"
                             ItemDisplayBinding="{Binding MetricUnit}"
                             SelectedItem="{Binding SelectedServing}"
                             Title="{maui:Translate Details_Unit}" />

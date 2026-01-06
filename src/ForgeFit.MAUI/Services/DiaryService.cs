@@ -12,6 +12,11 @@ public class DiaryService(IApiService apiService) : IDiaryService
         return await apiService.GetAsync<List<FoodEntryDto>>($"/api/food-tracking/entries/by-date?date={dateStr}", cancellationToken);
     }
 
+    public async Task<ServiceResponse<FoodEntryDto?>> GetEntryAsync(Guid entryId, CancellationToken cancellationToken = default)
+    {
+        return await apiService.GetAsync<FoodEntryDto?>($"/api/food-tracking/entries/{entryId}", cancellationToken);
+    }
+
     public async Task<ServiceResponse<FoodEntryDto>> CreateEntryAsync(FoodEntryCreateRequest request)
     {
         return await apiService.PostAsync<FoodEntryCreateRequest, FoodEntryDto>("/api/food-tracking/entries", request);
