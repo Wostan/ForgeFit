@@ -102,7 +102,11 @@ public partial class LoginPageViewModel : BaseViewModel
                 return;
             }
 
-            await Shell.Current.GoToAsync($"///{nameof(DiaryPageView)}", false);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (Application.Current != null && Application.Current.Windows.Count > 0)
+                    Application.Current.Windows[0].Page = new AppShell();
+            });
         }
         catch (Exception)
         {

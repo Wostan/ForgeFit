@@ -15,13 +15,13 @@ public partial class App : Application
 
         _authService = authService;
     }
-    
+
     protected override async void OnStart()
     {
         try
         {
             base.OnStart();
-        
+
             if (!await _authService.IsAuthenticatedAsync())
                 await Shell.Current.GoToAsync(nameof(LoginPageView), false);
         }

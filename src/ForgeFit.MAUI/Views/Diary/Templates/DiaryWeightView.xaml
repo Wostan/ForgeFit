@@ -38,10 +38,10 @@
                                 <FormattedString>
                                     <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
-                                    <Span Text=": " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text=": " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="65" Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
-                                    <Span Text=" " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text=" " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
                                 </FormattedString>
@@ -55,10 +55,10 @@
                                 <FormattedString>
                                     <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
-                                    <Span Text=": " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text=": " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="5.5" Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource WeightColor}" />
-                                    <Span Text=" " Style="{StaticResource LabelBodyBold}"/>
+                                    <Span Text=" " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource WeightColor}" />
                                 </FormattedString>

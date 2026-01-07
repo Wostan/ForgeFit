@@ -25,17 +25,17 @@ public partial class FoodSearchPageViewModel(
     [ObservableProperty] private string _mealTypeStr = string.Empty;
     [ObservableProperty] private string _entryIdStr = string.Empty;
     [ObservableProperty] private string _mealTitle = string.Empty;
-    
+
     private DateTime _date;
     private DayTime _mealType;
-    
+
     private HashSet<string> _existingProductIds = [];
 
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private bool _isShowingRecent = true;
     [ObservableProperty] private bool _isScannerVisible;
     [ObservableProperty] private bool _isTorchOn;
-    
+
     [ObservableProperty] private bool _isLoadingMore;
     private int _currentPage = 1;
     private const int PageSize = 20;
@@ -46,20 +46,21 @@ public partial class FoodSearchPageViewModel(
     [ObservableProperty] private bool _isFoodDetailsVisible;
     [ObservableProperty] private FoodProductResponse? _selectedFoodDetail;
     [ObservableProperty] private FoodServingDto? _selectedServing;
-    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] 
-    [ObservableProperty] private string? _inputAmount;
-    
+
+    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
+    private string? _inputAmount;
+
     public double CurrentCalories => CalculateNutrient(s => s.Calories);
     public double CurrentCarbs => CalculateNutrient(s => s.Carbs);
     public double CurrentProtein => CalculateNutrient(s => s.Protein);
     public double CurrentFat => CalculateNutrient(s => s.Fat);
-    
+
     private Guid? _entryId;
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         ResetState();
-        
+
         IsLoading = true;
 
         if (query.TryGetValue("Date", out var dateObj) && DateTime.TryParse(dateObj.ToString(), out var date))
@@ -72,7 +73,7 @@ public partial class FoodSearchPageViewModel(
         {
             _mealType = type;
             MealTypeStr = type.ToString();
-            
+
             MealTitle = type switch
             {
                 DayTime.Breakfast => localizationManager["Meal_Breakfast"],
@@ -81,15 +82,15 @@ public partial class FoodSearchPageViewModel(
                 _ => localizationManager["Meal_Snack"]
             };
         }
-        
+
         if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id))
         {
             _entryId = id;
             EntryIdStr = id.ToString();
         }
-        
+
         await RefreshExistingIdsAsync();
-        LoadRecent(); 
+        LoadRecent();
     }
 
     private void ResetState()
@@ -102,25 +103,23 @@ public partial class FoodSearchPageViewModel(
         _existingProductIds.Clear();
         _entryId = null;
         EntryIdStr = string.Empty;
-        
+
         IsFoodDetailsVisible = false;
         ResetPopupState();
-        
+
         _searchCts?.Cancel();
         IsLoading = false;
     }
 
     private async Task RefreshExistingIdsAsync()
     {
-        try 
+        try
         {
             if (_entryId.HasValue)
             {
                 var result = await diaryService.GetEntryAsync(_entryId.Value);
                 if (result is { Success: true, Data: not null })
-                {
                     _existingProductIds = result.Data.FoodItems.Select(x => x.ExternalId).ToHashSet();
-                }
             }
         }
         catch
@@ -141,8 +140,8 @@ public partial class FoodSearchPageViewModel(
             LoadRecent(token);
             return;
         }
-        
-        Task.Run(async () => 
+
+        Task.Run(async () =>
         {
             try
             {
@@ -151,7 +150,9 @@ public partial class FoodSearchPageViewModel(
 
                 MainThread.BeginInvokeOnMainThread(async void () => await PerformSearch(value, token));
             }
-            catch (TaskCanceledException) { }
+            catch (TaskCanceledException)
+            {
+            }
         }, token);
     }
 
@@ -159,7 +160,7 @@ public partial class FoodSearchPageViewModel(
     {
         _currentPage = 1;
         _canLoadMore = true;
-        
+
         IsLoading = true;
         IsShowingRecent = false;
         SearchResults.Clear();
@@ -167,20 +168,17 @@ public partial class FoodSearchPageViewModel(
         try
         {
             var result = await foodService.SearchFoodAsync(query, _currentPage);
-            
+
             if (token.IsCancellationRequested) return;
 
             if (result is { Success: true, Data: not null })
             {
                 if (result.Data.Count < PageSize) _canLoadMore = false;
-                
+
                 foreach (var item in result.Data)
                 {
                     var vm = new FoodSearchItemViewModel(item);
-                    if (_existingProductIds.Contains(item.ExternalId))
-                    {
-                        vm.IsAdded = true;
-                    }
+                    if (_existingProductIds.Contains(item.ExternalId)) vm.IsAdded = true;
                     SearchResults.Add(vm);
                 }
             }
@@ -200,11 +198,11 @@ public partial class FoodSearchPageViewModel(
             IsLoading = false;
         }
     }
-    
+
     [RelayCommand]
     private async Task LoadMore()
     {
-        if (IsShowingRecent || IsLoading || IsLoadingMore || !_canLoadMore || string.IsNullOrWhiteSpace(SearchText)) 
+        if (IsShowingRecent || IsLoading || IsLoadingMore || !_canLoadMore || string.IsNullOrWhiteSpace(SearchText))
             return;
 
         IsLoadingMore = true;
@@ -227,7 +225,7 @@ public partial class FoodSearchPageViewModel(
             }
             else
             {
-                _currentPage--; 
+                _currentPage--;
             }
         }
         catch
@@ -243,7 +241,7 @@ public partial class FoodSearchPageViewModel(
     private async void LoadRecent(CancellationToken token = default)
     {
         if (!string.IsNullOrWhiteSpace(SearchText)) return;
-        
+
         IsLoading = true;
         IsShowingRecent = true;
         SearchResults.Clear();
@@ -254,7 +252,7 @@ public partial class FoodSearchPageViewModel(
             var to = DateTime.Now;
 
             var result = await diaryService.GetEntriesByDateRangeAsync(from, to, token);
-            
+
             if (token.IsCancellationRequested) return;
 
             if (result is { Success: true, Data: not null })
@@ -270,23 +268,20 @@ public partial class FoodSearchPageViewModel(
                 foreach (var item in recentItems)
                 {
                     var servingString = $"{item.Amount} {item.ServingUnit}";
-                    
+
                     var dto = new FoodSearchResponse(
-                        item.ExternalId, 
-                        item.Label, 
+                        item.ExternalId,
+                        item.Label,
                         null,
-                        item.Calories, 
-                        item.Carbs, 
-                        item.Protein, 
+                        item.Calories,
+                        item.Carbs,
+                        item.Protein,
                         item.Fat,
                         servingString
                     );
-                    
+
                     var vm = new FoodSearchItemViewModel(dto);
-                    if (_existingProductIds.Contains(item.ExternalId))
-                    {
-                        vm.IsAdded = true;
-                    }
+                    if (_existingProductIds.Contains(item.ExternalId)) vm.IsAdded = true;
                     SearchResults.Add(vm);
                 }
             }
@@ -324,7 +319,7 @@ public partial class FoodSearchPageViewModel(
             if (productResult is { Success: true, Data: not null })
             {
                 var product = productResult.Data;
-            
+
                 FoodServingDto? targetServing = null;
                 double amount = 0;
                 var isHistoryMatch = false;
@@ -333,12 +328,11 @@ public partial class FoodSearchPageViewModel(
                 {
                     var parts = itemVm.Data.Serving.Split(' ');
                     if (parts.Length >= 2)
-                    {
                         if (double.TryParse(parts[0], out var historyAmount))
                         {
                             var historyUnit = parts.Last();
-                        
-                            targetServing = product.Servings.FirstOrDefault(s => 
+
+                            targetServing = product.Servings.FirstOrDefault(s =>
                                 string.Equals(s.MetricUnit, historyUnit, StringComparison.OrdinalIgnoreCase));
 
                             if (targetServing != null)
@@ -347,28 +341,27 @@ public partial class FoodSearchPageViewModel(
                                 isHistoryMatch = true;
                             }
                         }
-                    }
                 }
-                
+
                 if (!isHistoryMatch)
                 {
                     targetServing = product.Servings.FirstOrDefault();
                     amount = targetServing?.MetricAmount ?? 100;
                 }
-            
+
                 var unit = targetServing?.MetricUnit ?? "g";
-                
+
                 var baseAmount = targetServing?.MetricAmount ?? 1;
                 var ratio = amount / baseAmount;
 
                 var newItem = new FoodItemDto(
-                    product.ExternalId, 
-                    product.Label, 
-                    (targetServing?.Calories ?? itemVm.Calories) * ratio, 
-                    (targetServing?.Carbs ?? itemVm.Carbs) * ratio, 
-                    (targetServing?.Protein ?? itemVm.Protein) * ratio, 
-                    (targetServing?.Fat ?? itemVm.Fat) * ratio, 
-                    unit, 
+                    product.ExternalId,
+                    product.Label,
+                    (targetServing?.Calories ?? itemVm.Calories) * ratio,
+                    (targetServing?.Carbs ?? itemVm.Carbs) * ratio,
+                    (targetServing?.Protein ?? itemVm.Protein) * ratio,
+                    (targetServing?.Fat ?? itemVm.Fat) * ratio,
+                    unit,
                     amount
                 );
 
@@ -400,7 +393,7 @@ public partial class FoodSearchPageViewModel(
         try
         {
             var entriesResult = await diaryService.GetEntriesByDateAsync(_date);
-            
+
             if (entriesResult is { Success: true, Data: not null })
             {
                 var existingEntry = entriesResult.Data.FirstOrDefault(e => e.DayTime == _mealType);
@@ -414,9 +407,11 @@ public partial class FoodSearchPageViewModel(
                     {
                         var updatedItems = existingEntry.FoodItems.ToList();
                         updatedItems.Remove(itemToRemove);
-                        
+
                         if (updatedItems.Count == 0)
+                        {
                             await diaryService.DeleteEntryAsync(existingEntry.Id);
+                        }
                         else
                         {
                             var updateRequest = new FoodEntryCreateRequest(_mealType, _date, updatedItems);
@@ -424,7 +419,7 @@ public partial class FoodSearchPageViewModel(
                         }
 
                         WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
-                        
+
                         itemVm.IsAdded = false;
                         _existingProductIds.Remove(itemVm.Data.ExternalId);
                     }
@@ -445,7 +440,7 @@ public partial class FoodSearchPageViewModel(
     private async Task OpenFoodDetails(FoodSearchItemViewModel? itemVm)
     {
         if (itemVm is null || IsLoading || itemVm.IsAdding || itemVm.IsAdded) return;
-        
+
         itemVm.IsAdding = true;
         ResetPopupState();
 
@@ -458,7 +453,7 @@ public partial class FoodSearchPageViewModel(
                 await OpenFoodDetailsInternal(result.Data, itemVm.Data);
             }
             else
-            { 
+            {
                 var errorMsg = new LocalizedString(() => result.Message);
                 await alertService.ShowToastAsync(errorMsg.Localized);
             }
@@ -491,8 +486,8 @@ public partial class FoodSearchPageViewModel(
             if (parts.Length > 1)
             {
                 var historyUnit = parts.Last();
-            
-                targetServing = uniqueServings.FirstOrDefault(s => 
+
+                targetServing = uniqueServings.FirstOrDefault(s =>
                     string.Equals(s.MetricUnit, historyUnit, StringComparison.OrdinalIgnoreCase));
             }
         }
@@ -500,7 +495,7 @@ public partial class FoodSearchPageViewModel(
         targetServing ??= uniqueServings.FirstOrDefault();
         SelectedServing = targetServing;
 
-        if (targetServing == null) 
+        if (targetServing == null)
         {
             InputAmount = "100";
             IsFoodDetailsVisible = true;
@@ -526,12 +521,12 @@ public partial class FoodSearchPageViewModel(
     {
         IsFoodDetailsVisible = false;
     }
-    
+
     [RelayCommand(CanExecute = nameof(CanSaveFood))]
     private async Task SaveFood()
     {
         if (SelectedFoodDetail == null || SelectedServing == null || string.IsNullOrEmpty(InputAmount)) return;
-        
+
         var product = SelectedFoodDetail;
         var serving = SelectedServing;
         var amount = double.Parse(InputAmount);
@@ -541,11 +536,11 @@ public partial class FoodSearchPageViewModel(
 
         IsFoodDetailsVisible = false;
         ResetPopupState();
-        
+
         try
         {
             var ratio = amount / serving.MetricAmount;
-            
+
             var newItem = new FoodItemDto(
                 product.ExternalId, product.Label,
                 serving.Calories * ratio, serving.Carbs * ratio,
@@ -554,8 +549,8 @@ public partial class FoodSearchPageViewModel(
             );
 
             await AddEntryToDiaryInternal(newItem);
-            
-            if (itemVm != null) 
+
+            if (itemVm != null)
             {
                 itemVm.IsAdded = true;
                 _existingProductIds.Add(product.ExternalId);
@@ -595,6 +590,7 @@ public partial class FoodSearchPageViewModel(
                 EntryIdStr = _entryId.Value.ToString();
             }
         }
+
         WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
     }
 
@@ -605,16 +601,22 @@ public partial class FoodSearchPageViewModel(
         InputAmount = null;
         NotifyPopupUpdates();
     }
-    
-    private bool CanSaveFood() => double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
+
+    private bool CanSaveFood()
+    {
+        return double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
+    }
 
     partial void OnInputAmountChanged(string? value)
     {
         NotifyPopupUpdates();
         SaveFoodCommand.NotifyCanExecuteChanged();
     }
-    
-    partial void OnSelectedServingChanged(FoodServingDto? value) => NotifyPopupUpdates();
+
+    partial void OnSelectedServingChanged(FoodServingDto? value)
+    {
+        NotifyPopupUpdates();
+    }
 
     private void NotifyPopupUpdates()
     {
@@ -623,17 +625,26 @@ public partial class FoodSearchPageViewModel(
         OnPropertyChanged(nameof(CurrentProtein));
         OnPropertyChanged(nameof(CurrentFat));
     }
-    
+
     private double CalculateNutrient(Func<FoodServingDto, double> selector)
     {
         var val = double.TryParse(InputAmount, out var amount) ? amount : 0;
         if (SelectedServing == null || SelectedServing.MetricAmount == 0 || val <= 0) return 0;
         return val * selector(SelectedServing) / SelectedServing.MetricAmount;
     }
-    
-    [RelayCommand] private void ToggleScanner() => IsScannerVisible = !IsScannerVisible;
-    [RelayCommand] private void ToggleTorch() => IsTorchOn = !IsTorchOn;
-    
+
+    [RelayCommand]
+    private void ToggleScanner()
+    {
+        IsScannerVisible = !IsScannerVisible;
+    }
+
+    [RelayCommand]
+    private void ToggleTorch()
+    {
+        IsTorchOn = !IsTorchOn;
+    }
+
     [RelayCommand]
     private async Task BarcodeDetected(string barcode)
     {
@@ -651,7 +662,7 @@ public partial class FoodSearchPageViewModel(
         IsScannerVisible = false;
         await PerformBarcodeSearch(barcode);
     }
-    
+
     private async Task PerformBarcodeSearch(string barcode)
     {
         IsLoading = true;
@@ -674,7 +685,7 @@ public partial class FoodSearchPageViewModel(
                     baseServing?.Protein ?? 0, baseServing?.Fat ?? 0,
                     $"{baseServing?.MetricAmount} {baseServing?.MetricUnit}")
                 );
-                
+
                 if (_existingProductIds.Contains(p.ExternalId)) itemVm.IsAdded = true;
 
                 SearchResults.Add(itemVm);
@@ -695,7 +706,7 @@ public partial class FoodSearchPageViewModel(
             IsLoading = false;
         }
     }
-    
+
     [RelayCommand]
     private async Task Back()
     {

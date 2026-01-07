@@ -12,7 +12,8 @@ public partial class StateContainer : ContentView
     }
 
     public static readonly BindableProperty IsLoadingProperty =
-        BindableProperty.Create(nameof(IsLoading), typeof(bool), typeof(StateContainer), false, propertyChanged: OnStateChanged);
+        BindableProperty.Create(nameof(IsLoading), typeof(bool), typeof(StateContainer), false,
+            propertyChanged: OnStateChanged);
 
     public bool IsLoading
     {
@@ -21,7 +22,8 @@ public partial class StateContainer : ContentView
     }
 
     public static readonly BindableProperty IsErrorProperty =
-        BindableProperty.Create(nameof(IsError), typeof(bool), typeof(StateContainer), false, propertyChanged: OnStateChanged);
+        BindableProperty.Create(nameof(IsError), typeof(bool), typeof(StateContainer), false,
+            propertyChanged: OnStateChanged);
 
     public bool IsError
     {
@@ -52,15 +54,15 @@ public partial class StateContainer : ContentView
     private static void OnStateChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not StateContainer control) return;
-        
+
         control.OnPropertyChanged(nameof(IsContentVisible));
         control.UpdateTabBarVisibility();
     }
-    
+
     private void UpdateTabBarVisibility()
     {
         var current = Parent;
-        
+
         while (current != null)
         {
             if (current is Page page)
@@ -68,6 +70,7 @@ public partial class StateContainer : ContentView
                 Shell.SetTabBarIsVisible(page, IsContentVisible);
                 return;
             }
+
             current = current.Parent;
         }
     }

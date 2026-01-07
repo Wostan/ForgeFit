@@ -10,7 +10,7 @@
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer Command="{Binding CloseEntryPopupCommand}" />
     </ContentView.GestureRecognizers>
-    
+
     <Border Style="{StaticResource CardStyle}"
             VerticalOptions="Center"
             HorizontalOptions="Fill"
@@ -21,13 +21,13 @@
             <TapGestureRecognizer />
         </Border.GestureRecognizers>
 
-        <VerticalStackLayout Spacing="16" Padding="20">
-            <Label Style="{StaticResource LabelBodyBold}" 
-                   Text="{Binding EntryPopupTitle}" 
+        <VerticalStackLayout Spacing="8" Padding="20">
+            <Label Style="{StaticResource LabelBodyBold}"
+                   Text="{Binding EntryPopupTitle}"
                    HorizontalOptions="Start" />
             <Border Style="{StaticResource InputWrapper}">
-                <Entry Placeholder="{Binding EntryPopupPlaceholder}" 
-                       Text="{Binding EntryPopupText}" 
+                <Entry Placeholder="{Binding EntryPopupPlaceholder}"
+                       Text="{Binding EntryPopupText}"
                        FontSize="16"
                        Keyboard="Numeric"
                        HorizontalTextAlignment="Center">
@@ -36,19 +36,16 @@
                     </Entry.Behaviors>
                 </Entry>
             </Border>
-            <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
-                <Button Grid.Column="0" 
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                <Button Grid.Column="0"
                         Style="{StaticResource SecondaryButton}"
                         Text="Cancel"
-                        TextColor="{Binding ButtonColor}"
                         Command="{Binding CloseEntryPopupCommand}" />
                 <Button Grid.Column="1"
                         ImageSource="check.svg"
                         Text="{maui:Translate Action_Save}"
-                        BackgroundColor="{Binding ButtonColor}"
                         Command="{Binding EntryPopupButtonCommand}" />
             </Grid>
         </VerticalStackLayout>
     </Border>
 </ContentView>
-

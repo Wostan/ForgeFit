@@ -20,11 +20,11 @@ public partial class DiaryPageViewModel : BaseViewModel
     private readonly IDrinkTrackingService _drinkTrackingService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
-    
+
     private bool _isInitialized;
-    
+
     [ObservableProperty] private bool _isRefreshing;
-    
+
     private CancellationTokenSource? _cts;
 
     [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
@@ -34,14 +34,14 @@ public partial class DiaryPageViewModel : BaseViewModel
     [ObservableProperty] private double _currentCarbs;
     [ObservableProperty] private double _currentProtein;
     [ObservableProperty] private double _currentFat;
-    
+
     [ObservableProperty] private double _currentWater;
-    
-    [ObservableProperty] 
-    private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
+
+    [ObservableProperty] private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
 
     [ObservableProperty] private bool _isWaterInputVisible;
-    [NotifyCanExecuteChangedFor(nameof(SaveCustomWaterCommand))] [ObservableProperty] 
+
+    [NotifyCanExecuteChangedFor(nameof(SaveCustomWaterCommand))] [ObservableProperty]
     private string _waterInputValue = "";
 
     // TODO: Connect goal
@@ -63,9 +63,9 @@ public partial class DiaryPageViewModel : BaseViewModel
     public double WaterProgress => TargetWater > 0 ? CurrentWater / TargetWater : 0;
 
     public DiaryPageViewModel(
-        IDiaryService diaryService, 
+        IDiaryService diaryService,
         IDrinkTrackingService drinkTrackingService,
-        IAlertService alertService, 
+        IAlertService alertService,
         ILocalizationResourceManager localizationManager)
     {
         _diaryService = diaryService;
@@ -74,28 +74,26 @@ public partial class DiaryPageViewModel : BaseViewModel
         _localizationManager = localizationManager;
 
         if (_localizationManager is INotifyPropertyChanged notifyService)
-        {
             notifyService.PropertyChanged += (_, _) => UpdateDateTitle();
-        }
-        
+
         UpdateDateTitle();
-        
+
         WeakReferenceMessenger.Default.Register<DiaryPageViewModel, DiaryUpdatedMessage>(
             this,
             (r, _) => { r.RefreshCommand.Execute(null); }
         );
     }
-    
+
     partial void OnSelectedDateChanged(DateTime value)
     {
         UpdateDateTitle();
-        
-        _cts?.Cancel(); 
+
+        _cts?.Cancel();
         _cts = new CancellationTokenSource();
-        
+
         _ = LoadAsync(_cts.Token);
     }
-    
+
     [RelayCommand]
     private async Task Initialize()
     {
@@ -103,7 +101,7 @@ public partial class DiaryPageViewModel : BaseViewModel
         _cts = new CancellationTokenSource();
         await LoadAsync(_cts.Token);
     }
-    
+
     private async Task LoadAsync(CancellationToken token = default)
     {
         if (!_isInitialized)
@@ -116,9 +114,9 @@ public partial class DiaryPageViewModel : BaseViewModel
         {
             var foodTask = _diaryService.GetEntriesByDateAsync(SelectedDate, token);
             var waterTask = _drinkTrackingService.GetEntriesByDateAsync(SelectedDate, token);
-            
+
             await Task.WhenAll(foodTask, waterTask);
-            
+
             var foodResult = foodTask.Result;
             var waterResult = waterTask.Result;
 
@@ -148,13 +146,13 @@ public partial class DiaryPageViewModel : BaseViewModel
                 var errorMsg = new LocalizedString(() => foodResult.Message);
                 HandleError(errorMsg);
             }
-            
+
             if (waterResult is { Success: true, Data: not null })
             {
                 var sortedData = waterResult.Data.OrderByDescending(e => e.Date);
-    
+
                 WaterEntries = new ObservableCollection<DrinkEntryResponse>(sortedData);
-                CurrentWater = WaterEntries.Sum(e => e.VolumeMl); 
+                CurrentWater = WaterEntries.Sum(e => e.VolumeMl);
                 OnPropertyChanged(nameof(WaterProgress));
             }
             else
@@ -187,41 +185,59 @@ public partial class DiaryPageViewModel : BaseViewModel
     {
         if (volumeMl <= 0) return;
 
-        var timestamp = SelectedDate.Date == DateTime.Today ? DateTime.Now : SelectedDate.Date.Add(DateTime.Now.TimeOfDay);
-        
-        var request = new DrinkEntryCreateRequest(volumeMl, timestamp);
+        var timestamp = SelectedDate.Date == DateTime.Today
+            ? DateTime.Now
+            : SelectedDate.Date.Add(DateTime.Now.TimeOfDay);
 
+        var tempEntry = new DrinkEntryResponse(Guid.Empty, volumeMl, timestamp);
+
+        WaterEntries.Insert(0, tempEntry);
+        CurrentWater += volumeMl;
+        OnPropertyChanged(nameof(WaterProgress));
+
+        var request = new DrinkEntryCreateRequest(volumeMl, timestamp);
         var result = await _drinkTrackingService.CreateEntryAsync(request);
 
         if (result is { Success: true, Data: not null })
         {
-            WaterEntries.Insert(0, result.Data);
-    
-            CurrentWater += result.Data.VolumeMl;
-            OnPropertyChanged(nameof(WaterProgress));
+            var index = WaterEntries.IndexOf(tempEntry);
+            if (index != -1) WaterEntries[index] = result.Data;
         }
         else
         {
+            WaterEntries.Remove(tempEntry);
+            CurrentWater -= volumeMl;
+            OnPropertyChanged(nameof(WaterProgress));
+
             var errorMsg = new LocalizedString(() => result.Message);
-            HandleError(errorMsg);
+            await _alertService.ShowToastAsync(errorMsg.Localized);
         }
     }
 
     [RelayCommand]
     private async Task DeleteWaterEntry(DrinkEntryResponse entry)
     {
+        var index = WaterEntries.IndexOf(entry);
+        if (index == -1) return;
+
+        WaterEntries.Remove(entry);
+        CurrentWater -= entry.VolumeMl;
+        OnPropertyChanged(nameof(WaterProgress));
+
         var result = await _drinkTrackingService.DeleteEntryAsync(entry.Id);
 
-        if (result.Success)
+        if (!result.Success)
         {
-            WaterEntries.Remove(entry);
-            CurrentWater -= entry.VolumeMl;
+            if (index <= WaterEntries.Count)
+                WaterEntries.Insert(index, entry);
+            else
+                WaterEntries.Add(entry);
+
+            CurrentWater += entry.VolumeMl;
             OnPropertyChanged(nameof(WaterProgress));
-        }
-        else
-        {
+
             var errorMsg = new LocalizedString(() => result.Message);
-            HandleError(errorMsg);
+            await _alertService.ShowToastAsync(errorMsg.Localized);
         }
     }
 
@@ -248,17 +264,20 @@ public partial class DiaryPageViewModel : BaseViewModel
         }
     }
 
-    private bool CanSaveCustomWater() => int.TryParse(WaterInputValue, out var amount) && amount is > 50 and < 2000;
+    private bool CanSaveCustomWater()
+    {
+        return int.TryParse(WaterInputValue, out var amount) && amount is > 50 and < 2000;
+    }
 
     [RelayCommand]
     private async Task Refresh()
     {
-        if (IsLoading) 
+        if (IsLoading)
         {
             IsRefreshing = false;
             return;
         }
-        
+
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
@@ -271,7 +290,7 @@ public partial class DiaryPageViewModel : BaseViewModel
             IsRefreshing = false;
         }
     }
-    
+
     private void HandleError(LocalizedString errorMsg)
     {
         if (_isInitialized)
@@ -288,11 +307,11 @@ public partial class DiaryPageViewModel : BaseViewModel
     private void UpdateMealItem(MealDashboardItem item, List<FoodEntryDto> entries)
     {
         var mealEntries = entries.Where(e => e.DayTime == item.Type).ToList();
-        
+
         if (mealEntries.Count != 0)
         {
             item.CurrentCalories = mealEntries.Sum(e => e.TotalCalories);
-            item.EntryId = mealEntries.FirstOrDefault()?.Id; 
+            item.EntryId = mealEntries.FirstOrDefault()?.Id;
             item.HasEntry = true;
         }
         else
@@ -309,7 +328,7 @@ public partial class DiaryPageViewModel : BaseViewModel
             DayTime.Dinner => 0.25,
             _ => 0.15
         };
-        
+
         item.TargetCalories = TargetCalories * ratio;
     }
 
@@ -319,7 +338,7 @@ public partial class DiaryPageViewModel : BaseViewModel
         CurrentCarbs = 0;
         CurrentProtein = 0;
         CurrentFat = 0;
-        
+
         CurrentWater = 0;
         WaterEntries.Clear();
 
@@ -338,11 +357,11 @@ public partial class DiaryPageViewModel : BaseViewModel
     private void UpdateDateTitle()
     {
         var humanized = SelectedDate.Humanize(
-            dateToCompareAgainst: DateTime.Today, 
+            dateToCompareAgainst: DateTime.Today,
             culture: _localizationManager.CurrentCulture
         );
-        
-        DateTitle = string.IsNullOrWhiteSpace(humanized) 
+
+        DateTitle = string.IsNullOrWhiteSpace(humanized)
             ? SelectedDate.ToString("D", _localizationManager.CurrentCulture)
             : humanized.Transform(To.SentenceCase);
     }
@@ -357,13 +376,10 @@ public partial class DiaryPageViewModel : BaseViewModel
             DayTime.Dinner => Dinner,
             _ => Snack
         };
-        
+
         var route = $"{nameof(MealDetailsPageView)}?Date={SelectedDate:yyyy-MM-dd}&MealType={mealType}";
 
-        if (item.EntryId != null)
-        {
-            route += $"&EntryId={item.EntryId}";
-        }
+        if (item.EntryId != null) route += $"&EntryId={item.EntryId}";
 
         await Shell.Current.GoToAsync(route);
     }
@@ -373,19 +389,15 @@ public partial class MealDashboardItem(DayTime type) : ObservableObject
 {
     public DayTime Type { get; } = type;
 
-    [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(Progress))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(Progress))]
     private double _currentCalories;
 
-    [ObservableProperty] 
-    [NotifyPropertyChangedFor(nameof(Progress))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(Progress))]
     private double _targetCalories;
 
-    [ObservableProperty] 
-    private Guid? _entryId;
+    [ObservableProperty] private Guid? _entryId;
 
-    [ObservableProperty] 
-    private bool _hasEntry;
+    [ObservableProperty] private bool _hasEntry;
 
     public double Progress => TargetCalories > 0 ? CurrentCalories / TargetCalories : 0;
 }

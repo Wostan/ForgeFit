@@ -357,12 +357,16 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         }
     }
 
-    private bool CanSaveFood() => double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
+    private bool CanSaveFood()
+    {
+        return double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
+    }
 
     [RelayCommand]
     private async Task GoToFoodSearch()
     {
-        await Shell.Current.GoToAsync($"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
+        await Shell.Current.GoToAsync(
+            $"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
     }
 
     public double CurrentCalories => CalculateNutrient(s => s.Calories);

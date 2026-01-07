@@ -11,7 +11,7 @@
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
     <ContentPage.Content>
-        <Grid RowDefinitions="*, Auto" Padding="30, 0">
+        <Grid RowDefinitions="*, Auto" Padding="30,50, 30, 20">
 
             <Border Grid.Row="0"
                     Style="{StaticResource InputWrapper}"

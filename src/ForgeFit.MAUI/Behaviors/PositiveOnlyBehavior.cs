@@ -25,14 +25,13 @@ public class PositiveOnlyBehavior : Behavior<Entry>
 
         var newText = e.NewTextValue;
         if (string.IsNullOrEmpty(newText)) return;
-        
+
         var sanitized = newText.Replace(',', '.').Replace("-", "");
 
         var cleanChars = new List<char>(sanitized.Length);
         var hasDot = false;
 
         foreach (var c in sanitized)
-        {
             if (char.IsDigit(c))
             {
                 cleanChars.Add(c);
@@ -40,11 +39,10 @@ public class PositiveOnlyBehavior : Behavior<Entry>
             else if (c == '.')
             {
                 if (hasDot) continue;
-                
+
                 cleanChars.Add('.');
                 hasDot = true;
             }
-        }
 
         var result = new string(cleanChars.ToArray());
 
@@ -55,7 +53,7 @@ public class PositiveOnlyBehavior : Behavior<Entry>
 
         _isInternalChange = true;
         entry.Text = result;
-        
+
         entry.CursorPosition = result.Length;
         _isInternalChange = false;
     }

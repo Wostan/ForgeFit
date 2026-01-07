@@ -16,7 +16,7 @@
         <Grid>
             <Grid RowDefinitions="Auto, *, Auto">
 
-                <controls:NavigationHeader Grid.Row="0" 
+                <controls:NavigationHeader Grid.Row="0"
                                            Title="{Binding BindingContext.MealTitle, Source={x:Reference ThisPage}}" />
 
                 <Grid Grid.Row="1"
@@ -158,7 +158,7 @@
                                TextColor="{StaticResource TextSecondary}" />
 
                         <Grid Grid.Row="1">
-                            
+
                             <Grid IsVisible="{Binding IsLoading}"
                                   BackgroundColor="#80000000"
                                   ZIndex="20">
@@ -166,152 +166,154 @@
                                                    HorizontalOptions="Center"
                                                    VerticalOptions="Center" />
                             </Grid>
-                            
+
                             <Border Style="{StaticResource CardStyle}"
                                     VerticalOptions="Fill"
                                     Padding="0">
-                                
+
                                 <CollectionView ItemsSource="{Binding FoodItems}"
                                                 VerticalScrollBarVisibility="Never"
                                                 SelectionMode="None">
 
-                                <CollectionView.EmptyView>
-                                    <Label Style="{StaticResource LabelBodyBold}"
-                                           TextColor="{StaticResource TextSecondary}"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"
-                                           Text="{maui:Translate Details_Empty}" />
-                                </CollectionView.EmptyView>
+                                    <CollectionView.EmptyView>
+                                        <Label Style="{StaticResource LabelBodyBold}"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               Text="{maui:Translate Details_Empty}" />
+                                    </CollectionView.EmptyView>
 
-                                <CollectionView.ItemsLayout>
-                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                                </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                                    </CollectionView.ItemsLayout>
 
-                                <CollectionView.Header>
-                                    <BoxView HeightRequest="6" Color="Transparent" />
-                                </CollectionView.Header>
+                                    <CollectionView.Header>
+                                        <BoxView HeightRequest="6" Color="Transparent" />
+                                    </CollectionView.Header>
 
-                                <CollectionView.Footer>
-                                    <BoxView HeightRequest="6" Color="Transparent" />
-                                </CollectionView.Footer>
+                                    <CollectionView.Footer>
+                                        <BoxView HeightRequest="6" Color="Transparent" />
+                                    </CollectionView.Footer>
 
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:FoodItemDto">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:FoodItemDto">
 
-                                        <SwipeView>
-                                            <SwipeView.RightItems>
-                                                <SwipeItems>
-                                                    <SwipeItemView>
-                                                        <Grid ColumnDefinitions="*,*"
-                                                              WidthRequest="120"
-                                                              VerticalOptions="Fill">
-                    
-                                                            <Grid Grid.Column="0"
-                                                                  BackgroundColor="{StaticResource DangerColor}"
-                                                                  VerticalOptions="Fill"
-                                                                  HorizontalOptions="Fill">
-                        
-                                                                <Image Source="delete.svg"
-                                                                       HorizontalOptions="Center" 
-                                                                       VerticalOptions="Center"/> 
-                                                                
-                                                                <Grid.GestureRecognizers>
-                                                                    <TapGestureRecognizer 
-                                                                        Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference ThisPage}}"
-                                                                        CommandParameter="{Binding .}" />
-                                                                </Grid.GestureRecognizers>
+                                            <SwipeView>
+                                                <SwipeView.RightItems>
+                                                    <SwipeItems>
+                                                        <SwipeItemView>
+                                                            <Grid ColumnDefinitions="*,*"
+                                                                  WidthRequest="120"
+                                                                  VerticalOptions="Fill">
+
+                                                                <Grid Grid.Column="0"
+                                                                      BackgroundColor="{StaticResource DangerColor}"
+                                                                      VerticalOptions="Fill"
+                                                                      HorizontalOptions="Fill">
+
+                                                                    <Image Source="delete.svg"
+                                                                           HorizontalOptions="Center"
+                                                                           VerticalOptions="Center" />
+
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference ThisPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                </Grid>
+
+                                                                <Grid Grid.Column="1"
+                                                                      BackgroundColor="{StaticResource Primary}"
+                                                                      VerticalOptions="Fill"
+                                                                      HorizontalOptions="Fill">
+
+                                                                    <Image Source="edit.svg"
+                                                                           HorizontalOptions="Center"
+                                                                           VerticalOptions="Center" />
+
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.OpenEditPopupCommand, Source={x:Reference ThisPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                </Grid>
+
                                                             </Grid>
+                                                        </SwipeItemView>
+                                                    </SwipeItems>
+                                                </SwipeView.RightItems>
 
-                                                            <Grid Grid.Column="1"
-                                                                  BackgroundColor="{StaticResource Primary}"
-                                                                  VerticalOptions="Fill"
-                                                                  HorizontalOptions="Fill">
-                        
-                                                                <Image Source="edit.svg"
-                                                                       HorizontalOptions="Center" 
-                                                                       VerticalOptions="Center"/>
+                                                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto"
+                                                      BackgroundColor="{StaticResource Surface}" Padding="16,0">
 
-                                                                <Grid.GestureRecognizers>
-                                                                    <TapGestureRecognizer 
-                                                                        Command="{Binding BindingContext.OpenEditPopupCommand, Source={x:Reference ThisPage}}"
-                                                                        CommandParameter="{Binding .}" />
-                                                                </Grid.GestureRecognizers>
-                                                            </Grid>
+                                                    <VerticalStackLayout Grid.Column="0" Spacing="-4">
+                                                        <Label Text="{Binding Label}"
+                                                               Style="{StaticResource LabelBodyBold}"
+                                                               FontSize="14"
+                                                               LineBreakMode="TailTruncation"
+                                                               TextColor="{StaticResource TextPrimary}" />
 
-                                                        </Grid>
-                                                    </SwipeItemView>
-                                                </SwipeItems>
-                                            </SwipeView.RightItems>
+                                                        <Label Style="{StaticResource LabelBodyBold}">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding Amount}"
+                                                                          Style="{StaticResource LabelBodyBold}"
+                                                                          FontSize="14" />
+                                                                    <Span Text=" " />
+                                                                    <Span Text="{Binding ServingUnit}"
+                                                                          Style="{StaticResource LabelBodyBold}"
+                                                                          FontSize="12" />
+                                                                    <Span Text="  •  "
+                                                                          Style="{StaticResource LabelBodyBold}" />
 
-                                            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto" BackgroundColor="{StaticResource Surface}" Padding="16,0">
+                                                                    <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
+                                                                          Style="{StaticResource LabelBodyBold}"
+                                                                          TextColor="{StaticResource CarbsColor}"
+                                                                          FontSize="14" />
+                                                                    <Span Text=" / "
+                                                                          Style="{StaticResource LabelBodyBold}"
+                                                                          FontSize="12" />
+                                                                    <Span
+                                                                        Text="{Binding Protein, StringFormat='{0:F0}'}"
+                                                                        Style="{StaticResource LabelBodyBold}"
+                                                                        TextColor="{StaticResource ProteinColor}"
+                                                                        FontSize="14" />
+                                                                    <Span Text=" / "
+                                                                          Style="{StaticResource LabelBodyBold}"
+                                                                          FontSize="12" />
+                                                                    <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
+                                                                          Style="{StaticResource LabelBodyBold}"
+                                                                          TextColor="{StaticResource FatColor}"
+                                                                          FontSize="14" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </VerticalStackLayout>
 
-                                                <VerticalStackLayout Grid.Column="0" Spacing="-4">
-                                                    <Label Text="{Binding Label}"
+                                                    <Label Grid.Column="1" Grid.RowSpan="2"
                                                            Style="{StaticResource LabelBodyBold}"
-                                                           FontSize="14"
-                                                           LineBreakMode="TailTruncation"
-                                                           TextColor="{StaticResource TextPrimary}" />
-
-                                                    <Label Style="{StaticResource LabelBodyBold}">
+                                                           VerticalOptions="Center">
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span Text="{Binding Amount}"
+                                                                <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
                                                                       Style="{StaticResource LabelBodyBold}"
+                                                                      TextColor="{StaticResource TextPrimary}"
                                                                       FontSize="14" />
-                                                                <Span Text=" " />
-                                                                <Span Text="{Binding ServingUnit}"
+                                                                <Span Text=" "
                                                                       Style="{StaticResource LabelBodyBold}"
                                                                       FontSize="12" />
-                                                                <Span Text="  •  "
-                                                                      Style="{StaticResource LabelBodyBold}" />
-
-                                                                <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
-                                                                      Style="{StaticResource LabelBodyBold}"
-                                                                      TextColor="{StaticResource CarbsColor}"
-                                                                      FontSize="14" />
-                                                                <Span Text=" / "
+                                                                <Span Text="{maui:Translate Nutrient_Kcal}"
                                                                       Style="{StaticResource LabelBodyBold}"
                                                                       FontSize="12" />
-                                                                <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
-                                                                      Style="{StaticResource LabelBodyBold}"
-                                                                      TextColor="{StaticResource ProteinColor}"
-                                                                      FontSize="14" />
-                                                                <Span Text=" / "
-                                                                      Style="{StaticResource LabelBodyBold}"
-                                                                      FontSize="12" />
-                                                                <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
-                                                                      Style="{StaticResource LabelBodyBold}"
-                                                                      TextColor="{StaticResource FatColor}"
-                                                                      FontSize="14" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>
-                                                </VerticalStackLayout>
-
-                                                <Label Grid.Column="1" Grid.RowSpan="2"
-                                                       Style="{StaticResource LabelBodyBold}"
-                                                       VerticalOptions="Center">
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
-                                                                  Style="{StaticResource LabelBodyBold}"
-                                                                  TextColor="{StaticResource TextPrimary}"
-                                                                  FontSize="14" />
-                                                            <Span Text=" "
-                                                                  Style="{StaticResource LabelBodyBold}"
-                                                                  FontSize="12" />
-                                                            <Span Text="{maui:Translate Nutrient_Kcal}"
-                                                                  Style="{StaticResource LabelBodyBold}"
-                                                                  FontSize="12" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
-                                            </Grid>
-                                        </SwipeView>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </Border>
+                                                </Grid>
+                                            </SwipeView>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Border>
                         </Grid>
                     </Grid>
 

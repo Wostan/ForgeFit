@@ -21,12 +21,12 @@ public partial class BarcodeScanner : ContentView
     public BarcodeScanner()
     {
         InitializeComponent();
-        
+
         CameraView.Options = new BarcodeReaderOptions
         {
-            Formats = BarcodeFormats.All, 
-            TryHarder = true, 
-            AutoRotate = true 
+            Formats = BarcodeFormats.All,
+            TryHarder = true,
+            AutoRotate = true
         };
 
         IsVisible = false;
@@ -88,16 +88,11 @@ public partial class BarcodeScanner : ContentView
     private void CameraView_OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs e)
     {
         var code = e.Results?.FirstOrDefault()?.Value;
-    
+
         if (!string.IsNullOrEmpty(code))
-        {
-            MainThread.BeginInvokeOnMainThread(() => 
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (BindingContext is FoodSearchPageViewModel vm)
-                {
-                    vm.BarcodeDetectedCommand.Execute(code);
-                }
+                if (BindingContext is FoodSearchPageViewModel vm) vm.BarcodeDetectedCommand.Execute(code);
             });
-        }
     }
 }

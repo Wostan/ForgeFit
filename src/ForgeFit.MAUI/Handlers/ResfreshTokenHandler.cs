@@ -9,12 +9,13 @@ namespace ForgeFit.MAUI.Handlers;
 
 public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : DelegatingHandler
 {
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken)
     {
         var response = await base.SendAsync(request, cancellationToken);
 
         if (response.StatusCode != HttpStatusCode.Unauthorized ||
-            request.RequestUri!.AbsolutePath.Contains("/auth/sign-in") || 
+            request.RequestUri!.AbsolutePath.Contains("/auth/sign-in") ||
             request.RequestUri!.AbsolutePath.Contains("/auth/sign-up"))
             return response;
 
@@ -23,7 +24,7 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
         if (!string.IsNullOrEmpty(newAccessToken))
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", newAccessToken);
-            
+
             return await base.SendAsync(request, cancellationToken);
         }
 
@@ -41,13 +42,14 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
             var refreshClient = httpClientFactory.CreateClient("RefreshClient");
 
             var requestPayload = new RefreshTokenRequest(refreshToken);
-            
-            var response = await refreshClient.PostAsJsonAsync("/api/auth/refresh-token", requestPayload, cancellationToken);
+
+            var response =
+                await refreshClient.PostAsJsonAsync("/api/auth/refresh-token", requestPayload, cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
-                var data = await response.Content.ReadFromJsonAsync<UserSignInResponse>(cancellationToken: cancellationToken);
-                
+                var data = await response.Content.ReadFromJsonAsync<UserSignInResponse>(cancellationToken);
+
                 if (data != null)
                 {
                     await SecureStorage.SetAsync(AuthConstants.AccessToken, data.AccessToken);
@@ -68,11 +70,8 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
     {
         SecureStorage.Remove(AuthConstants.AccessToken);
         SecureStorage.Remove(AuthConstants.RefreshToken);
-        
+
         var loginPage = Application.Current?.Handler?.MauiContext?.Services.GetService<LoginPageView>();
-        if (Application.Current?.Windows.Count > 0)
-        {
-            Application.Current.Windows[0].Page = loginPage;
-        }
+        if (Application.Current?.Windows.Count > 0) Application.Current.Windows[0].Page = loginPage;
     }
 }

@@ -13,10 +13,7 @@ public partial class DiaryPageView : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
-        if (BindingContext is DiaryPageViewModel vm)
-        {
-            vm.InitializeCommand.Execute(null);
-        }
+
+        if (BindingContext is DiaryPageViewModel vm) vm.InitializeCommand.Execute(null);
     }
 }

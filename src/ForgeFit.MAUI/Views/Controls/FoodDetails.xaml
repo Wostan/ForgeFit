@@ -130,7 +130,7 @@
                 </Border>
 
                 <Border Grid.Column="1" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 0,16,0,16">
-                    <Picker x:Name="UnitPicker" 
+                    <Picker x:Name="UnitPicker"
                             IsEnabled="False"
                             ItemsSource="{Binding SelectedFoodDetail.Servings}"
                             ItemDisplayBinding="{Binding MetricUnit}"

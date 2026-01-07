@@ -7,7 +7,7 @@ public partial class FoodDetails : ContentView
     public FoodDetails()
     {
         InitializeComponent();
-        
+
         Unloaded += OnUnloaded;
     }
 
@@ -15,10 +15,7 @@ public partial class FoodDetails : ContentView
     {
         base.OnPropertyChanged(propertyName);
 
-        if (propertyName == nameof(IsVisible))
-        {
-            UpdatePickerState();
-        }
+        if (propertyName == nameof(IsVisible)) UpdatePickerState();
     }
 
     private void UpdatePickerState()

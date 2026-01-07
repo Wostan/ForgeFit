@@ -9,7 +9,7 @@ public partial class FoodSearchPageView : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
-    
+
     protected override bool OnBackButtonPressed()
     {
         if (BindingContext is not FoodSearchPageViewModel vm)
@@ -23,9 +23,8 @@ public partial class FoodSearchPageView : ContentPage
         }
 
         if (!vm.BackCommand.CanExecute(null)) return base.OnBackButtonPressed();
-        
+
         vm.BackCommand.Execute(null);
         return true;
-
     }
 }

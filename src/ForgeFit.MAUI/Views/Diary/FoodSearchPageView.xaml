@@ -88,7 +88,7 @@
                             RemainingItemsThreshold="5"
                             RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                             Opacity="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
-                
+
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Spacing="10"
                                          VerticalOptions="Center"
@@ -226,12 +226,13 @@
                                       WidthRequest="50"
                                       HeightRequest="50">
 
-                                    <ImageButton Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleItemCommand}"
-                                                 CommandParameter="{Binding .}"
-                                                 IsVisible="{Binding IsAdding, Converter={toolkit:InvertedBoolConverter}}"
-                                                 Source="{Binding IsAdded, Converter={StaticResource StateIconConverter}}"
-                                                 Shadow="{StaticResource PrimaryGlow}"
-                                                 Aspect="Center">
+                                    <ImageButton
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleItemCommand}"
+                                        CommandParameter="{Binding .}"
+                                        IsVisible="{Binding IsAdding, Converter={toolkit:InvertedBoolConverter}}"
+                                        Source="{Binding IsAdded, Converter={StaticResource StateIconConverter}}"
+                                        Shadow="{StaticResource PrimaryGlow}"
+                                        Aspect="Center">
                                         <ImageButton.Behaviors>
                                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                                         </ImageButton.Behaviors>
