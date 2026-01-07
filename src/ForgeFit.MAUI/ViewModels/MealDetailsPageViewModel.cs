@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -60,7 +61,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     [ObservableProperty] private FoodServingDto? _selectedServing;
 
     [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
-    private double? _inputAmount;
+    private string? _inputAmount;
 
     private FoodItemDto? _editingItem;
 
@@ -284,7 +285,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 SelectedServing = details.Servings.FirstOrDefault(s => s.MetricUnit == item.ServingUnit)
                                   ?? details.Servings.FirstOrDefault();
 
-                InputAmount = item.Amount;
+                InputAmount = item.Amount.ToString(CultureInfo.InvariantCulture);
                 IsFoodDetailsVisible = true;
             }
             else
@@ -315,12 +316,12 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private async Task SaveFood()
     {
         if (_editingItem == null || SelectedFoodDetail == null || SelectedServing == null ||
-            !InputAmount.HasValue) return;
+            string.IsNullOrEmpty(InputAmount)) return;
         if (_entryId == null) return;
 
         IsFoodDetailsVisible = false;
 
-        var amount = InputAmount.Value;
+        var amount = double.Parse(InputAmount, CultureInfo.InvariantCulture);
         var ratio = amount / SelectedServing.MetricAmount;
 
         var updatedItem = _editingItem with
@@ -356,10 +357,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         }
     }
 
-    private bool CanSaveFood()
-    {
-        return InputAmount is > 0;
-    }
+    private bool CanSaveFood() => double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
 
     [RelayCommand]
     private async Task GoToFoodSearch()
@@ -374,7 +372,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
     private double CalculateNutrient(Func<FoodServingDto, double> selector)
     {
-        var amount = InputAmount.GetValueOrDefault();
+        var amount = double.TryParse(InputAmount, out var a) ? a : 0;
 
         if (SelectedServing == null || SelectedServing.MetricAmount == 0 || amount <= 0)
             return 0;
@@ -382,7 +380,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         return amount * selector(SelectedServing) / SelectedServing.MetricAmount;
     }
 
-    partial void OnInputAmountChanged(double? value)
+    partial void OnInputAmountChanged(string? value)
     {
         NotifyPopupUpdates();
     }

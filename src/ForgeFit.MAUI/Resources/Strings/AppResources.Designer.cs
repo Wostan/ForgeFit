@@ -87,6 +87,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string Action_Save {
+            get {
+                return ResourceManager.GetString("Action_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect to the server..
         /// </summary>
         internal static string ConnectionFailedMessage {
@@ -245,6 +254,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string ForgotPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter water amount (ml):.
+        /// </summary>
+        internal static string Hydration_Custom {
+            get {
+                return ResourceManager.GetString("Hydration_Custom", resourceCulture);
             }
         }
         

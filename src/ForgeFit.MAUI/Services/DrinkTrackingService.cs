@@ -1,4 +1,5 @@
 ﻿using ForgeFit.MAUI.Models;
+using ForgeFit.MAUI.Models.DTOs.DrinkTracking;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
 

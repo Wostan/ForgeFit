@@ -180,4 +180,10 @@
     <data name="Search_Recent" xml:space="preserve">
         <value>Showing recent</value>
     </data>
+    <data name="Action_Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="Hydration_Custom" xml:space="preserve">
+        <value>Enter water amount (ml):</value>
+    </data>
 </root>

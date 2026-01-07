@@ -180,4 +180,10 @@
     <data name="Search_Recent" xml:space="preserve">
         <value>Показано нещодавні</value>
     </data>
+    <data name="Action_Save" xml:space="preserve">
+        <value>Зберегти</value>
+    </data>
+    <data name="Hydration_Custom" xml:space="preserve">
+        <value>Введіть кількість води (мл):</value>
+    </data>
 </root>

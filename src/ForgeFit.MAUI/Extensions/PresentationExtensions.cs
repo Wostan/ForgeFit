@@ -3,6 +3,8 @@ using ForgeFit.MAUI.Views;
 using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;
 
+namespace ForgeFit.MAUI.Extensions;
+
 public static class PresentationExtensions
 {
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)

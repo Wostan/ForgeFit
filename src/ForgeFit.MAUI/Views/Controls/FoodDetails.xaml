@@ -124,7 +124,7 @@
                            Placeholder="{Binding SelectedServing.MetricAmount}"
                            HorizontalTextAlignment="Center">
                         <Entry.Behaviors>
-                            <behaviors:PositiveOnlyBehavior /> 
+                            <behaviors:PositiveOnlyBehavior />
                         </Entry.Behaviors>
                     </Entry>
                 </Border>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -46,7 +47,7 @@ public partial class FoodSearchPageViewModel(
     [ObservableProperty] private FoodProductResponse? _selectedFoodDetail;
     [ObservableProperty] private FoodServingDto? _selectedServing;
     [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] 
-    [ObservableProperty] private double? _inputAmount;
+    [ObservableProperty] private string? _inputAmount;
     
     public double CurrentCalories => CalculateNutrient(s => s.Calories);
     public double CurrentCarbs => CalculateNutrient(s => s.Carbs);
@@ -501,7 +502,7 @@ public partial class FoodSearchPageViewModel(
 
         if (targetServing == null) 
         {
-            InputAmount = 100;
+            InputAmount = "100";
             IsFoodDetailsVisible = true;
             return Task.CompletedTask;
         }
@@ -509,11 +510,11 @@ public partial class FoodSearchPageViewModel(
         if (IsShowingRecent && sourceItem.Calories > 0 && targetServing.Calories > 0)
         {
             var ratio = sourceItem.Calories / targetServing.Calories;
-            InputAmount = Math.Round(targetServing.MetricAmount * ratio, 2);
+            InputAmount = Math.Round(targetServing.MetricAmount * ratio, 2).ToString(CultureInfo.InvariantCulture);
         }
         else
         {
-            InputAmount = targetServing.MetricAmount;
+            InputAmount = targetServing.MetricAmount.ToString(CultureInfo.InvariantCulture);
         }
 
         IsFoodDetailsVisible = true;
@@ -529,11 +530,11 @@ public partial class FoodSearchPageViewModel(
     [RelayCommand(CanExecute = nameof(CanSaveFood))]
     private async Task SaveFood()
     {
-        if (SelectedFoodDetail == null || SelectedServing == null || !InputAmount.HasValue) return;
+        if (SelectedFoodDetail == null || SelectedServing == null || string.IsNullOrEmpty(InputAmount)) return;
         
         var product = SelectedFoodDetail;
         var serving = SelectedServing;
-        var amount = InputAmount.Value;
+        var amount = double.Parse(InputAmount);
 
         var itemVm = SearchResults.FirstOrDefault(x => x.Data.ExternalId == product.ExternalId);
         itemVm?.IsAdding = true;
@@ -605,9 +606,9 @@ public partial class FoodSearchPageViewModel(
         NotifyPopupUpdates();
     }
     
-    private bool CanSaveFood() => InputAmount is > 0;
+    private bool CanSaveFood() => double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
 
-    partial void OnInputAmountChanged(double? value)
+    partial void OnInputAmountChanged(string? value)
     {
         NotifyPopupUpdates();
         SaveFoodCommand.NotifyCanExecuteChanged();
@@ -625,7 +626,7 @@ public partial class FoodSearchPageViewModel(
     
     private double CalculateNutrient(Func<FoodServingDto, double> selector)
     {
-        var val = InputAmount.GetValueOrDefault();
+        var val = double.TryParse(InputAmount, out var amount) ? amount : 0;
         if (SelectedServing == null || SelectedServing.MetricAmount == 0 || val <= 0) return 0;
         return val * selector(SelectedServing) / SelectedServing.MetricAmount;
     }

@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ForgeFit.MAUI.Messages;
+using ForgeFit.MAUI.Models.DTOs.DrinkTracking;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -15,6 +17,7 @@ namespace ForgeFit.MAUI.ViewModels;
 public partial class DiaryPageViewModel : BaseViewModel
 {
     private readonly IDiaryService _diaryService;
+    private readonly IDrinkTrackingService _drinkTrackingService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
     
@@ -31,7 +34,15 @@ public partial class DiaryPageViewModel : BaseViewModel
     [ObservableProperty] private double _currentCarbs;
     [ObservableProperty] private double _currentProtein;
     [ObservableProperty] private double _currentFat;
+    
     [ObservableProperty] private double _currentWater;
+    
+    [ObservableProperty] 
+    private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
+
+    [ObservableProperty] private bool _isWaterInputVisible;
+    [NotifyCanExecuteChangedFor(nameof(SaveCustomWaterCommand))] [ObservableProperty] 
+    private string _waterInputValue = "";
 
     // TODO: Connect goal
     [ObservableProperty] private double _targetCalories = 2500;
@@ -53,10 +64,12 @@ public partial class DiaryPageViewModel : BaseViewModel
 
     public DiaryPageViewModel(
         IDiaryService diaryService, 
+        IDrinkTrackingService drinkTrackingService,
         IAlertService alertService, 
         ILocalizationResourceManager localizationManager)
     {
         _diaryService = diaryService;
+        _drinkTrackingService = drinkTrackingService;
         _alertService = alertService;
         _localizationManager = localizationManager;
 
@@ -101,41 +114,57 @@ public partial class DiaryPageViewModel : BaseViewModel
 
         try
         {
-            var result = await _diaryService.GetEntriesByDateAsync(SelectedDate, token);
+            var foodTask = _diaryService.GetEntriesByDateAsync(SelectedDate, token);
+            var waterTask = _drinkTrackingService.GetEntriesByDateAsync(SelectedDate, token);
+            
+            await Task.WhenAll(foodTask, waterTask);
+            
+            var foodResult = foodTask.Result;
+            var waterResult = waterTask.Result;
 
             if (token.IsCancellationRequested) return;
 
-            if (result is { Success: true, Data: not null })
+            if (foodResult is { Success: true, Data: not null })
             {
-                var entries = result.Data;
+                var entries = foodResult.Data;
 
                 CurrentCalories = entries.Sum(e => e.TotalCalories);
                 CurrentCarbs = entries.Sum(e => e.TotalCarbs);
                 CurrentProtein = entries.Sum(e => e.TotalProtein);
                 CurrentFat = entries.Sum(e => e.TotalFat);
 
-                // TODO.
-                CurrentWater = 0;
-
                 OnPropertyChanged(nameof(CaloriesProgress));
                 OnPropertyChanged(nameof(CarbsProgress));
                 OnPropertyChanged(nameof(ProteinProgress));
                 OnPropertyChanged(nameof(FatProgress));
-                OnPropertyChanged(nameof(WaterProgress));
 
                 UpdateMealItem(Breakfast, entries);
                 UpdateMealItem(Lunch, entries);
                 UpdateMealItem(Dinner, entries);
                 UpdateMealItem(Snack, entries);
-
-                _isInitialized = true;
-                Error = null;
             }
             else
             {
-                var errorMsg = new LocalizedString(() => result.Message);
+                var errorMsg = new LocalizedString(() => foodResult.Message);
                 HandleError(errorMsg);
             }
+            
+            if (waterResult is { Success: true, Data: not null })
+            {
+                var sortedData = waterResult.Data.OrderByDescending(e => e.Date);
+    
+                WaterEntries = new ObservableCollection<DrinkEntryResponse>(sortedData);
+                CurrentWater = WaterEntries.Sum(e => e.VolumeMl); 
+                OnPropertyChanged(nameof(WaterProgress));
+            }
+            else
+            {
+                var errorMsg = new LocalizedString(() => waterResult.Message);
+                HandleError(errorMsg);
+            }
+
+            _isInitialized = true;
+            Error = null;
         }
         catch (OperationCanceledException)
         {
@@ -149,13 +178,78 @@ public partial class DiaryPageViewModel : BaseViewModel
         }
         finally
         {
-            if (!token.IsCancellationRequested)
-            {
-                IsLoading = false;
-            }
+            IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    private async Task AddWater(int volumeMl)
+    {
+        if (volumeMl <= 0) return;
+
+        var timestamp = SelectedDate.Date == DateTime.Today ? DateTime.Now : SelectedDate.Date.Add(DateTime.Now.TimeOfDay);
+        
+        var request = new DrinkEntryCreateRequest(volumeMl, timestamp);
+
+        var result = await _drinkTrackingService.CreateEntryAsync(request);
+
+        if (result is { Success: true, Data: not null })
+        {
+            WaterEntries.Insert(0, result.Data);
     
+            CurrentWater += result.Data.VolumeMl;
+            OnPropertyChanged(nameof(WaterProgress));
+        }
+        else
+        {
+            var errorMsg = new LocalizedString(() => result.Message);
+            HandleError(errorMsg);
+        }
+    }
+
+    [RelayCommand]
+    private async Task DeleteWaterEntry(DrinkEntryResponse entry)
+    {
+        var result = await _drinkTrackingService.DeleteEntryAsync(entry.Id);
+
+        if (result.Success)
+        {
+            WaterEntries.Remove(entry);
+            CurrentWater -= entry.VolumeMl;
+            OnPropertyChanged(nameof(WaterProgress));
+        }
+        else
+        {
+            var errorMsg = new LocalizedString(() => result.Message);
+            HandleError(errorMsg);
+        }
+    }
+
+    [RelayCommand]
+    private void OpenWaterInput()
+    {
+        WaterInputValue = "250";
+        IsWaterInputVisible = true;
+    }
+
+    [RelayCommand]
+    private void CloseWaterInput()
+    {
+        IsWaterInputVisible = false;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanSaveCustomWater))]
+    private async Task SaveCustomWater()
+    {
+        if (int.TryParse(WaterInputValue, out var amount) && amount > 0)
+        {
+            await AddWater(amount);
+            CloseWaterInput();
+        }
+    }
+
+    private bool CanSaveCustomWater() => int.TryParse(WaterInputValue, out var amount) && amount is > 50 and < 2000;
+
     [RelayCommand]
     private async Task Refresh()
     {
@@ -225,7 +319,9 @@ public partial class DiaryPageViewModel : BaseViewModel
         CurrentCarbs = 0;
         CurrentProtein = 0;
         CurrentFat = 0;
+        
         CurrentWater = 0;
+        WaterEntries.Clear();
 
         OnPropertyChanged(nameof(CaloriesProgress));
         OnPropertyChanged(nameof(CarbsProgress));
