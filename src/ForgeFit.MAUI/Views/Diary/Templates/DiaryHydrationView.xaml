@@ -27,7 +27,7 @@
                                     <Span Text="{Binding CurrentWater, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelH1}" />
                                     <Span Text=" / " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="{Binding TargetWater, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding TargetWaterDisplay, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" />
                                     <Span Text=" " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="{maui:Translate Hydration_Ml}"

@@ -20,6 +20,8 @@ public static class ServiceExtensions
         builder.Services.AddScoped<IFoodService, FoodService>();
 
         builder.Services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
+        
+        builder.Services.AddScoped<IGoalService, GoalService>();
 
         // API Client configuration
         var baseAddress = DeviceInfo.Platform == DevicePlatform.Android

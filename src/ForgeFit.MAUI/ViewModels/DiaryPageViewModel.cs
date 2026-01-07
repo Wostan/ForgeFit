@@ -18,6 +18,8 @@ public partial class DiaryPageViewModel : BaseViewModel
 {
     private readonly IDiaryService _diaryService;
     private readonly IDrinkTrackingService _drinkTrackingService;
+    private readonly IGoalService _goalService;
+    
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
 
@@ -26,6 +28,7 @@ public partial class DiaryPageViewModel : BaseViewModel
     [ObservableProperty] private bool _isRefreshing;
 
     private CancellationTokenSource? _cts;
+    private CancellationTokenSource? _weightCts;
 
     [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
     [ObservableProperty] private string _dateTitle = string.Empty;
@@ -34,22 +37,29 @@ public partial class DiaryPageViewModel : BaseViewModel
     [ObservableProperty] private double _currentCarbs;
     [ObservableProperty] private double _currentProtein;
     [ObservableProperty] private double _currentFat;
-
     [ObservableProperty] private double _currentWater;
+    [ObservableProperty] private double _currentWeight;
 
     [ObservableProperty] private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
-
     [ObservableProperty] private bool _isWaterInputVisible;
-
     [NotifyCanExecuteChangedFor(nameof(SaveCustomWaterCommand))] [ObservableProperty]
     private string _waterInputValue = "";
+    
+    [ObservableProperty] private string _currentWeightInput = string.Empty;
 
-    // TODO: Connect goal
-    [ObservableProperty] private double _targetCalories = 2500;
-    [ObservableProperty] private double _targetCarbs = 300;
-    [ObservableProperty] private double _targetProtein = 180;
-    [ObservableProperty] private double _targetFat = 80;
-    [ObservableProperty] private double _targetWater = 2500;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(CaloriesProgress))] private double _targetCalories;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(CarbsProgress))] private double _targetCarbs;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))] private double _targetProtein;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(FatProgress))] private double _targetFat;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WaterProgress))] private double _targetWater;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WeightProgress))] private double _targetWeight;
+    
+    [ObservableProperty] private string _targetCaloriesDisplay;
+    [ObservableProperty] private string _targetCarbsDisplay;
+    [ObservableProperty] private string _targetProteinDisplay;
+    [ObservableProperty] private string _targetFatDisplay;
+    [ObservableProperty] private string _targetWaterDisplay;
+    [ObservableProperty] private string _targetWeightDisplay;
 
     public MealDashboardItem Breakfast { get; } = new(DayTime.Breakfast);
     public MealDashboardItem Lunch { get; } = new(DayTime.Lunch);
@@ -61,21 +71,26 @@ public partial class DiaryPageViewModel : BaseViewModel
     public double ProteinProgress => TargetProtein > 0 ? CurrentProtein / TargetProtein : 0;
     public double FatProgress => TargetFat > 0 ? CurrentFat / TargetFat : 0;
     public double WaterProgress => TargetWater > 0 ? CurrentWater / TargetWater : 0;
+    public double WeightProgress => TargetWeight > 0 ? CurrentWeight / TargetWeight : 0;
+    public double WeightLeft => Math.Abs(TargetWeight - CurrentWeight);
 
     public DiaryPageViewModel(
         IDiaryService diaryService,
         IDrinkTrackingService drinkTrackingService,
+        IGoalService goalService,
         IAlertService alertService,
         ILocalizationResourceManager localizationManager)
     {
         _diaryService = diaryService;
         _drinkTrackingService = drinkTrackingService;
+        _goalService = goalService;
         _alertService = alertService;
         _localizationManager = localizationManager;
 
         if (_localizationManager is INotifyPropertyChanged notifyService)
             notifyService.PropertyChanged += (_, _) => UpdateDateTitle();
 
+        SetLoadingState();
         UpdateDateTitle();
 
         WeakReferenceMessenger.Default.Register<DiaryPageViewModel, DiaryUpdatedMessage>(
@@ -83,9 +98,17 @@ public partial class DiaryPageViewModel : BaseViewModel
             (r, _) => { r.RefreshCommand.Execute(null); }
         );
     }
+    
+    private void SetLoadingState()
+    {
+        TargetCaloriesDisplay = TargetCarbsDisplay = TargetProteinDisplay = 
+            TargetFatDisplay = TargetWaterDisplay = TargetWeightDisplay = "-";
+    }
 
     partial void OnSelectedDateChanged(DateTime value)
     {
+        ResetDashboard();
+        SetLoadingState();
         UpdateDateTitle();
 
         _cts?.Cancel();
@@ -112,19 +135,47 @@ public partial class DiaryPageViewModel : BaseViewModel
 
         try
         {
+            var nutritionGoalTask = _goalService.GetNutritionGoal(token);
             var foodTask = _diaryService.GetEntriesByDateAsync(SelectedDate, token);
             var waterTask = _drinkTrackingService.GetEntriesByDateAsync(SelectedDate, token);
+            var bodyGoalTask = _goalService.GetBodyGoal(token);
 
-            await Task.WhenAll(foodTask, waterTask);
-
-            var foodResult = foodTask.Result;
-            var waterResult = waterTask.Result;
-
+            await Task.WhenAll(foodTask, waterTask, nutritionGoalTask, bodyGoalTask);
             if (token.IsCancellationRequested) return;
+            
+            string? firstErrorMessage = null;
+        
+            if (!nutritionGoalTask.Result.Success) firstErrorMessage = nutritionGoalTask.Result.Message;
+            else if (!foodTask.Result.Success) firstErrorMessage = foodTask.Result.Message;
+            else if (!bodyGoalTask.Result.Success) firstErrorMessage = bodyGoalTask.Result.Message;
+            else if (!waterTask.Result.Success) firstErrorMessage = waterTask.Result.Message;
 
-            if (foodResult is { Success: true, Data: not null })
+            if (firstErrorMessage != null)
             {
-                var entries = foodResult.Data;
+                HandleError(new LocalizedString(() => firstErrorMessage));
+                return;
+            }
+            
+            if (nutritionGoalTask.Result is { Success: true, Data: not null })
+            {
+                var g = nutritionGoalTask.Result.Data;
+                
+                TargetCalories = g.Calories;
+                TargetCarbs = g.Carbs;
+                TargetProtein = g.Protein;
+                TargetFat = g.Fat;
+                TargetWater = g.WaterGoalMl;
+
+                TargetCaloriesDisplay = TargetCalories.ToString("F0");
+                TargetCarbsDisplay = TargetCarbs.ToString("F0");
+                TargetProteinDisplay = TargetProtein.ToString("F0");
+                TargetFatDisplay = TargetFat.ToString("F0");
+                TargetWaterDisplay = TargetWater.ToString("F0");
+            }
+
+            if (foodTask.Result is { Success: true, Data: not null })
+            {
+                var entries = foodTask.Result.Data;
 
                 CurrentCalories = entries.Sum(e => e.TotalCalories);
                 CurrentCarbs = entries.Sum(e => e.TotalCarbs);
@@ -135,32 +186,36 @@ public partial class DiaryPageViewModel : BaseViewModel
                 OnPropertyChanged(nameof(CarbsProgress));
                 OnPropertyChanged(nameof(ProteinProgress));
                 OnPropertyChanged(nameof(FatProgress));
-
+                
                 UpdateMealItem(Breakfast, entries);
                 UpdateMealItem(Lunch, entries);
                 UpdateMealItem(Dinner, entries);
                 UpdateMealItem(Snack, entries);
             }
-            else
-            {
-                var errorMsg = new LocalizedString(() => foodResult.Message);
-                HandleError(errorMsg);
-            }
 
-            if (waterResult is { Success: true, Data: not null })
+            if (waterTask.Result is { Success: true, Data: not null })
             {
-                var sortedData = waterResult.Data.OrderByDescending(e => e.Date);
+                var sortedData = waterTask.Result.Data.OrderByDescending(e => e.Date);
 
                 WaterEntries = new ObservableCollection<DrinkEntryResponse>(sortedData);
                 CurrentWater = WaterEntries.Sum(e => e.VolumeMl);
                 OnPropertyChanged(nameof(WaterProgress));
             }
-            else
+            
+            if (bodyGoalTask.Result is { Success: true, Data: not null })
             {
-                var errorMsg = new LocalizedString(() => waterResult.Message);
-                HandleError(errorMsg);
-            }
+                TargetWeight = bodyGoalTask.Result.Data.WeightGoal;
+                TargetWeightDisplay = $"{TargetWeight:F1}";
+                
+                // call profile service
+                if (CurrentWeight <= 0) CurrentWeight = 80.0; 
 
+                if (string.IsNullOrWhiteSpace(CurrentWeightInput))
+                {
+                    CurrentWeightInput = CurrentWeight.ToString("F1");
+                }
+            }
+            
             _isInitialized = true;
             Error = null;
         }
@@ -237,7 +292,7 @@ public partial class DiaryPageViewModel : BaseViewModel
             OnPropertyChanged(nameof(WaterProgress));
 
             var errorMsg = new LocalizedString(() => result.Message);
-            await _alertService.ShowToastAsync(errorMsg.Localized);
+            HandleError(errorMsg);
         }
     }
 
@@ -268,6 +323,55 @@ public partial class DiaryPageViewModel : BaseViewModel
     {
         return int.TryParse(WaterInputValue, out var amount) && amount is > 50 and < 2000;
     }
+    
+    [RelayCommand]
+    private void IncreaseWeight()
+    {
+        CurrentWeightInput = double.TryParse(CurrentWeightInput, out var weight) ? (weight + 0.1).ToString("F1") : TargetWeight.ToString("F1");
+    }
+
+    [RelayCommand]
+    private void DecreaseWeight()
+    {
+        CurrentWeightInput = double.TryParse(CurrentWeightInput, out var weight) ? Math.Max(0, weight - 0.1).ToString("F1") : TargetWeight.ToString("F1");
+    }
+    
+    private async Task SaveWeight(double weight)
+    {
+        _weightCts?.Cancel();
+        _weightCts = new CancellationTokenSource();
+        var token = _weightCts.Token;
+
+        try
+        {
+            await Task.Delay(800, token);
+            if (token.IsCancellationRequested) return;
+
+            // TODO: IProfileService
+            // var result = await _profileService.UpdateWeightAsync(weight, token);
+
+            // if (!result.Success)
+            // {
+            //     var errorMsg = new LocalizedString(() => result.Message);
+            //     await _alertService.ShowToastAsync(errorMsg.Localized);
+            // }
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception)
+        {
+            if (token.IsCancellationRequested) return;
+            // var errorMsg = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+            // await _alertService.ShowToastAsync(errorMsg.Localized);
+        }
+    }
+    
+    partial void OnCurrentWeightInputChanged(string value)
+    {
+        if (!double.TryParse(value, out var weight)) return;
+        
+        CurrentWeight = weight;
+        _ = SaveWeight(weight);
+    }
 
     [RelayCommand]
     private async Task Refresh()
@@ -293,12 +397,14 @@ public partial class DiaryPageViewModel : BaseViewModel
 
     private void HandleError(LocalizedString errorMsg)
     {
+        SetLoadingState();
+        
         if (_isInitialized)
         {
             _alertService.ShowToastAsync(errorMsg.Localized);
         }
         else
-        {
+        { 
             ResetDashboard();
             Error = errorMsg;
         }

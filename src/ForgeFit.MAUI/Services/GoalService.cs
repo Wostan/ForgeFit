@@ -4,7 +4,7 @@ using ForgeFit.MAUI.Services.Interfaces;
 
 namespace ForgeFit.MAUI.Services;
 
-public class GoalService(ApiService apiService) : IGoalService
+public class GoalService(IApiService apiService) : IGoalService
 {
     public async Task<ServiceResponse<BodyGoalResponse?>> GetBodyGoal(CancellationToken cancellationToken = default)
     {

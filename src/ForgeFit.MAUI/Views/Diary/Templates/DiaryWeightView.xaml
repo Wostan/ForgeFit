@@ -5,6 +5,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             x:DataType="local:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryWeightView">
     <ContentView.Resources>
         <Style x:Key="WeightEntryStyle" TargetType="Entry">
@@ -39,7 +41,7 @@
                                     <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
                                     <Span Text=": " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="65" Style="{StaticResource LabelBodyBold}"
+                                    <Span Text="{Binding TargetWeightDisplay}" Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"
@@ -56,7 +58,8 @@
                                     <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
                                     <Span Text=": " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="5.5" Style="{StaticResource LabelBodyBold}"
+                                    <Span Text="{Binding WeightLeft, StringFormat='{0:F1}'}" 
+                                          Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource WeightColor}" />
                                     <Span Text=" " Style="{StaticResource LabelBodyBold}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBodyBold}"
@@ -66,7 +69,8 @@
                         </Label>
                     </Grid>
 
-                    <ProgressBar Progress="0.8" ProgressColor="{StaticResource WeightColor}"
+                    <ProgressBar Progress="{Binding WeightProgress}" 
+                                 ProgressColor="{StaticResource WeightColor}"
                                  Shadow="{StaticResource WeightGlow}" />
                 </VerticalStackLayout>
 
@@ -82,21 +86,23 @@
                                 Style="{StaticResource TextButton}"
                                 ImageSource="remove.svg"
                                 HorizontalOptions="End"
-                                Shadow="{StaticResource WeightGlow}">
+                                Shadow="{StaticResource WeightGlow}"
+                                Command="{Binding DecreaseWeightCommand}">
                             <Button.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimaryDark}" />
                             </Button.Behaviors>
                         </Button>
 
                         <Entry Grid.Column="1"
-                               Text="59.5"
+                               Text="{Binding CurrentWeightInput}"
                                Style="{StaticResource WeightEntryStyle}" />
 
                         <Button Grid.Column="2"
                                 Style="{StaticResource TextButton}"
                                 ImageSource="add_big.svg"
                                 HorizontalOptions="Start"
-                                Shadow="{StaticResource WeightGlow}">
+                                Shadow="{StaticResource WeightGlow}"
+                                Command="{Binding IncreaseWeightCommand}">
                             <Button.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimaryDark}" />
                             </Button.Behaviors>

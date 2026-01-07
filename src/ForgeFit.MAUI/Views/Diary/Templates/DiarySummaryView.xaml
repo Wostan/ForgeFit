@@ -46,7 +46,7 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TargetCarbs, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding TargetCarbsDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -79,7 +79,7 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TargetProtein, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding TargetProteinDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -112,7 +112,7 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TargetFat, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding TargetFatDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -137,7 +137,7 @@
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="{Binding TargetCalories, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding TargetCaloriesDisplay, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
@@ -166,7 +166,7 @@
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
-                                    <Span Text="{Binding TargetWater}"
+                                    <Span Text="{Binding TargetWaterDisplay}"
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBodyBold}" FontSize="14" />
