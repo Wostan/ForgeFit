@@ -59,7 +59,7 @@
                                 <Label HorizontalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding MealTargetCalories, StringFormat='{0:F0}'}"
+                                            <Span Text="{Binding MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
                                                   Style="{StaticResource LabelBodyBold}" FontSize="12" />
                                             <Span Text=" " Style="{StaticResource LabelBodyBold}" FontSize="12" />
                                             <Span Text="{maui:Translate Nutrient_Kcal}"
@@ -89,7 +89,7 @@
                                              ProgressColor="{StaticResource CarbsColor}"
                                              Shadow="{StaticResource CarbsGlow}" />
 
-                                <Label Text="{Binding MealTargetCarbs, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -115,7 +115,7 @@
                                              ProgressColor="{StaticResource ProteinColor}"
                                              Shadow="{StaticResource ProteinGlow}" />
 
-                                <Label Text="{Binding MealTargetProtein, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -141,7 +141,7 @@
                                              ProgressColor="{StaticResource FatColor}"
                                              Shadow="{StaticResource FatGlow}" />
 
-                                <Label Text="{Binding MealTargetFat, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MealTargetFatDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
