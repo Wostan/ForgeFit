@@ -1,9 +1,12 @@
-﻿namespace ForgeFit.MAUI.Views;
+﻿using ForgeFit.MAUI.ViewModels;
+
+namespace ForgeFit.MAUI.Views;
 
 public partial class ProfilePageView : ContentPage
 {
-    public ProfilePageView()
+    public ProfilePageView(ProfilePageViewModel viewModel)
     {
         InitializeComponent();
+        BindingContext = viewModel;
     }
 }

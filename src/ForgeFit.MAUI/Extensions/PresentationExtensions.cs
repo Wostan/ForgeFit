@@ -14,6 +14,8 @@ public static class PresentationExtensions
         builder.Services.AddTransient<DiaryPageViewModel>();
         builder.Services.AddTransient<MealDetailsPageViewModel>();
         builder.Services.AddTransient<FoodSearchPageViewModel>();
+        
+        builder.Services.AddTransient<ProfilePageViewModel>();
 
         return builder;
     }
