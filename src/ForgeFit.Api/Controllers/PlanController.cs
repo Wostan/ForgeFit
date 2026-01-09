@@ -28,7 +28,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<string>> Confirm([FromBody] PlanDto plan)
+    public async Task<ActionResult<PlanDto>> Confirm([FromBody] PlanDto plan)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await planService.ConfirmPlanAsync(userId, plan);
