@@ -93,7 +93,7 @@
                             </Button.Behaviors>
                         </Button>
 
-                        <Entry Grid.Column="1"
+                        <Label Grid.Column="1"
                                Text="{Binding CurrentWeightInput}"
                                Style="{StaticResource WeightEntryStyle}" />
 

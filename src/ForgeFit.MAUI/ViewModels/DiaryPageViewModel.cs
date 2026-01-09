@@ -42,6 +42,10 @@ public partial class DiaryPageViewModel : BaseViewModel
     [ObservableProperty] private double _currentProtein;
     [ObservableProperty] private double _currentFat;
     [ObservableProperty] private double _currentWater;
+    
+    [NotifyPropertyChangedFor(nameof(WeightProgress))]
+    [NotifyPropertyChangedFor(nameof(WeightLeft))]
+    [NotifyPropertyChangedFor(nameof(CurrentWeightInput))]
     [ObservableProperty] private double _currentWeight;
 
     [ObservableProperty] private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
@@ -67,7 +71,9 @@ public partial class DiaryPageViewModel : BaseViewModel
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WaterProgress))]
     private double _targetWater;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WeightProgress))]
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(WeightProgress))]
+    [NotifyPropertyChangedFor(nameof(WeightLeft))]
     private double _targetWeight;
 
     [ObservableProperty] private string? _targetCaloriesDisplay;
