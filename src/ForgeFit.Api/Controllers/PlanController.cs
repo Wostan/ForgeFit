@@ -11,7 +11,7 @@ namespace ForgeFit.Api.Controllers;
 public class PlanController(IPlanService planService) : ControllerBase
 {
     [Authorize]
-    [HttpPost("generate")]
+    [HttpGet("generate")]
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
