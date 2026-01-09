@@ -58,7 +58,7 @@
                                     <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextSecondary}" />
                                     <Span Text=": " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="{Binding WeightLeft, StringFormat='{0:F1}'}" 
+                                    <Span Text="{Binding WeightLeft, StringFormat='{0:F1}'}"
                                           Style="{StaticResource LabelBodyBold}"
                                           TextColor="{StaticResource WeightColor}" />
                                     <Span Text=" " Style="{StaticResource LabelBodyBold}" />
@@ -69,7 +69,7 @@
                         </Label>
                     </Grid>
 
-                    <ProgressBar Progress="{Binding WeightProgress}" 
+                    <ProgressBar Progress="{Binding WeightProgress}"
                                  ProgressColor="{StaticResource WeightColor}"
                                  Shadow="{StaticResource WeightGlow}" />
                 </VerticalStackLayout>

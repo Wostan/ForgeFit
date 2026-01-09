@@ -19,15 +19,13 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
         if (response.StatusCode != HttpStatusCode.Unauthorized ||
             request.RequestUri!.AbsolutePath.Contains("/auth/sign-in") ||
             request.RequestUri!.AbsolutePath.Contains("/auth/sign-up"))
-        {
             return response;
-        }
 
         await Semaphore.WaitAsync(cancellationToken);
         try
         {
             var currentAccessToken = await SecureStorage.GetAsync(AuthConstants.AccessToken);
-            
+
             if (IsTokenDifferent(request, currentAccessToken))
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", currentAccessToken);
@@ -56,7 +54,7 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
     private static bool IsTokenDifferent(HttpRequestMessage request, string? currentToken)
     {
         if (string.IsNullOrEmpty(currentToken)) return false;
-        
+
         var sentToken = request.Headers.Authorization?.Parameter;
         return sentToken != currentToken;
     }
@@ -72,7 +70,8 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
 
             var requestPayload = new RefreshTokenRequest(refreshToken);
 
-            var response = await refreshClient.PostAsJsonAsync("/api/auth/refresh-token", requestPayload, cancellationToken);
+            var response =
+                await refreshClient.PostAsJsonAsync("/api/auth/refresh-token", requestPayload, cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
@@ -102,10 +101,10 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
         MainThread.BeginInvokeOnMainThread(() =>
         {
             if (!(Application.Current?.Windows.Count > 0)) return;
-            
+
             var services = Application.Current.Handler?.MauiContext?.Services;
             var loginPage = services?.GetService<LoginPageView>();
-                
+
             if (loginPage != null)
                 Application.Current.Windows[0].Page = new NavigationPage(loginPage);
         });

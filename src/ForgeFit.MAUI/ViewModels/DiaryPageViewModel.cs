@@ -381,7 +381,7 @@ public partial class DiaryPageViewModel : BaseViewModel
                 var loadResult = await _userService.GetProfileAsync(token);
                 if (!loadResult.Success)
                     return;
-                    
+
                 _userProfile = loadResult.Data;
             }
 
@@ -394,7 +394,7 @@ public partial class DiaryPageViewModel : BaseViewModel
                 await _alertService.ShowToastAsync(errorMsg.Localized);
                 return;
             }
-            
+
             _userProfile = updatedProfile;
         }
         catch (OperationCanceledException)

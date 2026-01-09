@@ -18,7 +18,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private readonly IDiaryService _diaryService;
     private readonly IFoodService _foodService;
     private readonly IGoalService _goalService;
-    
+
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
 
@@ -58,7 +58,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     [ObservableProperty] private double _mealTargetCarbs;
     [ObservableProperty] private double _mealTargetProtein;
     [ObservableProperty] private double _mealTargetFat;
-    
+
     [ObservableProperty] private string _mealTargetCaloriesDisplay;
     [ObservableProperty] private string _mealTargetCarbsDisplay;
     [ObservableProperty] private string _mealTargetProteinDisplay;
@@ -141,7 +141,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         CarbsProgress = 0;
         ProteinProgress = 0;
         FatProgress = 0;
-        
+
         MealTargetCaloriesDisplay = "-";
         MealTargetCarbsDisplay = "-";
         MealTargetProteinDisplay = "-";
@@ -182,13 +182,13 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         try
         {
             var goalTask = _goalService.GetNutritionGoal(token);
-            var entryTask = _entryId.HasValue 
-                ? _diaryService.GetEntryAsync(_entryId.Value, token) 
+            var entryTask = _entryId.HasValue
+                ? _diaryService.GetEntryAsync(_entryId.Value, token)
                 : Task.FromResult(new ServiceResponse<FoodEntryDto?> { Success = true, Data = null });
-            
+
             await Task.WhenAll(goalTask, entryTask);
             if (token.IsCancellationRequested) return;
-            
+
             if (goalTask.Result is { Success: true, Data: not null })
             {
                 var g = goalTask.Result.Data;
@@ -203,8 +203,8 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             {
                 if (!entryResponse.Success || entryResponse.Data == null)
                 {
-                    ClearEntryState(); 
-                    return; 
+                    ClearEntryState();
+                    return;
                 }
 
                 _currentEntry = entryResponse.Data;
@@ -440,7 +440,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         MealTargetCarbs = _dailyTargetCarbs * ratio;
         MealTargetProtein = _dailyTargetProtein * ratio;
         MealTargetFat = _dailyTargetFat * ratio;
-        
+
         MealTargetCaloriesDisplay = MealTargetCalories.ToString("F0");
         MealTargetCarbsDisplay = MealTargetCarbs.ToString("F0");
         MealTargetProteinDisplay = MealTargetProtein.ToString("F0");

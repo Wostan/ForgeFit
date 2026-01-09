@@ -11,13 +11,17 @@ public class UserService(IApiService apiService) : IUserService
         return await apiService.GetAsync<UserProfileDto?>("api/user/profile", cancellationToken);
     }
 
-    public async Task<ServiceResponse<UserProfileDto?>> UpdateProfileAsync(UserProfileDto userProfileDto, CancellationToken cancellationToken)
+    public async Task<ServiceResponse<UserProfileDto?>> UpdateProfileAsync(UserProfileDto userProfileDto,
+        CancellationToken cancellationToken)
     {
-        return await apiService.PutAsync<UserProfileDto, UserProfileDto?>("api/user/profile", userProfileDto, cancellationToken);
+        return await apiService.PutAsync<UserProfileDto, UserProfileDto?>("api/user/profile", userProfileDto,
+            cancellationToken);
     }
 
-    public async Task<ServiceResponse<string?>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest, CancellationToken cancellationToken)
+    public async Task<ServiceResponse<string?>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest,
+        CancellationToken cancellationToken)
     {
-        return await apiService.PutAsync<ChangePasswordRequest, string?>("api/user/change-password", changePasswordRequest, cancellationToken);
+        return await apiService.PutAsync<ChangePasswordRequest, string?>("api/user/change-password",
+            changePasswordRequest, cancellationToken);
     }
 }
