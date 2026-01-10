@@ -127,4 +127,10 @@
         </MauiXaml>
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Microsoft.WinUI">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.windowsappsdk\1.7.250909003\lib\net6.0-windows10.0.18362.0\Microsoft.WinUI.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
