@@ -5,11 +5,11 @@ namespace ForgeFit.MAUI.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<ServiceResponse<UserProfileDto?>> GetProfileAsync(CancellationToken cancellationToken);
+    Task<ServiceResponse<UserProfileDto?>> GetProfileAsync(CancellationToken cancellationToken = default);
 
     Task<ServiceResponse<UserProfileDto?>> UpdateProfileAsync(UserProfileDto userProfileDto,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken = default);
 
     Task<ServiceResponse<string?>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken = default);
 }

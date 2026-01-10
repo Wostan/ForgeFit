@@ -54,7 +54,17 @@ public class ApiService(HttpClient httpClient) : IApiService
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     return ServiceResponse<T>.Ok(default!);
 
-                var data = await response.Content.ReadFromJsonAsync<T>(_jsonOptions);
+                var contentString = await response.Content.ReadAsStringAsync(cancellationToken);
+                
+                if (typeof(T) == typeof(string))
+                {
+                    return ServiceResponse<T>.Ok((T)(object)contentString);
+                }
+            
+                if (string.IsNullOrWhiteSpace(contentString))
+                    return ServiceResponse<T>.Ok(default!);
+
+                var data = JsonSerializer.Deserialize<T>(contentString, _jsonOptions);
                 return ServiceResponse<T>.Ok(data!);
             }
 
