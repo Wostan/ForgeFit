@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="ForgeFit.MAUI.Views.Controls.ConfirmationPopup"
+             BackgroundColor="#90000000"
+             InputTransparent="False">
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding CloseConfirmationPopupCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Margin="20">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <VerticalStackLayout Spacing="12" Padding="20">
+            <Label Style="{StaticResource LabelBodyBold}"
+                   Text="{Binding ConfirmationTitle}"
+                   TextColor="{StaticResource TextPrimary}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Style="{StaticResource LabelBodyBold}"
+                   Text="{Binding ConfirmationMessage}"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                <Button Grid.Column="0"
+                        Style="{StaticResource SecondaryButton}"
+                        Text="{maui:Translate Action_Cancel}"
+                        Command="{Binding CloseConfirmationPopupCommand}" />
+                <Button Grid.Column="1"
+                        ImageSource="check.svg"
+                        Text="{maui:Translate Action_Confirm}"
+                        Command="{Binding ConfirmActionCommand}" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

@@ -186,4 +186,214 @@
     <data name="Hydration_Custom" xml:space="preserve">
         <value>Введіть кількість води (мл):</value>
     </data>
+    <data name="Height_Cm" xml:space="preserve">
+        <value>см</value>
+    </data>
+    <data name="Profile_MyGoals" xml:space="preserve">
+        <value>Мої цілі</value>
+    </data>
+    <data name="Profile_MyGoals_WorkoutsPerWeek" xml:space="preserve">
+        <value>Тренувань на тиждень</value>
+    </data>
+    <data name="Profile_UpdatePlan" xml:space="preserve">
+        <value>Оновити план</value>
+    </data>
+    <data name="Profile_NutritionGoal" xml:space="preserve">
+        <value>Мета по харчуванню</value>
+    </data>
+    <data name="Action_Edit" xml:space="preserve">
+        <value>Редагувати</value>
+    </data>
+    <data name="Profile_WorkoutGoal" xml:space="preserve">
+        <value>Мета по тренуванням</value>
+    </data>
+    <data name="Action_ChangePassword" xml:space="preserve">
+        <value>Змінити пароль</value>
+    </data>
+    <data name="Action_Logout" xml:space="preserve">
+        <value>Вийти</value>
+    </data>
+    <data name="Profile_Account" xml:space="preserve">
+        <value>Акаунт</value>
+    </data>
+    <data name="Workout_Duration" xml:space="preserve">
+        <value>Тривалість (хв)</value>
+    </data>
+    <data name="Workout_Frequency" xml:space="preserve">
+        <value>Частота (на тиждень)</value>
+    </data>
+    <data name="Workout_Type" xml:space="preserve">
+        <value>Фокус / Тип</value>
+    </data>
+    <data name="Action_Cancel" xml:space="preserve">
+        <value>Скасувати</value>
+    </data>
+    <data name="Confirmation_Logout" xml:space="preserve">
+        <value>Ви дійсно бажаєте вийти?</value>
+    </data>
+    <data name="Password_Old" xml:space="preserve">
+        <value>Старий пароль</value>
+    </data>
+    <data name="Password_New" xml:space="preserve">
+        <value>Новий пароль</value>
+    </data>
+    <data name="Profile_BodyGoal" xml:space="preserve">
+        <value>Ціль тіла</value>
+    </data>
+    <data name="Goal_TargetWeight" xml:space="preserve">
+        <value>Цільова вага (кг)</value>
+    </data>
+    <data name="Goal_SelectType" xml:space="preserve">
+        <value>Оберіть тип цілі</value>
+    </data>
+    <data name="Goal_Type" xml:space="preserve">
+        <value>Стратегія</value>
+    </data>
+    <data name="Gender_Male" xml:space="preserve">
+        <value>Чоловік</value>
+    </data>
+    <data name="Gender_Female" xml:space="preserve">
+        <value>Жінка</value>
+    </data>
+    <data name="Profile_Gender" xml:space="preserve">
+        <value>Стать</value>
+    </data>
+    <data name="Confirm_UpdatePlan_Title" xml:space="preserve">
+        <value>Оновити план?</value>
+    </data>
+    <data name="Confirm_UpdatePlan_Message" xml:space="preserve">
+        <value>Це оновить ваші цілі на основі профілю. Поточні налаштування будуть перезаписані.</value>
+    </data>
+    <data name="Error_InvalidInput" xml:space="preserve">
+        <value>Некоректні введені дані</value>
+    </data>
+    <data name="GoalType_FatLoss" xml:space="preserve">
+        <value>Схуднення</value>
+    </data>
+    <data name="GoalType_WeightGain" xml:space="preserve">
+        <value>Набір ваги</value>
+    </data>
+    <data name="GoalType_MuscleGain" xml:space="preserve">
+        <value>Набір м'язів</value>
+    </data>
+    <data name="Profile_BirthDate" xml:space="preserve">
+        <value>Дата народження</value>
+    </data>
+    <data name="Profile_EditProfile" xml:space="preserve">
+        <value>Редагувати профіль</value>
+    </data>
+    <data name="Profile_Username" xml:space="preserve">
+        <value>Ім'я користувача</value>
+    </data>
+    <data name="Success_GoalUpdated" xml:space="preserve">
+        <value>Ціль тіла оновлено</value>
+    </data>
+    <data name="Success_NutritionUpdated" xml:space="preserve">
+        <value>Ціль харчування оновлено</value>
+    </data>
+    <data name="Success_WorkoutUpdated" xml:space="preserve">
+        <value>Ціль тренувань оновлено</value>
+    </data>
+    <data name="Success_PasswordChanged" xml:space="preserve">
+        <value>Пароль успішно змінено</value>
+    </data>
+    <data name="Success_PlanUpdated" xml:space="preserve">
+        <value>План успішно оновлено</value>
+    </data>
+    <data name="Success_ProfileUpdated" xml:space="preserve">
+        <value>Профіль успішно оновлено. Тепер оновіть план!</value>
+    </data>
+    <data name="WorkoutType_StrengthTraining" xml:space="preserve">
+        <value>Силові тренування</value>
+    </data>
+    <data name="WorkoutType_StrengthCardio" xml:space="preserve">
+        <value>Силові + Кардіо</value>
+    </data>
+    <data name="WorkoutType_Hypertrophy" xml:space="preserve">
+        <value>Гіпертрофія</value>
+    </data>
+    <data name="Confirm_Logout_Title" xml:space="preserve">
+        <value>Вийти з акаунту?</value>
+    </data>
+    <data name="Confirm_Logout_Message" xml:space="preserve">
+        <value>Ви впевнені, що бажаєте вийти?</value>
+    </data>
+    <data name="Goal_Description" xml:space="preserve">
+        <value>Опис</value>
+    </data>
+    <data name="Goal_DescriptionPlaceholder" xml:space="preserve">
+        <value>Додайте деталі...</value>
+    </data>
+    <data name="Goal_DueDate" xml:space="preserve">
+        <value>Дата завершення</value>
+    </data>
+    <data name="Goal_Title" xml:space="preserve">
+        <value>Назва цілі</value>
+    </data>
+    <data name="Goal_TitlePlaceholder" xml:space="preserve">
+        <value>напр. Літня форма</value>
+    </data>
+    <data name="Error_CaloriesRange" xml:space="preserve">
+        <value>Калорії мають бути від 500 до 10000</value>
+    </data>
+    <data name="Error_CurrentPasswordRequired" xml:space="preserve">
+        <value>Поточний пароль обов'язковий</value>
+    </data>
+    <data name="Error_DateMustBeFuture" xml:space="preserve">
+        <value>Дата має бути в майбутньому</value>
+    </data>
+    <data name="Error_DescriptionTooLong" xml:space="preserve">
+        <value>Опис не може перевищувати 200 символів</value>
+    </data>
+    <data name="Error_InvalidAge" xml:space="preserve">
+        <value>Вам має бути від 13 до 100 років</value>
+    </data>
+    <data name="Error_InvalidHeightRange" xml:space="preserve">
+        <value>Зріст має бути в межах 100-250 см (або 40-98 дюймів)</value>
+    </data>
+    <data name="Error_InvalidWeightRange" xml:space="preserve">
+        <value>Вага має бути в межах 30-300 кг (або 66-660 фунтів)</value>
+    </data>
+    <data name="Error_MacrosPositive" xml:space="preserve">
+        <value>Макроси не можуть бути від'ємними</value>
+    </data>
+    <data name="Error_NewPasswordSame" xml:space="preserve">
+        <value>Новий пароль має відрізнятися від поточного</value>
+    </data>
+    <data name="Error_PasswordTooShort" xml:space="preserve">
+        <value>Пароль має містити мінімум 6 символів</value>
+    </data>
+    <data name="Error_TitleRequired" xml:space="preserve">
+        <value>Назва обов'язкова</value>
+    </data>
+    <data name="Error_TitleTooLong" xml:space="preserve">
+        <value>Назва не може перевищувати 20 символів</value>
+    </data>
+    <data name="Error_UsernameTooLong" xml:space="preserve">
+        <value>Ім'я користувача не може перевищувати 20 символів</value>
+    </data>
+    <data name="Error_WaterRange" xml:space="preserve">
+        <value>Ціль по воді має бути мінімум 1000 мл</value>
+    </data>
+    <data name="Error_WorkoutDuration" xml:space="preserve">
+        <value>Тривалість має бути від 5 хв до 5 годин</value>
+    </data>
+    <data name="Error_WorkoutFrequency" xml:space="preserve">
+        <value>Тренувань на тиждень має бути від 1 до 7</value>
+    </data>
+    <data name="Action_Confirm" xml:space="preserve">
+        <value>Підтвердити</value>
+    </data>
+    <data name="Error_DeadlineTooClose" xml:space="preserve">
+        <value>Дедлайн занадто близько (мін. 7 днів)</value>
+    </data>
+    <data name="Error_FatLossUnsafe" xml:space="preserve">
+        <value>Втрачати {0}кг/тиждень небезпечно</value>
+    </data>
+    <data name="Error_MuscleGainUnrealistic" xml:space="preserve">
+        <value>Набирати {0}кг/тиждень м'язів неможливо</value>
+    </data>
+    <data name="Error_TargetWeightRealistic" xml:space="preserve">
+        <value>Цільова вага має бути реалістичною</value>
+    </data>
 </root>

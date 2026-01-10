@@ -78,6 +78,51 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Action_Cancel {
+            get {
+                return ResourceManager.GetString("Action_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        internal static string Action_ChangePassword {
+            get {
+                return ResourceManager.GetString("Action_ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string Action_Confirm {
+            get {
+                return ResourceManager.GetString("Action_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Action_Edit {
+            get {
+                return ResourceManager.GetString("Action_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Out.
+        /// </summary>
+        internal static string Action_Logout {
+            get {
+                return ResourceManager.GetString("Action_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retry.
         /// </summary>
         internal static string Action_Retry {
@@ -92,6 +137,51 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Action_Save {
             get {
                 return ResourceManager.GetString("Action_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to log out?.
+        /// </summary>
+        internal static string Confirm_Logout_Message {
+            get {
+                return ResourceManager.GetString("Confirm_Logout_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Out?.
+        /// </summary>
+        internal static string Confirm_Logout_Title {
+            get {
+                return ResourceManager.GetString("Confirm_Logout_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will regenerate your goals based on your profile. Current custom goals will be overwritten..
+        /// </summary>
+        internal static string Confirm_UpdatePlan_Message {
+            get {
+                return ResourceManager.GetString("Confirm_UpdatePlan_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Plan?.
+        /// </summary>
+        internal static string Confirm_UpdatePlan_Title {
+            get {
+                return ResourceManager.GetString("Confirm_UpdatePlan_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to log out?.
+        /// </summary>
+        internal static string Confirmation_Logout {
+            get {
+                return ResourceManager.GetString("Confirmation_Logout", resourceCulture);
             }
         }
         
@@ -231,11 +321,200 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calories must be between 500 and 10000.
+        /// </summary>
+        internal static string Error_CaloriesRange {
+            get {
+                return ResourceManager.GetString("Error_CaloriesRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password is required.
+        /// </summary>
+        internal static string Error_CurrentPasswordRequired {
+            get {
+                return ResourceManager.GetString("Error_CurrentPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date must be in the future.
+        /// </summary>
+        internal static string Error_DateMustBeFuture {
+            get {
+                return ResourceManager.GetString("Error_DateMustBeFuture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deadline is too close (min 7 days).
+        /// </summary>
+        internal static string Error_DeadlineTooClose {
+            get {
+                return ResourceManager.GetString("Error_DeadlineTooClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description must not exceed 200 characters.
+        /// </summary>
+        internal static string Error_DescriptionTooLong {
+            get {
+                return ResourceManager.GetString("Error_DescriptionTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Losing {0}kg/week is unsafe.
+        /// </summary>
+        internal static string Error_FatLossUnsafe {
+            get {
+                return ResourceManager.GetString("Error_FatLossUnsafe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must be between 13 and 100 years old.
+        /// </summary>
+        internal static string Error_InvalidAge {
+            get {
+                return ResourceManager.GetString("Error_InvalidAge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height must be between 100-250 cm (or 40-98 in).
+        /// </summary>
+        internal static string Error_InvalidHeightRange {
+            get {
+                return ResourceManager.GetString("Error_InvalidHeightRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please check your input.
+        /// </summary>
+        internal static string Error_InvalidInput {
+            get {
+                return ResourceManager.GetString("Error_InvalidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight must be between 30-300 kg (or 66-660 lbs).
+        /// </summary>
+        internal static string Error_InvalidWeightRange {
+            get {
+                return ResourceManager.GetString("Error_InvalidWeightRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Macros cannot be negative.
+        /// </summary>
+        internal static string Error_MacrosPositive {
+            get {
+                return ResourceManager.GetString("Error_MacrosPositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gaining {0}kg/week muscle is unrealistic.
+        /// </summary>
+        internal static string Error_MuscleGainUnrealistic {
+            get {
+                return ResourceManager.GetString("Error_MuscleGainUnrealistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password must be different from current.
+        /// </summary>
+        internal static string Error_NewPasswordSame {
+            get {
+                return ResourceManager.GetString("Error_NewPasswordSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops!.
         /// </summary>
         internal static string Error_Oops {
             get {
                 return ResourceManager.GetString("Error_Oops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must be at least 6 characters long.
+        /// </summary>
+        internal static string Error_PasswordTooShort {
+            get {
+                return ResourceManager.GetString("Error_PasswordTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target weight must be realistic.
+        /// </summary>
+        internal static string Error_TargetWeightRealistic {
+            get {
+                return ResourceManager.GetString("Error_TargetWeightRealistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title is required.
+        /// </summary>
+        internal static string Error_TitleRequired {
+            get {
+                return ResourceManager.GetString("Error_TitleRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title must not exceed 20 characters.
+        /// </summary>
+        internal static string Error_TitleTooLong {
+            get {
+                return ResourceManager.GetString("Error_TitleTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username must not exceed 20 characters.
+        /// </summary>
+        internal static string Error_UsernameTooLong {
+            get {
+                return ResourceManager.GetString("Error_UsernameTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water goal should be at least 1000ml.
+        /// </summary>
+        internal static string Error_WaterRange {
+            get {
+                return ResourceManager.GetString("Error_WaterRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration must be between 5 min and 5 hours.
+        /// </summary>
+        internal static string Error_WorkoutDuration {
+            get {
+                return ResourceManager.GetString("Error_WorkoutDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workouts per week must be between 1 and 7.
+        /// </summary>
+        internal static string Error_WorkoutFrequency {
+            get {
+                return ResourceManager.GetString("Error_WorkoutFrequency", resourceCulture);
             }
         }
         
@@ -254,6 +533,132 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string ForgotPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Female.
+        /// </summary>
+        internal static string Gender_Female {
+            get {
+                return ResourceManager.GetString("Gender_Female", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Male.
+        /// </summary>
+        internal static string Gender_Male {
+            get {
+                return ResourceManager.GetString("Gender_Male", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string Goal_Description {
+            get {
+                return ResourceManager.GetString("Goal_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add details....
+        /// </summary>
+        internal static string Goal_DescriptionPlaceholder {
+            get {
+                return ResourceManager.GetString("Goal_DescriptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Date.
+        /// </summary>
+        internal static string Goal_DueDate {
+            get {
+                return ResourceManager.GetString("Goal_DueDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Goal Type.
+        /// </summary>
+        internal static string Goal_SelectType {
+            get {
+                return ResourceManager.GetString("Goal_SelectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Weight (kg).
+        /// </summary>
+        internal static string Goal_TargetWeight {
+            get {
+                return ResourceManager.GetString("Goal_TargetWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goal Title.
+        /// </summary>
+        internal static string Goal_Title {
+            get {
+                return ResourceManager.GetString("Goal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e.g., Summer Body.
+        /// </summary>
+        internal static string Goal_TitlePlaceholder {
+            get {
+                return ResourceManager.GetString("Goal_TitlePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goal Strategy.
+        /// </summary>
+        internal static string Goal_Type {
+            get {
+                return ResourceManager.GetString("Goal_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fat Loss.
+        /// </summary>
+        internal static string GoalType_FatLoss {
+            get {
+                return ResourceManager.GetString("GoalType_FatLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Muscle Gain.
+        /// </summary>
+        internal static string GoalType_MuscleGain {
+            get {
+                return ResourceManager.GetString("GoalType_MuscleGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight Gain.
+        /// </summary>
+        internal static string GoalType_WeightGain {
+            get {
+                return ResourceManager.GetString("GoalType_WeightGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cm.
+        /// </summary>
+        internal static string Height_Cm {
+            get {
+                return ResourceManager.GetString("Height_Cm", resourceCulture);
             }
         }
         
@@ -402,11 +807,128 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        internal static string Password_New {
+            get {
+                return ResourceManager.GetString("Password_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old Password.
+        /// </summary>
+        internal static string Password_Old {
+            get {
+                return ResourceManager.GetString("Password_Old", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string PasswordPlaceholder {
             get {
                 return ResourceManager.GetString("PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        internal static string Profile_Account {
+            get {
+                return ResourceManager.GetString("Profile_Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of Birth.
+        /// </summary>
+        internal static string Profile_BirthDate {
+            get {
+                return ResourceManager.GetString("Profile_BirthDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Body Goal.
+        /// </summary>
+        internal static string Profile_BodyGoal {
+            get {
+                return ResourceManager.GetString("Profile_BodyGoal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Profile.
+        /// </summary>
+        internal static string Profile_EditProfile {
+            get {
+                return ResourceManager.GetString("Profile_EditProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender.
+        /// </summary>
+        internal static string Profile_Gender {
+            get {
+                return ResourceManager.GetString("Profile_Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Goals.
+        /// </summary>
+        internal static string Profile_MyGoals {
+            get {
+                return ResourceManager.GetString("Profile_MyGoals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workouts per week.
+        /// </summary>
+        internal static string Profile_MyGoals_WorkoutsPerWeek {
+            get {
+                return ResourceManager.GetString("Profile_MyGoals_WorkoutsPerWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nutrition Goal.
+        /// </summary>
+        internal static string Profile_NutritionGoal {
+            get {
+                return ResourceManager.GetString("Profile_NutritionGoal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update plan.
+        /// </summary>
+        internal static string Profile_UpdatePlan {
+            get {
+                return ResourceManager.GetString("Profile_UpdatePlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        internal static string Profile_Username {
+            get {
+                return ResourceManager.GetString("Profile_Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workout Goal.
+        /// </summary>
+        internal static string Profile_WorkoutGoal {
+            get {
+                return ResourceManager.GetString("Profile_WorkoutGoal", resourceCulture);
             }
         }
         
@@ -510,6 +1032,60 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Body goal updated.
+        /// </summary>
+        internal static string Success_GoalUpdated {
+            get {
+                return ResourceManager.GetString("Success_GoalUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nutrition goal updated.
+        /// </summary>
+        internal static string Success_NutritionUpdated {
+            get {
+                return ResourceManager.GetString("Success_NutritionUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password changed successfully.
+        /// </summary>
+        internal static string Success_PasswordChanged {
+            get {
+                return ResourceManager.GetString("Success_PasswordChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plan regenerated successfully.
+        /// </summary>
+        internal static string Success_PlanUpdated {
+            get {
+                return ResourceManager.GetString("Success_PlanUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile updated successfully. Update your plan!.
+        /// </summary>
+        internal static string Success_ProfileUpdated {
+            get {
+                return ResourceManager.GetString("Success_ProfileUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workout goal updated.
+        /// </summary>
+        internal static string Success_WorkoutUpdated {
+            get {
+                return ResourceManager.GetString("Success_WorkoutUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Success!.
         /// </summary>
         internal static string SuccessTitle {
@@ -564,11 +1140,65 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration (min).
+        /// </summary>
+        internal static string Workout_Duration {
+            get {
+                return ResourceManager.GetString("Workout_Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frequency (per week).
+        /// </summary>
+        internal static string Workout_Frequency {
+            get {
+                return ResourceManager.GetString("Workout_Frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus / Type.
+        /// </summary>
+        internal static string Workout_Type {
+            get {
+                return ResourceManager.GetString("Workout_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Workout.
         /// </summary>
         internal static string WorkoutPageTitle {
             get {
                 return ResourceManager.GetString("WorkoutPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hypertrophy.
+        /// </summary>
+        internal static string WorkoutType_Hypertrophy {
+            get {
+                return ResourceManager.GetString("WorkoutType_Hypertrophy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strength + Cardio.
+        /// </summary>
+        internal static string WorkoutType_StrengthCardio {
+            get {
+                return ResourceManager.GetString("WorkoutType_StrengthCardio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strength Training.
+        /// </summary>
+        internal static string WorkoutType_StrengthTraining {
+            get {
+                return ResourceManager.GetString("WorkoutType_StrengthTraining", resourceCulture);
             }
         }
     }

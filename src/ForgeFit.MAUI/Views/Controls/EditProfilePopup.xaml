@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="ForgeFit.MAUI.Views.Controls.EditProfilePopup"
+             BackgroundColor="#90000000">
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding CloseEditProfileCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}" 
+            VerticalOptions="Center" 
+            HorizontalOptions="Fill" 
+            Padding="0" 
+            Margin="20">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <VerticalStackLayout Spacing="12" Padding="20">
+            <Label Style="{StaticResource LabelBodyBold}" 
+                   TextColor="{StaticResource TextPrimary}"
+                   HorizontalOptions="Center"
+                   Text="{maui:Translate Profile_EditProfile}" />
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource LabelBodyBold}"
+                       Text="{maui:Translate Profile_Username}" 
+                       FontSize="12" 
+                       TextColor="{StaticResource TextSecondary}" />
+                <Border Style="{StaticResource InputWrapper}">
+                    <Entry Text="{Binding EditUsername}" 
+                           Placeholder="{Binding Username}"
+                           MaxLength="20"
+                           HorizontalTextAlignment="Center" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource LabelBodyBold}"
+                           Text="{maui:Translate Profile_BirthDate}" 
+                           FontSize="12" 
+                           TextColor="{StaticResource TextSecondary}" 
+                           HorizontalOptions="Center"/>
+                    <Border Style="{StaticResource InputWrapper}">
+                        <DatePicker Date="{Binding EditBirthDate}" 
+                                    Format="dd.MM.yyyy"
+                                    HorizontalOptions="Center"/>
+                    </Border>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource LabelBodyBold}"
+                           Text="{maui:Translate Profile_Gender}" 
+                           FontSize="12" 
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"/>
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Picker ItemsSource="{Binding Genders}" 
+                                SelectedItem="{Binding EditGender}"
+                                TitleColor="{StaticResource TextSecondary}"
+                                HorizontalTextAlignment="Center"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource LabelBodyBold}"
+                           Text="{maui:Translate Height_Cm}" 
+                           FontSize="12" 
+                           TextColor="{StaticResource TextSecondary}" 
+                           HorizontalOptions="Center"/>
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Entry Text="{Binding EditHeight}" 
+                               Placeholder="{Binding Height}"
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center">
+                             <Entry.Behaviors>
+                                 <behaviors:PositiveOnlyBehavior />
+                             </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource LabelBodyBold}"
+                           Text="{maui:Translate Weight_Kg}" 
+                           FontSize="12" 
+                           TextColor="{StaticResource TextSecondary}" 
+                           HorizontalOptions="Center"/>
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Entry Text="{Binding EditCurrentWeight}" 
+                               Placeholder="{Binding Weight}"
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center">
+                             <Entry.Behaviors>
+                                 <behaviors:PositiveOnlyBehavior />
+                             </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                <Button Grid.Column="0" 
+                        Style="{StaticResource SecondaryButton}" 
+                        Text="{maui:Translate Action_Cancel}" 
+                        Command="{Binding CloseEditProfileCommand}" />
+                <Button Grid.Column="1" 
+                        ImageSource="check.svg" 
+                        Text="{maui:Translate Action_Save}" 
+                        Command="{Binding SaveProfileCommand}" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>
