@@ -30,7 +30,7 @@
                         ImageSource="arrow_back.svg"
                         HorizontalOptions="Start"
                         VerticalOptions="Start"
-                        Shadow="{StaticResource TextGlow}"
+                        Shadow="{StaticResource TextShadow}"
                         Command="{Binding CloseFoodDetailsCommand}">
                     <Button.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />

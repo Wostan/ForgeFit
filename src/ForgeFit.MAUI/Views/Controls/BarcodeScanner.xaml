@@ -80,7 +80,7 @@
                     Margin="8"
                     HorizontalOptions="End"
                     VerticalOptions="End"
-                    Shadow="{StaticResource TextGlow}"
+                    Shadow="{StaticResource TextShadow}"
                     Command="{Binding ToggleTorchCommand}"
                     AutomationProperties.Name="Turn flashlight on">
 

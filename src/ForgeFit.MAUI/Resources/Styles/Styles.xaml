@@ -13,16 +13,16 @@
             Brush="{StaticResource Primary}"
             Offset="0,8" />
 
-    <Shadow x:Key="TextGlow"
-            Radius="12"
-            Opacity="0.3"
-            Brush="{StaticResource TextPrimary}"
+    <Shadow x:Key="TextShadow"
+            Radius="8"
+            Opacity="0.5"
+            Brush="Black"
             Offset="0,0" />
 
-    <Shadow x:Key="SoftGlow"
-            Radius="12"
-            Opacity="0.5"
-            Brush="{StaticResource BorderColor}"
+    <Shadow x:Key="ControlShadow"
+            Radius="8"
+            Opacity="0.35"
+            Brush="Black"
             Offset="0,4" />
 
     <Shadow x:Key="CaloriesGlow"
@@ -119,7 +119,7 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="Padding" Value="12,0" />
         <Setter Property="HeightRequest" Value="50" />
-        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -139,7 +139,7 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
-        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
     </Style>
 
     <Style TargetType="BoxView">
@@ -167,7 +167,7 @@
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{StaticResource TextDisabled}" />
                             <Setter Property="BackgroundColor" Value="{StaticResource SurfaceLight}" />
-                            <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+                            <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
                             <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
                         </VisualState.Setters>
                     </VisualState>
@@ -181,7 +181,7 @@
         <Setter Property="BorderWidth" Value="2" />
         <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
         <Setter Property="TextColor" Value="{StaticResource Primary}" />
-        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
     </Style>
 
     <Style TargetType="Button" x:Key="TextButton">
@@ -189,7 +189,7 @@
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
     </Style>
 
     <Style TargetType="CheckBox">
@@ -201,7 +201,7 @@
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">
                         <VisualState.Setters>
-                            <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+                            <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Checked">
@@ -276,7 +276,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Shadow" Value="{StaticResource TextGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource TextShadow}" />
     </Style>
 
     <Style TargetType="Label" x:Key="Headline">
@@ -386,7 +386,7 @@
         <Setter Property="OnColor" Value="{StaticResource PrimaryDark}" />
         <Setter Property="OffColor" Value="{StaticResource Surface}" />
         <Setter Property="ThumbColor" Value="{StaticResource SurfaceLight}" />
-        <Setter Property="Shadow" Value="{StaticResource SoftGlow}" />
+        <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
         <Setter Property="behaviors:SwitchAnimationBehavior.IsAnimated" Value="True" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>

@@ -147,7 +147,7 @@
                                            LineBreakMode="TailTruncation"
                                            HorizontalOptions="Start"
                                            Margin="0,-5,0,0"
-                                           Shadow="{StaticResource TextGlow}" />
+                                           Shadow="{StaticResource TextShadow}" />
 
                                     <FlexLayout Wrap="NoWrap"
                                                 AlignItems="Center"
