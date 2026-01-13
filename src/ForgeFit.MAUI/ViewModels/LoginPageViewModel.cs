@@ -1,19 +1,26 @@
 ﻿// ReSharper disable once RedundantUsingDirective
 
 using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Handlers;
 using ForgeFit.MAUI.Models.DTOs.Auth;
 using ForgeFit.MAUI.Services.Interfaces;
-using ForgeFit.MAUI.Views.Diary;
+using ForgeFit.MAUI.Views.Auth;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels;
 
 public partial class LoginPageViewModel : BaseViewModel
 {
+    private readonly IAuthService _authService;
+    private readonly IAlertService _alertService;
+    private readonly ILocalizationResourceManager _localizationManager;
+    private readonly IServiceProvider _serviceProvider;
+    
     [ObservableProperty] private string? _email;
     [ObservableProperty] private string? _password;
 
@@ -22,16 +29,17 @@ public partial class LoginPageViewModel : BaseViewModel
 
     [ObservableProperty] private LanguageItem? _selectedLanguage;
 
-    private readonly IAuthService _authService;
-    private readonly IAlertService _alertService;
-    private readonly ILocalizationResourceManager _localizationManager;
-
-    public LoginPageViewModel(IAuthService authService, IAlertService alertService,
-        ILocalizationResourceManager localizationManager)
+    public LoginPageViewModel(
+        IAuthService authService, 
+        IAlertService alertService,
+        ILocalizationResourceManager localizationManager, 
+        IServiceProvider serviceProvider)
     {
         _authService = authService;
         _alertService = alertService;
         _localizationManager = localizationManager;
+        _serviceProvider = serviceProvider;
+
 
         var currentCode = _localizationManager.CurrentCulture.TwoLetterISOLanguageName;
         SelectedLanguage = Languages.FirstOrDefault(l => l.Code == currentCode)
@@ -101,6 +109,8 @@ public partial class LoginPageViewModel : BaseViewModel
                 Error = new LocalizedString(() => result.Message);
                 return;
             }
+            
+            RefreshTokenHandler.ResetState();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -108,8 +118,9 @@ public partial class LoginPageViewModel : BaseViewModel
                     Application.Current.Windows[0].Page = new AppShell();
             });
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Debug.WriteLine("Exception in SignInAsync: " + ex.Message);
             var error = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]).Localized;
             await _alertService.ShowToastAsync(error);
         }
@@ -124,6 +135,23 @@ public partial class LoginPageViewModel : BaseViewModel
         if (value is null) return;
         _localizationManager.CurrentCulture = new CultureInfo(value.Code);
     }
+    
+    [RelayCommand]
+    private async Task GoToRegistration()
+    {
+        try
+        {
+            var registrationPage = _serviceProvider.GetRequiredService<RegistrationPageView>();
+            Application.Current!.Windows[0].Page = registrationPage;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Exception in GoToRegistration: " + ex.Message);
+            var errorMsg = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+            await _alertService.ShowToastAsync(errorMsg.Localized);
+        }
+    }
+    
 
     [GeneratedRegex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")]
     private static partial Regex EmailRegex();

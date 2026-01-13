@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:enums="using:ForgeFit.MAUI.Models.Enums.ProfileEnums"
+             xmlns:templates="using:ForgeFit.MAUI.Views.Auth.Templates"
+             x:Class="ForgeFit.MAUI.Views.Auth.RegistrationPageView"
+             x:DataType="local:RegistrationPageViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="Step1Template">
+                <templates:Step1CredentialsView />
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step2Template">
+                <VerticalStackLayout Spacing="20" VerticalOptions="Center" Padding="20"
+                                     x:DataType="local:RegistrationPageViewModel">
+                    <Label Text="{maui:Translate Reg_Title_Personal}" 
+                           Style="{StaticResource LabelH1}" HorizontalOptions="Center" />
+                    
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Entry Placeholder="{maui:Translate Profile_Username}" 
+                               Text="{Binding Username}" />
+                    </Border>
+                    
+                    <Label Text="{maui:Translate Profile_Gender}" TextColor="{StaticResource TextSecondary}" 
+                           FontSize="12"
+                           Margin="5,0"/>
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Grid ColumnDefinitions="*,*" 
+                              RadioButtonGroup.SelectedValue="{Binding Gender}">
+                            <RadioButton Grid.Column="0" 
+                                         Content="{maui:Translate Gender_Male}"
+                                         Value="{x:Static enums:Gender.Male}"
+                                         TextColor="{StaticResource TextPrimary}" />
+        
+                            <RadioButton Grid.Column="1" 
+                                         Content="{maui:Translate Gender_Female}"
+                                         Value="{x:Static enums:Gender.Female}"
+                                         TextColor="{StaticResource TextPrimary}" />
+                        </Grid>
+                    </Border>
+
+                    <Label Text="{maui:Translate Profile_BirthDate}" TextColor="{StaticResource TextSecondary}" 
+                           FontSize="12" 
+                           Margin="5,0"/>
+                    <Border Style="{StaticResource InputWrapper}">
+                        <DatePicker Date="{Binding BirthDate}" 
+                                    Format="dd.MM.yyyy"
+                                    MaximumDate="{Binding MaxDate}"
+                                    MinimumDate="{Binding MinDate}"
+                                    TextColor="{StaticResource TextPrimary}" />
+                    </Border>
+                </VerticalStackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step3Template">
+                <VerticalStackLayout Spacing="20" VerticalOptions="Center" Padding="20"
+                                     x:DataType="local:RegistrationPageViewModel">
+                    <Label Text="{maui:Translate Reg_Title_Measurements}" 
+                           Style="{StaticResource LabelH1}" HorizontalOptions="Center" />
+                    
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="{maui:Translate Height_Cm}" 
+                                   TextColor="{StaticResource TextSecondary}" 
+                                   Margin="5,0"/>
+                            <Border Style="{StaticResource InputWrapper}">
+                                <Entry Text="{Binding Height}"
+                                       Keyboard="Numeric"
+                                       HorizontalTextAlignment="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="{maui:Translate Weight_Kg}"
+                                   TextColor="{StaticResource TextSecondary}" 
+                                   Margin="5,0"/>
+                            <Border Style="{StaticResource InputWrapper}">
+                                <Entry Text="{Binding Weight}" 
+                                       Keyboard="Numeric" 
+                                       HorizontalTextAlignment="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step4Template">
+                <VerticalStackLayout Spacing="20" VerticalOptions="Center" Padding="20"
+                                     x:DataType="local:RegistrationPageViewModel">
+                    <Label Text="{maui:Translate Reg_Title_Goal}" 
+                           Style="{StaticResource LabelH1}" HorizontalOptions="Center" />
+                    
+                    <Label Text="{maui:Translate Reg_GoalDisclaimer}" 
+                           TextColor="{StaticResource TextSecondary}" 
+                           HorizontalTextAlignment="Center" />
+
+                    <Border Style="{StaticResource InputWrapper}" Margin="40,20">
+                        <Entry Text="{Binding TargetWeight}" 
+                               Placeholder="{maui:Translate Goal_TargetWeight}"
+                               Keyboard="Numeric" 
+                               HorizontalTextAlignment="Center"
+                               FontSize="24"
+                               FontAttributes="Bold"/>
+                    </Border>
+                </VerticalStackLayout>
+            </DataTemplate>
+
+            <helpers:RegistrationStepTemplateSelector x:Key="StepSelector"
+                                                        Step1Credentials="{StaticResource Step1Template}"
+                                                        Step2Personal="{StaticResource Step2Template}"
+                                                        Step3Measurements="{StaticResource Step3Template}"
+                                                        Step4Goal="{StaticResource Step4Template}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid Padding="0">
+
+        <CarouselView ItemsSource="{Binding Steps}"
+                      ItemTemplate="{StaticResource StepSelector}"
+                      Position="{Binding CurrentPosition}"
+                      VerticalOptions="Fill"
+                      HorizontalScrollBarVisibility="Never"
+                      IsSwipeEnabled="False"
+                      Loop="False"
+                      PeekAreaInsets="0">
+        </CarouselView>
+
+        <Grid RowDefinitions="Auto, Auto" 
+              ColumnDefinitions="Auto, *" 
+              ColumnSpacing="15"
+              VerticalOptions="End"
+              RowSpacing="20"
+              Padding="20,0">
+            <Button Grid.Column="0"
+                    Style="{StaticResource SecondaryButton}"
+                    Text="{maui:Translate Action_Back}"
+                    WidthRequest="60"
+                    Command="{Binding PreviousStepCommand}"
+                    IsVisible="{Binding CurrentPosition, Converter={toolkit:IntToBoolConverter}}" /> 
+
+            <Button Grid.Column="1"
+                    Text="{Binding ButtonText}"
+                    Command="{Binding NextStepCommand}"
+                    IsVisible="{Binding CurrentPosition, Converter={toolkit:IntToBoolConverter}}" />
+            
+            <ProgressBar Grid.ColumnSpan="2"
+                         Grid.Row="1"
+                         VerticalOptions="End"
+                         Progress="{Binding Progress}"
+                         IsVisible="{Binding CurrentPosition, Converter={toolkit:IntToBoolConverter}}" />
+        </Grid>
+    </Grid>
+</ContentPage>

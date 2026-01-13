@@ -9,6 +9,7 @@ public static class PresentationExtensions
 {
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
     {
+        builder.Services.AddTransient<RegistrationPageViewModel>();
         builder.Services.AddTransient<LoginPageViewModel>();
 
         builder.Services.AddTransient<DiaryPageViewModel>();
@@ -22,7 +23,7 @@ public static class PresentationExtensions
 
     public static MauiAppBuilder RegisterViews(this MauiAppBuilder builder)
     {
-        builder.Services.AddTransient<RegisterPageView>();
+        builder.Services.AddTransient<RegistrationPageView>();
         builder.Services.AddTransient<LoginPageView>();
 
         builder.Services.AddTransient<DiaryPageView>();

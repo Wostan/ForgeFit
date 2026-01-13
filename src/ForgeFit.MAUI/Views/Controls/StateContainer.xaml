@@ -4,8 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             x:Class="ForgeFit.MAUI.Views.Controls.StateContainer"
-             x:Name="ThisControl">
+             x:Class="ForgeFit.MAUI.Views.Controls.StateContainer">
     <ContentView.ControlTemplate>
         <ControlTemplate>
             <Grid>

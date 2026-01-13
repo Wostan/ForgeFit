@@ -21,7 +21,7 @@
     <data name="ConnectionTimedOutMessage" xml:space="preserve">
         <value>Server connection timed out. Please try again.</value>
     </data>
-    <data name="EmailPlaceholder" xml:space="preserve">
+    <data name="Placeholder_Email" xml:space="preserve">
         <value>Email</value>
     </data>
     <data name="EmptyFieldsMessage" xml:space="preserve">
@@ -45,7 +45,7 @@
     <data name="NoInternetConnectionMessage" xml:space="preserve">
         <value>Check your internet connection!</value>
     </data>
-    <data name="PasswordPlaceholder" xml:space="preserve">
+    <data name="Placeholder_Password" xml:space="preserve">
         <value>Password</value>
     </data>
     <data name="ServerErrorPrefix" xml:space="preserve">
@@ -395,5 +395,44 @@
     </data>
     <data name="Error_TargetWeightRealistic" xml:space="preserve">
         <value>Target weight must be realistic</value>
+    </data>
+    <data name="Action_Finish" xml:space="preserve">
+        <value>Finish</value>
+    </data>
+    <data name="Action_Back" xml:space="preserve">
+        <value>Back</value>
+    </data>
+    <data name="Action_Next" xml:space="preserve">
+        <value>Next</value>
+    </data>
+    <data name="Placeholder_ConfirmPassword" xml:space="preserve">
+        <value>Confirm password</value>
+    </data>
+    <data name="Reg_Title_Credentials" xml:space="preserve">
+        <value>Credentials</value>
+    </data>
+    <data name="Reg_Title_Goal" xml:space="preserve">
+        <value>Goal to achieve</value>
+    </data>
+    <data name="Reg_Title_Measurements" xml:space="preserve">
+        <value>Your measurements</value>
+    </data>
+    <data name="Reg_Title_Personal" xml:space="preserve">
+        <value>Who are you?</value>
+    </data>
+    <data name="Reg_GoalDisclaimer" xml:space="preserve">
+        <value>The goal must be achievable. You won't be able to gain 5 kg of muscle mass in a week 😉</value>
+    </data>
+    <data name="Reg_WelcomeTitle" xml:space="preserve">
+        <value>Going for a dream!</value>
+    </data>
+    <data name="Reg_AlreadyHaveAccount" xml:space="preserve">
+        <value>Already have an account?</value>
+    </data>
+    <data name="Reg_EmailTaken" xml:space="preserve">
+        <value>Email is already taken</value>
+    </data>
+    <data name="Reg_ConfirmPasswordError" xml:space="preserve">
+        <value>Passwords must match.</value>
     </data>
 </root>

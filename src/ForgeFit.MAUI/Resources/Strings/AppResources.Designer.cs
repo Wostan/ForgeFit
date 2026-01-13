@@ -78,6 +78,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string Action_Back {
+            get {
+                return ResourceManager.GetString("Action_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Action_Cancel {
@@ -114,11 +123,29 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finish.
+        /// </summary>
+        internal static string Action_Finish {
+            get {
+                return ResourceManager.GetString("Action_Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Out.
         /// </summary>
         internal static string Action_Logout {
             get {
                 return ResourceManager.GetString("Action_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string Action_Next {
+            get {
+                return ResourceManager.GetString("Action_Next", resourceCulture);
             }
         }
         
@@ -299,15 +326,6 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string EmailErrorMessage {
             get {
                 return ResourceManager.GetString("EmailErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Email.
-        /// </summary>
-        internal static string EmailPlaceholder {
-            get {
-                return ResourceManager.GetString("EmailPlaceholder", resourceCulture);
             }
         }
         
@@ -825,11 +843,29 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        internal static string Placeholder_ConfirmPassword {
+            get {
+                return ResourceManager.GetString("Placeholder_ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string Placeholder_Email {
+            get {
+                return ResourceManager.GetString("Placeholder_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        internal static string PasswordPlaceholder {
+        internal static string Placeholder_Password {
             get {
-                return ResourceManager.GetString("PasswordPlaceholder", resourceCulture);
+                return ResourceManager.GetString("Placeholder_Password", resourceCulture);
             }
         }
         
@@ -938,6 +974,87 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string ProfilePageTitle {
             get {
                 return ResourceManager.GetString("ProfilePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Already have an account?.
+        /// </summary>
+        internal static string Reg_AlreadyHaveAccount {
+            get {
+                return ResourceManager.GetString("Reg_AlreadyHaveAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must match..
+        /// </summary>
+        internal static string Reg_ConfirmPasswordError {
+            get {
+                return ResourceManager.GetString("Reg_ConfirmPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is already taken.
+        /// </summary>
+        internal static string Reg_EmailTaken {
+            get {
+                return ResourceManager.GetString("Reg_EmailTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The goal must be achievable. You won&apos;t be able to gain 5 kg of muscle mass in a week 😉.
+        /// </summary>
+        internal static string Reg_GoalDisclaimer {
+            get {
+                return ResourceManager.GetString("Reg_GoalDisclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credentials.
+        /// </summary>
+        internal static string Reg_Title_Credentials {
+            get {
+                return ResourceManager.GetString("Reg_Title_Credentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goal to achieve.
+        /// </summary>
+        internal static string Reg_Title_Goal {
+            get {
+                return ResourceManager.GetString("Reg_Title_Goal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your measurements.
+        /// </summary>
+        internal static string Reg_Title_Measurements {
+            get {
+                return ResourceManager.GetString("Reg_Title_Measurements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Who are you?.
+        /// </summary>
+        internal static string Reg_Title_Personal {
+            get {
+                return ResourceManager.GetString("Reg_Title_Personal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Going for a dream!.
+        /// </summary>
+        internal static string Reg_WelcomeTitle {
+            get {
+                return ResourceManager.GetString("Reg_WelcomeTitle", resourceCulture);
             }
         }
         

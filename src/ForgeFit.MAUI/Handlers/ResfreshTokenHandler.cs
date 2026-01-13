@@ -10,10 +10,14 @@ namespace ForgeFit.MAUI.Handlers;
 public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : DelegatingHandler
 {
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
+    
+    private static bool _isRefreshFailed;
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
+        if (_isRefreshFailed) return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+        
         var response = await base.SendAsync(request, cancellationToken);
 
         if (response.StatusCode != HttpStatusCode.Unauthorized ||
@@ -24,6 +28,8 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
         await Semaphore.WaitAsync(cancellationToken);
         try
         {
+            if (_isRefreshFailed) return response;
+            
             var currentAccessToken = await SecureStorage.GetAsync(AuthConstants.AccessToken);
 
             if (IsTokenDifferent(request, currentAccessToken))
@@ -37,17 +43,22 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
 
             if (!string.IsNullOrEmpty(newAccessToken))
             {
+                _isRefreshFailed = false;
+                
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", newAccessToken);
                 response.Dispose();
                 return await base.SendAsync(request, cancellationToken);
             }
+            
+            _isRefreshFailed = true;
         }
         finally
         {
             Semaphore.Release();
         }
-
-        SignOut();
+        
+        if (_isRefreshFailed) SignOut();
+        
         return response;
     }
 
@@ -108,5 +119,10 @@ public class RefreshTokenHandler(IHttpClientFactory httpClientFactory) : Delegat
             if (loginPage != null)
                 Application.Current.Windows[0].Page = new NavigationPage(loginPage);
         });
+    }
+    
+    public static void ResetState()
+    {
+        _isRefreshFailed = false;
     }
 }
