@@ -420,7 +420,7 @@
         <value>Credentials</value>
     </data>
     <data name="Reg_Title_Personal" xml:space="preserve">
-        <value>Who are you?</value>
+        <value>Hi there!</value>
     </data>
     <data name="Reg_Title_Measurements" xml:space="preserve">
         <value>Your measurements</value>
@@ -442,5 +442,11 @@
     </data>
     <data name="Reg_ConfirmPasswordError" xml:space="preserve">
         <value>Passwords must match.</value>
+    </data>
+    <data name="Reg_Subtitle_Personal" xml:space="preserve">
+        <value>Let's get to know each other! What should we call you?</value>
+    </data>
+    <data name="Reg_UsernamePlaceholder" xml:space="preserve">
+        <value>Your name</value>
     </data>
 </root>

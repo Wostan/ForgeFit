@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:views="using:ForgeFit.MAUI.Views.Auth"
+             xmlns:enums="using:ForgeFit.MAUI.Models.Enums.ProfileEnums"
+             x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step2PersonalView">
+
+    <Grid RowDefinitions="Auto, *, Auto" 
+          Padding="30,50,30,150"
+          x:Name="RootGrid"
+          x:DataType="local:RegistrationPageViewModel"
+          BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
+
+        <VerticalStackLayout Grid.Row="0" 
+                             Spacing="20" 
+                             Margin="0, 80, 0, 0">
+            <Label Text="{maui:Translate Reg_Title_Personal}" 
+                   Style="{StaticResource LabelH1}" 
+                   FontSize="32"
+                   HorizontalTextAlignment="Center" />
+            
+            <Label Text="{maui:Translate Reg_Subtitle_Personal}"
+                   Style="{StaticResource LabelBodyBold}"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalTextAlignment="Center"
+                   FontSize="20" />
+        </VerticalStackLayout>
+        
+        <Entry Grid.Row="1" 
+               Text="{Binding Username}"
+               Placeholder="{maui:Translate Reg_UsernamePlaceholder}"
+               behaviors:EntryAnimationBehavior.IsError="{Binding IsUsernameError}"
+               FontSize="36"
+               MaxLength="20"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center"
+               ReturnType="Next">
+            <Entry.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                    EventName="TextChanged"
+                    Command="{Binding BindingContext.EntryChangedCommand, Source={x:Reference RootGrid}}"
+                    CommandParameter="{x:Null}" />
+            </Entry.Behaviors>
+        </Entry>
+
+        <VerticalStackLayout Grid.Row="2"
+                             Spacing="25"
+                             VerticalOptions="Start">
+            <VerticalStackLayout>
+                <Label Text="{maui:Translate Profile_Gender}" 
+                       Style="{StaticResource LabelBodyBold}" 
+                       TextColor="{StaticResource TextSecondary}" 
+                       Margin="5,0"/>
+                
+                <Border Style="{StaticResource InputWrapper}" Padding="0">
+                    <Grid ColumnDefinitions="*, *" 
+                          RadioButtonGroup.SelectedValue="{Binding Gender}">
+                        
+                        <RadioButton Grid.Column="0" 
+                                     Content="{maui:Translate Gender_Male}"
+                                     FontSize="16"
+                                     FontAttributes="Bold"
+                                     Value="{x:Static enums:Gender.Male}"
+                                     Margin="15,0,0,0"/> 
+                        
+                        <RadioButton Grid.Column="1" 
+                                     Content="{maui:Translate Gender_Female}"
+                                     FontSize="16"
+                                     FontAttributes="Bold"
+                                     Value="{x:Static enums:Gender.Female}"
+                                     Margin="15,0,0,0"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Text="{maui:Translate Profile_BirthDate}" 
+                       Style="{StaticResource LabelBodyBold}" 
+                       TextColor="{StaticResource TextSecondary}" 
+                       Margin="5,0"/>
+                
+                <Border Style="{StaticResource InputWrapper}">
+                    <DatePicker Date="{Binding BirthDate}" 
+                                Format="dd MMMM yyyy"
+                                MaximumDate="{Binding MaxDate}"
+                                MinimumDate="{Binding MinDate}"
+                                TextColor="{StaticResource TextPrimary}" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Label Text="{Binding Error.Localized}"
+                   IsVisible="{Binding IsError}"
+                   TextColor="{StaticResource DangerColor}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,10,0,0"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

@@ -20,39 +20,39 @@ public partial class RegistrationPageViewModel : BaseViewModel
     private CancellationTokenSource? _emailCheckCts;
 
     [ObservableProperty] private bool _isEmailCheckRunning;
-    
     [ObservableProperty] private bool _isEmailVerified;
 
+    // step 1
     [ObservableProperty] private string _email = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
     [ObservableProperty] private string _confirmPassword = string.Empty;
-
-    [ObservableProperty] private string _username = string.Empty;
-    [ObservableProperty] private DateTime _birthDate = DateTime.Today.AddYears(-20);
-    [ObservableProperty] private Gender _gender = Gender.Male;
-    [ObservableProperty] private string _height = string.Empty;
-    [ObservableProperty] private string _weight = string.Empty;
-    [ObservableProperty] private string _targetWeight = string.Empty;
-
-    public static DateTime MaxDate => DateTime.Today.AddYears(-13);
-    public static DateTime MinDate => DateTime.Today.AddYears(-100);
-
-    [ObservableProperty] private int _currentPosition;
-    [ObservableProperty] private string _buttonText = string.Empty;
-    [ObservableProperty] private double _progress;
-
     [ObservableProperty] private bool _isEmailError;
     [ObservableProperty] private bool _isPasswordError;
     [ObservableProperty] private bool _isConfirmPasswordError;
 
+    // step 2
+    [ObservableProperty] private string _username = string.Empty;
+    [ObservableProperty] private DateTime _birthDate = DateTime.Today.AddYears(-20);
+    [ObservableProperty] private Gender _gender = Gender.Male;
+    [ObservableProperty] private bool _isUsernameError;
+
+    // step 3
+    [ObservableProperty] private string _height = string.Empty;
+    [ObservableProperty] private string _weight = string.Empty;
+    [ObservableProperty] private string _targetWeight = string.Empty;
+
+    public DateTime MaxDate => DateTime.Today.AddYears(-13);
+    public DateTime MinDate => DateTime.Today.AddYears(-100);
+
+    [ObservableProperty] private int _currentPosition;
+    [ObservableProperty] private string _buttonText = string.Empty;
+    [ObservableProperty] private double _progress;
     [ObservableProperty] private LoginPageViewModel.LanguageItem? _selectedLanguage;
 
     public ObservableCollection<string> Steps { get; } =
     [
         "Credentials", "Personal", "Measurements", "Goal"
     ];
-
-    public ObservableCollection<Gender> Genders { get; } = new(Enum.GetValues<Gender>());
 
     public RegistrationPageViewModel(
         IAuthService authService,
@@ -70,9 +70,10 @@ public partial class RegistrationPageViewModel : BaseViewModel
                            ?? Languages.FirstOrDefault(l => l.Code == "en");
 
         UpdateState();
+        
+        //for testing purposes
+        CurrentPosition = 1;
     }
-
-    public bool IsNotLoading => !IsLoading;
 
     public List<LoginPageViewModel.LanguageItem> Languages { get; } =
     [
@@ -81,11 +82,17 @@ public partial class RegistrationPageViewModel : BaseViewModel
     ];
 
     [RelayCommand]
-    private void OnEntryChanged()
+    private void OnEntryChanged(object? obj = null)
     {
         Error = null;
+        
+        // step 1
+        IsEmailError = false;
         IsPasswordError = false;
         IsConfirmPasswordError = false;
+        
+        // step 2 
+        IsUsernameError = false;
     }
 
     [RelayCommand]
@@ -159,9 +166,15 @@ public partial class RegistrationPageViewModel : BaseViewModel
     [RelayCommand]
     private void NextStep()
     {
-        if (CurrentPosition == 0)
+        switch (CurrentPosition)
         {
-            if (!ValidateStep1()) return;
+            case 0:
+                if (!ValidateStep1()) return;
+                break;
+            case 1:
+                if (!ValidateStep2()) return;
+                break;
+            // case 2:
         }
 
         if (CurrentPosition < Steps.Count - 1)
@@ -184,15 +197,11 @@ public partial class RegistrationPageViewModel : BaseViewModel
             IsEmailError = string.IsNullOrWhiteSpace(Email);
             IsPasswordError = string.IsNullOrWhiteSpace(Password);
             IsConfirmPasswordError = string.IsNullOrWhiteSpace(ConfirmPassword);
-            
             Error = new LocalizedString(() => _localizationManager["EmptyFieldsMessage"]);
             return false;
         }
 
-        if (IsEmailCheckRunning)
-        {
-            return false; 
-        }
+        if (IsEmailCheckRunning) return false;
 
         if (!EmailRegex().IsMatch(Email))
         {
@@ -205,9 +214,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
         {
             IsEmailError = true;
             if (string.IsNullOrWhiteSpace(Error?.Localized))
-            {
                 Error = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
-            }
             return false;
         }
 
@@ -228,18 +235,39 @@ public partial class RegistrationPageViewModel : BaseViewModel
         return true;
     }
 
+    private bool ValidateStep2()
+    {
+        if (string.IsNullOrWhiteSpace(Username))
+        {
+            IsUsernameError = true;
+            Error = new LocalizedString(() => _localizationManager["EmptyFieldsMessage"]);
+            return false;
+        }
+
+        if (Username.Length > 20)
+        {
+            IsUsernameError = true;
+            Error = new LocalizedString(() => _localizationManager["Error_UsernameTooLong"]);
+            return false;
+        }
+        
+        var minAgeDate = DateTime.Today.AddYears(-13);
+        if (BirthDate > minAgeDate)
+        {
+            Error = new LocalizedString(() => _localizationManager["Error_InvalidAge"]);
+            return false;
+        }
+
+        return true;
+    }
+
     [RelayCommand]
     private void PreviousStep()
     {
-        if (CurrentPosition > 0)
-        {
-            CurrentPosition--;
-            UpdateState();
-        }
-        else
-        {
-            Shell.Current.GoToAsync("..");
-        }
+        if (CurrentPosition <= 0) return;
+        
+        CurrentPosition--;
+        UpdateState();
     }
 
     private void UpdateState()

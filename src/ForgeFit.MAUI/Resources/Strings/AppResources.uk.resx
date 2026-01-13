@@ -418,7 +418,7 @@
         <value>Ваші параметри</value>
     </data>
     <data name="Reg_Title_Personal" xml:space="preserve">
-        <value>Хто ви?</value>
+        <value>Привіт!</value>
     </data>
     <data name="Reg_GoalDisclaimer" xml:space="preserve">
         <value>Мета має бути здійсненною. Ви не зможете набрати 5 кг м'язової маси за тиждень 😉</value>
@@ -434,5 +434,11 @@
     </data>
     <data name="Reg_ConfirmPasswordError" xml:space="preserve">
         <value>Паролі мають збігатися.</value>
+    </data>
+    <data name="Reg_Subtitle_Personal" xml:space="preserve">
+        <value>Давайте знайомитись! Як ми можемо вас називати?</value>
+    </data>
+    <data name="Reg_UsernamePlaceholder" xml:space="preserve">
+        <value>Ваше їм'я</value>
     </data>
 </root>

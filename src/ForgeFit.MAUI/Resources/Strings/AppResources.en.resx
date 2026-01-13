@@ -418,7 +418,7 @@
         <value>Your measurements</value>
     </data>
     <data name="Reg_Title_Personal" xml:space="preserve">
-        <value>Who are you?</value>
+        <value>Hi there!</value>
     </data>
     <data name="Reg_GoalDisclaimer" xml:space="preserve">
         <value>The goal must be achievable. You won't be able to gain 5 kg of muscle mass in a week 😉</value>
@@ -434,5 +434,11 @@
     </data>
     <data name="Reg_ConfirmPasswordError" xml:space="preserve">
         <value>Passwords must match.</value>
+    </data>
+    <data name="Reg_Subtitle_Personal" xml:space="preserve">
+        <value>Let's get to know each other! What should we call you?</value>
+    </data>
+    <data name="Reg_UsernamePlaceholder" xml:space="preserve">
+        <value>Your name</value>
     </data>
 </root>

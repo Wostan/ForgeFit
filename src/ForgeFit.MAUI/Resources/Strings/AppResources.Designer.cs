@@ -1014,6 +1014,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Let&apos;s get to know each other! What should we call you?.
+        /// </summary>
+        internal static string Reg_Subtitle_Personal {
+            get {
+                return ResourceManager.GetString("Reg_Subtitle_Personal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credentials.
         /// </summary>
         internal static string Reg_Title_Credentials {
@@ -1041,11 +1050,20 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Who are you?.
+        ///   Looks up a localized string similar to Hi there!.
         /// </summary>
         internal static string Reg_Title_Personal {
             get {
                 return ResourceManager.GetString("Reg_Title_Personal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your name.
+        /// </summary>
+        internal static string Reg_UsernamePlaceholder {
+            get {
+                return ResourceManager.GetString("Reg_UsernamePlaceholder", resourceCulture);
             }
         }
         
