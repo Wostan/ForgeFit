@@ -477,4 +477,19 @@
     <data name="Reg_Weight" xml:space="preserve">
         <value>Вага</value>
     </data>
+    <data name="Error_TargetMustBeHigher" xml:space="preserve">
+        <value>Для набору маси цільова вага має бути більшою за поточну.</value>
+    </data>
+    <data name="Error_TargetMustBeLower" xml:space="preserve">
+        <value>Для схуднення цільова вага має бути меншою за поточну.</value>
+    </data>
+    <data name="Error_TargetWeightTooHigh" xml:space="preserve">
+        <value>Ця цільова вага занадто висока для вашого зросту.</value>
+    </data>
+    <data name="Error_TargetWeightTooLow" xml:space="preserve">
+        <value>Ця цільова вага може бути небезпечною (ІМТ &lt; 18.5).</value>
+    </data>
+    <data name="Error_WeightGainUnrealistic" xml:space="preserve">
+        <value>Набирати {0} кг/тиждень небезпечно.</value>
+    </data>
 </root>

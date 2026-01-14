@@ -21,6 +21,7 @@ public partial class ProfilePageViewModel : BaseViewModel
     private readonly IPlanService _planService;
     private readonly IAuthService _authService;
     private readonly IBmiService _bmiService;
+    private readonly IGoalRealismValidator _goalRealismValidator;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
 
@@ -102,6 +103,7 @@ public partial class ProfilePageViewModel : BaseViewModel
         IGoalService goalService,
         IPlanService planService,
         IAuthService authService,
+        IGoalRealismValidator goalRealismValidator,
         IBmiService bmiService,
         IAlertService alertService,
         ILocalizationResourceManager localizationManager)
@@ -110,6 +112,7 @@ public partial class ProfilePageViewModel : BaseViewModel
         _goalService = goalService;
         _planService = planService;
         _authService = authService;
+        _goalRealismValidator = goalRealismValidator;
         _bmiService = bmiService;
         _alertService = alertService;
         _localizationManager = localizationManager;
@@ -438,8 +441,17 @@ public partial class ProfilePageViewModel : BaseViewModel
         
         var newGoalType = _bmiService.DetermineGoalType(currentWeight, targetWeight, userHeight);
 
-        if (!await ValidateGoalRealism(currentWeight, targetWeight, EditBodyGoalDueDate, newGoalType, wUnit))
+        var (isValid, errorMessage) = _goalRealismValidator.ValidateGoalRealism(
+            currentWeight, 
+            targetWeight, 
+            userHeight, 
+            EditBodyGoalDueDate, 
+            newGoalType, 
+            wUnit);
+        
+        if (!isValid)
         {
+            await _alertService.ShowToastAsync(errorMessage);
             return; 
         }
 
@@ -478,43 +490,6 @@ public partial class ProfilePageViewModel : BaseViewModel
         finally
         {
             IsLoading = false;
-        }
-    }
-    
-    private async Task<bool> ValidateGoalRealism(double currentWeight, double targetWeight, DateTime? dueDate, GoalType type, WeightUnit unit)
-    {
-        var currentKg = unit == WeightUnit.Kg ? currentWeight : currentWeight * 0.453592;
-        var targetKg = unit == WeightUnit.Kg ? targetWeight : targetWeight * 0.453592;
-
-        if (!dueDate.HasValue) return true;
-
-        var days = (dueDate.Value - DateTime.UtcNow).TotalDays;
-        
-        if (days < 7)
-        {
-            await _alertService.ShowToastAsync(_localizationManager["Error_DeadlineTooClose"]); 
-            return false;
-        }
-
-        var weeks = days / 7.0;
-        var ratePerWeek = Math.Abs(targetKg - currentKg) / weeks;
-
-        switch (type)
-        {
-            case GoalType.FatLoss when ratePerWeek > 1.3:
-            {
-                var msg = string.Format(_localizationManager["Error_FatLossUnsafe"], ratePerWeek.ToString("F1"));
-                await _alertService.ShowToastAsync(msg);
-                return false;
-            }
-            case GoalType.MuscleGain when ratePerWeek > 0.6:
-            {
-                var msg = string.Format(_localizationManager["Error_MuscleGainUnrealistic"], ratePerWeek.ToString("F1"));
-                await _alertService.ShowToastAsync(msg);
-                return false;
-            }
-            default:
-                return true;
         }
     }
 

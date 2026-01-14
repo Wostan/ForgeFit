@@ -555,11 +555,47 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target weight must be higher than current weight for muscle gain..
+        /// </summary>
+        internal static string Error_TargetMustBeHigher {
+            get {
+                return ResourceManager.GetString("Error_TargetMustBeHigher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target weight must be lower than current weight for fat loss..
+        /// </summary>
+        internal static string Error_TargetMustBeLower {
+            get {
+                return ResourceManager.GetString("Error_TargetMustBeLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target weight must be realistic.
         /// </summary>
         internal static string Error_TargetWeightRealistic {
             get {
                 return ResourceManager.GetString("Error_TargetWeightRealistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This target weight is too high for your height..
+        /// </summary>
+        internal static string Error_TargetWeightTooHigh {
+            get {
+                return ResourceManager.GetString("Error_TargetWeightTooHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This target weight is potentially unsafe (BMI &lt; 18.5)..
+        /// </summary>
+        internal static string Error_TargetWeightTooLow {
+            get {
+                return ResourceManager.GetString("Error_TargetWeightTooLow", resourceCulture);
             }
         }
         
@@ -596,6 +632,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Error_WaterRange {
             get {
                 return ResourceManager.GetString("Error_WaterRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gaining {0} kg/week is unsafe..
+        /// </summary>
+        internal static string Error_WeightGainUnrealistic {
+            get {
+                return ResourceManager.GetString("Error_WeightGainUnrealistic", resourceCulture);
             }
         }
         

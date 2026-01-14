@@ -477,4 +477,19 @@
     <data name="Reg_Weight" xml:space="preserve">
         <value>Weight</value>
     </data>
+    <data name="Error_TargetMustBeHigher" xml:space="preserve">
+        <value>Target weight must be higher than current weight for muscle gain.</value>
+    </data>
+    <data name="Error_TargetMustBeLower" xml:space="preserve">
+        <value>Target weight must be lower than current weight for fat loss.</value>
+    </data>
+    <data name="Error_TargetWeightTooHigh" xml:space="preserve">
+        <value>This target weight is too high for your height.</value>
+    </data>
+    <data name="Error_TargetWeightTooLow" xml:space="preserve">
+        <value>This target weight is potentially unsafe (BMI &lt; 18.5).</value>
+    </data>
+    <data name="Error_WeightGainUnrealistic" xml:space="preserve">
+        <value>Gaining {0} kg/week is unsafe.</value>
+    </data>
 </root>
