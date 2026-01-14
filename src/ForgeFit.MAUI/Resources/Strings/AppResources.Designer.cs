@@ -168,6 +168,87 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looking good, legend. Keep it up, but never settle!.
+        /// </summary>
+        internal static string BMI_Desc_Normal {
+            get {
+                return ResourceManager.GetString("BMI_Desc_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Health priority mode from now..
+        /// </summary>
+        internal static string BMI_Desc_Obesity {
+            get {
+                return ResourceManager.GetString("BMI_Desc_Obesity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Let&apos;s cut some fat..
+        /// </summary>
+        internal static string BMI_Desc_Overweight {
+            get {
+                return ResourceManager.GetString("BMI_Desc_Overweight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time to bulk up!.
+        /// </summary>
+        internal static string BMI_Desc_Underweight {
+            get {
+                return ResourceManager.GetString("BMI_Desc_Underweight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal Weight.
+        /// </summary>
+        internal static string BMI_Normal {
+            get {
+                return ResourceManager.GetString("BMI_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obesity.
+        /// </summary>
+        internal static string BMI_Obesity {
+            get {
+                return ResourceManager.GetString("BMI_Obesity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overweight.
+        /// </summary>
+        internal static string BMI_Overweight {
+            get {
+                return ResourceManager.GetString("BMI_Overweight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BMI.
+        /// </summary>
+        internal static string BMI_Title {
+            get {
+                return ResourceManager.GetString("BMI_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Underweight.
+        /// </summary>
+        internal static string BMI_Underweight {
+            get {
+                return ResourceManager.GetString("BMI_Underweight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to log out?.
         /// </summary>
         internal static string Confirm_Logout_Message {
@@ -1014,6 +1095,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        internal static string Reg_Height {
+            get {
+                return ResourceManager.GetString("Reg_Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perhaps the most important indicators to start your healthy lifestyle with..
+        /// </summary>
+        internal static string Reg_Subtitle_Measurements {
+            get {
+                return ResourceManager.GetString("Reg_Subtitle_Measurements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Let&apos;s get to know each other! What should we call you?.
         /// </summary>
         internal static string Reg_Subtitle_Personal {
@@ -1064,6 +1163,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Reg_UsernamePlaceholder {
             get {
                 return ResourceManager.GetString("Reg_UsernamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight.
+        /// </summary>
+        internal static string Reg_Weight {
+            get {
+                return ResourceManager.GetString("Reg_Weight", resourceCulture);
             }
         }
         

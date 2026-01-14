@@ -11,7 +11,7 @@
     <Color x:Key="PageBackground">#000000</Color>
 
     <Color x:Key="Surface">#0E0E0E</Color>
-    <Color x:Key="SurfaceLight">#141414</Color>
+    <Color x:Key="SurfaceLight">#232323</Color>
 
     <Color x:Key="TextPrimary">#FFFFFF</Color>
     <Color x:Key="TextPrimaryDark">#000000</Color>
@@ -25,9 +25,12 @@
     <Color x:Key="CarbsColor">#69F0AE</Color>
     <Color x:Key="ProteinColor">#FF8A80</Color>
     <Color x:Key="FatColor">#FFE57F</Color>
-
     <Color x:Key="WaterColor">#81D4FA</Color>
-
     <Color x:Key="WeightColor">#FFAB91</Color>
+    
+    <Color x:Key="BmiObesity">#e74c3c</Color>
+    <Color x:Key="BmiOverweight">#f1c40f</Color>
+    <Color x:Key="BmiNormal">#2ecc71</Color>
+    <Color x:Key="BmiUnderweight">#3498db</Color>
 
 </ResourceDictionary>

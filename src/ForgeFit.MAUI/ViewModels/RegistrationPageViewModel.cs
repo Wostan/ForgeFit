@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,6 +16,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
     private readonly IAuthService _authService;
     private readonly IAlertService _alertService;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IBmiService _bmiService;
     private readonly ILocalizationResourceManager _localizationManager;
 
     private CancellationTokenSource? _emailCheckCts;
@@ -35,14 +37,45 @@ public partial class RegistrationPageViewModel : BaseViewModel
     [ObservableProperty] private DateTime _birthDate = DateTime.Today.AddYears(-20);
     [ObservableProperty] private Gender _gender = Gender.Male;
     [ObservableProperty] private bool _isUsernameError;
-
-    // step 3
-    [ObservableProperty] private string _height = string.Empty;
-    [ObservableProperty] private string _weight = string.Empty;
-    [ObservableProperty] private string _targetWeight = string.Empty;
-
+    
     public DateTime MaxDate => DateTime.Today.AddYears(-13);
     public DateTime MinDate => DateTime.Today.AddYears(-100);
+
+    // step 3
+    [ObservableProperty] private double _height = 175;
+    [ObservableProperty] private double _weight = 75;
+    
+    [ObservableProperty] private double _bmiValue;
+    [ObservableProperty] private LocalizedString? _bmiCategoryText;
+    [ObservableProperty] private Color _bmiColor = Colors.Gray;
+    [ObservableProperty] private LocalizedString? _bmiDescription;
+
+    partial void OnHeightChanged(double value)
+    {
+        var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
+
+        if (Math.Abs(Height - rounded) > 0.01)
+        {
+            Height = rounded;
+        }
+    
+        RecalculateBmi();
+    }
+
+    partial void OnWeightChanged(double value)
+    {
+        var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
+
+        if (Math.Abs(Weight - rounded) > 0.01)
+        {
+            Weight = rounded;
+        }
+    
+        RecalculateBmi();
+    }
+
+    // step 4
+    [ObservableProperty] private string _targetWeight = string.Empty;
 
     [ObservableProperty] private int _currentPosition;
     [ObservableProperty] private string _buttonText = string.Empty;
@@ -58,21 +91,24 @@ public partial class RegistrationPageViewModel : BaseViewModel
         IAuthService authService,
         IAlertService alertService,
         IServiceProvider serviceProvider,
+        IBmiService bmiService,
         ILocalizationResourceManager localizationManager)
     {
         _authService = authService;
         _alertService = alertService;
         _serviceProvider = serviceProvider;
+        _bmiService = bmiService;
         _localizationManager = localizationManager;
 
         var currentCode = _localizationManager.CurrentCulture.TwoLetterISOLanguageName;
         SelectedLanguage = Languages.FirstOrDefault(l => l.Code == currentCode)
                            ?? Languages.FirstOrDefault(l => l.Code == "en");
 
+        RecalculateBmi();
         UpdateState();
         
         //for testing purposes
-        CurrentPosition = 1;
+        CurrentPosition = 2;
     }
 
     public List<LoginPageViewModel.LanguageItem> Languages { get; } =
@@ -174,7 +210,10 @@ public partial class RegistrationPageViewModel : BaseViewModel
             case 1:
                 if (!ValidateStep2()) return;
                 break;
-            // case 2:
+            case 2:
+                if (!ValidateStep3()) return;
+                break;
+            // case 3
         }
 
         if (CurrentPosition < Steps.Count - 1)
@@ -260,6 +299,15 @@ public partial class RegistrationPageViewModel : BaseViewModel
 
         return true;
     }
+    
+    private bool ValidateStep3()
+    {
+        if (Height > 0 && Weight > 0) return true;
+        
+        Error = new LocalizedString(() => _localizationManager["EmptyFieldsMessage"]);
+        return false;
+
+    }
 
     [RelayCommand]
     private void PreviousStep()
@@ -277,6 +325,37 @@ public partial class RegistrationPageViewModel : BaseViewModel
             : _localizationManager["Action_Next"];
 
         Progress = (double)CurrentPosition / Steps.Count;
+    }
+    
+    private void RecalculateBmi()
+    {
+        var bmi = _bmiService.CalculateBmi(Weight, Height);
+        
+        BmiValue = Math.Round(bmi, 1);
+
+        switch (bmi)
+        {
+            case < 18.5:
+                BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Underweight"]);
+                BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Underweight"]);
+                BmiColor = (Color)Application.Current?.Resources["BmiUnderweight"]!;
+                break;
+            case >= 18.5 and < 25:
+                BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Normal"]);
+                BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Normal"]);
+                BmiColor = (Color)Application.Current?.Resources["BmiNormal"]!;
+                break;
+            case >= 25 and < 30:
+                BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Overweight"]);
+                BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Overweight"]);
+                BmiColor = (Color)Application.Current?.Resources["BmiOverweight"]!;
+                break;
+            default:
+                BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Obesity"]);
+                BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Obesity"]);
+                BmiColor = (Color)Application.Current?.Resources["BmiObesity"]!;
+                break;
+        }
     }
 
     private static void SubmitRegistration()

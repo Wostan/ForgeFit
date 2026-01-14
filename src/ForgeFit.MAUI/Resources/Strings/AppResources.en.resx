@@ -441,4 +441,40 @@
     <data name="Reg_UsernamePlaceholder" xml:space="preserve">
         <value>Your name</value>
     </data>
+    <data name="BMI_Underweight" xml:space="preserve">
+        <value>Underweight</value>
+    </data>
+    <data name="BMI_Title" xml:space="preserve">
+        <value>BMI</value>
+    </data>
+    <data name="BMI_Normal" xml:space="preserve">
+        <value>Normal Weight</value>
+    </data>
+    <data name="BMI_Overweight" xml:space="preserve">
+        <value>Overweight</value>
+    </data>
+    <data name="BMI_Obesity" xml:space="preserve">
+        <value>Obesity</value>
+    </data>
+    <data name="BMI_Desc_Underweight" xml:space="preserve">
+        <value>Time to bulk up!</value>
+    </data>
+    <data name="BMI_Desc_Normal" xml:space="preserve">
+        <value>Looking good, legend. Keep it up, but never settle!</value>
+    </data>
+    <data name="BMI_Desc_Overweight" xml:space="preserve">
+        <value>Let's cut some fat.</value>
+    </data>
+    <data name="BMI_Desc_Obesity" xml:space="preserve">
+        <value>Health priority mode from now.</value>
+    </data>
+    <data name="Reg_Subtitle_Measurements" xml:space="preserve">
+        <value>Perhaps the most important indicators to start your healthy lifestyle with.</value>
+    </data>
+    <data name="Reg_Height" xml:space="preserve">
+        <value>Height</value>
+    </data>
+    <data name="Reg_Weight" xml:space="preserve">
+        <value>Weight</value>
+    </data>
 </root>
