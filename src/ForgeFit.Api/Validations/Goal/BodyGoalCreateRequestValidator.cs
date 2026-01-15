@@ -10,10 +10,10 @@ public class BodyGoalCreateRequestValidator : AbstractValidator<BodyGoalCreateRe
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required.")
-            .MaximumLength(20).WithMessage("Title must not exceed 20 characters.");
+            .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");
 
         RuleFor(x => x.Description)
-            .MaximumLength(200).WithMessage("Description must not exceed 200 characters.");
+            .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
 
         RuleFor(x => x.WeightUnit).IsInEnum();
         RuleFor(x => x.WeightGoal)
