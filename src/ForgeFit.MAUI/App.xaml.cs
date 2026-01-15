@@ -29,22 +29,20 @@ public partial class App : Application
 
     private async void NavigateUser(Window window)
     {
-        window.Page = _serviceProvider.GetRequiredService<RegistrationPageView>();
-
-        // try
-        // {
-        //     if (await _authService.IsAuthenticatedAsync())
-        //     {
-        //         window.Page = new AppShell();
-        //     }
-        //     else
-        //     {
-        //         window.Page = _serviceProvider.GetRequiredService<LoginPageView>();
-        //     }
-        // }
-        // catch
-        // {
-        //     window.Page = _serviceProvider.GetRequiredService<LoginPageView>();
-        // }
+        try
+        {
+            if (await _authService.IsAuthenticatedAsync())
+            {
+                window.Page = new AppShell();
+            }
+            else
+            {
+                window.Page = _serviceProvider.GetRequiredService<LoginPageView>();
+            }
+        }
+        catch
+        {
+            window.Page = _serviceProvider.GetRequiredService<LoginPageView>();
+        }
     }
 }
