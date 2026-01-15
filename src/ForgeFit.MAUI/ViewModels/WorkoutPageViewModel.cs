@@ -30,14 +30,13 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WeeklyProgress))]
     private int _targetWorkouts;
 
-    public double WeeklyProgress => TargetWorkouts > 0 
-        ? (double)CompletedWorkouts / TargetWorkouts 
+    public double WeeklyProgress => TargetWorkouts > 0
+        ? (double)CompletedWorkouts / TargetWorkouts
         : 0;
 
     [ObservableProperty] private string _statsSubtitle = string.Empty;
 
-    [ObservableProperty] 
-    private ObservableCollection<WorkoutProgramResponse> _programs = [];
+    [ObservableProperty] private ObservableCollection<WorkoutProgramResponse> _programs = [];
 
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,
@@ -51,7 +50,7 @@ public partial class WorkoutPageViewModel : BaseViewModel
         _goalService = goalService;
         _alertService = alertService;
         _localizationManager = localizationManager;
-        
+
         WeakReferenceMessenger.Default.Register<WorkoutPageViewModel, WorkoutDataUpdatedMessage>(
             this,
             (r, _) => { r.RefreshCommand.Execute(null); }
@@ -79,18 +78,18 @@ public partial class WorkoutPageViewModel : BaseViewModel
         try
         {
             var today = DateTime.Today;
-            
-            
+
+
             var daysSinceMonday = ((int)today.DayOfWeek - 1 + 7) % 7;
             var monday = today.AddDays(-daysSinceMonday);
-            var nextMonday = monday.AddDays(7); 
+            var nextMonday = monday.AddDays(7);
 
             var goalTask = _goalService.GetWorkoutGoal(token);
             var statsTask = _workoutTrackingService.GetEntriesByDateRangeAsync(monday, nextMonday, token);
             var programsTask = _workoutProgramService.GetAllProgramsAsync();
 
             await Task.WhenAll(goalTask, statsTask, programsTask);
-            
+
             if (token.IsCancellationRequested) return;
 
             string? errorMessage = null;
@@ -105,19 +104,12 @@ public partial class WorkoutPageViewModel : BaseViewModel
             }
 
             if (goalTask.Result is { Success: true, Data: not null })
-            {
                 TargetWorkouts = goalTask.Result.Data.WorkoutsPerWeek;
-            }
 
-            if (statsTask.Result is { Success: true, Data: not null })
-            {
-                CompletedWorkouts = statsTask.Result.Data.Count;
-            }
-            
+            if (statsTask.Result is { Success: true, Data: not null }) CompletedWorkouts = statsTask.Result.Data.Count;
+
             if (programsTask.Result is { Success: true, Data: not null })
-            {
                 Programs = new ObservableCollection<WorkoutProgramResponse>(programsTask.Result.Data);
-            }
 
             UpdateStatsSubtitle();
 
@@ -194,13 +186,9 @@ public partial class WorkoutPageViewModel : BaseViewModel
         SetLoadingState();
 
         if (_isInitialized)
-        {
             _alertService.ShowToastAsync(errorMsg.Localized);
-        }
         else
-        {
             Error = errorMsg;
-        }
     }
 
     private void UpdateStatsSubtitle()

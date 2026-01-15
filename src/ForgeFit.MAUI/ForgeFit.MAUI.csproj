@@ -109,8 +109,8 @@
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Workout\WorkoutPageView.xaml.cs">
-          <DependentUpon>WorkoutPageView.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>WorkoutPageView.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
 
@@ -132,7 +132,7 @@
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Workout\WorkoutPageView.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
 

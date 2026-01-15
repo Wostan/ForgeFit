@@ -23,7 +23,7 @@ public static class ServiceExtensions
         builder.Services.AddScoped<IWorkoutTrackingService, WorkoutTrackingService>();
         builder.Services.AddScoped<IWorkoutExerciseService, WorkoutExerciseService>();
         builder.Services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
-        
+
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IGoalService, GoalService>();
         builder.Services.AddScoped<IPlanService, PlanService>();
