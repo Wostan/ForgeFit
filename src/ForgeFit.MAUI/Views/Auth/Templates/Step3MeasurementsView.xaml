@@ -55,7 +55,7 @@
                             Maximum="250" 
                             Value="{Binding Height}" />
                     
-                    <Grid ColumnDefinitions="Auto, * , Auto" Padding="10,0">
+                    <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
                         <Label Grid.Column="0" Style="{StaticResource LabelBodyBold}" Text="100" />
                         <Label Grid.Column="2" Style="{StaticResource LabelBodyBold}" Text="250" />
                     </Grid>
@@ -89,7 +89,7 @@
                             Maximum="300" 
                             Value="{Binding Weight}" />
 
-                    <Grid ColumnDefinitions="Auto, * , Auto" Padding="10,0">
+                    <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
                         <Label Grid.Column="0" Style="{StaticResource LabelBodyBold}" Text="30" />
                         <Label Grid.Column="2" Style="{StaticResource LabelBodyBold}" Text="300" />
                     </Grid>

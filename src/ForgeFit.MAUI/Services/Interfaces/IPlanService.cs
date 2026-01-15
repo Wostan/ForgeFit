@@ -5,7 +5,7 @@ namespace ForgeFit.MAUI.Services.Interfaces;
 
 public interface IPlanService
 {
-    Task<ServiceResponse<PlanDto?>> GeneratePlanAsync(CancellationToken cancellationToken);
-    Task<ServiceResponse<PlanDto>> ConfirmPlanAsync(PlanDto planDto, CancellationToken cancellationToken);
-    Task<ServiceResponse<PlanDto?>> GetPlanAsync(CancellationToken cancellationToken);
+    Task<ServiceResponse<PlanDto?>> GeneratePlanAsync(CancellationToken cancellationToken = default);
+    Task<ServiceResponse<PlanDto>> ConfirmPlanAsync(PlanDto planDto, CancellationToken cancellationToken = default);
+    Task<ServiceResponse<PlanDto?>> GetPlanAsync(CancellationToken cancellationToken = default);
 }

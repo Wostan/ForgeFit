@@ -11,6 +11,6 @@ public partial class BaseViewModel : ObservableObject
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsError))]
     private LocalizedString? _error;
 
-    public bool IsError => !string.IsNullOrWhiteSpace(Error.Localized);
+    public bool IsError => !string.IsNullOrWhiteSpace(Error?.Localized);
     public bool ShowContent => !IsLoading && !IsError;
 }
