@@ -96,7 +96,7 @@
             </VerticalStackLayout>
 
             <Label Text="{Binding Error.Localized}"
-                   IsVisible="{Binding IsError}"
+                   Opacity="{Binding IsError}"
                    TextColor="{StaticResource DangerColor}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"

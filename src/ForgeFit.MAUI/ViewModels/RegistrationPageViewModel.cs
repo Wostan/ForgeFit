@@ -474,9 +474,10 @@ public partial class RegistrationPageViewModel : BaseViewModel
     {
         Progress = (double)CurrentPosition / Steps.Count;
 
+        var isFirstStep = CurrentPosition == 0;
         var isLastStep = CurrentPosition == Steps.Count - 1;
 
-        IsMainNavigationVisible = !isLastStep;
+        IsMainNavigationVisible = !isFirstStep && !isLastStep;
 
         ButtonText = _localizationManager["Action_Next"];
 
