@@ -30,17 +30,17 @@
             <DataTemplate x:Key="Step4Template">
                 <templates:Step4GoalView />
             </DataTemplate>
-            
+
             <DataTemplate x:Key="Step5Template">
                 <templates:Step5CommitmentView />
             </DataTemplate>
 
             <helpers:RegistrationStepTemplateSelector x:Key="StepSelector"
-                                                        Step1Credentials="{StaticResource Step1Template}"
-                                                        Step2Personal="{StaticResource Step2Template}"
-                                                        Step3Measurements="{StaticResource Step3Template}"
-                                                        Step4Goal="{StaticResource Step4Template}"
-                                                        Step5Commitment="{StaticResource Step5Template}"/>
+                                                      Step1Credentials="{StaticResource Step1Template}"
+                                                      Step2Personal="{StaticResource Step2Template}"
+                                                      Step3Measurements="{StaticResource Step3Template}"
+                                                      Step4Goal="{StaticResource Step4Template}"
+                                                      Step5Commitment="{StaticResource Step5Template}" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -52,11 +52,10 @@
                       HorizontalScrollBarVisibility="Never"
                       IsSwipeEnabled="False"
                       Loop="False"
-                      PeekAreaInsets="0">
-        </CarouselView>
+                      PeekAreaInsets="0" />
 
-        <Grid RowDefinitions="Auto, Auto" 
-              ColumnDefinitions="Auto, *" 
+        <Grid RowDefinitions="Auto, Auto"
+              ColumnDefinitions="Auto, *"
               ColumnSpacing="15"
               VerticalOptions="End"
               RowSpacing="20"
@@ -65,21 +64,22 @@
                     Style="{StaticResource SecondaryButton}"
                     Text="{maui:Translate Action_Back}"
                     Command="{Binding PreviousStepCommand}"
-                    behaviors:ButtonAnimationBehavior.IsRegVisible="{Binding IsMainNavigationVisible}" /> 
+                    behaviors:ButtonAnimationBehavior.IsRegVisible="{Binding IsMainNavigationVisible}" />
 
             <Button Grid.Column="1"
                     Text="{Binding ButtonText}"
                     Command="{Binding NextStepCommand}"
                     behaviors:ButtonAnimationBehavior.IsRegVisible="{Binding IsMainNavigationVisible}" />
         </Grid>
-        
+
         <ProgressBar HeightRequest="4"
                      VerticalOptions="End"
                      IsVisible="{Binding CurrentPosition, Converter={toolkit:IntToBoolConverter}}">
             <ProgressBar.Behaviors>
-                <toolkit:ProgressBarAnimationBehavior Progress="{Binding BindingContext.Progress, Source={x:Reference ThisPage}}"
-                                                      Length="250"
-                                                      Easing="SinInOut" />
+                <toolkit:ProgressBarAnimationBehavior
+                    Progress="{Binding BindingContext.Progress, Source={x:Reference ThisPage}}"
+                    Length="250"
+                    Easing="SinInOut" />
             </ProgressBar.Behaviors>
         </ProgressBar>
     </Grid>

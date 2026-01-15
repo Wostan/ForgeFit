@@ -11,11 +11,11 @@ public class GoalRealismValidator(
     : IGoalRealismValidator
 {
     public (bool IsValid, string ErrorMessage) ValidateGoalRealism(
-        double currentWeight, 
-        double targetWeight, 
+        double currentWeight,
+        double targetWeight,
         double heightCm,
         DateTime? dueDate,
-        GoalType type, 
+        GoalType type,
         WeightUnit unit)
     {
         var currentKg = unit == WeightUnit.Kg ? currentWeight : currentWeight * 0.453592;
@@ -36,18 +36,15 @@ public class GoalRealismValidator(
             }
         }
 
-        if (!dueDate.HasValue) 
+        if (!dueDate.HasValue)
             return (true, string.Empty);
 
         var days = (dueDate.Value - DateTime.UtcNow).TotalDays;
 
-        if (days < 7)
-        {
-            return (false, localizationManager["Error_DeadlineTooClose"]);
-        }
-        
+        if (days < 7) return (false, localizationManager["Error_DeadlineTooClose"]);
+
         var weeks = days / 7.0;
-        
+
         var ratePerWeek = Math.Abs(targetKg - currentKg) / weeks;
 
         switch (type)
@@ -57,12 +54,14 @@ public class GoalRealismValidator(
                 return (false, msgFat);
 
             case GoalType.MuscleGain when ratePerWeek > 0.6:
-                var msgMuscle = string.Format(localizationManager["Error_MuscleGainUnrealistic"], ratePerWeek.ToString("F1"));
+                var msgMuscle = string.Format(localizationManager["Error_MuscleGainUnrealistic"],
+                    ratePerWeek.ToString("F1"));
                 return (false, msgMuscle);
 
             case GoalType.WeightGain when ratePerWeek > 1.5:
-                 var msgGain = string.Format(localizationManager["Error_WeightGainUnrealistic"], ratePerWeek.ToString("F1"));
-                 return (false, msgGain);
+                var msgGain = string.Format(localizationManager["Error_WeightGainUnrealistic"],
+                    ratePerWeek.ToString("F1"));
+                return (false, msgGain);
 
             default:
                 return (true, string.Empty);

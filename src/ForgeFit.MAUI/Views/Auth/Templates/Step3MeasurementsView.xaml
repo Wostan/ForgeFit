@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maui="using:LocalizationResourceManager.Maui"
@@ -11,14 +12,14 @@
           x:DataType="local:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
 
-        <VerticalStackLayout Grid.Row="0" 
-                             Spacing="20" 
+        <VerticalStackLayout Grid.Row="0"
+                             Spacing="20"
                              Margin="0, 50, 0, 0">
-            <Label Text="{maui:Translate Reg_Title_Measurements}" 
-                   Style="{StaticResource LabelH1}" 
+            <Label Text="{maui:Translate Reg_Title_Measurements}"
+                   Style="{StaticResource LabelH1}"
                    FontSize="32"
                    HorizontalTextAlignment="Center" />
-            
+
             <Label Text="{maui:Translate Reg_Subtitle_Measurements}"
                    Style="{StaticResource LabelBodyBold}"
                    TextColor="{StaticResource TextSecondary}"
@@ -26,34 +27,34 @@
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Spacing="25" VerticalOptions="Center">
-            
+
             <Border Style="{StaticResource CardStyle}">
                 <VerticalStackLayout>
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Grid.Column="0" 
+                        <Label Grid.Column="0"
                                Style="{StaticResource LabelH1}"
-                               Text="{maui:Translate Reg_Height}" 
-                               VerticalOptions="Center"/>
-                        
+                               Text="{maui:Translate Reg_Height}"
+                               VerticalOptions="Center" />
+
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding Height, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
-                                          Style="{StaticResource LabelH1}"/>
+                                          Style="{StaticResource LabelH1}" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelH1}"/>
+                                          Style="{StaticResource LabelH1}" />
                                     <Span Text="{maui:Translate Height_Cm}"
-                                          Style="{StaticResource LabelBodyBold}"/>
+                                          Style="{StaticResource LabelBodyBold}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="100" 
-                            Maximum="250" 
+                    <Slider Minimum="100"
+                            Maximum="250"
                             Value="{Binding Height}" />
-                    
+
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
                         <Label Grid.Column="0" Style="{StaticResource LabelBodyBold}" Text="100" />
                         <Label Grid.Column="2" Style="{StaticResource LabelBodyBold}" Text="250" />
@@ -64,28 +65,28 @@
             <Border Style="{StaticResource CardStyle}">
                 <VerticalStackLayout>
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Grid.Column="0" 
+                        <Label Grid.Column="0"
                                Style="{StaticResource LabelH1}"
-                               Text="{maui:Translate Reg_Weight}" 
-                               VerticalOptions="Center"/>
-                        
+                               Text="{maui:Translate Reg_Weight}"
+                               VerticalOptions="Center" />
+
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding Weight, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
-                                          Style="{StaticResource LabelH1}"/>
+                                          Style="{StaticResource LabelH1}" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelH1}"/>
+                                          Style="{StaticResource LabelH1}" />
                                     <Span Text="{maui:Translate Weight_Kg}"
-                                          Style="{StaticResource LabelBodyBold}"/>
+                                          Style="{StaticResource LabelBodyBold}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="30" 
-                            Maximum="300" 
+                    <Slider Minimum="30"
+                            Maximum="300"
                             Value="{Binding Weight}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
@@ -97,34 +98,34 @@
 
         </VerticalStackLayout>
 
-        <Border Grid.Row="2" 
+        <Border Grid.Row="2"
                 Style="{StaticResource CardStyle}"
                 Stroke="{Binding BmiColor}"
                 VerticalOptions="End">
-            
+
             <Grid ColumnDefinitions="Auto, *">
                 <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="0" WidthRequest="120">
-                    <Label Text="{maui:Translate BMI_Title}" 
+                    <Label Text="{maui:Translate BMI_Title}"
                            Style="{StaticResource LabelBodyBold}"
                            FontSize="14"
-                           HorizontalOptions="Center"/>
-                    <Label Text="{Binding BmiValue, StringFormat='{0:F1}'}" 
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding BmiValue, StringFormat='{0:F1}'}"
                            Style="{StaticResource LabelH1}"
                            FontSize="40"
                            TextColor="{Binding BmiColor}"
-                           HorizontalOptions="Center"/>
+                           HorizontalOptions="Center" />
                 </VerticalStackLayout>
-                
+
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
-                    <Label Text="{Binding BmiCategoryText.Localized}" 
+                    <Label Text="{Binding BmiCategoryText.Localized}"
                            Style="{StaticResource LabelH2}"
                            TextColor="{Binding BmiColor}"
-                           HorizontalTextAlignment="End"/>
-                    
-                    <Label Text="{Binding BmiDescription.Localized}" 
+                           HorizontalTextAlignment="End" />
+
+                    <Label Text="{Binding BmiDescription.Localized}"
                            Style="{StaticResource LabelBodyBold}"
                            FontSize="12"
-                           HorizontalTextAlignment="End"/>
+                           HorizontalTextAlignment="End" />
                 </VerticalStackLayout>
             </Grid>
         </Border>

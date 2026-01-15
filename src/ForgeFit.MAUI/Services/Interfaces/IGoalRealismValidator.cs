@@ -6,10 +6,10 @@ namespace ForgeFit.MAUI.Services.Interfaces;
 public interface IGoalRealismValidator
 {
     (bool IsValid, string ErrorMessage) ValidateGoalRealism(
-        double currentWeight, 
-        double targetWeight, 
+        double currentWeight,
+        double targetWeight,
         double heightCm,
         DateTime? dueDate,
-        GoalType type, 
+        GoalType type,
         WeightUnit unit);
 }

@@ -13,4 +13,3 @@ public partial class Step2PersonalView : ContentView
         InitializeComponent();
     }
 }
-

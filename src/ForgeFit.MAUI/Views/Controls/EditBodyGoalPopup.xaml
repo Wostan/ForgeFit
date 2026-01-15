@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
@@ -26,9 +27,9 @@
                    TextColor="{StaticResource TextPrimary}"
                    HorizontalOptions="Center"
                    Text="{maui:Translate Profile_BodyGoal}" />
-            
+
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}" 
+                <Label Style="{StaticResource LabelBodyBold}"
                        Text="{maui:Translate Goal_Title}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
@@ -40,8 +41,8 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}" 
-                       Text="{maui:Translate Goal_TargetWeight}" 
+                <Label Style="{StaticResource LabelBodyBold}"
+                       Text="{maui:Translate Goal_TargetWeight}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}">
@@ -56,21 +57,21 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}" 
-                       Text="{maui:Translate Goal_Description}" 
-                       FontSize="12" 
+                <Label Style="{StaticResource LabelBodyBold}"
+                       Text="{maui:Translate Goal_Description}"
+                       FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}" HeightRequest="80">
                     <Editor Text="{Binding EditBodyGoalDescription}"
                             Placeholder="{maui:Translate Goal_DescriptionPlaceholder}"
                             MaxLength="200"
-                            AutoSize="TextChanges"/>
+                            AutoSize="TextChanges" />
                 </Border>
             </VerticalStackLayout>
-        
+
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}" 
-                       Text="{maui:Translate Goal_DueDate}" 
+                <Label Style="{StaticResource LabelBodyBold}"
+                       Text="{maui:Translate Goal_DueDate}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}">

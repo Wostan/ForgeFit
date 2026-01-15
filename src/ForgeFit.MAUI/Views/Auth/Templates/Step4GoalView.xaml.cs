@@ -13,4 +13,3 @@ public partial class Step4GoalView : ContentView
         InitializeComponent();
     }
 }
-

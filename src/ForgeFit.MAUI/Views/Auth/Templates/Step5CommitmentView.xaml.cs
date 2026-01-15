@@ -13,4 +13,3 @@ public partial class Step5CommitmentView : ContentView
         InitializeComponent();
     }
 }
-

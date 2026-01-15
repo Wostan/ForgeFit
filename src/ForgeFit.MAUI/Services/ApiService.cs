@@ -55,12 +55,9 @@ public class ApiService(HttpClient httpClient) : IApiService
                     return ServiceResponse<T>.Ok(default!);
 
                 var contentString = await response.Content.ReadAsStringAsync(cancellationToken);
-                
-                if (typeof(T) == typeof(string))
-                {
-                    return ServiceResponse<T>.Ok((T)(object)contentString);
-                }
-            
+
+                if (typeof(T) == typeof(string)) return ServiceResponse<T>.Ok((T)(object)contentString);
+
                 if (string.IsNullOrWhiteSpace(contentString))
                     return ServiceResponse<T>.Ok(default!);
 

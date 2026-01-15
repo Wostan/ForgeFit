@@ -13,4 +13,3 @@ public partial class EditProfilePopup : ContentView
         InitializeComponent();
     }
 }
-

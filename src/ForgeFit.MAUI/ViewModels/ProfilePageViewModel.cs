@@ -44,7 +44,7 @@ public partial class ProfilePageViewModel : BaseViewModel
     [ObservableProperty] private string _bodyGoalDescription = string.Empty;
     [ObservableProperty] private string _bodyGoalDueDate = string.Empty;
     [ObservableProperty] private string _bodyGoalType = string.Empty;
-    
+
     [ObservableProperty] private string _nutritionGoalCalories = string.Empty;
     [ObservableProperty] private string _nutritionGoalCarbs = string.Empty;
     [ObservableProperty] private string _nutritionGoalProtein = string.Empty;
@@ -116,19 +116,17 @@ public partial class ProfilePageViewModel : BaseViewModel
         _bmiService = bmiService;
         _alertService = alertService;
         _localizationManager = localizationManager;
-        
+
         foreach (var type in Enum.GetValues<WorkoutType>())
-        {
             WorkoutTypes.Add(new WorkoutTypeOption
             {
                 Value = type,
                 DisplayName = _localizationManager[$"WorkoutType_{type}"]
             });
-        }
-        
+
         LoadDataCommand.Execute(null);
     }
-    
+
     [RelayCommand]
     private async Task LoadDataAsync()
     {
@@ -187,14 +185,16 @@ public partial class ProfilePageViewModel : BaseViewModel
             if (workoutGoalTask.Result is { Success: true, Data: not null })
                 UpdateWorkoutGoalState(workoutGoalTask.Result.Data);
         }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException)
+        {
+        }
         catch (Exception)
         {
             if (!token.IsCancellationRequested)
                 await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
         }
     }
-    
+
     private void UpdateProfileState(UserProfileDto profile)
     {
         _currentUserProfile = profile;
@@ -229,7 +229,7 @@ public partial class ProfilePageViewModel : BaseViewModel
             GoalType.WeightGain => _localizationManager["GoalType_WeightGain"],
             _ => "Unknown"
         };
-        
+
         BodyGoalEmoji = goal.GoalType switch
         {
             GoalType.MuscleGain => "💪",
@@ -270,12 +270,15 @@ public partial class ProfilePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void CloseEditProfile() => IsEditProfilePopupVisible = false;
+    private void CloseEditProfile()
+    {
+        IsEditProfilePopupVisible = false;
+    }
 
     [RelayCommand]
     private async Task SaveProfile()
     {
-        if (string.IsNullOrWhiteSpace(EditUsername) || 
+        if (string.IsNullOrWhiteSpace(EditUsername) ||
             !double.TryParse(EditHeight, CultureInfo.InvariantCulture, out var height) ||
             !double.TryParse(EditCurrentWeight, CultureInfo.InvariantCulture, out var weight))
         {
@@ -298,10 +301,10 @@ public partial class ProfilePageViewModel : BaseViewModel
         }
 
         var wUnit = _currentUserProfile?.WeightUnit ?? WeightUnit.Kg;
-        var isWeightValid = wUnit == WeightUnit.Kg 
-            ? weight is >= 30 and <= 300 
+        var isWeightValid = wUnit == WeightUnit.Kg
+            ? weight is >= 30 and <= 300
             : weight is >= 66 and <= 660;
-        
+
         if (!isWeightValid)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_InvalidWeightRange"]);
@@ -309,10 +312,10 @@ public partial class ProfilePageViewModel : BaseViewModel
         }
 
         var hUnit = _currentUserProfile?.HeightUnit ?? HeightUnit.Cm;
-        var isHeightValid = hUnit == HeightUnit.Cm 
-            ? height is >= 100 and <= 250 
+        var isHeightValid = hUnit == HeightUnit.Cm
+            ? height is >= 100 and <= 250
             : height is >= 40 and <= 98;
-            
+
         if (!isHeightValid)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_InvalidHeightRange"]);
@@ -341,7 +344,7 @@ public partial class ProfilePageViewModel : BaseViewModel
             {
                 UpdateProfileState(result.Data);
                 await _alertService.ShowToastAsync(_localizationManager["Success_ProfileUpdated"]);
-                
+
                 if (_currentBodyGoal != null)
                 {
                     var newGoalType = _bmiService.DetermineGoalType(
@@ -363,9 +366,7 @@ public partial class ProfilePageViewModel : BaseViewModel
 
                         var goalUpdateResult = await _goalService.UpdateBodyGoal(goalRequest, CancellationToken.None);
                         if (goalUpdateResult is { Success: true, Data: not null })
-                        {
                             UpdateBodyGoalState(goalUpdateResult.Data);
-                        }
                     }
                 }
             }
@@ -388,7 +389,7 @@ public partial class ProfilePageViewModel : BaseViewModel
     private void OpenEditBodyGoal()
     {
         if (_currentBodyGoal == null) return;
-        
+
         EditTargetWeight = _currentBodyGoal.WeightGoal.ToString(CultureInfo.InvariantCulture);
         EditBodyGoalTitle = _currentBodyGoal.Title;
         EditBodyGoalDescription = _currentBodyGoal.Description;
@@ -398,7 +399,10 @@ public partial class ProfilePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void CloseEditBodyGoal() => IsEditBodyGoalPopupVisible = false;
+    private void CloseEditBodyGoal()
+    {
+        IsEditBodyGoalPopupVisible = false;
+    }
 
     [RelayCommand]
     private async Task SaveBodyGoal()
@@ -411,23 +415,25 @@ public partial class ProfilePageViewModel : BaseViewModel
 
         if (string.IsNullOrWhiteSpace(EditBodyGoalTitle))
         {
-             await _alertService.ShowToastAsync(_localizationManager["Error_TitleRequired"]);
-             return;
+            await _alertService.ShowToastAsync(_localizationManager["Error_TitleRequired"]);
+            return;
         }
+
         if (EditBodyGoalTitle.Length > 20)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_TitleTooLong"]);
             return;
         }
+
         if (!string.IsNullOrEmpty(EditBodyGoalDescription) && EditBodyGoalDescription.Length > 200)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_DescriptionTooLong"]);
             return;
         }
-        
+
         var wUnit = _currentBodyGoal?.WeightUnit ?? WeightUnit.Kg;
-        var isWeightValid = wUnit == WeightUnit.Kg 
-            ? targetWeight is >= 30 and <= 300 
+        var isWeightValid = wUnit == WeightUnit.Kg
+            ? targetWeight is >= 30 and <= 300
             : targetWeight is >= 66 and <= 660;
 
         if (!isWeightValid)
@@ -437,22 +443,22 @@ public partial class ProfilePageViewModel : BaseViewModel
         }
 
         var userHeight = _currentUserProfile?.Height ?? 175;
-        var currentWeight = _currentUserProfile?.Weight ?? targetWeight; 
-        
+        var currentWeight = _currentUserProfile?.Weight ?? targetWeight;
+
         var newGoalType = _bmiService.DetermineGoalType(currentWeight, targetWeight, userHeight);
 
         var (isValid, errorMessage) = _goalRealismValidator.ValidateGoalRealism(
-            currentWeight, 
-            targetWeight, 
-            userHeight, 
-            EditBodyGoalDueDate, 
-            newGoalType, 
+            currentWeight,
+            targetWeight,
+            userHeight,
+            EditBodyGoalDueDate,
+            newGoalType,
             wUnit);
-        
+
         if (!isValid)
         {
             await _alertService.ShowToastAsync(errorMessage);
-            return; 
+            return;
         }
 
         IsEditBodyGoalPopupVisible = false;
@@ -506,7 +512,10 @@ public partial class ProfilePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void CloseEditNutrition() => IsEditNutritionGoalPopupVisible = false;
+    private void CloseEditNutrition()
+    {
+        IsEditNutritionGoalPopupVisible = false;
+    }
 
     [RelayCommand]
     private async Task SaveNutrition()
@@ -524,11 +533,13 @@ public partial class ProfilePageViewModel : BaseViewModel
             await _alertService.ShowToastAsync(_localizationManager["Error_CaloriesRange"]);
             return;
         }
+
         if (carbs < 0 || prot < 0 || fat < 0)
         {
-             await _alertService.ShowToastAsync(_localizationManager["Error_MacrosPositive"]);
-             return;
+            await _alertService.ShowToastAsync(_localizationManager["Error_MacrosPositive"]);
+            return;
         }
+
         if (water is < 1000 or > 10000)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_WaterRange"]);
@@ -569,17 +580,21 @@ public partial class ProfilePageViewModel : BaseViewModel
         if (_currentWorkoutGoal == null) return;
         EditWorkoutsPerWeek = _currentWorkoutGoal.WorkoutsPerWeek.ToString();
         EditDurationMinutes = _currentWorkoutGoal.Duration.TotalMinutes.ToString("F0");
-        EditWorkoutType = WorkoutTypes.FirstOrDefault(x => x.Value == _currentWorkoutGoal.WorkoutType) ?? new WorkoutTypeOption();
+        EditWorkoutType = WorkoutTypes.FirstOrDefault(x => x.Value == _currentWorkoutGoal.WorkoutType) ??
+                          new WorkoutTypeOption();
         IsEditWorkoutGoalPopupVisible = true;
     }
 
     [RelayCommand]
-    private void CloseEditWorkout() => IsEditWorkoutGoalPopupVisible = false;
+    private void CloseEditWorkout()
+    {
+        IsEditWorkoutGoalPopupVisible = false;
+    }
 
     [RelayCommand]
     private async Task SaveWorkout()
     {
-        if (!int.TryParse(EditWorkoutsPerWeek, out var freq) || 
+        if (!int.TryParse(EditWorkoutsPerWeek, out var freq) ||
             !double.TryParse(EditDurationMinutes, CultureInfo.InvariantCulture, out var duration))
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_InvalidInput"]);
@@ -591,7 +606,7 @@ public partial class ProfilePageViewModel : BaseViewModel
             await _alertService.ShowToastAsync(_localizationManager["Error_WorkoutFrequency"]);
             return;
         }
-        
+
         if (duration is < 5 or > 300)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_WorkoutDuration"]);
@@ -635,25 +650,30 @@ public partial class ProfilePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void ClosePasswordPopup() => IsChangePasswordPopupVisible = false;
+    private void ClosePasswordPopup()
+    {
+        IsChangePasswordPopupVisible = false;
+    }
 
     [RelayCommand]
     private async Task SavePassword()
     {
         if (string.IsNullOrWhiteSpace(OldPasswordInput))
         {
-             await _alertService.ShowToastAsync(_localizationManager["Error_CurrentPasswordRequired"]);
-             return;
+            await _alertService.ShowToastAsync(_localizationManager["Error_CurrentPasswordRequired"]);
+            return;
         }
+
         if (string.IsNullOrWhiteSpace(NewPasswordInput) || NewPasswordInput.Length < 6)
         {
-             await _alertService.ShowToastAsync(_localizationManager["Error_PasswordTooShort"]);
-             return;
+            await _alertService.ShowToastAsync(_localizationManager["Error_PasswordTooShort"]);
+            return;
         }
+
         if (OldPasswordInput == NewPasswordInput)
         {
-             await _alertService.ShowToastAsync(_localizationManager["Error_NewPasswordSame"]);
-             return;
+            await _alertService.ShowToastAsync(_localizationManager["Error_NewPasswordSame"]);
+            return;
         }
 
         IsChangePasswordPopupVisible = false;
@@ -665,13 +685,9 @@ public partial class ProfilePageViewModel : BaseViewModel
             var result = await _userService.ChangePasswordAsync(request);
 
             if (result.Success)
-            {
                 await _alertService.ShowToastAsync(_localizationManager["Success_PasswordChanged"]);
-            }
             else
-            {
                 await _alertService.ShowToastAsync(result.Message);
-            }
         }
         catch
         {
@@ -700,10 +716,10 @@ public partial class ProfilePageViewModel : BaseViewModel
             var getPlanResult = await _planService.GeneratePlanAsync(CancellationToken.None);
             if (!getPlanResult.Success || getPlanResult.Data == null)
             {
-                 await _alertService.ShowToastAsync(getPlanResult.Message);
-                 return;
+                await _alertService.ShowToastAsync(getPlanResult.Message);
+                return;
             }
-            
+
             var savePlanResult = await _planService.ConfirmPlanAsync(getPlanResult.Data, CancellationToken.None);
 
             if (savePlanResult is { Success: true })

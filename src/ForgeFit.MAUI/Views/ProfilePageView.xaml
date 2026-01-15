@@ -57,7 +57,7 @@
                                         <Label Style="{StaticResource LabelBodyBold}">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Style="{StaticResource LabelBodyBold}" 
+                                                    <Span Style="{StaticResource LabelBodyBold}"
                                                           Text="{Binding GenderEmoji}" />
                                                     <Span Style="{StaticResource LabelBodyBold}" Text=" " />
                                                     <Span Style="{StaticResource LabelBodyBold}"
@@ -133,7 +133,8 @@
                             </Grid>
 
                             <Border Style="{StaticResource CardStyle}" Padding="0">
-                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*" ColumnSpacing="10" RowSpacing="10"
+                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*" ColumnSpacing="10"
+                                      RowSpacing="10"
                                       Padding="20">
                                     <Label Grid.Row="0" Grid.ColumnSpan="2"
                                            Style="{StaticResource LabelH2}"
@@ -141,14 +142,14 @@
                                            VerticalOptions="Center"
                                            LineBreakMode="TailTruncation"
                                            Text="{Binding BodyGoalTitle}" />
-                                    
+
                                     <Label Grid.Row="0" Grid.Column="2"
                                            Style="{StaticResource LabelBodyBold}"
                                            HorizontalOptions="End"
                                            VerticalOptions="Center"
                                            MaxLines="1"
                                            LineBreakMode="HeadTruncation"
-                                           Text="{Binding BodyGoalDueDate}"/>
+                                           Text="{Binding BodyGoalDueDate}" />
 
                                     <Border Grid.Row="1" Grid.Column="0"
                                             Style="{StaticResource CardStyle}" Padding="0"

@@ -14,15 +14,9 @@ public class BmiService : IBmiService
 
     public GoalType DetermineGoalType(double currentWeight, double targetWeight, double heightCm)
     {
-        if (Math.Abs(currentWeight - targetWeight) < 1.0)
-        {
-            return GoalType.MuscleGain;
-        }
+        if (Math.Abs(currentWeight - targetWeight) < 1.0) return GoalType.MuscleGain;
 
-        if (targetWeight < currentWeight)
-        {
-            return GoalType.FatLoss;
-        }
+        if (targetWeight < currentWeight) return GoalType.FatLoss;
 
         var currentBmi = CalculateBmi(currentWeight, heightCm);
 

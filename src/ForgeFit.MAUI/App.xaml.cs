@@ -30,7 +30,7 @@ public partial class App : Application
     private async void NavigateUser(Window window)
     {
         window.Page = _serviceProvider.GetRequiredService<RegistrationPageView>();
-        
+
         // try
         // {
         //     if (await _authService.IsAuthenticatedAsync())

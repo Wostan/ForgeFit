@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maui="using:LocalizationResourceManager.Maui"
@@ -10,16 +11,16 @@
           Padding="30,50,30,150"
           x:DataType="local:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
-        
+
         <Grid.GestureRecognizers>
             <SwipeGestureRecognizer Direction="Right" Command="{Binding PreviousStepCommand}" />
         </Grid.GestureRecognizers>
 
         <VerticalStackLayout Grid.Row="0" VerticalOptions="End" Spacing="10" Margin="0,0,0,30">
-            <Label Text="🚀" 
-                   FontSize="60" 
-                   HorizontalOptions="Center" 
-                   Margin="0,0,0,10"/>
+            <Label Text="🚀"
+                   FontSize="60"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10" />
 
             <Label Text="{Binding CommitmentTitle}"
                    Style="{StaticResource LabelH1}"
@@ -32,27 +33,27 @@
                    Style="{StaticResource LabelBodyBold}"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
-                   LineHeight="1.2"/>
+                   LineHeight="1.2" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="2" VerticalOptions="End" Spacing="15" Margin="0,0,0,40">
-            
+
             <Button Text="{maui:Translate Reg_Commitment_Commit}"
-                    Command="{Binding NextStepCommand}" 
+                    Command="{Binding NextStepCommand}"
                     HeightRequest="60"
                     CornerRadius="30"
                     FontSize="22" />
-            
-            <Label Text="{maui:Translate Hint_SwipeBack}" 
+
+            <Label Text="{maui:Translate Hint_SwipeBack}"
                    Style="{StaticResource LabelBodyBold}"
                    FontSize="12"
                    HorizontalOptions="Center"
                    Opacity="0.5">
-                 <Label.GestureRecognizers>
+                <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding PreviousStepCommand}" />
-                 </Label.GestureRecognizers>
+                </Label.GestureRecognizers>
             </Label>
-            
+
         </VerticalStackLayout>
     </Grid>
 </ContentView>

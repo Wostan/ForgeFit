@@ -58,8 +58,7 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior Progress="{Binding CaloriesProgress}"
                                                                               Length="250"
-                                                                              Easing="SinInOut">
-                                        </toolkit:ProgressBarAnimationBehavior>
+                                                                              Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
@@ -97,8 +96,7 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior Progress="{Binding CarbsProgress}"
                                                                               Length="250"
-                                                                              Easing="SinInOut">
-                                        </toolkit:ProgressBarAnimationBehavior>
+                                                                              Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
@@ -129,8 +127,7 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior Progress="{Binding ProteinProgress}"
                                                                               Length="250"
-                                                                              Easing="SinInOut">
-                                        </toolkit:ProgressBarAnimationBehavior>
+                                                                              Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
@@ -161,8 +158,7 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior Progress="{Binding FatProgress}"
                                                                               Length="250"
-                                                                              Easing="SinInOut">
-                                        </toolkit:ProgressBarAnimationBehavior>
+                                                                              Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 

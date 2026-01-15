@@ -20,7 +20,7 @@ public partial class LoginPageViewModel : BaseViewModel
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
     private readonly IServiceProvider _serviceProvider;
-    
+
     [ObservableProperty] private string? _email;
     [ObservableProperty] private string? _password;
 
@@ -30,9 +30,9 @@ public partial class LoginPageViewModel : BaseViewModel
     [ObservableProperty] private LanguageItem? _selectedLanguage;
 
     public LoginPageViewModel(
-        IAuthService authService, 
+        IAuthService authService,
         IAlertService alertService,
-        ILocalizationResourceManager localizationManager, 
+        ILocalizationResourceManager localizationManager,
         IServiceProvider serviceProvider)
     {
         _authService = authService;
@@ -109,7 +109,7 @@ public partial class LoginPageViewModel : BaseViewModel
                 Error = new LocalizedString(() => result.Message);
                 return;
             }
-            
+
             RefreshTokenHandler.ResetState();
 
             MainThread.BeginInvokeOnMainThread(() =>
@@ -135,7 +135,7 @@ public partial class LoginPageViewModel : BaseViewModel
         if (value is null) return;
         _localizationManager.CurrentCulture = new CultureInfo(value.Code);
     }
-    
+
     [RelayCommand]
     private async Task GoToRegistration()
     {
@@ -151,7 +151,7 @@ public partial class LoginPageViewModel : BaseViewModel
             await _alertService.ShowToastAsync(errorMsg.Localized);
         }
     }
-    
+
 
     [GeneratedRegex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")]
     private static partial Regex EmailRegex();

@@ -18,14 +18,14 @@ public static class ServiceExtensions
 
         builder.Services.AddScoped<IDiaryService, DiaryService>();
         builder.Services.AddScoped<IFoodService, FoodService>();
-        
+
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPlanService, PlanService>();
 
         builder.Services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
 
         builder.Services.AddScoped<IGoalService, GoalService>();
-        
+
         builder.Services.AddSingleton<IBmiService, BmiService>();
         builder.Services.AddSingleton<IGoalRealismValidator, GoalRealismValidator>();
 

@@ -15,7 +15,7 @@ public class ButtonAnimationBehavior : Behavior<Button>
             typeof(bool), typeof(ButtonAnimationBehavior),
             false,
             propertyChanged: OnIsLoadingChanged);
-    
+
     public static readonly BindableProperty IsRegVisibleProperty =
         BindableProperty.CreateAttached(
             "IsRegVisible",
@@ -43,7 +43,7 @@ public class ButtonAnimationBehavior : Behavior<Button>
     {
         view.SetValue(IsLoadingProperty, value);
     }
-    
+
     public static bool GetIsRegVisible(BindableObject view)
     {
         return (bool)view.GetValue(IsRegVisibleProperty);
@@ -107,7 +107,7 @@ public class ButtonAnimationBehavior : Behavior<Button>
             }
         });
     }
-    
+
     private static async void OnIsRegVisibleChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not Button button) return;
@@ -115,7 +115,7 @@ public class ButtonAnimationBehavior : Behavior<Button>
         var isVisible = (bool)newValue;
 
         button.CancelAnimations();
-        
+
         if (isVisible)
         {
             button.InputTransparent = false;
@@ -127,10 +127,10 @@ public class ButtonAnimationBehavior : Behavior<Button>
         else
         {
             button.InputTransparent = true;
-            
+
             await button.TranslateToAsync(0, 200, 400, Easing.CubicOut);
-            
-            button.IsVisible = false; 
+
+            button.IsVisible = false;
         }
     }
 

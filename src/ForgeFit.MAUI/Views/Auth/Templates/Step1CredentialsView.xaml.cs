@@ -9,7 +9,7 @@ public partial class Step1CredentialsView : ContentView
     private const uint Duration = 4000;
 
     private bool _isBouncing;
-    
+
     public Step1CredentialsView()
     {
         InitializeComponent();
@@ -23,28 +23,26 @@ public partial class Step1CredentialsView : ContentView
         if (_isBouncing || ForgeFitLabel == null) return;
 
         _isBouncing = true;
-        
+
         while (_isBouncing)
-        {
-            try 
+            try
             {
                 await ForgeFitLabel.TranslateToAsync(0, Distance, Duration / 2, Easing.SinInOut);
-                
+
                 if (!_isBouncing) break;
-                
+
                 await ForgeFitLabel.TranslateToAsync(0, 0, Duration / 2, Easing.SinInOut);
             }
             catch (Exception)
             {
                 break;
             }
-        }
     }
 
     private void StopBounceAnimation()
     {
         _isBouncing = false;
-        
+
         ForgeFitLabel?.CancelAnimations();
         ForgeFitLabel?.TranslationY = 0;
     }

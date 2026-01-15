@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maui="using:LocalizationResourceManager.Maui"
@@ -7,7 +8,7 @@
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step4GoalView">
     <ContentView.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#FF7B5A</Color> 
+            <Color x:Key="Primary">#FF7B5A</Color>
         </ResourceDictionary>
     </ContentView.Resources>
     <Grid RowDefinitions="Auto, *, Auto"
@@ -15,14 +16,14 @@
           x:DataType="local:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
 
-        <VerticalStackLayout Grid.Row="0" 
-                             Spacing="20" 
+        <VerticalStackLayout Grid.Row="0"
+                             Spacing="20"
                              Margin="0, 50, 0, 0">
-            <Label Text="{maui:Translate Reg_Title_Goal}" 
-                   Style="{StaticResource LabelH1}" 
+            <Label Text="{maui:Translate Reg_Title_Goal}"
+                   Style="{StaticResource LabelH1}"
                    FontSize="32"
                    HorizontalTextAlignment="Center" />
-            
+
             <Label Text="{maui:Translate Reg_GoalDisclaimer}"
                    Style="{StaticResource LabelBodyBold}"
                    TextColor="{StaticResource TextSecondary}"
@@ -34,39 +35,39 @@
             <Border Style="{StaticResource CardStyle}">
                 <VerticalStackLayout>
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Grid.Column="0" 
+                        <Label Grid.Column="0"
                                Style="{StaticResource LabelH2}"
-                               Text="{maui:Translate Goal_TargetWeight}" 
-                               VerticalOptions="Center"/>
-                        
+                               Text="{maui:Translate Goal_TargetWeight}"
+                               VerticalOptions="Center" />
+
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding TargetWeight, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
                                           Style="{StaticResource LabelH1}"
-                                          FontSize="36"/> 
-                                    <Span Text=" " Style="{StaticResource LabelH1}"/>
+                                          FontSize="36" />
+                                    <Span Text=" " Style="{StaticResource LabelH1}" />
                                     <Span Text="{maui:Translate Weight_Kg}"
                                           Style="{StaticResource LabelBodyBold}"
-                                          FontSize="20"/>
+                                          FontSize="20" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="{Binding MinTargetWeight}" 
-                            Maximum="{Binding MaxTargetWeight}" 
+                    <Slider Minimum="{Binding MinTargetWeight}"
+                            Maximum="{Binding MaxTargetWeight}"
                             Value="{Binding TargetWeight}"
-                            ThumbColor="{StaticResource Primary}" 
-                            MinimumTrackColor="{StaticResource Primary}"/>
-                    
+                            ThumbColor="{StaticResource Primary}"
+                            MinimumTrackColor="{StaticResource Primary}" />
+
                     <Grid ColumnDefinitions="Auto, *, Auto" Padding="5,0">
-                        <Label Grid.Column="0" 
+                        <Label Grid.Column="0"
                                Text="{Binding MinTargetWeight, StringFormat='{0:F0}'}"
                                Style="{StaticResource LabelBodyBold}" />
-                        
-                        <Label Grid.Column="2" 
+
+                        <Label Grid.Column="2"
                                Text="{Binding MaxTargetWeight, StringFormat='{0:F0}'}"
                                Style="{StaticResource LabelBodyBold}" />
                     </Grid>
@@ -78,12 +79,12 @@
                         IsEnabled="{Binding IsDeadlineActive}">
                     <Grid RowDefinitions="Auto, *">
                         <Grid ColumnDefinitions="Auto, *" Grid.Row="0" VerticalOptions="Center">
-                            <Label Grid.Column="0" 
-                                   Text="{maui:Translate Goal_DueDate}" 
+                            <Label Grid.Column="0"
+                                   Text="{maui:Translate Goal_DueDate}"
                                    Style="{StaticResource LabelH2}" />
-                        
-                            <Label Grid.Column="1" 
-                                   Text="{Binding DaysLeftText}" 
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding DaysLeftText}"
                                    Style="{StaticResource LabelBodyBold}"
                                    TextColor="{StaticResource Primary}"
                                    FontSize="12"
@@ -97,32 +98,32 @@
                                     Format="dd MMM yyyy"
                                     FontSize="42"
                                     HorizontalOptions="Center"
-                                    VerticalOptions="Center"/>
+                                    VerticalOptions="Center" />
                     </Grid>
                 </Border>
-                
-                <HorizontalStackLayout Spacing="5" 
+
+                <HorizontalStackLayout Spacing="5"
                                        HorizontalOptions="Start"
                                        VerticalOptions="Start">
-                    <CheckBox IsChecked="{Binding IsNoDeadline}" 
-                              Color="{StaticResource Primary}"/>
-                
-                    <Label Text="{maui:Translate Goal_NoDeadline}" 
+                    <CheckBox IsChecked="{Binding IsNoDeadline}"
+                              Color="{StaticResource Primary}" />
+
+                    <Label Text="{maui:Translate Goal_NoDeadline}"
                            VerticalOptions="Center"
                            Style="{StaticResource LabelBodyBold}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleDeadlineCommand}" /> 
+                            <TapGestureRecognizer Command="{Binding ToggleDeadlineCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
-            
+
             <Label Text="{Binding Error.Localized}"
                    Opacity="{Binding IsError}"
                    TextColor="{StaticResource DangerColor}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
-                   Margin="0,10,0,0"/>
+                   Margin="0,10,0,0" />
         </VerticalStackLayout>
     </Grid>
 </ContentView>

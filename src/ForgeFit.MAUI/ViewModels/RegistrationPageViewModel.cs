@@ -42,14 +42,14 @@ public partial class RegistrationPageViewModel : BaseViewModel
     [ObservableProperty] private DateTime _birthDate = DateTime.Today.AddYears(-20);
     [ObservableProperty] private Gender _gender = Gender.Male;
     [ObservableProperty] private bool _isUsernameError;
-    
+
     public DateTime MaxDate => DateTime.Today.AddYears(-13);
     public DateTime MinDate => DateTime.Today.AddYears(-100);
 
     // step 3
     [ObservableProperty] private double _height = 175;
     [ObservableProperty] private double _weight = 75;
-    
+
     [ObservableProperty] private double _bmiValue;
     [ObservableProperty] private LocalizedString? _bmiCategoryText;
     [ObservableProperty] private Color _bmiColor = Colors.Gray;
@@ -64,7 +64,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
     [ObservableProperty] private bool _isNoDeadline;
     [ObservableProperty] private bool _isDeadlineActive = true;
     public DateTime MinGoalDate => DateTime.Today.AddDays(7);
-    
+
     // --- Step 5 Properties ---
     [ObservableProperty] private string _commitmentTitle = string.Empty;
     [ObservableProperty] private string _commitmentSubtitle = string.Empty;
@@ -119,25 +119,22 @@ public partial class RegistrationPageViewModel : BaseViewModel
     private void OnEntryChanged(object? obj = null)
     {
         Error = null;
-        
+
         // step 1
         IsEmailError = false;
         IsPasswordError = false;
         IsConfirmPasswordError = false;
-        
+
         // step 2 
         IsUsernameError = false;
     }
-    
+
     partial void OnHeightChanged(double value)
     {
         var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
 
-        if (Math.Abs(Height - rounded) > 0.01)
-        {
-            Height = rounded;
-        }
-    
+        if (Math.Abs(Height - rounded) > 0.01) Height = rounded;
+
         RecalculateBmi();
         RecalculateTargetLimits();
     }
@@ -146,60 +143,53 @@ public partial class RegistrationPageViewModel : BaseViewModel
     {
         var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
 
-        if (Math.Abs(Weight - rounded) > 0.01)
-        {
-            Weight = rounded;
-        }
-    
+        if (Math.Abs(Weight - rounded) > 0.01) Weight = rounded;
+
         RecalculateBmi();
     }
-    
+
     private void RecalculateTargetLimits()
     {
         if (Height <= 0) return;
 
         var heightM = Height / 100.0;
         var heightSq = heightM * heightM;
-        
-        MinTargetWeight = Math.Ceiling(18.5 * heightSq); 
-        MaxTargetWeight = Math.Floor(30.0 * heightSq);   
+
+        MinTargetWeight = Math.Ceiling(18.5 * heightSq);
+        MaxTargetWeight = Math.Floor(30.0 * heightSq);
 
         if (TargetWeight < MinTargetWeight || TargetWeight > MaxTargetWeight || TargetWeight == 0)
         {
             if (Weight >= MinTargetWeight && Weight <= MaxTargetWeight)
-            {
                 TargetWeight = Weight;
-            }
             else
-            {
                 TargetWeight = Math.Clamp(Weight, MinTargetWeight, MaxTargetWeight);
-            }
         }
         else
         {
             OnPropertyChanged(nameof(TargetWeight));
         }
     }
-    
+
     partial void OnGoalDueDateChanged(DateTime value)
     {
         if (!IsNoDeadline) RecalculateDaysLeft();
     }
-    
+
     [RelayCommand]
     private void ToggleDeadline()
     {
         IsNoDeadline = !IsNoDeadline;
     }
-    
+
     partial void OnIsNoDeadlineChanged(bool value)
     {
         IsDeadlineActive = !value;
         RecalculateDaysLeft();
-        
-        if (IsError) Error = null; 
+
+        if (IsError) Error = null;
     }
-    
+
     private void RecalculateDaysLeft()
     {
         if (IsNoDeadline)
@@ -210,7 +200,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
 
         var days = (GoalDueDate - DateTime.Today).TotalDays;
         var intDays = (int)Math.Ceiling(days);
-        
+
         DaysLeftText = string.Format(_localizationManager["Goal_DaysLeft"], intDays);
     }
 
@@ -223,11 +213,11 @@ public partial class RegistrationPageViewModel : BaseViewModel
     {
         UpdateCommitmentText();
     }
-    
+
     private void UpdateCommitmentText()
     {
         var name = string.IsNullOrWhiteSpace(Username) ? "User" : Username;
-        
+
         if (Gender == Gender.Male)
         {
             CommitmentTitle = string.Format(_localizationManager["Reg_Commitment_Title_Male"], name);
@@ -239,16 +229,16 @@ public partial class RegistrationPageViewModel : BaseViewModel
             CommitmentSubtitle = _localizationManager["Reg_Commitment_Subtitle_Female"];
         }
     }
-    
+
     partial void OnCurrentPositionChanged(int value)
     {
         Error = null;
-        
+
         IsEmailError = false;
         IsPasswordError = false;
         IsConfirmPasswordError = false;
         IsUsernameError = false;
-        
+
         UpdateState();
 
         if (value == 3) OnPropertyChanged(nameof(TargetWeight));
@@ -286,7 +276,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
             if (result is { Success: true })
             {
                 var isTaken = result.Data;
-                
+
                 if (isTaken)
                 {
                     IsEmailError = true;
@@ -295,7 +285,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
                 }
                 else
                 {
-                    IsEmailVerified = true; 
+                    IsEmailVerified = true;
                     IsEmailError = false;
                 }
             }
@@ -337,26 +327,22 @@ public partial class RegistrationPageViewModel : BaseViewModel
                 if (!ValidateStep3()) return;
                 break;
             case 3:
-                if (!ValidateStep4()) return; 
+                if (!ValidateStep4()) return;
                 break;
             case 4:
                 break;
         }
 
         if (CurrentPosition < Steps.Count - 1)
-        {
             CurrentPosition++;
-        }
         else
-        {
             await SubmitRegistration();
-        }
     }
 
     private bool ValidateStep1()
     {
-        if (string.IsNullOrWhiteSpace(Email) || 
-            string.IsNullOrWhiteSpace(Password) || 
+        if (string.IsNullOrWhiteSpace(Email) ||
+            string.IsNullOrWhiteSpace(Password) ||
             string.IsNullOrWhiteSpace(ConfirmPassword))
         {
             IsEmailError = string.IsNullOrWhiteSpace(Email);
@@ -415,7 +401,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
             Error = new LocalizedString(() => _localizationManager["Error_UsernameTooLong"]);
             return false;
         }
-        
+
         var minAgeDate = DateTime.Today.AddYears(-13);
         if (BirthDate > minAgeDate)
         {
@@ -425,16 +411,15 @@ public partial class RegistrationPageViewModel : BaseViewModel
 
         return true;
     }
-    
+
     private bool ValidateStep3()
     {
         if (Height > 0 && Weight > 0) return true;
-        
+
         Error = new LocalizedString(() => _localizationManager["EmptyFieldsMessage"]);
         return false;
-
     }
-    
+
     private bool ValidateStep4()
     {
         if (TargetWeight <= 0)
@@ -444,9 +429,9 @@ public partial class RegistrationPageViewModel : BaseViewModel
         }
 
         var goalType = _bmiService.DetermineGoalType(Weight, TargetWeight, Height);
-        
+
         DateTime? goalDueDate = IsNoDeadline ? null : GoalDueDate;
-        
+
         var validationResult = _goalValidator.ValidateGoalRealism(
             Weight,
             TargetWeight,
@@ -457,7 +442,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
         );
 
         if (validationResult.IsValid) return true;
-        
+
         Error = new LocalizedString(() => validationResult.ErrorMessage);
         return false;
     }
@@ -466,7 +451,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
     private void PreviousStep()
     {
         if (CurrentPosition <= 0) return;
-        
+
         CurrentPosition--;
     }
 
@@ -481,16 +466,13 @@ public partial class RegistrationPageViewModel : BaseViewModel
 
         ButtonText = _localizationManager["Action_Next"];
 
-        if (isLastStep)
-        {
-            UpdateCommitmentText();
-        }
+        if (isLastStep) UpdateCommitmentText();
     }
-    
+
     private void RecalculateBmi()
     {
         var bmi = _bmiService.CalculateBmi(Weight, Height);
-        
+
         BmiValue = Math.Round(bmi, 1);
 
         switch (bmi)
@@ -523,24 +505,24 @@ public partial class RegistrationPageViewModel : BaseViewModel
         if (IsLoading) return;
         IsLoading = true;
         Error = null;
-        
+
         try
         {
             var goalType = _bmiService.DetermineGoalType(Weight, TargetWeight, Height);
 
             var signUpRequest = new UserSignUpRequest(
-                Email, 
-                Password, 
-                Username, 
+                Email,
+                Password,
+                Username,
                 null,
-                BirthDate, 
-                Gender, 
-                Weight, 
-                WeightUnit.Kg, 
-                Height, 
+                BirthDate,
+                Gender,
+                Weight,
+                WeightUnit.Kg,
+                Height,
                 HeightUnit.Cm
             );
-            
+
             var signUpResult = await _authService.SignUpAsync(signUpRequest);
 
             if (!signUpResult.Success)
@@ -553,21 +535,21 @@ public partial class RegistrationPageViewModel : BaseViewModel
             DateTime? goalDueDate = IsNoDeadline ? null : GoalDueDate;
 
             var bodyGoalRequest = new BodyGoalCreateRequest(
-                Title: _localizationManager["Reg_InitialBodyGoalTitle"], 
-                Description: _localizationManager["Reg_InitialBodyGoalDesc"],
-                WeightGoal: TargetWeight,
-                WeightUnit: WeightUnit.Kg,
-                DueDate: goalDueDate,
-                GoalType: goalType
+                _localizationManager["Reg_InitialBodyGoalTitle"],
+                _localizationManager["Reg_InitialBodyGoalDesc"],
+                TargetWeight,
+                WeightUnit.Kg,
+                goalDueDate,
+                goalType
             );
 
             var goalResult = await _goalService.CreateBodyGoal(bodyGoalRequest);
-            
+
             if (!goalResult.Success)
             {
                 var errorMsg = new LocalizedString(() => goalResult.Message);
                 await _alertService.ShowToastAsync(errorMsg.Localized);
-                IsLoading = false; 
+                IsLoading = false;
                 return;
             }
 
@@ -589,7 +571,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
                 IsLoading = false;
                 return;
             }
-            
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 if (Application.Current != null && Application.Current.Windows.Count > 0)
@@ -623,7 +605,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
             await _alertService.ShowToastAsync(errorMsg.Localized);
         }
     }
-    
+
     [GeneratedRegex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")]
     private static partial Regex EmailRegex();
 }
