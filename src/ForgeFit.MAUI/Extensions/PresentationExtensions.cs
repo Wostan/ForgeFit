@@ -2,6 +2,7 @@
 using ForgeFit.MAUI.Views;
 using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;
+using ForgeFit.MAUI.Views.Workout;
 
 namespace ForgeFit.MAUI.Extensions;
 
@@ -15,6 +16,8 @@ public static class PresentationExtensions
         builder.Services.AddTransient<DiaryPageViewModel>();
         builder.Services.AddTransient<MealDetailsPageViewModel>();
         builder.Services.AddTransient<FoodSearchPageViewModel>();
+
+        builder.Services.AddTransient<WorkoutPageViewModel>();
 
         builder.Services.AddTransient<ProfilePageViewModel>();
 

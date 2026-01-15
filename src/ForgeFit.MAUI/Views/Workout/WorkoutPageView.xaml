@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
-             x:Class="ForgeFit.MAUI.Views.WorkoutPageView">
+             x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageView">
     <ContentPage.Content>
 
     </ContentPage.Content>
