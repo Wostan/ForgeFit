@@ -41,12 +41,14 @@
                                Shadow="{StaticResource WaterGlow}" />
                     </Grid>
 
-                    <ProgressBar ProgressColor="{StaticResource WaterColor}"
+                    <ProgressBar x:Name="WaterBar" ProgressColor="{StaticResource WaterColor}"
                                  Shadow="{StaticResource WaterGlow}">
                         <ProgressBar.Behaviors>
-                            <toolkit:ProgressBarAnimationBehavior Progress="{Binding WaterProgress}"
-                                                                  Length="250"
-                                                                  Easing="SinInOut" />
+                            <toolkit:ProgressBarAnimationBehavior
+                                BindingContext="{Binding BindingContext, Source={x:Reference WaterBar}}"
+                                Progress="{Binding WaterProgress}"
+                                Length="250"
+                                Easing="SinInOut" />
                         </ProgressBar.Behaviors>
                     </ProgressBar>
                 </VerticalStackLayout>

@@ -32,6 +32,7 @@
                                HorizontalOptions="Center" />
 
                         <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
+
                             <VerticalStackLayout VerticalOptions="Center" Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Calories}"
                                        Style="{StaticResource LabelBodyBold}"
@@ -40,8 +41,7 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Margin="0"
-                                       HorizontalOptions="Center">
+                                <Label Margin="0" HorizontalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding TotalCalories, StringFormat='{0:F0}'}"
@@ -53,12 +53,15 @@
                                     </Label.FormattedText>
                                 </Label>
 
-                                <ProgressBar ProgressColor="{StaticResource Primary}"
+                                <ProgressBar x:Name="CaloriesBar"
+                                             ProgressColor="{StaticResource Primary}"
                                              Shadow="{StaticResource CaloriesGlow}">
                                     <ProgressBar.Behaviors>
-                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding CaloriesProgress}"
-                                                                              Length="250"
-                                                                              Easing="SinInOut" />
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
+                                            Progress="{Binding CaloriesProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
@@ -75,9 +78,7 @@
                                 </Label>
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="1"
-                                                 VerticalOptions="Center"
-                                                 Spacing="-4">
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Carbs}"
                                        Style="{StaticResource LabelBodyBold}"
                                        Margin="0, 0, 0, 5"
@@ -91,12 +92,15 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <ProgressBar ProgressColor="{StaticResource CarbsColor}"
+                                <ProgressBar x:Name="CarbsBar"
+                                             ProgressColor="{StaticResource CarbsColor}"
                                              Shadow="{StaticResource CarbsGlow}">
                                     <ProgressBar.Behaviors>
-                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding CarbsProgress}"
-                                                                              Length="250"
-                                                                              Easing="SinInOut" />
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference CarbsBar}}"
+                                            Progress="{Binding CarbsProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
@@ -106,9 +110,7 @@
                                        HorizontalOptions="Center" />
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="2"
-                                                 VerticalOptions="Center"
-                                                 Spacing="-4">
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Protein}"
                                        Style="{StaticResource LabelBodyBold}"
                                        Margin="0, 0, 0, 5"
@@ -122,12 +124,15 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <ProgressBar ProgressColor="{StaticResource ProteinColor}"
+                                <ProgressBar x:Name="ProteinBar"
+                                             ProgressColor="{StaticResource ProteinColor}"
                                              Shadow="{StaticResource ProteinGlow}">
                                     <ProgressBar.Behaviors>
-                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding ProteinProgress}"
-                                                                              Length="250"
-                                                                              Easing="SinInOut" />
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference ProteinBar}}"
+                                            Progress="{Binding ProteinProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
@@ -137,9 +142,7 @@
                                        HorizontalOptions="Center" />
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="3"
-                                                 VerticalOptions="Center"
-                                                 Spacing="-4">
+                            <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Fat}"
                                        Style="{StaticResource LabelBodyBold}"
                                        Margin="0, 0, 0, 5"
@@ -153,12 +156,15 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <ProgressBar ProgressColor="{StaticResource FatColor}"
+                                <ProgressBar x:Name="FatBar"
+                                             ProgressColor="{StaticResource FatColor}"
                                              Shadow="{StaticResource FatGlow}">
                                     <ProgressBar.Behaviors>
-                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding FatProgress}"
-                                                                              Length="250"
-                                                                              Easing="SinInOut" />
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference FatBar}}"
+                                            Progress="{Binding FatProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 

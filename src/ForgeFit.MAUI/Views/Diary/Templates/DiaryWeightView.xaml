@@ -69,12 +69,15 @@
                         </Label>
                     </Grid>
 
-                    <ProgressBar ProgressColor="{StaticResource WeightColor}"
+                    <ProgressBar x:Name="WeightBar"
+                                 ProgressColor="{StaticResource WeightColor}"
                                  Shadow="{StaticResource WeightGlow}">
                         <ProgressBar.Behaviors>
-                            <toolkit:ProgressBarAnimationBehavior Progress="{Binding WeightProgress}"
-                                                                  Length="250"
-                                                                  Easing="SinInOut" />
+                            <toolkit:ProgressBarAnimationBehavior
+                                BindingContext="{Binding BindingContext, Source={x:Reference WeightBar}}"
+                                Progress="{Binding WeightProgress}"
+                                Length="250"
+                                Easing="SinInOut" />
                         </ProgressBar.Behaviors>
                     </ProgressBar>
                 </VerticalStackLayout>

@@ -148,11 +148,13 @@
                             </Label.FormattedText>
                         </Label>
                     </Grid>
-                    <ProgressBar>
+                    <ProgressBar x:Name="CaloriesBar">
                         <ProgressBar.Behaviors>
-                            <toolkit:ProgressBarAnimationBehavior Progress="{Binding CaloriesProgress}"
-                                                                  Length="250"
-                                                                  Easing="SinInOut" />
+                            <toolkit:ProgressBarAnimationBehavior
+                                BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
+                                Progress="{Binding CaloriesProgress}"
+                                Length="250"
+                                Easing="SinInOut" />
                         </ProgressBar.Behaviors>
                     </ProgressBar>
                 </VerticalStackLayout>
@@ -183,11 +185,13 @@
                             </Label.FormattedText>
                         </Label>
                     </Grid>
-                    <ProgressBar ProgressColor="{StaticResource WaterColor}">
+                    <ProgressBar x:Name="WaterBar" ProgressColor="{StaticResource WaterColor}">
                         <ProgressBar.Behaviors>
-                            <toolkit:ProgressBarAnimationBehavior Progress="{Binding WaterProgress}"
-                                                                  Length="250"
-                                                                  Easing="SinInOut" />
+                            <toolkit:ProgressBarAnimationBehavior
+                                BindingContext="{Binding BindingContext, Source={x:Reference WaterBar}}"
+                                Progress="{Binding WaterProgress}"
+                                Length="250"
+                                Easing="SinInOut" />
                         </ProgressBar.Behaviors>
                     </ProgressBar>
                 </VerticalStackLayout>
