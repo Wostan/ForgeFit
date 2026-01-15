@@ -27,24 +27,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="Step4Template">
-                <VerticalStackLayout Spacing="20" VerticalOptions="Center" Padding="20"
-                                     x:DataType="local:RegistrationPageViewModel">
-                    <Label Text="{maui:Translate Reg_Title_Goal}" 
-                           Style="{StaticResource LabelH1}" HorizontalOptions="Center" />
-                    
-                    <Label Text="{maui:Translate Reg_GoalDisclaimer}" 
-                           TextColor="{StaticResource TextSecondary}" 
-                           HorizontalTextAlignment="Center" />
-
-                    <Border Style="{StaticResource InputWrapper}" Margin="40,20">
-                        <Entry Text="{Binding TargetWeight}" 
-                               Placeholder="{maui:Translate Goal_TargetWeight}"
-                               Keyboard="Numeric" 
-                               HorizontalTextAlignment="Center"
-                               FontSize="24"
-                               FontAttributes="Bold"/>
-                    </Border>
-                </VerticalStackLayout>
+                <templates:Step4GoalView />
             </DataTemplate>
 
             <helpers:RegistrationStepTemplateSelector x:Key="StepSelector"

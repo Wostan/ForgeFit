@@ -325,7 +325,7 @@
         <value>Add details...</value>
     </data>
     <data name="Goal_DueDate" xml:space="preserve">
-        <value>Target Date</value>
+        <value>By what date?</value>
     </data>
     <data name="Goal_Title" xml:space="preserve">
         <value>Goal Title</value>
@@ -421,7 +421,7 @@
         <value>Hi there!</value>
     </data>
     <data name="Reg_GoalDisclaimer" xml:space="preserve">
-        <value>The goal must be achievable. You won't be able to gain 5 kg of muscle mass in a week 😉</value>
+        <value>Choose a weight you really want to reach and a realistic target date. You won't gain 5 kilograms of muscle in a week 😉</value>
     </data>
     <data name="Reg_WelcomeTitle" xml:space="preserve">
         <value>Going for a dream!</value>
@@ -491,5 +491,17 @@
     </data>
     <data name="Error_WeightGainUnrealistic" xml:space="preserve">
         <value>Gaining {0} kg/week is unsafe.</value>
+    </data>
+    <data name="Reg_InitialBodyGoalTitle" xml:space="preserve">
+        <value>On the way to the ideal body</value>
+    </data>
+    <data name="Reg_InitialBodyGoalDesc" xml:space="preserve">
+        <value>A goal that, once achieved, will definitely change your life for the better.</value>
+    </data>
+    <data name="Goal_DaysLeft" xml:space="preserve">
+        <value>{0} days to achieve</value>
+    </data>
+    <data name="Goal_NoDeadline" xml:space="preserve">
+        <value>No time limit</value>
     </data>
 </root>

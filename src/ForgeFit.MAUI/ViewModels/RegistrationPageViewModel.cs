@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Models.DTOs.Auth;
+using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.Views.Auth;
@@ -17,6 +19,9 @@ public partial class RegistrationPageViewModel : BaseViewModel
     private readonly IAlertService _alertService;
     private readonly IServiceProvider _serviceProvider;
     private readonly IBmiService _bmiService;
+    private readonly IGoalService _goalService;
+    private readonly IPlanService _planService;
+    private readonly IGoalRealismValidator _goalValidator;
     private readonly ILocalizationResourceManager _localizationManager;
 
     private CancellationTokenSource? _emailCheckCts;
@@ -50,32 +55,15 @@ public partial class RegistrationPageViewModel : BaseViewModel
     [ObservableProperty] private Color _bmiColor = Colors.Gray;
     [ObservableProperty] private LocalizedString? _bmiDescription;
 
-    partial void OnHeightChanged(double value)
-    {
-        var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
-
-        if (Math.Abs(Height - rounded) > 0.01)
-        {
-            Height = rounded;
-        }
-    
-        RecalculateBmi();
-    }
-
-    partial void OnWeightChanged(double value)
-    {
-        var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
-
-        if (Math.Abs(Weight - rounded) > 0.01)
-        {
-            Weight = rounded;
-        }
-    
-        RecalculateBmi();
-    }
-
     // step 4
-    [ObservableProperty] private string _targetWeight = string.Empty;
+    [ObservableProperty] private double _targetWeight;
+    [ObservableProperty] private double _minTargetWeight = 30;
+    [ObservableProperty] private double _maxTargetWeight = 300;
+    [ObservableProperty] private string _daysLeftText = string.Empty;
+    [ObservableProperty] private DateTime _goalDueDate = DateTime.Today.AddMonths(3);
+    [ObservableProperty] private bool _isNoDeadline;
+    [ObservableProperty] private bool _isDeadlineActive = true;
+    public DateTime MinGoalDate => DateTime.Today.AddDays(7);
 
     [ObservableProperty] private int _currentPosition;
     [ObservableProperty] private string _buttonText = string.Empty;
@@ -84,7 +72,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
 
     public ObservableCollection<string> Steps { get; } =
     [
-        "Credentials", "Personal", "Measurements", "Goal"
+        "Credentials", "Personal", "Measurements", "Goal", "Commitment"
     ];
 
     public RegistrationPageViewModel(
@@ -92,12 +80,18 @@ public partial class RegistrationPageViewModel : BaseViewModel
         IAlertService alertService,
         IServiceProvider serviceProvider,
         IBmiService bmiService,
+        IGoalService goalService,
+        IPlanService planService,
+        IGoalRealismValidator goalRealismValidator,
         ILocalizationResourceManager localizationManager)
     {
         _authService = authService;
         _alertService = alertService;
         _serviceProvider = serviceProvider;
         _bmiService = bmiService;
+        _goalService = goalService;
+        _planService = planService;
+        _goalValidator = goalRealismValidator;
         _localizationManager = localizationManager;
 
         var currentCode = _localizationManager.CurrentCulture.TwoLetterISOLanguageName;
@@ -105,6 +99,8 @@ public partial class RegistrationPageViewModel : BaseViewModel
                            ?? Languages.FirstOrDefault(l => l.Code == "en");
 
         RecalculateBmi();
+        RecalculateTargetLimits();
+        RecalculateDaysLeft();
         UpdateState();
         
         //for testing purposes
@@ -129,6 +125,97 @@ public partial class RegistrationPageViewModel : BaseViewModel
         
         // step 2 
         IsUsernameError = false;
+    }
+    
+    partial void OnHeightChanged(double value)
+    {
+        var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
+
+        if (Math.Abs(Height - rounded) > 0.01)
+        {
+            Height = rounded;
+        }
+    
+        RecalculateBmi();
+        RecalculateTargetLimits();
+    }
+
+    partial void OnWeightChanged(double value)
+    {
+        var rounded = Math.Round(value, 0, MidpointRounding.AwayFromZero);
+
+        if (Math.Abs(Weight - rounded) > 0.01)
+        {
+            Weight = rounded;
+        }
+    
+        RecalculateBmi();
+    }
+    
+    private void RecalculateTargetLimits()
+    {
+        if (Height <= 0) return;
+    
+        var heightM = Height / 100.0;
+    
+        MinTargetWeight = Math.Round(18.0 * heightM * heightM, 0);
+        MaxTargetWeight = Math.Round(30.0 * heightM * heightM, 0);
+
+        if (TargetWeight < MinTargetWeight || TargetWeight > MaxTargetWeight || TargetWeight == 0)
+        {
+            TargetWeight = Weight;
+        }
+        else
+        {
+            OnPropertyChanged(nameof(TargetWeight));
+        }
+    }
+    
+    partial void OnGoalDueDateChanged(DateTime value)
+    {
+        if (!IsNoDeadline) RecalculateDaysLeft();
+    }
+    
+    [RelayCommand]
+    private void ToggleDeadline()
+    {
+        IsNoDeadline = !IsNoDeadline;
+    }
+    
+    partial void OnIsNoDeadlineChanged(bool value)
+    {
+        IsDeadlineActive = !value;
+        RecalculateDaysLeft();
+        
+        if (IsError) Error = null; 
+    }
+    
+    private void RecalculateDaysLeft()
+    {
+        if (IsNoDeadline)
+        {
+            DaysLeftText = string.Format(_localizationManager["Goal_DaysLeft"], "∞");
+            return;
+        }
+
+        var days = (GoalDueDate - DateTime.Today).TotalDays;
+        var intDays = (int)Math.Ceiling(days);
+        
+        DaysLeftText = string.Format(_localizationManager["Goal_DaysLeft"], intDays);
+    }
+    
+    partial void OnCurrentPositionChanged(int value)
+    {
+        Error = null;
+        
+        IsEmailError = false;
+        IsPasswordError = false;
+        IsConfirmPasswordError = false;
+        IsUsernameError = false;
+        
+        UpdateState();
+
+        if (value == 3) OnPropertyChanged(nameof(TargetWeight));
     }
 
     [RelayCommand]
@@ -200,7 +287,7 @@ public partial class RegistrationPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void NextStep()
+    private async Task NextStep()
     {
         switch (CurrentPosition)
         {
@@ -213,17 +300,20 @@ public partial class RegistrationPageViewModel : BaseViewModel
             case 2:
                 if (!ValidateStep3()) return;
                 break;
-            // case 3
+            case 3:
+                if (!ValidateStep4()) return; 
+                break;
+            case 4:
+                break;
         }
 
         if (CurrentPosition < Steps.Count - 1)
         {
             CurrentPosition++;
-            UpdateState();
         }
         else
         {
-            SubmitRegistration();
+            await SubmitRegistration();
         }
     }
 
@@ -308,6 +398,33 @@ public partial class RegistrationPageViewModel : BaseViewModel
         return false;
 
     }
+    
+    private bool ValidateStep4()
+    {
+        if (TargetWeight <= 0)
+        {
+            Error = new LocalizedString(() => _localizationManager["Error_InvalidWeight"]);
+            return false;
+        }
+
+        var goalType = _bmiService.DetermineGoalType(Weight, TargetWeight, Height);
+        
+        DateTime? goalDueDate = IsNoDeadline ? null : GoalDueDate;
+        
+        var validationResult = _goalValidator.ValidateGoalRealism(
+            Weight,
+            TargetWeight,
+            Height,
+            goalDueDate,
+            goalType,
+            WeightUnit.Kg
+        );
+
+        if (validationResult.IsValid) return true;
+        
+        Error = new LocalizedString(() => validationResult.ErrorMessage);
+        return false;
+    }
 
     [RelayCommand]
     private void PreviousStep()
@@ -315,7 +432,6 @@ public partial class RegistrationPageViewModel : BaseViewModel
         if (CurrentPosition <= 0) return;
         
         CurrentPosition--;
-        UpdateState();
     }
 
     private void UpdateState()
@@ -358,9 +474,94 @@ public partial class RegistrationPageViewModel : BaseViewModel
         }
     }
 
-    private static void SubmitRegistration()
+    private async Task SubmitRegistration()
     {
-        Shell.Current.DisplayAlert("Success", "Registration Logic Here", "OK");
+        if (IsLoading) return;
+        IsLoading = true;
+        Error = null;
+        
+        try
+        {
+            var goalType = _bmiService.DetermineGoalType(Weight, TargetWeight, Height);
+
+            var signUpRequest = new UserSignUpRequest(
+                Email, 
+                Password, 
+                Username, 
+                null,
+                BirthDate, 
+                Gender, 
+                Weight, 
+                WeightUnit.Kg, 
+                Height, 
+                HeightUnit.Cm
+            );
+            
+            var signUpResult = await _authService.SignUpAsync(signUpRequest);
+
+            if (!signUpResult.Success)
+            {
+                Error = new LocalizedString(() => signUpResult.Message);
+                IsLoading = false;
+                return;
+            }
+
+            DateTime? goalDueDate = IsNoDeadline ? null : GoalDueDate;
+
+            var bodyGoalRequest = new BodyGoalCreateRequest(
+                Title: _localizationManager["Reg_InitialBodyGoalTitle"], 
+                Description: _localizationManager["Reg_InitialBodyGoalDesc"],
+                WeightGoal: TargetWeight,
+                WeightUnit: WeightUnit.Kg,
+                DueDate: goalDueDate,
+                GoalType: goalType
+            );
+
+            var goalResult = await _goalService.CreateBodyGoal(bodyGoalRequest);
+            
+            if (!goalResult.Success)
+            {
+                var errorMsg = new LocalizedString(() => goalResult.Message);
+                await _alertService.ShowToastAsync(errorMsg.Localized);
+                IsLoading = false; 
+                return;
+            }
+
+            var planResult = await _planService.GeneratePlanAsync();
+            if (!planResult.Success || planResult.Data == null)
+            {
+                var errorMsg = new LocalizedString(() => planResult.Message);
+                await _alertService.ShowToastAsync(errorMsg.Localized);
+                IsLoading = false;
+                return;
+            }
+
+            var confirmResult = await _planService.ConfirmPlanAsync(planResult.Data);
+
+            if (confirmResult is { Success: false })
+            {
+                var errorMsg = new LocalizedString(() => confirmResult.Message);
+                await _alertService.ShowToastAsync(errorMsg.Localized);
+                IsLoading = false;
+                return;
+            }
+            
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (Application.Current != null && Application.Current.Windows.Count > 0)
+                    Application.Current.Windows[0].Page = new AppShell();
+            });
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Registration Error: {ex}");
+            var errorMsg = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+            await _alertService.ShowToastAsync(errorMsg.Localized);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]

@@ -699,6 +699,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} days to achieve.
+        /// </summary>
+        internal static string Goal_DaysLeft {
+            get {
+                return ResourceManager.GetString("Goal_DaysLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string Goal_Description {
@@ -717,11 +726,20 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Target Date.
+        ///   Looks up a localized string similar to By what date?.
         /// </summary>
         internal static string Goal_DueDate {
             get {
                 return ResourceManager.GetString("Goal_DueDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No time limit.
+        /// </summary>
+        internal static string Goal_NoDeadline {
+            get {
+                return ResourceManager.GetString("Goal_NoDeadline", resourceCulture);
             }
         }
         
@@ -1131,7 +1149,7 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The goal must be achievable. You won&apos;t be able to gain 5 kg of muscle mass in a week 😉.
+        ///   Looks up a localized string similar to Choose a weight you really want to reach and a realistic target date. You won&apos;t gain 5 kilograms of muscle in a week 😉.
         /// </summary>
         internal static string Reg_GoalDisclaimer {
             get {
@@ -1145,6 +1163,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Reg_Height {
             get {
                 return ResourceManager.GetString("Reg_Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A goal that, once achieved, will definitely change your life for the better..
+        /// </summary>
+        internal static string Reg_InitialBodyGoalDesc {
+            get {
+                return ResourceManager.GetString("Reg_InitialBodyGoalDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On the way to the ideal body.
+        /// </summary>
+        internal static string Reg_InitialBodyGoalTitle {
+            get {
+                return ResourceManager.GetString("Reg_InitialBodyGoalTitle", resourceCulture);
             }
         }
         

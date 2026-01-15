@@ -325,7 +325,7 @@
         <value>Додайте деталі...</value>
     </data>
     <data name="Goal_DueDate" xml:space="preserve">
-        <value>Дата завершення</value>
+        <value>До якої дати?</value>
     </data>
     <data name="Goal_Title" xml:space="preserve">
         <value>Назва цілі</value>
@@ -421,7 +421,7 @@
         <value>Привіт!</value>
     </data>
     <data name="Reg_GoalDisclaimer" xml:space="preserve">
-        <value>Мета має бути здійсненною. Ви не зможете набрати 5 кг м'язової маси за тиждень 😉</value>
+        <value>Вибери вагу, до якої дійсно хочеш прийти, та реальну дату досягнення. За тиждень 5 кілограмів м'язів не набереш 😉</value>
     </data>
     <data name="Reg_WelcomeTitle" xml:space="preserve">
         <value>На шляху до мрії!</value>
@@ -491,5 +491,17 @@
     </data>
     <data name="Error_WeightGainUnrealistic" xml:space="preserve">
         <value>Набирати {0} кг/тиждень небезпечно.</value>
+    </data>
+    <data name="Reg_InitialBodyGoalTitle" xml:space="preserve">
+        <value>На шляху до ідеального тіла</value>
+    </data>
+    <data name="Reg_InitialBodyGoalDesc" xml:space="preserve">
+        <value>Мета, досягнувши якої ваше життя обов'язково зміниться на краще.</value>
+    </data>
+    <data name="Goal_DaysLeft" xml:space="preserve">
+        <value>{0} днів для досягнення</value>
+    </data>
+    <data name="Goal_NoDeadline" xml:space="preserve">
+        <value>Без обмежень у часі</value>
     </data>
 </root>
