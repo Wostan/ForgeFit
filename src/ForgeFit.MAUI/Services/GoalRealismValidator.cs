@@ -30,7 +30,7 @@ public class GoalRealismValidator(
             case GoalType.MuscleGain:
             case GoalType.WeightGain:
             {
-                if (targetBmi > 35.0)
+                if (targetBmi > 30.0)
                     return (false, localizationManager["Error_TargetWeightTooHigh"]);
                 break;
             }
