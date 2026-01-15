@@ -22,8 +22,7 @@
             <Label Text="{maui:Translate Reg_Subtitle_Measurements}"
                    Style="{StaticResource LabelBodyBold}"
                    TextColor="{StaticResource TextSecondary}"
-                   HorizontalTextAlignment="Center"
-                   FontSize="20" />
+                   HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Spacing="25" VerticalOptions="Center">
@@ -124,7 +123,7 @@
                     
                     <Label Text="{Binding BmiDescription.Localized}" 
                            Style="{StaticResource LabelBodyBold}"
-                           FontSize="14"
+                           FontSize="12"
                            HorizontalTextAlignment="End"/>
                 </VerticalStackLayout>
             </Grid>

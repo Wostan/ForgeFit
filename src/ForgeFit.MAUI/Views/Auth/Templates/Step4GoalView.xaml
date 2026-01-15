@@ -26,8 +26,7 @@
             <Label Text="{maui:Translate Reg_GoalDisclaimer}"
                    Style="{StaticResource LabelBodyBold}"
                    TextColor="{StaticResource TextSecondary}"
-                   HorizontalTextAlignment="Center"
-                   FontSize="20" />
+                   HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Spacing="25" VerticalOptions="Center">

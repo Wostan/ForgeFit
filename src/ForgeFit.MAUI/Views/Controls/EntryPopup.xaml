@@ -39,10 +39,9 @@
             <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
                 <Button Grid.Column="0"
                         Style="{StaticResource SecondaryButton}"
-                        Text="Cancel"
+                        Text="{maui:Translate Action_Cancel}"
                         Command="{Binding CloseEntryPopupCommand}" />
                 <Button Grid.Column="1"
-                        ImageSource="check.svg"
                         Text="{maui:Translate Action_Save}"
                         Command="{Binding EntryPopupButtonCommand}" />
             </Grid>
