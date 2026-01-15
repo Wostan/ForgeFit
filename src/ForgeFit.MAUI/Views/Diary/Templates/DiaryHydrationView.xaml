@@ -41,8 +41,14 @@
                                Shadow="{StaticResource WaterGlow}" />
                     </Grid>
 
-                    <ProgressBar Progress="{Binding WaterProgress}" ProgressColor="{StaticResource WaterColor}"
-                                 Shadow="{StaticResource WaterGlow}" />
+                    <ProgressBar ProgressColor="{StaticResource WaterColor}"
+                                 Shadow="{StaticResource WaterGlow}">
+                        <ProgressBar.Behaviors>
+                            <toolkit:ProgressBarAnimationBehavior Progress="{Binding WaterProgress}"
+                                                                  Length="250"
+                                                                  Easing="SinInOut" />
+                        </ProgressBar.Behaviors>
+                    </ProgressBar>
                 </VerticalStackLayout>
 
                 <Border Grid.Row="1" Style="{StaticResource CardStyle}"

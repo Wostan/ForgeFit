@@ -69,9 +69,14 @@
                         </Label>
                     </Grid>
 
-                    <ProgressBar Progress="{Binding WeightProgress}"
-                                 ProgressColor="{StaticResource WeightColor}"
-                                 Shadow="{StaticResource WeightGlow}" />
+                    <ProgressBar ProgressColor="{StaticResource WeightColor}"
+                                 Shadow="{StaticResource WeightGlow}">
+                        <ProgressBar.Behaviors>
+                            <toolkit:ProgressBarAnimationBehavior Progress="{Binding WeightProgress}"
+                                                                  Length="250"
+                                                                  Easing="SinInOut" />
+                        </ProgressBar.Behaviors>
+                    </ProgressBar>
                 </VerticalStackLayout>
 
                 <Border Grid.Row="1"

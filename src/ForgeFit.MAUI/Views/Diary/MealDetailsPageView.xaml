@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              behaviors:PageAnimationBehavior.AnimationType="Pop"
              Shell.NavBarIsVisible="False"
              x:DataType="local:MealDetailsPageViewModel"
@@ -52,9 +53,15 @@
                                     </Label.FormattedText>
                                 </Label>
 
-                                <ProgressBar Progress="{Binding CaloriesProgress}"
-                                             ProgressColor="{StaticResource Primary}"
-                                             Shadow="{StaticResource CaloriesGlow}" />
+                                <ProgressBar ProgressColor="{StaticResource Primary}"
+                                             Shadow="{StaticResource CaloriesGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding CaloriesProgress}"
+                                                                              Length="250"
+                                                                              Easing="SinInOut">
+                                        </toolkit:ProgressBarAnimationBehavior>
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
 
                                 <Label HorizontalOptions="Center">
                                     <Label.FormattedText>
@@ -85,9 +92,15 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <ProgressBar Progress="{Binding CarbsProgress}"
-                                             ProgressColor="{StaticResource CarbsColor}"
-                                             Shadow="{StaticResource CarbsGlow}" />
+                                <ProgressBar ProgressColor="{StaticResource CarbsColor}"
+                                             Shadow="{StaticResource CarbsGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding CarbsProgress}"
+                                                                              Length="250"
+                                                                              Easing="SinInOut">
+                                        </toolkit:ProgressBarAnimationBehavior>
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
 
                                 <Label Text="{Binding MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
@@ -111,9 +124,15 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <ProgressBar Progress="{Binding ProteinProgress}"
-                                             ProgressColor="{StaticResource ProteinColor}"
-                                             Shadow="{StaticResource ProteinGlow}" />
+                                <ProgressBar ProgressColor="{StaticResource ProteinColor}"
+                                             Shadow="{StaticResource ProteinGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding ProteinProgress}"
+                                                                              Length="250"
+                                                                              Easing="SinInOut">
+                                        </toolkit:ProgressBarAnimationBehavior>
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
 
                                 <Label Text="{Binding MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
@@ -137,9 +156,15 @@
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <ProgressBar Progress="{Binding FatProgress}"
-                                             ProgressColor="{StaticResource FatColor}"
-                                             Shadow="{StaticResource FatGlow}" />
+                                <ProgressBar ProgressColor="{StaticResource FatColor}"
+                                             Shadow="{StaticResource FatGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior Progress="{Binding FatProgress}"
+                                                                              Length="250"
+                                                                              Easing="SinInOut">
+                                        </toolkit:ProgressBarAnimationBehavior>
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
 
                                 <Label Text="{Binding MealTargetFatDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBodyBold}"
