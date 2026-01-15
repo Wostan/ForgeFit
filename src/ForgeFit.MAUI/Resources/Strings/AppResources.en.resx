@@ -504,4 +504,22 @@
     <data name="Goal_NoDeadline" xml:space="preserve">
         <value>No time limit</value>
     </data>
+    <data name="Reg_Commitment_Subtitle_Male" xml:space="preserve">
+        <value>Discipline isn't a prison. It's the freedom to be the best version of yourself. Are you ready?</value>
+    </data>
+    <data name="Reg_Commitment_Title_Male" xml:space="preserve">
+        <value>{0}, the path of a warrior begins from this very moment.</value>
+    </data>
+    <data name="Reg_Commitment_Title_Female" xml:space="preserve">
+        <value>Your transformation, {0}, begins at this very moment.</value>
+    </data>
+    <data name="Reg_Commitment_Subtitle_Female" xml:space="preserve">
+        <value>Beauty lies in strength and health. So start creating the best version of yourself right now. Are you ready?</value>
+    </data>
+    <data name="Reg_Commitment_Commit" xml:space="preserve">
+        <value>I'm In</value>
+    </data>
+    <data name="Hint_SwipeBack" xml:space="preserve">
+        <value>Swipe back if you forgot something</value>
+    </data>
 </root>

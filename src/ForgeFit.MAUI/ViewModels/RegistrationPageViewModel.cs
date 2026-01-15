@@ -64,7 +64,12 @@ public partial class RegistrationPageViewModel : BaseViewModel
     [ObservableProperty] private bool _isNoDeadline;
     [ObservableProperty] private bool _isDeadlineActive = true;
     public DateTime MinGoalDate => DateTime.Today.AddDays(7);
+    
+    // --- Step 5 Properties ---
+    [ObservableProperty] private string _commitmentTitle = string.Empty;
+    [ObservableProperty] private string _commitmentSubtitle = string.Empty;
 
+    [ObservableProperty] private bool _isMainNavigationVisible = true;
     [ObservableProperty] private int _currentPosition;
     [ObservableProperty] private string _buttonText = string.Empty;
     [ObservableProperty] private double _progress;
@@ -102,9 +107,6 @@ public partial class RegistrationPageViewModel : BaseViewModel
         RecalculateTargetLimits();
         RecalculateDaysLeft();
         UpdateState();
-        
-        //for testing purposes
-        CurrentPosition = 2;
     }
 
     public List<LoginPageViewModel.LanguageItem> Languages { get; } =
@@ -155,15 +157,23 @@ public partial class RegistrationPageViewModel : BaseViewModel
     private void RecalculateTargetLimits()
     {
         if (Height <= 0) return;
-    
+
         var heightM = Height / 100.0;
-    
-        MinTargetWeight = Math.Round(18.0 * heightM * heightM, 0);
-        MaxTargetWeight = Math.Round(30.0 * heightM * heightM, 0);
+        var heightSq = heightM * heightM;
+        
+        MinTargetWeight = Math.Ceiling(18.5 * heightSq); 
+        MaxTargetWeight = Math.Floor(30.0 * heightSq);   
 
         if (TargetWeight < MinTargetWeight || TargetWeight > MaxTargetWeight || TargetWeight == 0)
         {
-            TargetWeight = Weight;
+            if (Weight >= MinTargetWeight && Weight <= MaxTargetWeight)
+            {
+                TargetWeight = Weight;
+            }
+            else
+            {
+                TargetWeight = Math.Clamp(Weight, MinTargetWeight, MaxTargetWeight);
+            }
         }
         else
         {
@@ -202,6 +212,32 @@ public partial class RegistrationPageViewModel : BaseViewModel
         var intDays = (int)Math.Ceiling(days);
         
         DaysLeftText = string.Format(_localizationManager["Goal_DaysLeft"], intDays);
+    }
+
+    partial void OnUsernameChanged(string value)
+    {
+        UpdateCommitmentText();
+    }
+
+    partial void OnGenderChanged(Gender value)
+    {
+        UpdateCommitmentText();
+    }
+    
+    private void UpdateCommitmentText()
+    {
+        var name = string.IsNullOrWhiteSpace(Username) ? "User" : Username;
+        
+        if (Gender == Gender.Male)
+        {
+            CommitmentTitle = string.Format(_localizationManager["Reg_Commitment_Title_Male"], name);
+            CommitmentSubtitle = _localizationManager["Reg_Commitment_Subtitle_Male"];
+        }
+        else
+        {
+            CommitmentTitle = string.Format(_localizationManager["Reg_Commitment_Title_Female"], name);
+            CommitmentSubtitle = _localizationManager["Reg_Commitment_Subtitle_Female"];
+        }
     }
     
     partial void OnCurrentPositionChanged(int value)
@@ -436,11 +472,18 @@ public partial class RegistrationPageViewModel : BaseViewModel
 
     private void UpdateState()
     {
-        ButtonText = CurrentPosition == Steps.Count - 1
-            ? _localizationManager["Action_Finish"]
-            : _localizationManager["Action_Next"];
-
         Progress = (double)CurrentPosition / Steps.Count;
+
+        var isLastStep = CurrentPosition == Steps.Count - 1;
+
+        IsMainNavigationVisible = !isLastStep;
+
+        ButtonText = _localizationManager["Action_Next"];
+
+        if (isLastStep)
+        {
+            UpdateCommitmentText();
+        }
     }
     
     private void RecalculateBmi()

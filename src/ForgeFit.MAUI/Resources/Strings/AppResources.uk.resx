@@ -504,4 +504,22 @@
     <data name="Goal_NoDeadline" xml:space="preserve">
         <value>Без обмежень у часі</value>
     </data>
+    <data name="Reg_Commitment_Title_Male" xml:space="preserve">
+        <value>{0}, шлях воїна починається саме з цього моменту.</value>
+    </data>
+    <data name="Reg_Commitment_Subtitle_Male" xml:space="preserve">
+        <value>Дисципліна – це не в'язниця. Це свобода бути найкращою версією себе. Чи ти готовий?</value>
+    </data>
+    <data name="Reg_Commitment_Title_Female" xml:space="preserve">
+        <value>Твоя трансформація, {0}, розпочинається саме з цього моменту.</value>
+    </data>
+    <data name="Reg_Commitment_Subtitle_Female" xml:space="preserve">
+        <value>Краса саме в силі та у здоров'ї. Так почни ж створювати найкращу версію себе саме зараз. Чи ти готова?</value>
+    </data>
+    <data name="Reg_Commitment_Commit" xml:space="preserve">
+        <value>Даю слово</value>
+    </data>
+    <data name="Hint_SwipeBack" xml:space="preserve">
+        <value>Свайпніть назад, якщо щось забули</value>
+    </data>
 </root>

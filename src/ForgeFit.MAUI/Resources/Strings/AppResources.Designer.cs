@@ -825,6 +825,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Swipe back if you forgot something.
+        /// </summary>
+        internal static string Hint_SwipeBack {
+            get {
+                return ResourceManager.GetString("Hint_SwipeBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter water amount (ml):.
         /// </summary>
         internal static string Hydration_Custom {
@@ -1127,6 +1136,51 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Reg_AlreadyHaveAccount {
             get {
                 return ResourceManager.GetString("Reg_AlreadyHaveAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I&apos;m In.
+        /// </summary>
+        internal static string Reg_Commitment_Commit {
+            get {
+                return ResourceManager.GetString("Reg_Commitment_Commit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beauty lies in strength and health. So start creating the best version of yourself right now. Are you ready?.
+        /// </summary>
+        internal static string Reg_Commitment_Subtitle_Female {
+            get {
+                return ResourceManager.GetString("Reg_Commitment_Subtitle_Female", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline isn&apos;t a prison. It&apos;s the freedom to be the best version of yourself. Are you ready?.
+        /// </summary>
+        internal static string Reg_Commitment_Subtitle_Male {
+            get {
+                return ResourceManager.GetString("Reg_Commitment_Subtitle_Male", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your transformation, {0}, begins at this very moment..
+        /// </summary>
+        internal static string Reg_Commitment_Title_Female {
+            get {
+                return ResourceManager.GetString("Reg_Commitment_Title_Female", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}, the path of a warrior begins from this very moment..
+        /// </summary>
+        internal static string Reg_Commitment_Title_Male {
+            get {
+                return ResourceManager.GetString("Reg_Commitment_Title_Male", resourceCulture);
             }
         }
         

@@ -58,9 +58,11 @@
                 
                 <Border Style="{StaticResource InputWrapper}" Padding="0">
                     <Grid ColumnDefinitions="*, *" 
+                          RadioButtonGroup.GroupName="GenderGroup"
                           RadioButtonGroup.SelectedValue="{Binding Gender}">
                         
                         <RadioButton Grid.Column="0" 
+                                     GroupName="GenderGroup"
                                      Content="{maui:Translate Gender_Male}"
                                      FontSize="16"
                                      FontAttributes="Bold"
@@ -68,6 +70,7 @@
                                      Margin="15,0,0,0"/> 
                         
                         <RadioButton Grid.Column="1" 
+                                     GroupName="GenderGroup"
                                      Content="{maui:Translate Gender_Female}"
                                      FontSize="16"
                                      FontAttributes="Bold"

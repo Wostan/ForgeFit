@@ -29,12 +29,17 @@
             <DataTemplate x:Key="Step4Template">
                 <templates:Step4GoalView />
             </DataTemplate>
+            
+            <DataTemplate x:Key="Step5Template">
+                <templates:Step5CommitmentView />
+            </DataTemplate>
 
             <helpers:RegistrationStepTemplateSelector x:Key="StepSelector"
                                                         Step1Credentials="{StaticResource Step1Template}"
                                                         Step2Personal="{StaticResource Step2Template}"
                                                         Step3Measurements="{StaticResource Step3Template}"
-                                                        Step4Goal="{StaticResource Step4Template}" />
+                                                        Step4Goal="{StaticResource Step4Template}"
+                                                        Step5Commitment="{StaticResource Step5Template}"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -54,7 +59,8 @@
               ColumnSpacing="15"
               VerticalOptions="End"
               RowSpacing="20"
-              Padding="20,0">
+              Padding="20,0"
+              IsVisible="{Binding IsMainNavigationVisible}">
             <Button Grid.Column="0"
                     Style="{StaticResource SecondaryButton}"
                     Text="{maui:Translate Action_Back}"
