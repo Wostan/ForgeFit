@@ -25,8 +25,6 @@ public class GoalRealismValidator(
 
         switch (type)
         {
-            case GoalType.FatLoss when targetKg >= currentKg:
-                return (false, localizationManager["Error_TargetMustBeLower"]);
             case GoalType.FatLoss when targetBmi is > 0 and < 18.5:
                 return (false, localizationManager["Error_TargetWeightTooLow"]);
             case GoalType.MuscleGain:
