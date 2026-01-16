@@ -8,7 +8,6 @@ public partial class StateContainer : ContentView
     public StateContainer()
     {
         InitializeComponent();
-        Loaded += (_, _) => UpdateTabBarVisibility();
     }
 
     public static readonly BindableProperty IsLoadingProperty =
@@ -56,22 +55,5 @@ public partial class StateContainer : ContentView
         if (bindable is not StateContainer control) return;
 
         control.OnPropertyChanged(nameof(IsContentVisible));
-        control.UpdateTabBarVisibility();
-    }
-
-    private void UpdateTabBarVisibility()
-    {
-        var current = Parent;
-
-        while (current != null)
-        {
-            if (current is Page page)
-            {
-                Shell.SetTabBarIsVisible(page, IsContentVisible);
-                return;
-            }
-
-            current = current.Parent;
-        }
     }
 }
