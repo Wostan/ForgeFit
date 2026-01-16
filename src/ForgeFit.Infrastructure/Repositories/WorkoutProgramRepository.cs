@@ -44,6 +44,7 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
     {
         return await context.WorkoutPrograms
             .Include(wp => wp.WorkoutExercisePlans)
+            .ThenInclude(wep => wep.WorkoutSets)
             .Where(wp => wp.UserId == userId)
             .OrderByDescending(wp => wp.CreatedAt)
             .ToListAsync();
@@ -54,6 +55,7 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
     {
         return await context.WorkoutPrograms
             .Include(wp => wp.WorkoutExercisePlans)
+            .ThenInclude(wep => wep.WorkoutSets)
             .Where(wp => wp.UserId == userId && wp.Name.Contains(workoutProgramName))
             .OrderByDescending(wp => wp.CreatedAt)
             .ToListAsync();
