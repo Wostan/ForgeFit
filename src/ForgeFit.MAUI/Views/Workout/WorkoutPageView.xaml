@@ -8,13 +8,16 @@
              xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:models="using:ForgeFit.MAUI.Models.DTOs.Workout"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:WorkoutPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageView">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="ProgramItemTemplate" x:DataType="models:WorkoutProgramResponse">
+            <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
+            
+            <DataTemplate x:Key="ProgramItemTemplate" x:DataType="local:WorkoutProgramItem">
                 <Border Style="{StaticResource CardStyle}" 
                         Padding="0">
                     <Border.GestureRecognizers>
@@ -22,50 +25,94 @@
                                               CommandParameter="{Binding .}" />
                     </Border.GestureRecognizers>
 
-                    <Grid RowDefinitions="Auto, Auto, Auto" Padding="16">
+                    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto" Padding="16">
                         
-                        <Grid Grid.Row="0"
-                              ColumnDefinitions="*, Auto">
-                            <Label Text="{Binding Name}" 
-                                   Style="{StaticResource LabelBodyBold}"
-                                   TextColor="{StaticResource TextPrimary}"
-                                   MaxLines="1"
-                                   LineBreakMode="TailTruncation"
-                                   VerticalOptions="Center"/>
-                            
-                            <ImageButton Grid.Column="1"
-                                         VerticalOptions="Center"
-                                         HorizontalOptions="End"
-                                         Padding="0"
-                                         Source="edit.svg"
-                                         Shadow="{StaticResource WorkoutGlow}">
-                                <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
-                                </ImageButton.Behaviors>
-                            </ImageButton>
-                        </Grid>
-
-                        <Label Grid.Row="1" 
-                               Text="{Binding Description}" 
-                               Style="{StaticResource LabelBody}"
-                               TextColor="{StaticResource TextSecondary}"
-                               MaxLines="2"
-                               LineBreakMode="TailTruncation"
-                               IsVisible="{Binding Description, Converter={toolkit:IsStringNotNullOrEmptyConverter}}"/>
-                        
-                        <Label Grid.Row="2" 
+                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Program.Name}" 
                                Style="{StaticResource LabelBodyBold}"
-                               Text="{Binding WorkoutExercisePlans.Count, StringFormat='{0} Exercises'}" 
-                               FontSize="12" 
-                               HorizontalOptions="Start"
-                               VerticalOptions="End"/>
+                               TextColor="{StaticResource TextPrimary}"
+                               MaxLines="1"
+                               LineBreakMode="TailTruncation"
+                               VerticalOptions="Center"/>
+                        
+                        <ImageButton Grid.Row="0" Grid.Column="1"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="End"
+                                     Padding="0"
+                                     Source="edit.svg"
+                                     Shadow="{StaticResource WorkoutGlow}">
+                            <ImageButton.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
+                            </ImageButton.Behaviors>
+                        </ImageButton>
 
-                        <Button Grid.Row="2"
+                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                               Text="{Binding Program.Description}" 
+                               Style="{StaticResource LabelBodyBold}"
+                               FontSize="13"
+                               MaxLines="3"
+                               Margin="0,5"
+                               LineBreakMode="WordWrap"
+                               IsVisible="{Binding Program.Description, Converter={toolkit:IsStringNotNullOrEmptyConverter}}"/>
+                        
+                        <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2"
+                                             BindableLayout.ItemsSource="{Binding Top3Exercises}"
+                                             Spacing="4"
+                                             Margin="0,8,0,0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:WorkoutExercisePlanDto">
+                                    <Grid ColumnDefinitions="50, *" ColumnSpacing="8">
+                                        <Border Grid.Column="0" Grid.RowSpan="2" 
+                                                StrokeShape="RoundRectangle 50">
+                                            <Image HeightRequest="50"
+                                                   WidthRequest="50"
+                                                   IsAnimationPlaying="True"
+                                                   Aspect="AspectFill"
+                                                   Source="{Binding WorkoutExercise.GifUrl}" />
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="-4">
+                                            <Label Text="{Binding WorkoutExercise.Name, Converter={StaticResource TitleCaseConverter}}" 
+                                                   Style="{StaticResource LabelBodyBold}"
+                                                   MaxLines="1"
+                                                   LineBreakMode="TailTruncation"
+                                                   TextColor="{StaticResource TextPrimary}"/>
+                                        
+                                            <Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Style="{StaticResource LabelBodyBold}" Text="{Binding WorkoutSets.Count}" FontSize="12"/>
+                                                        <Span Style="{StaticResource LabelBodyBold}" Text=" " FontSize="12"/>
+                                                        <Span Style="{StaticResource LabelBodyBold}" Text="{maui:Translate Workout_Sets}" FontSize="12"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+
+                        <Label Grid.Row="3"
+                               IsVisible="{Binding HasMore}"
+                               Style="{StaticResource LabelBodyBold}"
+                               FontSize="12">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="+ " />
+                                    <Span Text="{Binding RemainingCount}" />
+                                    <Span Text=" " />
+                                    <Span Text="{maui:Translate Workout_More}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Button Grid.Row="3" Grid.Column="1"
                                 Text="{maui:Translate Action_StartWorkout}"
                                 BackgroundColor="{StaticResource WorkoutColor}"
                                 BorderColor="{StaticResource WorkoutColor}"
                                 Padding="8,4"
-                                FontSize="12"
+                                CornerRadius="8"
+                                FontSize="14"
                                 HorizontalOptions="End"
                                 VerticalOptions="End"
                                 MinimumHeightRequest="-1"
@@ -88,7 +135,7 @@
                                      RetryCommand="{Binding InitializeCommand}">
                 <RefreshView IsRefreshing="{Binding IsRefreshing}"
                              Command="{Binding RefreshCommand}"
-                             RefreshColor="{StaticResource Primary}">
+                             RefreshColor="{StaticResource WorkoutColor}">
                     
                     <ScrollView>
                         <VerticalStackLayout Style="{StaticResource MainContentStackLayout}" Spacing="25">

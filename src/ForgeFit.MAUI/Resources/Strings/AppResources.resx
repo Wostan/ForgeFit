@@ -548,4 +548,10 @@
     <data name="Workout_CreateProgram" xml:space="preserve">
         <value>Create Program</value>
     </data>
+    <data name="Workout_More" xml:space="preserve">
+        <value>more...</value>
+    </data>
+    <data name="Workout_Sets" xml:space="preserve">
+        <value>sets</value>
+    </data>
 </root>

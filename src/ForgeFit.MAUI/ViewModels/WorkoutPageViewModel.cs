@@ -36,7 +36,7 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
     [ObservableProperty] private string _statsSubtitle = string.Empty;
 
-    [ObservableProperty] private ObservableCollection<WorkoutProgramResponse> _programs = [];
+    [ObservableProperty] private ObservableCollection<WorkoutProgramItem> _programs = [];
 
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,
@@ -79,7 +79,6 @@ public partial class WorkoutPageViewModel : BaseViewModel
         {
             var today = DateTime.Today;
 
-
             var daysSinceMonday = ((int)today.DayOfWeek - 1 + 7) % 7;
             var monday = today.AddDays(-daysSinceMonday);
             var nextMonday = monday.AddDays(7);
@@ -109,7 +108,11 @@ public partial class WorkoutPageViewModel : BaseViewModel
             if (statsTask.Result is { Success: true, Data: not null }) CompletedWorkouts = statsTask.Result.Data.Count;
 
             if (programsTask.Result is { Success: true, Data: not null })
-                Programs = new ObservableCollection<WorkoutProgramResponse>(programsTask.Result.Data);
+            {
+                var viewModels = programsTask.Result.Data
+                    .Select(dto => new WorkoutProgramItem(dto));
+                Programs = new ObservableCollection<WorkoutProgramItem>(viewModels);
+            }
 
             UpdateStatsSubtitle();
 
@@ -156,21 +159,20 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoToCreateProgram()
     {
-        // Переход на страницу создания/редактирования
         // await Shell.Current.GoToAsync(nameof(WorkoutProgramEditorView));
         await _alertService.ShowToastAsync("Nav to Create Program (TODO)");
     }
 
     [RelayCommand]
-    private async Task GoToProgramDetails(WorkoutProgramResponse program)
+    private async Task GoToProgramDetails(WorkoutProgramItem item)
     {
-        // await Shell.Current.GoToAsync($"{nameof(WorkoutProgramDetailsView)}?ProgramId={program.Id}");
+        // await Shell.Current.GoToAsync($"{nameof(WorkoutProgramDetailsView)}?ProgramId={item.Program.Id}");
     }
 
     [RelayCommand]
-    private async Task StartProgram(WorkoutProgramResponse program)
+    private async Task StartProgram(WorkoutProgramItem item)
     {
-        // await Shell.Current.GoToAsync($"{nameof(ActiveWorkoutSessionView)}?ProgramId={program.Id}");
+        // await Shell.Current.GoToAsync($"{nameof(ActiveWorkoutSessionView)}?ProgramId={item.Program.Id}");
     }
 
     private void SetLoadingState()
@@ -195,4 +197,17 @@ public partial class WorkoutPageViewModel : BaseViewModel
     {
         StatsSubtitle = $"{CompletedWorkouts} / {TargetWorkouts} completed";
     }
+}
+
+public class WorkoutProgramItem(WorkoutProgramResponse program)
+{
+    public WorkoutProgramResponse Program { get; } = program;
+
+    public IEnumerable<WorkoutExercisePlanDto> Top3Exercises =>
+        Program.WorkoutExercisePlans?.Take(3) ?? [];
+
+    public int RemainingCount =>
+        Math.Max(0, (Program.WorkoutExercisePlans?.Count ?? 0) - 3);
+
+    public bool HasMore => RemainingCount > 0;
 }

@@ -540,4 +540,10 @@
     <data name="Workout_CreateProgram" xml:space="preserve">
         <value>Сторити програму</value>
     </data>
+    <data name="Workout_More" xml:space="preserve">
+        <value>ще...</value>
+    </data>
+    <data name="Workout_Sets" xml:space="preserve">
+        <value>підходи</value>
+    </data>
 </root>

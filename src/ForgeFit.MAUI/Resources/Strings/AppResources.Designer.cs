@@ -1572,11 +1572,29 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to more....
+        /// </summary>
+        internal static string Workout_More {
+            get {
+                return ResourceManager.GetString("Workout_More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Programs.
         /// </summary>
         internal static string Workout_MyPrograms_Title {
             get {
                 return ResourceManager.GetString("Workout_MyPrograms_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sets.
+        /// </summary>
+        internal static string Workout_Sets {
+            get {
+                return ResourceManager.GetString("Workout_Sets", resourceCulture);
             }
         }
         
