@@ -24,13 +24,13 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [ObservableProperty] private bool _isRefreshing;
 
     // stats
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WeeklyProgress))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _completedWorkouts;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WeeklyProgress))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _targetWorkouts;
 
-    public double WeeklyProgress => TargetWorkouts > 0
+    public double WorkoutProgress => TargetWorkouts > 0
         ? (double)CompletedWorkouts / TargetWorkouts
         : 0;
 

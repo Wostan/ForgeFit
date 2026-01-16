@@ -360,13 +360,13 @@
                                         Style="{StaticResource TextButton}"
                                         ImageSource="edit.svg"
                                         Text="{maui:Translate Action_Edit}"
-                                        TextColor="{StaticResource Primary}"
+                                        TextColor="{StaticResource WorkoutColor}"
                                         Padding="0"
                                         MinimumHeightRequest="-1"
                                         HorizontalOptions="End"
                                         Command="{Binding OpenEditWorkoutGoalCommand}">
                                     <Button.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                                        <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
                                     </Button.Behaviors>
                                 </Button>
                             </Grid>
@@ -379,8 +379,8 @@
                                                 <Label Grid.Row="0"
                                                        Text="{Binding WorkoutGoalPerWeek}"
                                                        FontSize="32"
-                                                       TextColor="{StaticResource Primary}"
-                                                       Shadow="{StaticResource PrimaryGlow}"
+                                                       TextColor="{StaticResource WorkoutColor}"
+                                                       Shadow="{StaticResource WorkoutGlow}"
                                                        Margin="0"
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
@@ -401,8 +401,8 @@
                                                 <Label Grid.Row="0"
                                                        Text="{Binding WorkoutGoalDurationMinutes}"
                                                        FontSize="32"
-                                                       TextColor="{StaticResource Primary}"
-                                                       Shadow="{StaticResource PrimaryGlow}"
+                                                       TextColor="{StaticResource WorkoutColor}"
+                                                       Shadow="{StaticResource WorkoutGlow}"
                                                        Margin="0"
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
@@ -427,8 +427,8 @@
                                                               VerticalOptions="Center">
                                                 <Label Text="{Binding WorkoutGoalType}"
                                                        FontSize="32"
-                                                       TextColor="{StaticResource Primary}"
-                                                       Shadow="{StaticResource PrimaryGlow}"
+                                                       TextColor="{StaticResource WorkoutColor}"
+                                                       Shadow="{StaticResource WorkoutGlow}"
                                                        FontAttributes="Bold"
                                                        Margin="0"
                                                        HorizontalTextAlignment="Center" />

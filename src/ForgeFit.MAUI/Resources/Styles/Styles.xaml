@@ -60,6 +60,12 @@
             Opacity="0.3"
             Brush="{StaticResource FatColor}"
             Offset="0,0" />
+    
+    <Shadow x:Key="WorkoutGlow"
+            Radius="25"
+            Opacity="0.3"
+            Brush="{StaticResource WorkoutColor}"
+            Offset="0,0" />
 
     <Shadow x:Key="SuccessGlow"
             Radius="25"

@@ -168,6 +168,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string Action_StartWorkout {
+            get {
+                return ResourceManager.GetString("Action_StartWorkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Looking good, legend. Keep it up, but never settle!.
         /// </summary>
         internal static string BMI_Desc_Normal {
@@ -1518,6 +1527,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Program.
+        /// </summary>
+        internal static string Workout_CreateProgram {
+            get {
+                return ResourceManager.GetString("Workout_CreateProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to workouts completed.
+        /// </summary>
+        internal static string Workout_Done {
+            get {
+                return ResourceManager.GetString("Workout_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration (min).
         /// </summary>
         internal static string Workout_Duration {
@@ -1527,11 +1554,38 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You haven&apos;t created any programs, but you should....
+        /// </summary>
+        internal static string Workout_EmptyPrograms {
+            get {
+                return ResourceManager.GetString("Workout_EmptyPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frequency (per week).
         /// </summary>
         internal static string Workout_Frequency {
             get {
                 return ResourceManager.GetString("Workout_Frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Programs.
+        /// </summary>
+        internal static string Workout_MyPrograms_Title {
+            get {
+                return ResourceManager.GetString("Workout_MyPrograms_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekly Goal.
+        /// </summary>
+        internal static string Workout_Stats_Title {
+            get {
+                return ResourceManager.GetString("Workout_Stats_Title", resourceCulture);
             }
         }
         

@@ -32,7 +32,7 @@
 
                     <Label x:Name="TitleLabel"
                            Text="{Binding Title}"
-                           Style="{StaticResource LabelH2}"
+                           Style="{StaticResource LabelH1}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            InputTransparent="True" />
