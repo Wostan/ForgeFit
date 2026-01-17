@@ -1,7 +1,7 @@
 ﻿using ForgeFit.MAUI.ViewModels;
 using ZXing.Net.Maui;
 
-namespace ForgeFit.MAUI.Views.Controls;
+namespace ForgeFit.MAUI.Views.Controls.Diary;
 
 public partial class BarcodeScanner : ContentView
 {

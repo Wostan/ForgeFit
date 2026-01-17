@@ -7,6 +7,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
              x:DataType="local:FoodSearchPageViewModel"
@@ -57,21 +58,17 @@
                                                 <Setter.Value>
                                                     <FormattedString>
                                                         <Span Text="{maui:Translate Search_ResultsFor}"
-                                                              Style="{StaticResource LabelBodyBold}"
-                                                              TextColor="{StaticResource TextSecondary}" />
+                                                              Style="{StaticResource LabelBodyBold}" />
 
                                                         <Span Text=" '"
-                                                              Style="{StaticResource LabelBodyBold}"
-                                                              TextColor="{StaticResource TextSecondary}" />
+                                                              Style="{StaticResource LabelBodyBold}" />
 
                                                         <Span
                                                             Text="{Binding BindingContext.SearchText, Source={x:Reference ThisPage}}"
-                                                            Style="{StaticResource LabelBodyBold}"
-                                                            TextColor="{StaticResource TextSecondary}" />
+                                                            Style="{StaticResource LabelBodyBold}" />
 
                                                         <Span Text="'"
-                                                              Style="{StaticResource LabelBodyBold}"
-                                                              TextColor="{StaticResource TextSecondary}" />
+                                                              Style="{StaticResource LabelBodyBold}" />
                                                     </FormattedString>
                                                 </Setter.Value>
                                             </Setter>
@@ -283,14 +280,14 @@
                 </Grid>
             </Border>
 
-            <controls:BarcodeScanner ZIndex="11"
+            <diary:BarcodeScanner ZIndex="11"
                                      IsActive="{Binding IsScannerVisible}" />
 
-            <controls:FoodDetails ZIndex="12">
-                <controls:FoodDetails.Behaviors>
+            <diary:FoodDetails ZIndex="12">
+                <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
-                </controls:FoodDetails.Behaviors>
-            </controls:FoodDetails>
+                </diary:FoodDetails.Behaviors>
+            </diary:FoodDetails>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

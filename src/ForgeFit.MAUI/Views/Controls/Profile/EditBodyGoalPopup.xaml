@@ -5,7 +5,7 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:sys="using:System"
-             x:Class="ForgeFit.MAUI.Views.Controls.EditBodyGoalPopup"
+             x:Class="ForgeFit.MAUI.Views.Controls.Profile.EditBodyGoalPopup"
              BackgroundColor="#90000000">
 
     <ContentView.GestureRecognizers>

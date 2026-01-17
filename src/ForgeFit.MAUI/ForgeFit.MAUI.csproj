@@ -112,6 +112,34 @@
             <DependentUpon>WorkoutPageView.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Views\Controls\Diary\BarcodeScanner.xaml.cs">
+          <DependentUpon>BarcodeScanner.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Diary\FoodDetails.xaml.cs">
+          <DependentUpon>FoodDetails.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Profile\ChangePasswordPopup.xaml.cs">
+          <DependentUpon>ChangePasswordPopup.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Profile\EditBodyGoalPopup.xaml.cs">
+          <DependentUpon>EditBodyGoalPopup.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Profile\EditNutritionGoalPopup.xaml.cs">
+          <DependentUpon>EditNutritionGoalPopup.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Profile\EditProfilePopup.xaml.cs">
+          <DependentUpon>EditProfilePopup.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Profile\EditWorkoutGoalPopup.xaml.cs">
+          <DependentUpon>EditWorkoutGoalPopup.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -134,12 +162,37 @@
         <MauiXaml Update="Views\Workout\WorkoutPageView.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
+        <MauiXaml Update="Views\Controls\Diary\BarcodeScanner.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Diary\FoodDetails.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Profile\ChangePasswordPopup.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Profile\EditBodyGoalPopup.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Profile\EditNutritionGoalPopup.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Profile\EditProfilePopup.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Profile\EditWorkoutGoalPopup.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
         <Reference Include="Microsoft.WinUI">
             <HintPath>..\..\..\..\..\.nuget\packages\microsoft.windowsappsdk\1.7.250909003\lib\net6.0-windows10.0.18362.0\Microsoft.WinUI.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Controls\Workout\" />
     </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:profile="using:ForgeFit.MAUI.Views.Controls.Profile"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:ProfilePageViewModel"
              x:Class="ForgeFit.MAUI.Views.ProfilePageView">
@@ -469,35 +470,35 @@
                 </ScrollView>
             </RefreshView>
 
-            <controls:EditProfilePopup>
-                <controls:EditProfilePopup.Behaviors>
+            <profile:EditProfilePopup>
+                <profile:EditProfilePopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditProfilePopupVisible}" />
-                </controls:EditProfilePopup.Behaviors>
-            </controls:EditProfilePopup>
+                </profile:EditProfilePopup.Behaviors>
+            </profile:EditProfilePopup>
 
-            <controls:EditBodyGoalPopup>
-                <controls:EditBodyGoalPopup.Behaviors>
+            <profile:EditBodyGoalPopup>
+                <profile:EditBodyGoalPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditBodyGoalPopupVisible}" />
-                </controls:EditBodyGoalPopup.Behaviors>
-            </controls:EditBodyGoalPopup>
+                </profile:EditBodyGoalPopup.Behaviors>
+            </profile:EditBodyGoalPopup>
 
-            <controls:EditNutritionGoalPopup>
-                <controls:EditNutritionGoalPopup.Behaviors>
+            <profile:EditNutritionGoalPopup>
+                <profile:EditNutritionGoalPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditNutritionGoalPopupVisible}" />
-                </controls:EditNutritionGoalPopup.Behaviors>
-            </controls:EditNutritionGoalPopup>
+                </profile:EditNutritionGoalPopup.Behaviors>
+            </profile:EditNutritionGoalPopup>
 
-            <controls:EditWorkoutGoalPopup>
-                <controls:EditWorkoutGoalPopup.Behaviors>
+            <profile:EditWorkoutGoalPopup>
+                <profile:EditWorkoutGoalPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditWorkoutGoalPopupVisible}" />
-                </controls:EditWorkoutGoalPopup.Behaviors>
-            </controls:EditWorkoutGoalPopup>
+                </profile:EditWorkoutGoalPopup.Behaviors>
+            </profile:EditWorkoutGoalPopup>
 
-            <controls:ChangePasswordPopup>
-                <controls:ChangePasswordPopup.Behaviors>
+            <profile:ChangePasswordPopup>
+                <profile:ChangePasswordPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsChangePasswordPopupVisible}" />
-                </controls:ChangePasswordPopup.Behaviors>
-            </controls:ChangePasswordPopup>
+                </profile:ChangePasswordPopup.Behaviors>
+            </profile:ChangePasswordPopup>
 
             <controls:ConfirmationPopup>
                 <controls:ConfirmationPopup.Behaviors>

@@ -8,6 +8,7 @@
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
              behaviors:PageAnimationBehavior.AnimationType="Pop"
              Shell.NavBarIsVisible="False"
              x:DataType="local:MealDetailsPageViewModel"
@@ -354,11 +355,11 @@
                         Command="{Binding GoToFoodSearchCommand}" />
             </Grid>
 
-            <controls:FoodDetails ZIndex="10">
-                <controls:FoodDetails.Behaviors>
+            <diary:FoodDetails ZIndex="10">
+                <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
-                </controls:FoodDetails.Behaviors>
-            </controls:FoodDetails>
+                </diary:FoodDetails.Behaviors>
+            </diary:FoodDetails>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

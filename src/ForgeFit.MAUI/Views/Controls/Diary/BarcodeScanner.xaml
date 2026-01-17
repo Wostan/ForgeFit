@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             x:Class="ForgeFit.MAUI.Views.Controls.BarcodeScanner"
+             x:Class="ForgeFit.MAUI.Views.Controls.Diary.BarcodeScanner"
              x:DataType="local:FoodSearchPageViewModel"
              BackgroundColor="#90000000"
              InputTransparent="False">
