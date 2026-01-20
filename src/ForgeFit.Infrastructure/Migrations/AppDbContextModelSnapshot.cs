@@ -436,7 +436,6 @@ namespace ForgeFit.Infrastructure.Migrations
             modelBuilder.Entity("ForgeFit.Domain.Aggregates.WorkoutAggregate.WorkoutSet", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Order")
@@ -466,7 +465,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                             t.HasCheckConstraint("CK_WorkoutSet_RepsCheck", "Reps > 0");
 
-                            t.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue > 0");
+                            t.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue >= 0");
 
                             t.HasCheckConstraint("CK_WorkoutSets_WeightUnitCheck", "WeightUnit IN (1, 2)");
                         });

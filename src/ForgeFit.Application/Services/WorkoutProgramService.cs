@@ -30,10 +30,10 @@ public class WorkoutProgramService(
         );
 
         var exercises = workoutProgramRequest.WorkoutExercisePlans
-            .Select(planDto => CreateFromDto(program.Id, userId, planDto))
+            .Select(planDto => CreateExercisePlanEntity(program.Id, userId, planDto))
             .ToList();
 
-        program.AddWorkoutExercises(exercises);
+        foreach (var exercise in exercises) program.AddExercisePlan(exercise);
 
         await workoutProgramRepository.AddAsync(program);
         await unitOfWork.SaveChangesAsync();
@@ -44,23 +44,83 @@ public class WorkoutProgramService(
     public async Task<WorkoutProgramResponse> UpdateWorkoutProgramAsync(
         Guid userId,
         Guid workoutProgramId,
-        WorkoutProgramRequest workoutProgramRequest)
+        WorkoutProgramRequest request)
     {
         var program = await workoutProgramRepository.GetByIdWithNavigationsAsync(workoutProgramId);
 
         if (program == null) throw new NotFoundException("Workout program not found");
-
         if (program.UserId != userId) throw new UnauthorizedAccessException("You do not own this program");
 
-        var newExercises = workoutProgramRequest.WorkoutExercisePlans
-            .Select(planDto => CreateFromDto(program.Id, userId, planDto))
+        program.UpdateDetails(request.Name, request.Description);
+
+        var existingPlans = program.WorkoutExercisePlans.ToList();
+        var incomingPlanIds = request.WorkoutExercisePlans
+            .Where(p => p.Id != Guid.Empty)
+            .Select(p => p.Id)
             .ToList();
 
-        program.Update(
-            workoutProgramRequest.Name,
-            workoutProgramRequest.Description,
-            newExercises
-        );
+        var plansToRemove = existingPlans.Where(p => !incomingPlanIds.Contains(p.Id)).ToList();
+        foreach (var plan in plansToRemove) program.RemoveExercisePlan(plan);
+
+        foreach (var existingPlan in existingPlans.Where(p => !plansToRemove.Contains(p)))
+        {
+            var incomingDto = request.WorkoutExercisePlans.FirstOrDefault(p => p.Id == existingPlan.Id);
+            if (incomingDto == null) continue;
+
+            var existingSets = existingPlan.WorkoutSets.ToList();
+            var incomingSetIds = incomingDto.WorkoutSets
+                .Where(s => s.Id != Guid.Empty)
+                .Select(s => s.Id)
+                .ToList();
+
+            var setsToRemove = existingSets.Where(s => !incomingSetIds.Contains(s.Id)).ToList();
+            foreach (var set in setsToRemove) existingPlan.RemoveSet(set);
+        }
+
+        foreach (var dto in request.WorkoutExercisePlans)
+        {
+            var existingPlan = program.WorkoutExercisePlans.FirstOrDefault(p => p.Id == dto.Id && p.Id != Guid.Empty);
+
+            if (existingPlan == null)
+            {
+                var newPlan = CreateExercisePlanEntity(program.Id, userId, dto);
+                program.AddExercisePlan(newPlan);
+            }
+            else
+            {
+                var exerciseVo = MapToWorkoutExerciseVo(dto.WorkoutExercise);
+                existingPlan.UpdateWorkoutExercise(exerciseVo);
+
+                foreach (var setDto in dto.WorkoutSets)
+                {
+                    var existingSet =
+                        existingPlan.WorkoutSets.FirstOrDefault(s => s.Id == setDto.Id && s.Id != Guid.Empty);
+
+                    if (existingSet == null)
+                    {
+                        var newSet = WorkoutSet.Create(
+                            userId,
+                            existingPlan.Id,
+                            setDto.Order,
+                            setDto.Reps,
+                            setDto.RestTime,
+                            new Weight(setDto.Weight, setDto.WeightUnit)
+                        );
+
+                        existingPlan.AddSet(newSet);
+                    }
+                    else
+                    {
+                        existingSet.Update(
+                            setDto.Order,
+                            setDto.Reps,
+                            setDto.RestTime,
+                            new Weight(setDto.Weight, setDto.WeightUnit)
+                        );
+                    }
+                }
+            }
+        }
 
         await unitOfWork.SaveChangesAsync();
 
@@ -72,7 +132,6 @@ public class WorkoutProgramService(
         var program = await workoutProgramRepository.GetByIdAsync(workoutProgramId);
 
         if (program == null) throw new NotFoundException("Workout program not found");
-
         if (program.UserId != userId) throw new UnauthorizedAccessException("You do not own this program");
 
         program.SoftDelete();
@@ -90,33 +149,43 @@ public class WorkoutProgramService(
         var program = await workoutProgramRepository.GetByIdWithNavigationsAsync(workoutProgramId);
 
         if (program == null) throw new NotFoundException("Workout program not found");
-
         if (program.UserId != userId) throw new UnauthorizedAccessException("You do not own this program");
 
         return mapper.Map<WorkoutProgramResponse>(program);
     }
 
-    private static WorkoutExercisePlan CreateFromDto(Guid programId, Guid userId, WorkoutExercisePlanDto dto)
+    private static WorkoutExercisePlan CreateExercisePlanEntity(Guid programId, Guid userId, WorkoutExercisePlanDto dto)
     {
-        var exerciseVo = new WorkoutExercise(
-            dto.WorkoutExercise.ExternalId,
-            dto.WorkoutExercise.Name,
-            dto.WorkoutExercise.GifUrl is null ? null : new Uri(dto.WorkoutExercise.GifUrl),
-            dto.WorkoutExercise.TargetMuscles,
-            dto.WorkoutExercise.BodyParts,
-            dto.WorkoutExercise.Equipment,
-            dto.WorkoutExercise.SecondaryMuscles,
-            dto.WorkoutExercise.Instructions
+        var exerciseVo = MapToWorkoutExerciseVo(dto.WorkoutExercise);
+        var plan = WorkoutExercisePlan.Create(programId, exerciseVo, new List<WorkoutSet>());
+
+        foreach (var sDto in dto.WorkoutSets)
+        {
+            var set = WorkoutSet.Create(
+                userId,
+                plan.Id,
+                sDto.Order,
+                sDto.Reps,
+                sDto.RestTime,
+                new Weight(sDto.Weight, sDto.WeightUnit)
+            );
+            plan.AddSet(set);
+        }
+
+        return plan;
+    }
+
+    private static WorkoutExercise MapToWorkoutExerciseVo(WorkoutExerciseDto dto)
+    {
+        return new WorkoutExercise(
+            dto.ExternalId,
+            dto.Name,
+            dto.GifUrl is null ? null : new Uri(dto.GifUrl),
+            dto.TargetMuscles,
+            dto.BodyParts,
+            dto.Equipment,
+            dto.SecondaryMuscles,
+            dto.Instructions
         );
-
-        var sets = dto.WorkoutSets.Select(sDto => WorkoutSet.Create(
-            userId,
-            sDto.Order,
-            sDto.Reps,
-            sDto.RestTime,
-            new Weight(sDto.Weight, sDto.WeightUnit)
-        )).ToList();
-
-        return WorkoutExercisePlan.Create(programId, exerciseVo, sets);
     }
 }

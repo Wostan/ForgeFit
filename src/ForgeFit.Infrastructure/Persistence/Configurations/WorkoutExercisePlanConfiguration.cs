@@ -60,24 +60,24 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
                          ?? new List<string>()
                 )
                 .HasMaxLength(2000);
-            return;
-
-            ValueConverter<IReadOnlyCollection<TEnum>, string> EnumListConverter<TEnum>() where TEnum : struct, Enum
-            {
-                return new ValueConverter<IReadOnlyCollection<TEnum>, string>(
-                    v => string.Join(',', v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Enum.Parse<TEnum>).ToList()
-                );
-            }
         });
-
+        
         // Indexes
         builder.HasIndex(wep => wep.WorkoutProgramId);
 
         // Navigation properties
         builder.HasMany(wep => wep.WorkoutSets)
             .WithOne(ws => ws.WorkoutExercisePlan)
-            .HasForeignKey("WorkoutExercisePlanId")
+            .HasForeignKey(ws => ws.WorkoutExercisePlanId)
             .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    private static ValueConverter<IReadOnlyCollection<TEnum>, string> EnumListConverter<TEnum>()
+        where TEnum : struct, Enum
+    {
+        return new ValueConverter<IReadOnlyCollection<TEnum>, string>(
+            v => string.Join(',', v),
+            v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Enum.Parse<TEnum>).ToList()
+        );
     }
 }

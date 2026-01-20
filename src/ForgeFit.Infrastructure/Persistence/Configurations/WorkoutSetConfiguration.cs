@@ -19,6 +19,9 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
         builder.HasKey(ws => ws.Id);
 
         // Properties
+        builder.Property(ws => ws.Id)
+            .ValueGeneratedNever();
+
         builder.Property(ws => ws.Order)
             .IsRequired();
 
@@ -31,7 +34,10 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
         builder.Property(ws => ws.UserId)
             .IsRequired();
 
-        // Value Objects
+        builder.Property(ws => ws.WorkoutExercisePlanId)
+            .IsRequired();
+
+        // ValueObjects
         builder.OwnsOne(ws => ws.Weight, weight =>
         {
             weight.Property(w => w.Value)
@@ -42,14 +48,15 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
                 .IsRequired()
                 .HasColumnName("WeightUnit");
         });
-
+        
         // Indexes
         builder.HasIndex(ws => ws.UserId);
+        builder.HasIndex(ws => ws.WorkoutExercisePlanId);
 
         // Navigation properties
         builder.HasOne(ws => ws.WorkoutExercisePlan)
             .WithMany(wep => wep.WorkoutSets)
-            .IsRequired()
+            .HasForeignKey(ws => ws.WorkoutExercisePlanId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
