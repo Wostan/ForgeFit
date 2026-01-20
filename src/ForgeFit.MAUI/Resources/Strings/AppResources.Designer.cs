@@ -78,6 +78,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Set.
+        /// </summary>
+        internal static string Action_AddSet {
+            get {
+                return ResourceManager.GetString("Action_AddSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         internal static string Action_Back {
@@ -128,6 +137,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Action_Finish {
             get {
                 return ResourceManager.GetString("Action_Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finish Workout.
+        /// </summary>
+        internal static string Action_FinishWorkout {
+            get {
+                return ResourceManager.GetString("Action_FinishWorkout", resourceCulture);
             }
         }
         
@@ -438,6 +456,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete the last set. Delete the exercise instead..
+        /// </summary>
+        internal static string Error_CannotDeleteLastSet {
+            get {
+                return ResourceManager.GetString("Error_CannotDeleteLastSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current password is required.
         /// </summary>
         internal static string Error_CurrentPasswordRequired {
@@ -470,6 +497,33 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Error_DescriptionTooLong {
             get {
                 return ResourceManager.GetString("Error_DescriptionTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workout cannot exceed 5 hours (300 min)..
+        /// </summary>
+        internal static string Error_DurationTooLong {
+            get {
+                return ResourceManager.GetString("Error_DurationTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workout must be at least 10 minutes long..
+        /// </summary>
+        internal static string Error_DurationTooShort {
+            get {
+                return ResourceManager.GetString("Error_DurationTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All exercises must have at least one set..
+        /// </summary>
+        internal static string Error_ExerciseWithoutSets {
+            get {
+                return ResourceManager.GetString("Error_ExerciseWithoutSets", resourceCulture);
             }
         }
         
@@ -510,6 +564,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid number..
+        /// </summary>
+        internal static string Error_InvalidNumber {
+            get {
+                return ResourceManager.GetString("Error_InvalidNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weight must be between 30-300 kg (or 66-660 lbs).
         /// </summary>
         internal static string Error_InvalidWeightRange {
@@ -528,6 +591,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum 20 sets limit reached..
+        /// </summary>
+        internal static string Error_MaxSetsReached {
+            get {
+                return ResourceManager.GetString("Error_MaxSetsReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gaining {0}kg/week muscle is unrealistic.
         /// </summary>
         internal static string Error_MuscleGainUnrealistic {
@@ -542,6 +614,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Error_NewPasswordSame {
             get {
                 return ResourceManager.GetString("Error_NewPasswordSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workout must contain at least one exercise..
+        /// </summary>
+        internal static string Error_NoExercisesInWorkout {
+            get {
+                return ResourceManager.GetString("Error_NoExercisesInWorkout", resourceCulture);
             }
         }
         
@@ -924,6 +1005,33 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current progress will be lost. Are you sure you want to exit?.
+        /// </summary>
+        internal static string Msg_CancelWorkoutConfirm {
+            get {
+                return ResourceManager.GetString("Msg_CancelWorkoutConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this exercise from the current workout?.
+        /// </summary>
+        internal static string Msg_DeleteExerciseConfirm {
+            get {
+                return ResourceManager.GetString("Msg_DeleteExerciseConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good job! Are you ready to save your progress?.
+        /// </summary>
+        internal static string Msg_FinishWorkoutConfirm {
+            get {
+                return ResourceManager.GetString("Msg_FinishWorkoutConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check your internet connection!.
         /// </summary>
         internal static string NoInternetConnectionMessage {
@@ -1019,6 +1127,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Placeholder_Email {
             get {
                 return ResourceManager.GetString("Placeholder_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the actual workout duration (from 10 min. to 5 hours).
+        /// </summary>
+        internal static string Placeholder_EnterDurationMinutes {
+            get {
+                return ResourceManager.GetString("Placeholder_EnterDurationMinutes", resourceCulture);
             }
         }
         
@@ -1482,6 +1599,42 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjust Duration.
+        /// </summary>
+        internal static string Title_AdjustDuration {
+            get {
+                return ResourceManager.GetString("Title_AdjustDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit Workout?.
+        /// </summary>
+        internal static string Title_CancelWorkout {
+            get {
+                return ResourceManager.GetString("Title_CancelWorkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Exercise?.
+        /// </summary>
+        internal static string Title_DeleteExercise {
+            get {
+                return ResourceManager.GetString("Title_DeleteExercise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finish Workout?.
+        /// </summary>
+        internal static string Title_FinishWorkout {
+            get {
+                return ResourceManager.GetString("Title_FinishWorkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred..
         /// </summary>
         internal static string UnexpectedErrorMessage {
@@ -1572,6 +1725,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kg.
+        /// </summary>
+        internal static string Workout_Kg {
+            get {
+                return ResourceManager.GetString("Workout_Kg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to more....
         /// </summary>
         internal static string Workout_More {
@@ -1586,6 +1748,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Workout_MyPrograms_Title {
             get {
                 return ResourceManager.GetString("Workout_MyPrograms_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reps.
+        /// </summary>
+        internal static string Workout_Reps {
+            get {
+                return ResourceManager.GetString("Workout_Reps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rest.
+        /// </summary>
+        internal static string Workout_Rest {
+            get {
+                return ResourceManager.GetString("Workout_Rest", resourceCulture);
             }
         }
         

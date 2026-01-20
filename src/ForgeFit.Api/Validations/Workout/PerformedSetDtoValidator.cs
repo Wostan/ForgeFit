@@ -11,7 +11,7 @@ public class PerformedSetDtoValidator : AbstractValidator<PerformedSetDto>
             .GreaterThan(0).WithMessage("Order must be greater than 0.");
 
         RuleFor(x => x.Reps)
-            .InclusiveBetween(0, 100).WithMessage("Reps must be between 0 and 100.");
+            .InclusiveBetween(1, 100).WithMessage("Reps must be between 1 and 100.");
 
         RuleFor(x => x.Weight)
             .GreaterThanOrEqualTo(0)

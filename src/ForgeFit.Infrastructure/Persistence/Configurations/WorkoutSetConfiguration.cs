@@ -12,7 +12,7 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
         {
             tableBuilder.HasCheckConstraint("CK_WorkoutSet_RepsCheck", "Reps > 0");
             tableBuilder.HasCheckConstraint("CK_WorkoutSet_OrderCheck", "[Order] > 0");
-            tableBuilder.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue > 0");
+            tableBuilder.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue >= 0");
             tableBuilder.HasCheckConstraint("CK_WorkoutSets_WeightUnitCheck", "WeightUnit IN (1, 2)");
         });
 

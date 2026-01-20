@@ -14,7 +14,7 @@ public class WorkoutSetDtoValidator : AbstractValidator<WorkoutSetDto>
             .InclusiveBetween(0, 100).WithMessage("Reps must be between 0 and 100.");
 
         RuleFor(x => x.RestTime)
-            .LessThan(TimeSpan.FromMinutes(10)).WithMessage("Rest time must be less than 10 minutes.");
+            .LessThanOrEqualTo(TimeSpan.FromMinutes(10)).WithMessage("Rest time must be less or equal to 10 minutes.");
 
         RuleFor(x => x.Weight)
             .NotNull();

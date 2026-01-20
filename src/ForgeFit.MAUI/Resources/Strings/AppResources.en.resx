@@ -546,4 +546,64 @@
     <data name="Workout_Sets" xml:space="preserve">
         <value>sets</value>
     </data>
+    <data name="Action_AddSet" xml:space="preserve">
+        <value>Add Set</value>
+    </data>
+    <data name="Action_FinishWorkout" xml:space="preserve">
+        <value>Finish Workout</value>
+    </data>
+    <data name="Msg_DeleteExerciseConfirm" xml:space="preserve">
+        <value>Are you sure you want to remove this exercise from the current workout?</value>
+    </data>
+    <data name="Msg_FinishWorkoutConfirm" xml:space="preserve">
+        <value>Good job! Are you ready to save your progress?</value>
+    </data>
+    <data name="Title_DeleteExercise" xml:space="preserve">
+        <value>Delete Exercise?</value>
+    </data>
+    <data name="Title_FinishWorkout" xml:space="preserve">
+        <value>Finish Workout?</value>
+    </data>
+    <data name="Workout_Reps" xml:space="preserve">
+        <value>Reps</value>
+    </data>
+    <data name="Workout_Rest" xml:space="preserve">
+        <value>Rest</value>
+    </data>
+    <data name="Workout_Kg" xml:space="preserve">
+        <value>Kg</value>
+    </data>
+    <data name="Msg_CancelWorkoutConfirm" xml:space="preserve">
+        <value>Current progress will be lost. Are you sure you want to exit?</value>
+    </data>
+    <data name="Title_CancelWorkout" xml:space="preserve">
+        <value>Exit Workout?</value>
+    </data>
+    <data name="Error_MaxSetsReached" xml:space="preserve">
+      <value>Maximum 20 sets limit reached.</value>
+    </data>
+    <data name="Error_CannotDeleteLastSet" xml:space="preserve">
+      <value>Cannot delete the last set. Delete the exercise instead.</value>
+    </data>
+    <data name="Error_NoExercisesInWorkout" xml:space="preserve">
+      <value>Workout must contain at least one exercise.</value>
+    </data>
+    <data name="Error_ExerciseWithoutSets" xml:space="preserve">
+      <value>All exercises must have at least one set.</value>
+    </data>
+    <data name="Title_AdjustDuration" xml:space="preserve">
+      <value>Adjust Duration</value>
+    </data>
+    <data name="Placeholder_EnterDurationMinutes" xml:space="preserve">
+        <value>Enter the actual workout duration (from 10 min. to 5 hours)</value>
+    </data>
+    <data name="Error_DurationTooShort" xml:space="preserve">
+      <value>Workout must be at least 10 minutes long.</value>
+    </data>
+    <data name="Error_DurationTooLong" xml:space="preserve">
+      <value>Workout cannot exceed 5 hours (300 min).</value>
+    </data>
+    <data name="Error_InvalidNumber" xml:space="preserve">
+      <value>Please enter a valid number.</value>
+    </data>
 </root>

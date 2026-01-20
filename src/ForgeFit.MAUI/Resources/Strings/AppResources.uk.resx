@@ -546,4 +546,64 @@
     <data name="Workout_Sets" xml:space="preserve">
         <value>підходи</value>
     </data>
+    <data name="Action_AddSet" xml:space="preserve">
+        <value>Додати підхід</value>
+    </data>
+    <data name="Action_FinishWorkout" xml:space="preserve">
+        <value>Завершити тренування</value>
+    </data>
+    <data name="Msg_DeleteExerciseConfirm" xml:space="preserve">
+        <value>Ви впевнені, що хочете видалити цю вправу з поточного тренування?</value>
+    </data>
+    <data name="Msg_FinishWorkoutConfirm" xml:space="preserve">
+        <value>Чудова робота! Чи готові ви зберегти прогрес?</value>
+    </data>
+    <data name="Title_DeleteExercise" xml:space="preserve">
+        <value>Видалити вправу?</value>
+    </data>
+    <data name="Title_FinishWorkout" xml:space="preserve">
+        <value>Завершити тренування?</value>
+    </data>
+    <data name="Workout_Reps" xml:space="preserve">
+        <value>Повтори</value>
+    </data>
+    <data name="Workout_Rest" xml:space="preserve">
+        <value>Відпочинок</value>
+    </data>
+    <data name="Workout_Kg" xml:space="preserve">
+        <value>Кг</value>
+    </data>
+    <data name="Msg_CancelWorkoutConfirm" xml:space="preserve">
+        <value>Поточний прогрес буде втрачено. Ви впевнені, що хочете вийти?</value>
+    </data>
+    <data name="Title_CancelWorkout" xml:space="preserve">
+        <value>Вийти з тренування?</value>
+    </data>
+    <data name="Error_MaxSetsReached" xml:space="preserve">
+      <value>Досягнуто ліміт у 20 сетів.</value>
+    </data>
+        <data name="Error_CannotDeleteLastSet" xml:space="preserve">
+      <value>Не можна видалити останній сет. Видаліть вправу повністю.</value>
+    </data>
+        <data name="Error_NoExercisesInWorkout" xml:space="preserve">
+      <value>Тренування повинно містити хоча б одну вправу.</value>
+    </data>
+        <data name="Error_ExerciseWithoutSets" xml:space="preserve">
+      <value>Кожна вправа повинна мати мінімум один сет.</value>
+    </data>
+        <data name="Title_AdjustDuration" xml:space="preserve">
+      <value>Уточнення часу</value>
+    </data>
+    <data name="Placeholder_EnterDurationMinutes" xml:space="preserve">
+        <value>Введіть дійсну тривалість тренування (від 10 хв. до 5 часів)</value>
+    </data>
+        <data name="Error_DurationTooShort" xml:space="preserve">
+      <value>Тренування має тривати мінімум 10 хвилин.</value>
+    </data>
+        <data name="Error_DurationTooLong" xml:space="preserve">
+      <value>Тренування не може перевищувати 5 годин (300 хв).</value>
+    </data>
+        <data name="Error_InvalidNumber" xml:space="preserve">
+      <value>Будь ласка, введіть коректне число.</value>
+    </data>
 </root>

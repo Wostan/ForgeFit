@@ -172,7 +172,7 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartProgram(WorkoutProgramItem item)
     {
-        // await Shell.Current.GoToAsync($"{nameof(ActiveWorkoutSessionView)}?ProgramId={item.Program.Id}");
+        await Shell.Current.GoToAsync($"{nameof(ActiveWorkoutPageView)}?ProgramId={item.Program.Id}");
     }
 
     private void SetLoadingState()
