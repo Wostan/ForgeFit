@@ -22,13 +22,13 @@
         </Border.GestureRecognizers>
 
         <VerticalStackLayout Spacing="12" Padding="20">
-            <Label Style="{StaticResource LabelBodyBold}"
+            <Label Style="{StaticResource LabelBody}"
                    Text="{Binding ConfirmationTitle}"
                    TextColor="{StaticResource TextPrimary}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
 
-            <Label Style="{StaticResource LabelBodyBold}"
+            <Label Style="{StaticResource LabelBody}"
                    Text="{Binding ConfirmationMessage}"
                    TextColor="{StaticResource TextSecondary}"
                    HorizontalOptions="Center"

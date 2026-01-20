@@ -23,13 +23,13 @@
         </Border.GestureRecognizers>
 
         <VerticalStackLayout Spacing="12" Padding="20">
-            <Label Style="{StaticResource LabelBodyBold}"
+            <Label Style="{StaticResource LabelBody}"
                    TextColor="{StaticResource TextPrimary}"
                    HorizontalOptions="Center"
                    Text="{maui:Translate Profile_BodyGoal}" />
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Goal_Title}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
@@ -41,7 +41,7 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Goal_TargetWeight}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
@@ -57,7 +57,7 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Goal_Description}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
@@ -70,7 +70,7 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Goal_DueDate}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />

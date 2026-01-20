@@ -202,7 +202,7 @@
         <value>Мета по харчуванню</value>
     </data>
     <data name="Action_Edit" xml:space="preserve">
-        <value>Редагувати</value>
+        <value>Змінити</value>
     </data>
     <data name="Profile_WorkoutGoal" xml:space="preserve">
         <value>Мета по тренуванням</value>
@@ -538,7 +538,7 @@
         <value>Ви не створили жодної програми, але варто було б...</value>
     </data>
     <data name="Workout_CreateProgram" xml:space="preserve">
-        <value>Сторити програму</value>
+        <value>Створити програму</value>
     </data>
     <data name="Workout_More" xml:space="preserve">
         <value>ще...</value>

@@ -40,7 +40,7 @@
                                TextColor="{StaticResource TextPrimary}" />
 
                         <Label Text="{Binding ErrorMessage, Source={RelativeSource TemplatedParent}}"
-                               Style="{StaticResource LabelBodyBold}"
+                               Style="{StaticResource LabelBody}"
                                LineHeight="1"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"

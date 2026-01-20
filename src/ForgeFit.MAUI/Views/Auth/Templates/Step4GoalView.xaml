@@ -25,7 +25,7 @@
                    HorizontalTextAlignment="Center" />
 
             <Label Text="{maui:Translate Reg_GoalDisclaimer}"
-                   Style="{StaticResource LabelBodyBold}"
+                   Style="{StaticResource LabelBody}"
                    TextColor="{StaticResource TextSecondary}"
                    HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
@@ -49,7 +49,7 @@
                                           FontSize="36" />
                                     <Span Text=" " Style="{StaticResource LabelH1}" />
                                     <Span Text="{maui:Translate Weight_Kg}"
-                                          Style="{StaticResource LabelBodyBold}"
+                                          Style="{StaticResource LabelBody}"
                                           FontSize="20" />
                                 </FormattedString>
                             </Label.FormattedText>
@@ -65,11 +65,11 @@
                     <Grid ColumnDefinitions="Auto, *, Auto" Padding="5,0">
                         <Label Grid.Column="0"
                                Text="{Binding MinTargetWeight, StringFormat='{0:F0}'}"
-                               Style="{StaticResource LabelBodyBold}" />
+                               Style="{StaticResource LabelBody}" />
 
                         <Label Grid.Column="2"
                                Text="{Binding MaxTargetWeight, StringFormat='{0:F0}'}"
-                               Style="{StaticResource LabelBodyBold}" />
+                               Style="{StaticResource LabelBody}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
@@ -85,7 +85,7 @@
 
                             <Label Grid.Column="1"
                                    Text="{Binding DaysLeftText}"
-                                   Style="{StaticResource LabelBodyBold}"
+                                   Style="{StaticResource LabelBody}"
                                    TextColor="{StaticResource Primary}"
                                    FontSize="12"
                                    VerticalOptions="Center"
@@ -110,7 +110,7 @@
 
                     <Label Text="{maui:Translate Goal_NoDeadline}"
                            VerticalOptions="Center"
-                           Style="{StaticResource LabelBodyBold}">
+                           Style="{StaticResource LabelBody}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleDeadlineCommand}" />
                         </Label.GestureRecognizers>

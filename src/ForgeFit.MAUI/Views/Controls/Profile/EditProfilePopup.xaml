@@ -22,13 +22,13 @@
         </Border.GestureRecognizers>
 
         <VerticalStackLayout Spacing="12" Padding="20">
-            <Label Style="{StaticResource LabelBodyBold}"
+            <Label Style="{StaticResource LabelBody}"
                    TextColor="{StaticResource TextPrimary}"
                    HorizontalOptions="Center"
                    Text="{maui:Translate Profile_EditProfile}" />
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Profile_Username}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
@@ -42,7 +42,7 @@
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                 <VerticalStackLayout Grid.Column="0">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Profile_BirthDate}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"
@@ -55,7 +55,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="1">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Profile_Gender}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"
@@ -71,7 +71,7 @@
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                 <VerticalStackLayout Grid.Column="0">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Height_Cm}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"
@@ -89,7 +89,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="1">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Weight_Kg}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"

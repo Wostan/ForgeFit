@@ -24,7 +24,7 @@
     </ContentView.Resources>
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBodyBold}"
+        <Label Style="{StaticResource LabelBody}"
                Text="{maui:Translate Diary_Weight}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -38,14 +38,12 @@
                                VerticalOptions="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}"
-                                          TextColor="{StaticResource TextSecondary}" />
-                                    <Span Text=": " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="{Binding TargetWeightDisplay}" Style="{StaticResource LabelBodyBold}"
+                                    <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}" />
+                                    <Span Text=": " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding TargetWeightDisplay}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
-                                    <Span Text=" " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"
-                                          TextColor="{StaticResource TextSecondary}" />
+                                    <Span Text=" " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -55,14 +53,13 @@
                                VerticalOptions="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}"
-                                          TextColor="{StaticResource TextSecondary}" />
-                                    <Span Text=": " Style="{StaticResource LabelBodyBold}" />
+                                    <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}" />
+                                    <Span Text=": " Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding WeightLeft, StringFormat='{0:F1}'}"
-                                          Style="{StaticResource LabelBodyBold}"
+                                          Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource WeightColor}" />
-                                    <Span Text=" " Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBodyBold}"
+                                    <Span Text=" " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource WeightColor}" />
                                 </FormattedString>
                             </Label.FormattedText>

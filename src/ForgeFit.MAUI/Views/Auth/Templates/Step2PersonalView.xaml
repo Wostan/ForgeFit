@@ -25,7 +25,7 @@
                    HorizontalTextAlignment="Center" />
 
             <Label Text="{maui:Translate Reg_Subtitle_Personal}"
-                   Style="{StaticResource LabelBodyBold}"
+                   Style="{StaticResource LabelBody}"
                    TextColor="{StaticResource TextSecondary}"
                    HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
@@ -52,7 +52,7 @@
                              VerticalOptions="Start">
             <VerticalStackLayout>
                 <Label Text="{maui:Translate Profile_Gender}"
-                       Style="{StaticResource LabelBodyBold}"
+                       Style="{StaticResource LabelBody}"
                        TextColor="{StaticResource TextSecondary}"
                        Margin="5,0" />
 
@@ -82,7 +82,7 @@
 
             <VerticalStackLayout>
                 <Label Text="{maui:Translate Profile_BirthDate}"
-                       Style="{StaticResource LabelBodyBold}"
+                       Style="{StaticResource LabelBody}"
                        TextColor="{StaticResource TextSecondary}"
                        Margin="5,0" />
 

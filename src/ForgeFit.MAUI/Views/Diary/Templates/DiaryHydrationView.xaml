@@ -12,7 +12,7 @@
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryHydrationView">
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBodyBold}"
+        <Label Style="{StaticResource LabelBody}"
                Text="{maui:Translate Diary_Hydration}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -26,12 +26,12 @@
                                 <FormattedString>
                                     <Span Text="{Binding CurrentWater, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelH1}" />
-                                    <Span Text=" / " Style="{StaticResource LabelBodyBold}" />
+                                    <Span Text=" / " Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding TargetWaterDisplay, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}" />
-                                    <Span Text=" " Style="{StaticResource LabelBodyBold}" />
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text=" " Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Hydration_Ml}"
-                                          Style="{StaticResource LabelBodyBold}" />
+                                          Style="{StaticResource LabelBody}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -59,7 +59,7 @@
                     <CollectionView ItemsSource="{Binding WaterEntries}">
                         <CollectionView.EmptyView>
                             <Label Text="{maui:Translate Hydration_Empty}"
-                                   Style="{StaticResource LabelBodyBold}"
+                                   Style="{StaticResource LabelBody}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
                         </CollectionView.EmptyView>
@@ -68,7 +68,7 @@
                             <DataTemplate x:DataType="models:DrinkEntryResponse">
                                 <Grid ColumnDefinitions="Auto, Auto, *, Auto" ColumnSpacing="8" Padding="16,0">
                                     <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
-                                           Style="{StaticResource LabelBodyBold}"
+                                           Style="{StaticResource LabelBody}"
                                            Margin="10,0"
                                            FontSize="14"
                                            VerticalOptions="Center" />
@@ -83,12 +83,12 @@
                                            VerticalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="{Binding VolumeMl}" Style="{StaticResource LabelBodyBold}"
+                                                <Span Text="{Binding VolumeMl}" Style="{StaticResource LabelBody}"
                                                       TextColor="{StaticResource TextPrimary}" />
-                                                <Span Text=" " Style="{StaticResource LabelBodyBold}"
+                                                <Span Text=" " Style="{StaticResource LabelBody}"
                                                       TextColor="{StaticResource TextPrimary}" />
                                                 <Span Text="{maui:Translate Hydration_Ml}"
-                                                      Style="{StaticResource LabelBodyBold}"
+                                                      Style="{StaticResource LabelBody}"
                                                       TextColor="{StaticResource TextPrimary}" />
                                             </FormattedString>
                                         </Label.FormattedText>

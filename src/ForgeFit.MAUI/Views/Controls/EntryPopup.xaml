@@ -22,7 +22,7 @@
         </Border.GestureRecognizers>
 
         <VerticalStackLayout Spacing="8" Padding="20">
-            <Label Style="{StaticResource LabelBodyBold}"
+            <Label Style="{StaticResource LabelBody}"
                    Text="{Binding EntryPopupTitle}"
                    HorizontalOptions="Start" />
             <Border Style="{StaticResource InputWrapper}">

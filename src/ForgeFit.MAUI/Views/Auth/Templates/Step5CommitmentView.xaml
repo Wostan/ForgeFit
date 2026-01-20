@@ -30,7 +30,7 @@
 
         <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Spacing="30">
             <Label Text="{Binding CommitmentSubtitle}"
-                   Style="{StaticResource LabelBodyBold}"
+                   Style="{StaticResource LabelBody}"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
                    LineHeight="1.2" />
@@ -45,7 +45,7 @@
                     FontSize="22" />
 
             <Label Text="{maui:Translate Hint_SwipeBack}"
-                   Style="{StaticResource LabelBodyBold}"
+                   Style="{StaticResource LabelBody}"
                    FontSize="12"
                    HorizontalOptions="Center"
                    Opacity="0.5">

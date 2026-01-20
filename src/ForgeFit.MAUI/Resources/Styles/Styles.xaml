@@ -315,14 +315,6 @@
     </Style>
 
     <Style TargetType="Label" x:Key="LabelBody">
-        <Setter Property="FontFamily" Value="MontserratRegular" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
-        <Setter Property="LineHeight" Value="1.4" />
-        <Setter Property="Shadow" Value="{x:Null}" />
-    </Style>
-
-    <Style TargetType="Label" x:Key="LabelBodyBold">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />

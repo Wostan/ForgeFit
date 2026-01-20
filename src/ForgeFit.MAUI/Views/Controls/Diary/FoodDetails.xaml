@@ -47,7 +47,7 @@
 
                 <Label Grid.Row="1" Grid.Column="1"
                        Text="{Binding SelectedFoodDetail.BrandName}"
-                       Style="{StaticResource LabelBodyBold}"
+                       Style="{StaticResource LabelBody}"
                        HorizontalOptions="Center"
                        LineBreakMode="TailTruncation"
                        IsVisible="{Binding SelectedFoodDetail.BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
@@ -64,7 +64,7 @@
                            Shadow="{StaticResource CaloriesGlow}"
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Kcal}"
-                           Style="{StaticResource LabelBodyBold}"
+                           Style="{StaticResource LabelBody}"
                            FontSize="12"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
@@ -79,7 +79,7 @@
                            Shadow="{StaticResource CarbsGlow}"
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Carbs}"
-                           Style="{StaticResource LabelBodyBold}"
+                           Style="{StaticResource LabelBody}"
                            FontSize="12"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
@@ -94,7 +94,7 @@
                            Shadow="{StaticResource ProteinGlow}"
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Protein}"
-                           Style="{StaticResource LabelBodyBold}"
+                           Style="{StaticResource LabelBody}"
                            FontSize="12"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
@@ -109,7 +109,7 @@
                            Shadow="{StaticResource FatGlow}"
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Fat}"
-                           Style="{StaticResource LabelBodyBold}"
+                           Style="{StaticResource LabelBody}"
                            FontSize="12"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />

@@ -45,49 +45,49 @@
                                 <VerticalStackLayout Grid.Column="1">
                                     <Label Style="{StaticResource LabelH2}" Text="{Binding Username}" />
                                     <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" Direction="Row">
-                                        <Label Style="{StaticResource LabelBodyBold}">
+                                        <Label Style="{StaticResource LabelBody}">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text="🎂" />
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text=" " />
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}" Text="🎂" />
+                                                    <Span Style="{StaticResource LabelBody}" Text=" " />
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding BirthDate}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Style="{StaticResource LabelBodyBold}">
+                                        <Label Style="{StaticResource LabelBody}">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding GenderEmoji}" />
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text=" " />
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}" Text=" " />
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding Gender}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Style="{StaticResource LabelBodyBold}">
+                                        <Label Style="{StaticResource LabelBody}">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text="⚖️" />
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text=" " />
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}" Text="⚖️" />
+                                                    <Span Style="{StaticResource LabelBody}" Text=" " />
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding Weight}" />
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text=" " />
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}" Text=" " />
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding WeightUnit}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Style="{StaticResource LabelBodyBold}">
+                                        <Label Style="{StaticResource LabelBody}">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text="🧍‍♂️️" />
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text=" " />
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}" Text="🧍‍♂️️" />
+                                                    <Span Style="{StaticResource LabelBody}" Text=" " />
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding Height}" />
-                                                    <Span Style="{StaticResource LabelBodyBold}" Text=" " />
-                                                    <Span Style="{StaticResource LabelBodyBold}"
+                                                    <Span Style="{StaticResource LabelBody}" Text=" " />
+                                                    <Span Style="{StaticResource LabelBody}"
                                                           Text="{Binding HeightUnit}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
@@ -100,7 +100,7 @@
                         <VerticalStackLayout Spacing="4">
                             <Grid ColumnDefinitions="*,Auto,*">
                                 <Label Grid.Column="0"
-                                       Style="{StaticResource LabelBodyBold}"
+                                       Style="{StaticResource LabelBody}"
                                        Text="{maui:Translate Profile_MyGoals}"
                                        TextColor="{StaticResource TextSecondary}" />
 
@@ -145,7 +145,7 @@
                                            Text="{Binding BodyGoalTitle}" />
 
                                     <Label Grid.Row="0" Grid.Column="2"
-                                           Style="{StaticResource LabelBodyBold}"
+                                           Style="{StaticResource LabelBody}"
                                            HorizontalOptions="End"
                                            VerticalOptions="Center"
                                            MaxLines="1"
@@ -164,7 +164,7 @@
 
                                             <controls:ViewBox Grid.Row="1" Stretch="Uniform" HorizontalOptions="Center"
                                                               VerticalOptions="Start">
-                                                <Label Style="{StaticResource LabelBodyBold}"
+                                                <Label Style="{StaticResource LabelBody}"
                                                        Text="{Binding BodyGoalType}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
@@ -184,7 +184,7 @@
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="Center" />
 
-                                            <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                    Text="{maui:Translate Nutrient_Kcal}"
                                                    TextColor="{StaticResource TextSecondary}"
                                                    MaxLines="1"
@@ -204,7 +204,7 @@
                                                    HorizontalOptions="Center" />
 
                                             <Label Grid.Row="1"
-                                                   Style="{StaticResource LabelBodyBold}"
+                                                   Style="{StaticResource LabelBody}"
                                                    Text="{maui:Translate Diary_Weight}"
                                                    TextColor="{StaticResource TextSecondary}"
                                                    MaxLines="1"
@@ -214,7 +214,7 @@
                                     </Border>
 
                                     <Label Grid.Row="2" Grid.ColumnSpan="3"
-                                           Style="{StaticResource LabelBodyBold}"
+                                           Style="{StaticResource LabelBody}"
                                            HorizontalOptions="Start"
                                            LineBreakMode="TailTruncation"
                                            MaxLines="10"
@@ -226,7 +226,7 @@
                         <VerticalStackLayout Spacing="4">
                             <Grid ColumnDefinitions="*,*">
                                 <Label Grid.Column="0"
-                                       Style="{StaticResource LabelBodyBold}"
+                                       Style="{StaticResource LabelBody}"
                                        Text="{maui:Translate Profile_NutritionGoal}"
                                        TextColor="{StaticResource TextSecondary}" />
 
@@ -259,7 +259,7 @@
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
 
-                                                <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                                <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                        Text="{maui:Translate Nutrient_Kcal}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
@@ -278,7 +278,7 @@
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
 
-                                                <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                                <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                        Text="{maui:Translate Hydration_Ml}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
@@ -299,7 +299,7 @@
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
 
-                                                <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                                <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                        Text="{maui:Translate Nutrient_Carbs}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
@@ -318,7 +318,7 @@
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
 
-                                                <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                                <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                        Text="{maui:Translate Nutrient_Protein}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
@@ -337,7 +337,7 @@
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="Center" />
 
-                                                <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                                <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                        Text="{maui:Translate Nutrient_Fat}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
@@ -353,7 +353,7 @@
                         <VerticalStackLayout Spacing="4">
                             <Grid ColumnDefinitions="*,*">
                                 <Label Grid.Column="0"
-                                       Style="{StaticResource LabelBodyBold}"
+                                       Style="{StaticResource LabelBody}"
                                        Text="{maui:Translate Profile_WorkoutGoal}"
                                        TextColor="{StaticResource TextSecondary}" />
 
@@ -388,7 +388,7 @@
 
                                                 <controls:ViewBox Grid.Row="1" Stretch="Uniform"
                                                                   HorizontalOptions="Center" VerticalOptions="Start">
-                                                    <Label Style="{StaticResource LabelBodyBold}"
+                                                    <Label Style="{StaticResource LabelBody}"
                                                            Text="{maui:Translate Workout_Frequency}"
                                                            TextColor="{StaticResource TextSecondary}"
                                                            MaxLines="1"
@@ -411,7 +411,7 @@
                                                 <controls:ViewBox Grid.Row="1" Stretch="Uniform"
                                                                   HorizontalOptions="Center" VerticalOptions="Start"
                                                                   MaximumWidthRequest="120">
-                                                    <Label Style="{StaticResource LabelBodyBold}"
+                                                    <Label Style="{StaticResource LabelBody}"
                                                            Text="{maui:Translate Workout_Duration}"
                                                            TextColor="{StaticResource TextSecondary}"
                                                            MaxLines="1"
@@ -435,7 +435,7 @@
                                                        HorizontalTextAlignment="Center" />
                                             </controls:ViewBox>
 
-                                            <Label Grid.Row="1" Style="{StaticResource LabelBodyBold}"
+                                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
                                                    Text="{maui:Translate Workout_Type}"
                                                    TextColor="{StaticResource TextSecondary}"
                                                    MaxLines="1"
@@ -448,7 +448,7 @@
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="4">
-                            <Label Style="{StaticResource LabelBodyBold}"
+                            <Label Style="{StaticResource LabelBody}"
                                    Text="{maui:Translate Profile_Account}"
                                    TextColor="{StaticResource TextSecondary}" />
 

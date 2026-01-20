@@ -11,7 +11,7 @@
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryMealsView">
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBodyBold}"
+        <Label Style="{StaticResource LabelBody}"
                Text="{maui:Translate Diary_Meals}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -27,22 +27,22 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Breakfast}"
-                               Style="{StaticResource LabelBodyBold}"
+                               Style="{StaticResource LabelBody}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding Breakfast.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}"
+                                          Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{Binding Breakfast.TargetCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{maui:Translate Nutrient_Kcal}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -72,22 +72,22 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Lunch}"
-                               Style="{StaticResource LabelBodyBold}"
+                               Style="{StaticResource LabelBody}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding Lunch.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}"
+                                          Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{Binding Lunch.TargetCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{maui:Translate Nutrient_Kcal}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -117,22 +117,22 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Dinner}"
-                               Style="{StaticResource LabelBodyBold}"
+                               Style="{StaticResource LabelBody}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding Dinner.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}"
+                                          Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{Binding Dinner.TargetCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{maui:Translate Nutrient_Kcal}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -162,22 +162,22 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Snack}"
-                               Style="{StaticResource LabelBodyBold}"
+                               Style="{StaticResource LabelBody}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding Snack.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}"
+                                          Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{Binding Snack.TargetCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text="{maui:Translate Nutrient_Kcal}"
-                                          Style="{StaticResource LabelBodyBold}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" FontSize="14" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

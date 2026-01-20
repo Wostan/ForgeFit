@@ -42,7 +42,7 @@
                                         <Setter.Value>
                                             <FormattedString>
                                                 <Span Text="{maui:Translate Search_Recent}"
-                                                      Style="{StaticResource LabelBodyBold}"
+                                                      Style="{StaticResource LabelBody}"
                                                       TextColor="{StaticResource TextSecondary}" />
                                             </FormattedString>
                                         </Setter.Value>
@@ -58,17 +58,17 @@
                                                 <Setter.Value>
                                                     <FormattedString>
                                                         <Span Text="{maui:Translate Search_ResultsFor}"
-                                                              Style="{StaticResource LabelBodyBold}" />
+                                                              Style="{StaticResource LabelBody}" />
 
                                                         <Span Text=" '"
-                                                              Style="{StaticResource LabelBodyBold}" />
+                                                              Style="{StaticResource LabelBody}" />
 
                                                         <Span
                                                             Text="{Binding BindingContext.SearchText, Source={x:Reference ThisPage}}"
-                                                            Style="{StaticResource LabelBodyBold}" />
+                                                            Style="{StaticResource LabelBody}" />
 
                                                         <Span Text="'"
-                                                              Style="{StaticResource LabelBodyBold}" />
+                                                              Style="{StaticResource LabelBody}" />
                                                     </FormattedString>
                                                 </Setter.Value>
                                             </Setter>
@@ -99,7 +99,7 @@
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
                             </Image.Behaviors>
                         </Image>
-                        <Label Style="{StaticResource LabelBodyBold}"
+                        <Label Style="{StaticResource LabelBody}"
                                Text="{maui:Translate Search_Empty}"
                                HorizontalOptions="Center" />
                     </VerticalStackLayout>
@@ -138,7 +138,7 @@
                                                      Margin="0,0,16,0">
 
                                     <Label Text="{Binding Label}"
-                                           Style="{StaticResource LabelBodyBold}"
+                                           Style="{StaticResource LabelBody}"
                                            TextColor="{StaticResource TextPrimary}"
                                            FontSize="14"
                                            LineBreakMode="TailTruncation"
@@ -151,7 +151,7 @@
                                                 JustifyContent="Start">
 
                                         <Label Text="{Binding BrandName}"
-                                               Style="{StaticResource LabelBodyBold}"
+                                               Style="{StaticResource LabelBody}"
                                                VerticalOptions="End"
                                                FontSize="12"
                                                FlexLayout.Shrink="1"
@@ -159,38 +159,38 @@
                                                IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
 
                                         <Label Text=" • "
-                                               Style="{StaticResource LabelBodyBold}"
+                                               Style="{StaticResource LabelBody}"
                                                FlexLayout.Shrink="0"
                                                IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
 
-                                        <Label Style="{StaticResource LabelBodyBold}"
+                                        <Label Style="{StaticResource LabelBody}"
                                                LineBreakMode="NoWrap"
                                                FlexLayout.Shrink="0">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="{Binding ServingUnit}"
-                                                          Style="{StaticResource LabelBodyBold}"
+                                                          Style="{StaticResource LabelBody}"
                                                           FontSize="12" />
 
                                                     <Span Text=" • "
-                                                          Style="{StaticResource LabelBodyBold}" />
+                                                          Style="{StaticResource LabelBody}" />
 
                                                     <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
-                                                          Style="{StaticResource LabelBodyBold}"
+                                                          Style="{StaticResource LabelBody}"
                                                           TextColor="{StaticResource CarbsColor}"
                                                           FontSize="12" />
                                                     <Span Text=" / "
-                                                          Style="{StaticResource LabelBodyBold}"
+                                                          Style="{StaticResource LabelBody}"
                                                           FontSize="10" />
                                                     <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
-                                                          Style="{StaticResource LabelBodyBold}"
+                                                          Style="{StaticResource LabelBody}"
                                                           TextColor="{StaticResource ProteinColor}"
                                                           FontSize="12" />
                                                     <Span Text=" / "
-                                                          Style="{StaticResource LabelBodyBold}"
+                                                          Style="{StaticResource LabelBody}"
                                                           FontSize="10" />
                                                     <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
-                                                          Style="{StaticResource LabelBodyBold}"
+                                                          Style="{StaticResource LabelBody}"
                                                           TextColor="{StaticResource FatColor}"
                                                           FontSize="12" />
                                                 </FormattedString>
@@ -205,14 +205,14 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
-                                                  Style="{StaticResource LabelBodyBold}"
+                                                  Style="{StaticResource LabelBody}"
                                                   TextColor="{StaticResource TextPrimary}"
                                                   FontSize="16" />
                                             <Span Text=" "
-                                                  Style="{StaticResource LabelBodyBold}"
+                                                  Style="{StaticResource LabelBody}"
                                                   FontSize="12" />
                                             <Span Text="{maui:Translate Nutrient_Kcal}"
-                                                  Style="{StaticResource LabelBodyBold}"
+                                                  Style="{StaticResource LabelBody}"
                                                   FontSize="12"
                                                   TextColor="{StaticResource TextSecondary}" />
                                         </FormattedString>

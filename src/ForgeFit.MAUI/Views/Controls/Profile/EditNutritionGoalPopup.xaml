@@ -21,13 +21,13 @@
         </Border.GestureRecognizers>
 
         <VerticalStackLayout Spacing="12" Padding="20">
-            <Label Style="{StaticResource LabelBodyBold}"
+            <Label Style="{StaticResource LabelBody}"
                    TextColor="{StaticResource TextPrimary}"
                    HorizontalOptions="Center"
                    Text="{maui:Translate Profile_NutritionGoal}" />
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Nutrient_Calories}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
@@ -45,7 +45,7 @@
 
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
                 <VerticalStackLayout Grid.Column="0">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Nutrient_Carbs}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"
@@ -62,7 +62,7 @@
                     </Border>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="1">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Nutrient_Protein}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"
@@ -79,7 +79,7 @@
                     </Border>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="2">
-                    <Label Style="{StaticResource LabelBodyBold}"
+                    <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Nutrient_Fat}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}"
@@ -98,7 +98,7 @@
             </Grid>
 
             <VerticalStackLayout>
-                <Label Style="{StaticResource LabelBodyBold}"
+                <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Nutrient_Water}"
                        FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
