@@ -39,7 +39,7 @@
                     <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
 
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding Exercises}"
-                                             Spacing="24">
+                                             Spacing="8">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="local:ActiveExerciseItem">
                                     <Border Style="{StaticResource CardStyle}" Padding="0">
@@ -208,9 +208,8 @@
                                             <Button Text="{maui:Translate Action_AddSet}"
                                                     Style="{StaticResource TextButton}"
                                                     ImageSource="add_big.svg"
-                                                    HorizontalOptions="Center"
                                                     Padding="5"
-                                                    Margin="20,0"
+                                                    Margin="20, -10"
                                                     MinimumHeightRequest="-1"
                                                     Command="{Binding AddSetCommand}"
                                                     CommandParameter="{Binding .}">
@@ -228,7 +227,8 @@
                         <Button Text="{maui:Translate Action_AddExercise}"
                                 Style="{StaticResource TextButton}"
                                 ImageSource="add_big.svg"
-                                HorizontalOptions="Center"
+                                Padding="5"
+                                Margin="20, 0"
                                 Command="{Binding AddExerciseCommand}"
                                 CommandParameter="{Binding .}">
                             <Button.Behaviors>
