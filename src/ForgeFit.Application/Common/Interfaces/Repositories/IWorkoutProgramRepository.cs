@@ -8,4 +8,6 @@ public interface IWorkoutProgramRepository : IRepository<WorkoutProgram>
     Task<WorkoutProgram?> GetByIdWithNavigationsAsync(Guid id);
     Task<List<WorkoutProgram>> GetAllByUserIdAsync(Guid userId);
     Task<List<WorkoutProgram>> GetAllByUserIdAndWorkoutProgramNameAsync(Guid userId, string workoutProgramName);
+    
+    Task AddPlanAsync(WorkoutExercisePlan plan);
 }

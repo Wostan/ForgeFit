@@ -60,4 +60,9 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
             .OrderByDescending(wp => wp.CreatedAt)
             .ToListAsync();
     }
+    
+    public async Task AddPlanAsync(WorkoutExercisePlan plan)
+    {
+        await context.WorkoutExercisePlans.AddAsync(plan);
+    }
 }

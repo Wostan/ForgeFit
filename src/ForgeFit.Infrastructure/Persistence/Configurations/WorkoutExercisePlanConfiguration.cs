@@ -16,6 +16,9 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
         builder.HasKey(wep => wep.Id);
 
         // Properties
+        builder.Property(wep => wep.Id)
+            .ValueGeneratedNever();
+        
         builder.Property(wep => wep.CreatedAt)
             .IsRequired();
 
