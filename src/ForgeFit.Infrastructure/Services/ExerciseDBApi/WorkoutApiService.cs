@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Text.RegularExpressions;
 using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
@@ -11,13 +12,15 @@ namespace ForgeFit.Infrastructure.Services.ExerciseDBApi;
 public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
 {
     public async Task<List<WorkoutExerciseSearchResponse>> SearchAsync(
-        string query,
+        string? query,
         List<Muscle>? muscles,
         List<BodyPart>? bodyParts,
         List<Equipment>? equipment,
         int pageNumber = 1,
         int pageSize = 20)
     {
+        if (string.IsNullOrEmpty(query)) query = " ";
+        
         var offset = (pageNumber - 1) * pageSize;
         var queryParams = new List<string>
         {
@@ -40,7 +43,15 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
 
         var response = await client.GetAsync(requestUrl);
 
-        if (!response.IsSuccessStatusCode) throw new Exception("Failed to retrieve exercises.");
+        if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
+        {
+            throw new NotFoundException("Please try again later.");
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new NotFoundException("Failed to retrieve exercises.");
+        }
 
         var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbResponse>();
 
@@ -59,7 +70,15 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         var requestUrl = $"exercises/{id}";
         var response = await client.GetAsync(requestUrl);
 
-        if (!response.IsSuccessStatusCode) throw new NotFoundException($"Exercise with id {id} not found.");
+        if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
+        {
+            throw new NotFoundException("Please try again later.");
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new NotFoundException($"Exercise with id {id} not found.");
+        }
 
         var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbSingleResponse>();
 

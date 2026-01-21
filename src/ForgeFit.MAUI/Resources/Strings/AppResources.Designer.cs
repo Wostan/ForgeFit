@@ -69,6 +69,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Exercise.
+        /// </summary>
+        internal static string Action_AddExercise {
+            get {
+                return ResourceManager.GetString("Action_AddExercise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Food.
         /// </summary>
         internal static string Action_AddFood {
@@ -762,6 +771,42 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Instructions.
+        /// </summary>
+        internal static string Exercise_Instructions {
+            get {
+                return ResourceManager.GetString("Exercise_Instructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Body parts.
+        /// </summary>
+        internal static string Filter_BodyParts {
+            get {
+                return ResourceManager.GetString("Filter_BodyParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment.
+        /// </summary>
+        internal static string Filter_Equipment {
+            get {
+                return ResourceManager.GetString("Filter_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Muscles.
+        /// </summary>
+        internal static string Filter_Muscles {
+            get {
+                return ResourceManager.GetString("Filter_Muscles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot Password?.
         /// </summary>
         internal static string ForgotPassword {
@@ -1446,6 +1491,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All exercises.
+        /// </summary>
+        internal static string Search_AllExercises {
+            get {
+                return ResourceManager.GetString("Search_AllExercises", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scan barcode.
         /// </summary>
         internal static string Search_Barcode {
@@ -1464,6 +1518,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        internal static string Search_Filter {
+            get {
+                return ResourceManager.GetString("Search_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add to.
         /// </summary>
         internal static string Search_Header_Add {
@@ -1478,6 +1541,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Search_Placeholder {
             get {
                 return ResourceManager.GetString("Search_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search exercise....
+        /// </summary>
+        internal static string Search_Placeholder_Exercise {
+            get {
+                return ResourceManager.GetString("Search_Placeholder_Exercise", resourceCulture);
             }
         }
         

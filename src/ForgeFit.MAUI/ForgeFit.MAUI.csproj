@@ -191,8 +191,4 @@
         </Reference>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\Controls\Workout\" />
-    </ItemGroup>
-
 </Project>

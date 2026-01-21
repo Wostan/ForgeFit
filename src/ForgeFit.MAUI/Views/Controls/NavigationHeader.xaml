@@ -34,7 +34,11 @@
                            Text="{Binding Title}"
                            Style="{StaticResource LabelH1}"
                            HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
                            VerticalOptions="Center"
+                           MaxLines="2"
+                           Margin="60,0"
+                           LineBreakMode="TailTruncation"
                            InputTransparent="True" />
 
                     <ContentView x:Name="CustomContentContainer"

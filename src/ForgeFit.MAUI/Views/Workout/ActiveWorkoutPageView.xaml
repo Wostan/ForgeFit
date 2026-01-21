@@ -224,14 +224,24 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </VerticalStackLayout>
+                        
+                        <Button Text="{maui:Translate Action_AddExercise}"
+                                Style="{StaticResource TextButton}"
+                                ImageSource="add_big.svg"
+                                HorizontalOptions="Center"
+                                Command="{Binding AddExerciseCommand}"
+                                CommandParameter="{Binding .}">
+                            <Button.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
+                            </Button.Behaviors>
+                        </Button>   
 
                         <Button Text="{maui:Translate Action_FinishWorkout}"
                                 ImageSource="check.svg"
                                 BackgroundColor="{StaticResource WorkoutColor}"
                                 BorderColor="{StaticResource WorkoutColor}"
                                 Shadow="{StaticResource WorkoutGlow}"
-                                Command="{Binding AskFinishWorkoutCommand}">
-                        </Button>
+                                Command="{Binding AskFinishWorkoutCommand}"/>
 
                     </VerticalStackLayout>
                 </ScrollView>

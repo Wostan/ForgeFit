@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:controls="using:ForgeFit.MAUI.Views.Controls"
+             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             x:Class="ForgeFit.MAUI.Views.Controls.Workout.ExerciseDetails"
+             BackgroundColor="#90000000"
+             InputTransparent="False">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding CloseExerciseDetailsCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Margin="20">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <Grid MaximumHeightRequest="600">
+            
+            <controls:NavigationHeader Title="{Binding SelectedExerciseDetail.Name, Converter={StaticResource TitleCaseConverter}}"
+                                       BackCommand="{Binding CloseExerciseDetailsCommand}"
+                                       Margin="0,-20,0,-20"
+                                       ZIndex="2" />
+
+            <ScrollView>
+                <VerticalStackLayout Spacing="16" Style="{StaticResource MainContentStackLayout}">
+                    
+                    <Border StrokeShape="RoundRectangle 12" 
+                            HeightRequest="200" 
+                            WidthRequest="200"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,10"
+                            StrokeThickness="0">
+                        <Image Source="{Binding SelectedExerciseDetail.GifUrl}"
+                               Aspect="AspectFill"
+                               IsAnimationPlaying="True"/>
+                    </Border>
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{maui:Translate Filter_Muscles}" Style="{StaticResource LabelBody}"/>
+                    
+                        <CollectionView ItemsSource="{Binding SelectedExerciseDetail.TargetMuscles}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardStyle}" Padding="12,6">
+                                        <Label Text="{Binding .}" Style="{StaticResource LabelBody}" />
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{maui:Translate Exercise_Instructions}" Style="{StaticResource LabelBody}"/>
+                    
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding SelectedExerciseDetail.Instructions}" Spacing="8">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Style="{StaticResource LabelBody}" Text="• " TextColor="{StaticResource WorkoutColor}"/>
+                                                <Span Style="{StaticResource LabelBody}" FontSize="13" Text="{Binding .}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                    
+                    <BoxView Color="Transparent"/>
+
+                    <Button ImageSource="add.svg"
+                            Text="{maui:Translate Action_Add}"
+                            BackgroundColor="{StaticResource WorkoutColor}"
+                            BorderColor="{StaticResource WorkoutColor}"
+                            Shadow="{StaticResource WorkoutGlow}"
+                            Command="{Binding AddFromDetailsCommand}" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Border>
+</ContentView>

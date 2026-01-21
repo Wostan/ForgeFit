@@ -606,4 +606,28 @@
     <data name="Error_InvalidNumber" xml:space="preserve">
       <value>Please enter a valid number.</value>
     </data>
+    <data name="Search_AllExercises" xml:space="preserve">
+        <value>All exercises</value>
+    </data>
+    <data name="Search_Placeholder_Exercise" xml:space="preserve">
+        <value>Search exercise...</value>
+    </data>
+    <data name="Search_Filter" xml:space="preserve">
+        <value>Filters</value>
+    </data>
+    <data name="Exercise_Instructions" xml:space="preserve">
+        <value>Instructions</value>
+    </data>
+    <data name="Filter_Muscles" xml:space="preserve">
+        <value>Muscles</value>
+    </data>
+    <data name="Filter_Equipment" xml:space="preserve">
+        <value>Equipment</value>
+    </data>
+    <data name="Filter_BodyParts" xml:space="preserve">
+        <value>Body parts</value>
+    </data>
+    <data name="Action_AddExercise" xml:space="preserve">
+        <value>Add Exercise</value>
+    </data>
 </root>

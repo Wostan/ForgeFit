@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:controls="using:ForgeFit.MAUI.Views.Controls"
+             x:Class="ForgeFit.MAUI.Views.Controls.Workout.ExerciseFilters"
+             BackgroundColor="#90000000"
+             InputTransparent="False">
+    
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Color x:Key="SelectedSurface">#272B3E</Color>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding ToggleFiltersCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Margin="20"
+            MaximumHeightRequest="600">
+        
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <Grid>
+            <controls:NavigationHeader Title="{maui:Translate Search_Filter}"
+                                       BackCommand="{Binding ToggleFiltersCommand}"
+                                       Margin="0,-20,0,-20"
+                                       ZIndex="2" />
+
+            <ScrollView>
+                <VerticalStackLayout Padding="20,80,20,60" Spacing="6">
+                    
+                    <Label Text="{maui:Translate Filter_Muscles}" Style="{StaticResource LabelBody}" />
+                    <FlexLayout Wrap="Wrap" Direction="Row" AlignItems="Start" JustifyContent="Start" 
+                                BindableLayout.ItemsSource="{Binding FilterMuscles}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeShape="RoundRectangle 16" 
+                                        Padding="0,0,10,0"
+                                        Margin="0,0,3,3">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource SelectedSurface}"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/>
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=BindingContext.ToggleFilterSelectionCommand}" CommandParameter="{Binding .}"/> 
+                                    </Border.GestureRecognizers>
+
+                                    <Grid ColumnDefinitions="Auto, Auto">
+                                        <CheckBox IsChecked="{Binding IsSelected}" 
+                                                  Color="{StaticResource WorkoutColor}"
+                                                  VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Name}" 
+                                               Style="{StaticResource LabelBody}" 
+                                               VerticalOptions="Center"
+                                               TextColor="{Binding IsSelected, 
+                                               Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource WorkoutColor}, FalseObject={StaticResource TextSecondary}}}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+
+                    <Label Text="{maui:Translate Filter_BodyParts}" Style="{StaticResource LabelBody}" />
+                    <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding FilterBodyParts}">
+                         <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeShape="RoundRectangle 16" 
+                                        Padding="0,0,10,0"
+                                        Margin="0,0,3,3">
+                                     <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource SelectedSurface}"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/>
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Grid ColumnDefinitions="Auto, Auto">
+                                        <CheckBox IsChecked="{Binding IsSelected}" 
+                                                  Color="{StaticResource WorkoutColor}"
+                                                  VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Name}" 
+                                               Style="{StaticResource LabelBody}" 
+                                               VerticalOptions="Center"
+                                               TextColor="{Binding IsSelected, 
+                                               Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource WorkoutColor}, FalseObject={StaticResource TextSecondary}}}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Button Text="{maui:Translate Action_Confirm}" 
+                    Command="{Binding ApplyFiltersCommand}"
+                    BackgroundColor="{StaticResource WorkoutColor}"
+                    BorderColor="{StaticResource WorkoutColor}"
+                    Shadow="{StaticResource WorkoutGlow}"
+                    Margin="20"
+                    VerticalOptions="End" />
+        </Grid>
+    </Border>
+</ContentView>

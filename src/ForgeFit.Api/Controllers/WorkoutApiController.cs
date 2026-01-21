@@ -15,7 +15,7 @@ public class WorkoutApiController(IWorkoutApiService workoutApiService) : Contro
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<WorkoutExerciseSearchResponse>>> SearchAsync(
-        [FromQuery] string query,
+        [FromQuery] string? query,
         [FromQuery] List<Muscle>? muscles,
         [FromQuery] List<BodyPart>? bodyParts,
         [FromQuery] List<Equipment>? equipment,

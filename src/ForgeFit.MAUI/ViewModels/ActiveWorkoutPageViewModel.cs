@@ -1,24 +1,24 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.Views.Workout;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels;
 
-public partial class ActiveWorkoutPageViewModel(
-    IWorkoutProgramService workoutProgramService,
-    IWorkoutTrackingService workoutTrackingService,
-    IAlertService alertService,
-    ILocalizationResourceManager localizationManager)
-    : BaseViewModel, IQueryAttributable
+public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributable
 {
     private IDispatcherTimer? _timer;
     private TimeSpan _totalWorkoutDuration;
     private TimeSpan _currentRestTime;
     private bool _isResting;
+    
+    private bool _isInitialized;
 
     private string _programName = string.Empty;
     private string? _programDescription;
@@ -37,10 +37,33 @@ public partial class ActiveWorkoutPageViewModel(
     [ObservableProperty] private string _entryPopupTitle = string.Empty;
     [ObservableProperty] private string _entryPopupPlaceholder = string.Empty;
     [ObservableProperty] private TimeSpan _entryPopupDuration;
+    private readonly IWorkoutProgramService _workoutProgramService;
+    private readonly IWorkoutTrackingService _workoutTrackingService;
+    private readonly IAlertService _alertService;
+    private readonly ILocalizationResourceManager _localizationManager;
+
+    public ActiveWorkoutPageViewModel(IWorkoutProgramService workoutProgramService,
+        IWorkoutTrackingService workoutTrackingService,
+        IAlertService alertService,
+        ILocalizationResourceManager localizationManager)
+    {
+        _workoutProgramService = workoutProgramService;
+        _workoutTrackingService = workoutTrackingService;
+        _alertService = alertService;
+        _localizationManager = localizationManager;
+        
+        WeakReferenceMessenger.Default.Register<AddExerciseMessage>(this, (r, m) =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ((ActiveWorkoutPageViewModel)r).AddNewExercise(m.Value);
+            });
+        });
+    }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.TryGetValue(nameof(ProgramId), out var id) && id is string idStr && Guid.TryParse(idStr, out var guid))
+        if (!_isInitialized && query.TryGetValue(nameof(ProgramId), out var id) && id is string idStr && Guid.TryParse(idStr, out var guid))
         {
             ProgramId = guid;
             InitializeCommand.Execute(null);
@@ -50,11 +73,13 @@ public partial class ActiveWorkoutPageViewModel(
     [RelayCommand]
     private async Task Initialize()
     {
+        if (_isInitialized) return;
+        
         IsLoading = true;
         Error = null;
         try
         {
-            var result = await workoutProgramService.GetProgramAsync(ProgramId);
+            var result = await _workoutProgramService.GetProgramAsync(ProgramId);
             if (!result.Success || result.Data == null)
             {
                 var errorMsg = new LocalizedString(() => result.Message);
@@ -77,10 +102,11 @@ public partial class ActiveWorkoutPageViewModel(
             Exercises = new ObservableCollection<ActiveExerciseItem>(mappedExercises);
 
             StartTimer();
+            _isInitialized = true;
         }
         catch (Exception)
         {
-            var genericError = new LocalizedString(() => localizationManager["UnexpectedErrorMessage"]);
+            var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
             HandleError(genericError);
         }
         finally
@@ -89,16 +115,34 @@ public partial class ActiveWorkoutPageViewModel(
         }
     }
 
+    private void AddNewExercise(WorkoutExerciseDto exerciseDto)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            var defaultSet = new WorkoutSetDto(Guid.NewGuid(), 1, 10, TimeSpan.FromMinutes(1.5), 0, WeightUnit.Kg);
+            
+            var tempPlanDto = new WorkoutExercisePlanDto(Guid.NewGuid(), ProgramId, exerciseDto, [defaultSet]);
+
+            var activeItem = new ActiveExerciseItem(
+                tempPlanDto,
+                OnSetCompleted,
+                DeleteSetCommand,
+                AskDeleteExerciseCommand,
+                AddSetCommand);
+
+            Exercises.Add(activeItem);
+        });
+    }
+
     private void StartTimer()
     {
         _totalWorkoutDuration = TimeSpan.Zero;
         _timer = Application.Current?.Dispatcher.CreateTimer();
-        if (_timer != null)
-        {
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += OnTimerTick;
-            _timer.Start();
-        }
+        if (_timer == null) return;
+        
+        _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Tick += OnTimerTick;
+        _timer.Start();
     }
 
     private void OnTimerTick(object? sender, EventArgs e)
@@ -144,7 +188,7 @@ public partial class ActiveWorkoutPageViewModel(
     {
         if (exercise.Sets.Count >= 20)
         {
-             alertService.ShowToastAsync(localizationManager["Error_MaxSetsReached"]);
+             _alertService.ShowToastAsync(_localizationManager["Error_MaxSetsReached"]);
              return;
         }
 
@@ -172,7 +216,7 @@ public partial class ActiveWorkoutPageViewModel(
         
         if (parentExercise.Sets.Count <= 1)
         {
-            alertService.ShowToastAsync(localizationManager["Error_CannotDeleteLastSet"]);
+            _alertService.ShowToastAsync(_localizationManager["Error_CannotDeleteLastSet"]);
             return;
         }
 
@@ -187,8 +231,8 @@ public partial class ActiveWorkoutPageViewModel(
     [RelayCommand]
     private void AskDeleteExercise(ActiveExerciseItem exercise)
     {
-        ConfirmationTitle = localizationManager["Title_DeleteExercise"];
-        ConfirmationMessage = localizationManager["Msg_DeleteExerciseConfirm"];
+        ConfirmationTitle = _localizationManager["Title_DeleteExercise"];
+        ConfirmationMessage = _localizationManager["Msg_DeleteExerciseConfirm"];
         _pendingConfirmationAction = async () => 
         {
             Exercises.Remove(exercise);
@@ -202,13 +246,13 @@ public partial class ActiveWorkoutPageViewModel(
     {
         if (!Exercises.Any())
         {
-            alertService.ShowToastAsync(localizationManager["Error_NoExercisesInWorkout"]);
+            _alertService.ShowToastAsync(_localizationManager["Error_NoExercisesInWorkout"]);
             return;
         }
 
         if (Exercises.Any(e => e.Sets.Count == 0))
         {
-            alertService.ShowToastAsync(localizationManager["Error_ExerciseWithoutSets"]);
+            _alertService.ShowToastAsync(_localizationManager["Error_ExerciseWithoutSets"]);
             return;
         }
 
@@ -216,8 +260,8 @@ public partial class ActiveWorkoutPageViewModel(
         
         if (totalMinutes is < 10 or > 300)
         {
-            EntryPopupTitle = localizationManager["Title_AdjustDuration"];
-            EntryPopupPlaceholder = localizationManager["Placeholder_EnterDurationMinutes"];
+            EntryPopupTitle = _localizationManager["Title_AdjustDuration"];
+            EntryPopupPlaceholder = _localizationManager["Placeholder_EnterDurationMinutes"];
             
             EntryPopupDuration = _totalWorkoutDuration;
 
@@ -239,10 +283,10 @@ public partial class ActiveWorkoutPageViewModel(
         switch (minutes)
         {
             case < 10:
-                alertService.ShowToastAsync(localizationManager["Error_DurationTooShort"]);
+                _alertService.ShowToastAsync(_localizationManager["Error_DurationTooShort"]);
                 return;
             case > 300:
-                alertService.ShowToastAsync(localizationManager["Error_DurationTooLong"]);
+                _alertService.ShowToastAsync(_localizationManager["Error_DurationTooLong"]);
                 return;
         }
 
@@ -260,8 +304,8 @@ public partial class ActiveWorkoutPageViewModel(
 
     private void ShowFinishConfirmation()
     {
-        ConfirmationTitle = localizationManager["Title_FinishWorkout"];
-        ConfirmationMessage = localizationManager["Msg_FinishWorkoutConfirm"];
+        ConfirmationTitle = _localizationManager["Title_FinishWorkout"];
+        ConfirmationMessage = _localizationManager["Msg_FinishWorkoutConfirm"];
         _pendingConfirmationAction = FinishWorkoutInternal;
         IsConfirmationPopupVisible = true;
     }
@@ -292,7 +336,6 @@ public partial class ActiveWorkoutPageViewModel(
         try
         {
             var endTime = TimeOnly.FromDateTime(DateTime.Now);
-            // Используем _totalWorkoutDuration (которое могло быть исправлено в попапе)
             var startTime = endTime.Add(-_totalWorkoutDuration);
 
             var workoutEntry = new WorkoutEntryDto(
@@ -304,9 +347,7 @@ public partial class ActiveWorkoutPageViewModel(
                 CalculateTotalVolume(),
                 CalculateTotalReps()
             );
-
-            // Для обновления программы мы берем текущее состояние
-            // (даже если там что-то пустое - мы убрали валидацию на бэке для плана)
+            
             var updatedPlans = Exercises.Select(e => new WorkoutExercisePlanDto(
                 e.Id,
                 ProgramId,
@@ -320,8 +361,8 @@ public partial class ActiveWorkoutPageViewModel(
                 updatedPlans
             );
 
-            var logTask = workoutTrackingService.LogEntryAsync(workoutEntry);
-            var updateTask = workoutProgramService.UpdateProgramAsync(ProgramId, programUpdateRequest);
+            var logTask = _workoutTrackingService.LogEntryAsync(workoutEntry);
+            var updateTask = _workoutProgramService.UpdateProgramAsync(ProgramId, programUpdateRequest);
 
             await Task.WhenAll(logTask, updateTask);
 
@@ -335,7 +376,7 @@ public partial class ActiveWorkoutPageViewModel(
             if (errorMessage != null)
             {
                  var errorMsg = new LocalizedString(() => errorMessage);
-                 await alertService.ShowToastAsync(errorMsg.Localized);
+                 await _alertService.ShowToastAsync(errorMsg.Localized);
                  return;
             }
             
@@ -343,8 +384,8 @@ public partial class ActiveWorkoutPageViewModel(
         }
         catch (Exception)
         {
-             var genericError = new LocalizedString(() => localizationManager["UnexpectedErrorMessage"]);
-             await alertService.ShowToastAsync(genericError.Localized);
+             var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+             await _alertService.ShowToastAsync(genericError.Localized);
              _timer?.Start();
         }
         finally
@@ -352,12 +393,18 @@ public partial class ActiveWorkoutPageViewModel(
             IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    private async Task AddExercise()
+    {
+        await Shell.Current.GoToAsync($"{nameof(ExerciseSearchPageView)}");
+    }
     
     [RelayCommand] 
     private void AskCancelWorkout()
     {
-        ConfirmationTitle = localizationManager["Title_CancelWorkout"];
-        ConfirmationMessage = localizationManager["Msg_CancelWorkoutConfirm"];
+        ConfirmationTitle = _localizationManager["Title_CancelWorkout"];
+        ConfirmationMessage = _localizationManager["Msg_CancelWorkoutConfirm"];
         
         _pendingConfirmationAction = CancelWorkoutInternal;
         
@@ -388,13 +435,13 @@ public partial class ActiveWorkoutPageViewModel(
     private void HandleError(LocalizedString errorMsg)
     {
         if (Exercises.Any())
-            alertService.ShowToastAsync(errorMsg.Localized);
+            _alertService.ShowToastAsync(errorMsg.Localized);
         else
             Error = errorMsg;
     }
 }
 
-public class ActiveExerciseItem : ObservableObject
+public partial class ActiveExerciseItem : ObservableObject
 {
     public Guid Id { get; }
     public WorkoutExerciseDto WorkoutExercise { get; }
@@ -435,10 +482,35 @@ public partial class ActiveSetItem : ObservableObject
     private readonly Action<ActiveSetItem> _onCompletedChanged;
 
     public Guid Id { get; }
+    
     [ObservableProperty] private int _order;
-    [ObservableProperty] private int _reps;
-    [ObservableProperty] private double _weight;
-    [ObservableProperty] private TimeSpan _restTime;
+    
+    [ObservableProperty] 
+    private int _reps;
+
+    partial void OnRepsChanged(int value)
+    {
+        if (value < 0) Reps = 0;
+        else if (value > 100) Reps = 100;
+    }
+
+    [ObservableProperty] 
+    private double _weight;
+
+    partial void OnWeightChanged(double value)
+    {
+        if (value < 0) Weight = 0;
+        else if (value > 1500) Weight = 1500;
+    }
+
+    [ObservableProperty] 
+    private TimeSpan _restTime;
+
+    partial void OnRestTimeChanged(TimeSpan value)
+    {
+        if (value.TotalMinutes >= 10) RestTime = TimeSpan.FromMinutes(9).Add(TimeSpan.FromSeconds(59));
+    }
+
     [ObservableProperty] private WeightUnit _weightUnit;
     
     [ObservableProperty] private bool _isCompleted;

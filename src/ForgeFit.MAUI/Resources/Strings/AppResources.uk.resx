@@ -606,4 +606,28 @@
         <data name="Error_InvalidNumber" xml:space="preserve">
       <value>Будь ласка, введіть коректне число.</value>
     </data>
+    <data name="Search_AllExercises" xml:space="preserve">
+        <value>Всі вправи</value>
+    </data>
+    <data name="Search_Placeholder_Exercise" xml:space="preserve">
+        <value>Шукати вправи...</value>
+    </data>
+    <data name="Search_Filter" xml:space="preserve">
+        <value>Фільтри</value>
+    </data>
+    <data name="Exercise_Instructions" xml:space="preserve">
+        <value>Інструкція</value>
+    </data>
+    <data name="Filter_BodyParts" xml:space="preserve">
+        <value>Частини тіла</value>
+    </data>
+    <data name="Filter_Equipment" xml:space="preserve">
+        <value>Обладнання</value>
+    </data>
+    <data name="Filter_Muscles" xml:space="preserve">
+        <value>М'язи</value>
+    </data>
+    <data name="Action_AddExercise" xml:space="preserve">
+        <value>Додати вправу</value>
+    </data>
 </root>
