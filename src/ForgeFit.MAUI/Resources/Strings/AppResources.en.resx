@@ -439,7 +439,7 @@
         <value>Let's get to know each other! What should we call you?</value>
     </data>
     <data name="Reg_UsernamePlaceholder" xml:space="preserve">
-        <value>Your name</value>
+        <value>Name</value>
     </data>
     <data name="BMI_Underweight" xml:space="preserve">
         <value>Underweight</value>

@@ -439,7 +439,7 @@
         <value>Давайте знайомитись! Як ми можемо вас називати?</value>
     </data>
     <data name="Reg_UsernamePlaceholder" xml:space="preserve">
-        <value>Ваше їм'я</value>
+        <value>Ім'я</value>
     </data>
     <data name="BMI_Normal" xml:space="preserve">
         <value>Нормальна вага</value>

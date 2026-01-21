@@ -1545,7 +1545,7 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string Reg_UsernamePlaceholder {
             get {
