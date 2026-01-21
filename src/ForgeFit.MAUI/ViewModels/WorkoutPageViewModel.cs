@@ -23,10 +23,8 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
     [ObservableProperty] private bool _isRefreshing;
 
-    // stats
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _completedWorkouts;
-
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _targetWorkouts;
 
@@ -37,6 +35,14 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [ObservableProperty] private string _statsSubtitle = string.Empty;
 
     [ObservableProperty] private ObservableCollection<WorkoutProgramItem> _programs = [];
+    
+    [ObservableProperty] private bool _isCreatePopupVisible;
+    [ObservableProperty] private string _newProgramName = string.Empty;
+    
+    [ObservableProperty] private bool _isConfirmationPopupVisible;
+    [ObservableProperty] private string _confirmationTitle = string.Empty;
+    [ObservableProperty] private string _confirmationMessage = string.Empty;
+    private Func<Task>? _pendingConfirmationAction;
 
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,
@@ -157,16 +163,120 @@ public partial class WorkoutPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task GoToCreateProgram()
+    private void GoToCreateProgram()
     {
-        // await Shell.Current.GoToAsync(nameof(WorkoutProgramEditorView));
-        await _alertService.ShowToastAsync("Nav to Create Program (TODO)");
+        NewProgramName = string.Empty;
+        IsCreatePopupVisible = true;
+    }
+    
+    [RelayCommand]
+    private async Task ConfirmCreateProgram()
+    {
+        if (string.IsNullOrWhiteSpace(NewProgramName))
+        {
+            return;
+        }
+        
+        if (NewProgramName.Length > 50)
+        {
+            await _alertService.ShowToastAsync(_localizationManager["Error_ProgramNameTooLong"]);
+            return;
+        }
+
+        IsCreatePopupVisible = false;
+        IsLoading = true;
+
+        try
+        {
+            var request = new WorkoutProgramRequest(NewProgramName, null, []);
+            var result = await _workoutProgramService.CreateProgramAsync(request);
+
+            if (result is { Success: true, Data: not null })
+            {
+                Programs.Insert(0, new WorkoutProgramItem(result.Data));
+
+                await Shell.Current.GoToAsync($"{nameof(WorkoutProgramEditorPageView)}?ProgramId={result.Data.Id}");
+            }
+            else
+            {
+                var errorMsg = new LocalizedString(() => result.Message);
+                await _alertService.ShowToastAsync(errorMsg.Localized);
+            }
+        }
+        catch (Exception)
+        {
+            await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+    
+    [RelayCommand]
+    private void CloseCreatePopup()
+    {
+        IsCreatePopupVisible = false;
+    }
+    
+    [RelayCommand]
+    private void AskDeleteProgram(WorkoutProgramItem item)
+    {
+        ConfirmationTitle = _localizationManager["Title_DeleteProgram"];
+        ConfirmationMessage = _localizationManager["Msg_DeleteProgramConfirm"];
+        
+        _pendingConfirmationAction = async () =>
+        {
+            IsLoading = true;
+            try
+            {
+                var result = await _workoutProgramService.DeleteProgramAsync(item.Program.Id);
+                if (result.Success)
+                {
+                    Programs.Remove(item);
+                    UpdateStatsSubtitle();
+                }
+                else
+                {
+                    var errorMsg = new LocalizedString(() => result.Message);
+                    await _alertService.ShowToastAsync(errorMsg.Localized);
+                }
+            }
+            catch (Exception)
+            {
+                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        };
+
+        IsConfirmationPopupVisible = true;
     }
 
     [RelayCommand]
-    private async Task GoToProgramDetails(WorkoutProgramItem item)
+    private async Task ConfirmAction()
     {
-        // await Shell.Current.GoToAsync($"{nameof(WorkoutProgramDetailsView)}?ProgramId={item.Program.Id}");
+        IsConfirmationPopupVisible = false;
+        if (_pendingConfirmationAction != null)
+        {
+            await _pendingConfirmationAction.Invoke();
+            _pendingConfirmationAction = null;
+        }
+    }
+
+    [RelayCommand]
+    private void CloseConfirmationPopup()
+    {
+        IsConfirmationPopupVisible = false;
+        _pendingConfirmationAction = null;
+    }
+
+    [RelayCommand]
+    private async Task GoToEditProgram(WorkoutProgramItem item)
+    {
+        await Shell.Current.GoToAsync($"{nameof(WorkoutProgramEditorPageView)}?ProgramId={item.Program.Id}");
     }
 
     [RelayCommand]
@@ -185,12 +295,15 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
     private void HandleError(LocalizedString errorMsg)
     {
-        SetLoadingState();
-
         if (_isInitialized)
+        {
             _alertService.ShowToastAsync(errorMsg.Localized);
+        }
         else
+        {
+            SetLoadingState();
             Error = errorMsg;
+        }
     }
 
     private void UpdateStatsSubtitle()

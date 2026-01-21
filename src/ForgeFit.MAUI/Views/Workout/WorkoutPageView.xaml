@@ -11,17 +11,45 @@
              xmlns:helpers="using:ForgeFit.MAUI.Helpers"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:WorkoutPageViewModel"
-             x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageView">
+             x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageView"
+             x:Name="ThisPage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
             
             <DataTemplate x:Key="ProgramItemTemplate" x:DataType="local:WorkoutProgramItem">
-                <Border Style="{StaticResource CardStyle}" 
+                <SwipeView Threshold="70">
+                    <SwipeView.RightItems>
+                        <SwipeItems>
+                            <SwipeItemView>
+                                <Border BackgroundColor="{StaticResource DangerColor}"
+                                        WidthRequest="90"
+                                        Padding="10,0,0,0"
+                                        VerticalOptions="Fill"
+                                        Stroke="Transparent">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="0, 16, 0, 16" />
+                                    </Border.StrokeShape>
+                                    <Grid>
+                                        <Image Source="delete.svg"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.AskDeleteProgramCommand, Source={x:Reference ThisPage}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </Border>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    
+                    <Border Style="{StaticResource CardStyle}" 
                         Padding="0">
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=GoToProgramDetailsCommand}"
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=GoToEditProgramCommand}"
                                               CommandParameter="{Binding .}" />
                     </Border.GestureRecognizers>
 
@@ -39,7 +67,9 @@
                                      HorizontalOptions="End"
                                      Padding="0"
                                      Source="edit.svg"
-                                     Shadow="{StaticResource WorkoutGlow}">
+                                     Shadow="{StaticResource WorkoutGlow}"
+                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=GoToEditProgramCommand}"
+                                     CommandParameter="{Binding .}">
                             <ImageButton.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
                             </ImageButton.Behaviors>
@@ -93,15 +123,13 @@
                         </VerticalStackLayout>
 
                         <Label Grid.Row="3"
-                               IsVisible="{Binding HasMore}"
-                               Style="{StaticResource LabelBody}"
-                               FontSize="12">
+                               IsVisible="{Binding HasMore}">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="+ " />
-                                    <Span Text="{Binding RemainingCount}" />
-                                    <Span Text=" " />
-                                    <Span Text="{maui:Translate Workout_More}" />
+                                    <Span Style="{StaticResource LabelBody}" FontSize="12" Text="+ " />
+                                    <Span Style="{StaticResource LabelBody}" FontSize="12" Text="{Binding RemainingCount}" />
+                                    <Span Style="{StaticResource LabelBody}" FontSize="12" Text=" " />
+                                    <Span Style="{StaticResource LabelBody}" FontSize="12" Text="{maui:Translate Workout_More}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -121,6 +149,7 @@
                                 CommandParameter="{Binding .}"/>
                     </Grid>
                 </Border>
+                </SwipeView>
             </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -221,6 +250,23 @@
                     </ScrollView>
                 </RefreshView>
             </controls:StateContainer>
+            
+            <controls:TextEntryPopup IsVisible="{Binding IsCreatePopupVisible}"
+                                     EntryPopupTitle="{maui:Translate Title_NewProgram}"
+                                     EntryPopupPlaceholder="{maui:Translate Placeholder_EnterProgramName}"
+                                     EntryPopupText="{Binding NewProgramName}"
+                                     EntryPopupButtonCommand="{Binding ConfirmCreateProgramCommand}"
+                                     CloseEntryPopupCommand="{Binding CloseCreatePopupCommand}">
+                <controls:TextEntryPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsCreatePopupVisible}" />
+                </controls:TextEntryPopup.Behaviors>
+            </controls:TextEntryPopup>
+            
+            <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}">
+                <controls:ConfirmationPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
+                </controls:ConfirmationPopup.Behaviors>
+            </controls:ConfirmationPopup>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

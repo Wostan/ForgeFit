@@ -397,7 +397,7 @@ public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributa
     [RelayCommand]
     private async Task AddExercise()
     {
-        await Shell.Current.GoToAsync($"{nameof(ExerciseSearchPageView)}");
+        await Shell.Current.GoToAsync($"{nameof(ExerciseSearchPageView)}?ProgramName={_programName}");
     }
     
     [RelayCommand] 

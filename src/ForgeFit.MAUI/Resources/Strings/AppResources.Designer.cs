@@ -132,6 +132,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        internal static string Action_Create {
+            get {
+                return ResourceManager.GetString("Action_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string Action_Edit {
@@ -654,6 +663,24 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description must be less than 300 characters.
+        /// </summary>
+        internal static string Error_ProgramDescriptionTooLong {
+            get {
+                return ResourceManager.GetString("Error_ProgramDescriptionTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name must be less than 50 characters.
+        /// </summary>
+        internal static string Error_ProgramNameTooLong {
+            get {
+                return ResourceManager.GetString("Error_ProgramNameTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target weight must be higher than current weight for muscle gain..
         /// </summary>
         internal static string Error_TargetMustBeHigher {
@@ -713,6 +740,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Error_TitleTooLong {
             get {
                 return ResourceManager.GetString("Error_TitleTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too many exercises (max 50).
+        /// </summary>
+        internal static string Error_TooManyExercises {
+            get {
+                return ResourceManager.GetString("Error_TooManyExercises", resourceCulture);
             }
         }
         
@@ -1068,11 +1104,38 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this workout program?.
+        /// </summary>
+        internal static string Msg_DeleteProgramConfirm {
+            get {
+                return ResourceManager.GetString("Msg_DeleteProgramConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter new name.
+        /// </summary>
+        internal static string Msg_EnterNewName {
+            get {
+                return ResourceManager.GetString("Msg_EnterNewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Good job! Are you ready to save your progress?.
         /// </summary>
         internal static string Msg_FinishWorkoutConfirm {
             get {
                 return ResourceManager.GetString("Msg_FinishWorkoutConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have unsaved changes. Are you sure you want to leave? Changes will be lost..
+        /// </summary>
+        internal static string Msg_UnsavedChangesConfirm {
+            get {
+                return ResourceManager.GetString("Msg_UnsavedChangesConfirm", resourceCulture);
             }
         }
         
@@ -1176,11 +1239,29 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a description (optional)....
+        /// </summary>
+        internal static string Placeholder_EnterDescription {
+            get {
+                return ResourceManager.GetString("Placeholder_EnterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the actual workout duration (from 10 min. to 5 hours).
         /// </summary>
         internal static string Placeholder_EnterDurationMinutes {
             get {
                 return ResourceManager.GetString("Placeholder_EnterDurationMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e.g., Leg Day.
+        /// </summary>
+        internal static string Placeholder_EnterProgramName {
+            get {
+                return ResourceManager.GetString("Placeholder_EnterProgramName", resourceCulture);
             }
         }
         
@@ -1698,11 +1779,47 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Workout.
+        /// </summary>
+        internal static string Title_DeleteProgram {
+            get {
+                return ResourceManager.GetString("Title_DeleteProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finish Workout?.
         /// </summary>
         internal static string Title_FinishWorkout {
             get {
                 return ResourceManager.GetString("Title_FinishWorkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Workout.
+        /// </summary>
+        internal static string Title_NewProgram {
+            get {
+                return ResourceManager.GetString("Title_NewProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Workout.
+        /// </summary>
+        internal static string Title_RenameProgram {
+            get {
+                return ResourceManager.GetString("Title_RenameProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved Changes.
+        /// </summary>
+        internal static string Title_UnsavedChanges {
+            get {
+                return ResourceManager.GetString("Title_UnsavedChanges", resourceCulture);
             }
         }
         
@@ -1761,6 +1878,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Workout Description.
+        /// </summary>
+        internal static string Workout_Description {
+            get {
+                return ResourceManager.GetString("Workout_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to workouts completed.
         /// </summary>
         internal static string Workout_Done {
@@ -1784,6 +1910,15 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Workout_EmptyPrograms {
             get {
                 return ResourceManager.GetString("Workout_EmptyPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exercises.
+        /// </summary>
+        internal static string Workout_Exercises {
+            get {
+                return ResourceManager.GetString("Workout_Exercises", resourceCulture);
             }
         }
         

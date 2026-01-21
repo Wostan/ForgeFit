@@ -21,6 +21,8 @@ public partial class ExerciseSearchPageViewModel(
     
     private CancellationTokenSource? _searchCts;
 
+    [ObservableProperty] private string _programName;
+
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private bool _isLoadingMore;
     private int _currentPage = 1;
@@ -40,6 +42,12 @@ public partial class ExerciseSearchPageViewModel(
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         ResetState();
+        
+        if (query.TryGetValue(nameof(ProgramName), out var name) && name is string nameStr)
+        {
+            ProgramName = nameStr;
+        }
+        
         InitializeFilters();
         await PerformSearch(string.Empty);
     }
