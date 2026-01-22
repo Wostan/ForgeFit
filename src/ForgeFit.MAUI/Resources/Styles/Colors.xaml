@@ -27,7 +27,7 @@
     <Color x:Key="FatColor">#FFE57F</Color>
     <Color x:Key="WaterColor">#81D4FA</Color>
     <Color x:Key="WeightColor">#FFAB91</Color>
-    
+
     <Color x:Key="WorkoutColor">#8C9EFF</Color>
 
     <Color x:Key="BmiObesity">#e74c3c</Color>

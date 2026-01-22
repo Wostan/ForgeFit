@@ -84,6 +84,9 @@ public class WorkoutProgramService(
             if (existingPlan == null)
             {
                 var newPlan = CreateExercisePlanEntity(program.Id, userId, dto);
+
+                await workoutProgramRepository.AddPlanAsync(newPlan);
+
                 program.AddExercisePlan(newPlan);
             }
             else
@@ -93,8 +96,8 @@ public class WorkoutProgramService(
 
                 foreach (var setDto in dto.WorkoutSets)
                 {
-                    var existingSet =
-                        existingPlan.WorkoutSets.FirstOrDefault(s => s.Id == setDto.Id && s.Id != Guid.Empty);
+                    var existingSet = existingPlan.WorkoutSets
+                        .FirstOrDefault(s => s.Id == setDto.Id && s.Id != Guid.Empty);
 
                     if (existingSet == null)
                     {

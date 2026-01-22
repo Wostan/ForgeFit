@@ -2,46 +2,89 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
              xmlns:controls="using:ForgeFit.MAUI.Views.Controls"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:maui="using:LocalizationResourceManager.Maui"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
-             x:Class="ForgeFit.MAUI.Views.Workout.ActiveWorkoutPageView"
-             x:DataType="local:ActiveWorkoutPageViewModel"
-             Shell.NavBarIsVisible="False">
-
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             x:Class="ForgeFit.MAUI.Views.Workout.WorkoutProgramEditorPageView"
+             x:DataType="local:WorkoutProgramEditorPageViewModel"
+             Shell.NavBarIsVisible="False"
+             x:Name="ThisPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
-            <Color x:Key="SuccessSurface">#0C2517</Color>
-
-            <toolkit:BoolToObjectConverter x:Key="BoolToColorConverter"
-                                           x:TypeArguments="Color"
-                                           TrueObject="{StaticResource SuccessColor}"
-                                           FalseObject="{StaticResource TextSecondary}" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid>
             <controls:NavigationHeader ZIndex="11"
-                                       BackCommand="{Binding AskCancelWorkoutCommand}"
-                                       Title="{Binding HeaderTitle}" />
+                                       BackCommand="{Binding AskCancelCommand}">
+                <controls:NavigationHeader.CustomTitleView>
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Center" Margin="10,0">
 
-            <controls:StateContainer IsLoading="{Binding IsLoading}"
-                                     IsError="{Binding IsError}"
-                                     ErrorMessage="{Binding Error.Localized}"
-                                     RetryCommand="{Binding InitializeCommand}">
+                        <Label Text="{Binding BindingContext.ProgramName, Source={x:Reference ThisPage}}"
+                               Style="{StaticResource LabelH2}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               LineBreakMode="TailTruncation"
+                               MaximumWidthRequest="250" />
 
-                <ScrollView>
-                    <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
+                        <Button ImageSource="edit.svg"
+                                Style="{StaticResource TextButton}"
+                                Command="{Binding BindingContext.OpenRenamePopupCommand, Source={x:Reference ThisPage}}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <ImageButton.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
+                            </ImageButton.Behaviors>
+                        </Button>
+
+                    </Grid>
+                </controls:NavigationHeader.CustomTitleView>
+            </controls:NavigationHeader>
+
+            <ScrollView>
+                <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{maui:Translate Workout_Description}"
+                               Style="{StaticResource LabelH2}" />
+
+                        <Border Style="{StaticResource InputWrapper}" HeightRequest="100">
+                            <Editor Text="{Binding ProgramDescription}"
+                                    Placeholder="{maui:Translate Placeholder_EnterDescription}"
+                                    MaxLength="300"
+                                    HeightRequest="100" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="{maui:Translate Workout_Exercises}"
+                                   VerticalOptions="Center"
+                                   Style="{StaticResource LabelH2}" />
+
+                            <Button Text="{maui:Translate Action_AddExercise}"
+                                    Style="{StaticResource TextButton}"
+                                    ImageSource="add_big.svg"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center"
+                                    Padding="12,6"
+                                    MinimumHeightRequest="-1"
+                                    Command="{Binding AddExerciseCommand}">
+                                <Button.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
+                                </Button.Behaviors>
+                            </Button>
+                        </Grid>
 
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding Exercises}"
                                              Spacing="8">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="local:ActiveExerciseItem">
+                                <DataTemplate x:DataType="local:EditorExerciseItem">
                                     <Border Style="{StaticResource CardStyle}" Padding="0">
                                         <VerticalStackLayout Spacing="16" Padding="0,20">
 
@@ -77,7 +120,7 @@
                                             </Grid>
 
                                             <VerticalStackLayout Spacing="4">
-                                                <Grid ColumnDefinitions="40, *, 0.75*, 0.75*, 40" ColumnSpacing="8"
+                                                <Grid ColumnDefinitions="40, *, 0.75*, 0.75*" ColumnSpacing="8"
                                                       Padding="20,0">
                                                     <Label Grid.Column="0" Text="#" Style="{StaticResource LabelBody}"
                                                            FontSize="12" HorizontalTextAlignment="Center" />
@@ -94,7 +137,7 @@
 
                                                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding Sets}">
                                                     <BindableLayout.ItemTemplate>
-                                                        <DataTemplate x:DataType="local:ActiveSetItem">
+                                                        <DataTemplate x:DataType="local:EditorSetItem">
                                                             <SwipeView>
                                                                 <SwipeView.RightItems>
                                                                     <SwipeItems>
@@ -103,11 +146,9 @@
                                                                                 BackgroundColor="{StaticResource DangerColor}"
                                                                                 WidthRequest="60"
                                                                                 VerticalOptions="Fill">
-
                                                                                 <Image Source="delete.svg"
                                                                                     HorizontalOptions="Center"
                                                                                     VerticalOptions="Center" />
-
                                                                                 <Grid.GestureRecognizers>
                                                                                     <TapGestureRecognizer
                                                                                         Command="{Binding DeleteCommand}"
@@ -118,20 +159,16 @@
                                                                     </SwipeItems>
                                                                 </SwipeView.RightItems>
 
-                                                                <Grid ColumnDefinitions="40, *, 0.75*, 0.75*, 40"
+                                                                <Grid ColumnDefinitions="40, *, 0.75*, 0.75*"
                                                                       ColumnSpacing="8"
                                                                       Padding="20,4"
-                                                                      BackgroundColor="{Binding IsCompleted, 
-                                                                      Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource SuccessSurface},
-                                                                      FalseObject={StaticResource Surface}}}">
+                                                                      BackgroundColor="{StaticResource Surface}">
 
                                                                     <Border Grid.Column="0"
                                                                             Style="{StaticResource InputWrapper}">
                                                                         <Label Text="{Binding Order}"
                                                                                Style="{StaticResource LabelBody}"
-                                                                               TextColor="{Binding IsCompleted, 
-                                                                               Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource SuccessColor},
-                                                                               FalseObject={StaticResource TextSecondary}}}"
+                                                                               TextColor="{StaticResource TextSecondary}"
                                                                                VerticalOptions="Center"
                                                                                HorizontalTextAlignment="Center" />
                                                                     </Border>
@@ -184,27 +221,6 @@
                                                                             </Entry.Behaviors>
                                                                         </Entry>
                                                                     </Border>
-
-                                                                    <Image Grid.Column="4"
-                                                                           x:Name="CheckImage"
-                                                                           Source="check.svg"
-                                                                           HeightRequest="24"
-                                                                           WidthRequest="24"
-                                                                           VerticalOptions="Center"
-                                                                           HorizontalOptions="Center">
-
-                                                                        <Image.GestureRecognizers>
-                                                                            <TapGestureRecognizer
-                                                                                Command="{Binding ToggleCompleteCommand}" />
-                                                                        </Image.GestureRecognizers>
-
-                                                                        <Image.Behaviors>
-                                                                            <toolkit:IconTintColorBehavior
-                                                                                BindingContext="{Binding Source={x:Reference CheckImage}, Path=BindingContext}"
-                                                                                TintColor="{Binding IsCompleted, Converter={StaticResource BoolToColorConverter}}" />
-                                                                        </Image.Behaviors>
-                                                                    </Image>
-
                                                                 </Grid>
                                                             </SwipeView>
                                                         </DataTemplate>
@@ -231,45 +247,46 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </VerticalStackLayout>
-
-                        <Button Text="{maui:Translate Action_AddExercise}"
-                                Style="{StaticResource TextButton}"
-                                ImageSource="add_big.svg"
-                                Padding="5"
-                                Margin="20, 0"
-                                Command="{Binding AddExerciseCommand}"
-                                CommandParameter="{Binding .}">
-                            <Button.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
-                            </Button.Behaviors>
-                        </Button>
-
-                        <Button Text="{maui:Translate Action_FinishWorkout}"
-                                ImageSource="check.svg"
-                                BackgroundColor="{StaticResource WorkoutColor}"
-                                BorderColor="{StaticResource WorkoutColor}"
-                                Shadow="{StaticResource WorkoutGlow}"
-                                Command="{Binding AskFinishWorkoutCommand}" />
-
                     </VerticalStackLayout>
-                </ScrollView>
-            </controls:StateContainer>
 
-            <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}">
+                    <Button Text="{maui:Translate Action_Save}"
+                            ImageSource="check.svg"
+                            BackgroundColor="{StaticResource WorkoutColor}"
+                            BorderColor="{StaticResource WorkoutColor}"
+                            Shadow="{StaticResource WorkoutGlow}"
+                            Command="{Binding SaveProgramCommand}" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Grid BackgroundColor="#90000000"
+                  IsVisible="{Binding IsLoading}"
+                  InputTransparent="False"
+                  ZIndex="20">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="{StaticResource WorkoutColor}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+            </Grid>
+
+            <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}"
+                                        ZIndex="30">
                 <controls:ConfirmationPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
             </controls:ConfirmationPopup>
 
-            <controls:DurationEntryPopup IsVisible="{Binding IsEntryPopupVisible}"
-                                         Title="{Binding EntryPopupTitle}"
-                                         Duration="{Binding EntryPopupDuration}"
-                                         SaveCommand="{Binding SaveCorrectedDurationCommand}"
-                                         CancelCommand="{Binding CloseEntryPopupCommand}">
-                <controls:DurationEntryPopup.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEntryPopupVisible}" />
-                </controls:DurationEntryPopup.Behaviors>
-            </controls:DurationEntryPopup>
+            <controls:TextEntryPopup IsVisible="{Binding IsRenamePopupVisible}"
+                                     EntryPopupTitle="{maui:Translate Title_RenameProgram}"
+                                     EntryPopupPlaceholder="{maui:Translate Msg_EnterNewName}"
+                                     EntryPopupText="{Binding TempProgramName}"
+                                     EntryPopupButtonCommand="{Binding ConfirmRenameCommand}"
+                                     CloseEntryPopupCommand="{Binding CloseRenamePopupCommand}"
+                                     ZIndex="30">
+                <controls:TextEntryPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsRenamePopupVisible}" />
+                </controls:TextEntryPopup.Behaviors>
+            </controls:TextEntryPopup>
 
         </Grid>
     </ContentPage.Content>

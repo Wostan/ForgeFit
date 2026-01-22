@@ -378,7 +378,6 @@ namespace ForgeFit.Infrastructure.Migrations
             modelBuilder.Entity("ForgeFit.Domain.Aggregates.WorkoutAggregate.WorkoutExercisePlan", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")

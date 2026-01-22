@@ -26,6 +26,7 @@ public class NumericClampBehavior : Behavior<Entry>
             _entry.Unfocused -= OnUnfocused;
             _entry.TextChanged -= OnTextChanged;
         }
+
         _entry = null;
         base.OnDetachingFrom(entry);
     }
@@ -34,31 +35,28 @@ public class NumericClampBehavior : Behavior<Entry>
     {
         if (string.IsNullOrEmpty(e.NewTextValue)) return;
 
-        var isValid = 
-            Decimals == 0 
-            ? int.TryParse(e.NewTextValue, out _) 
-            : double.TryParse(e.NewTextValue.Replace(',', '.'), out _);
+        var isValid =
+            Decimals == 0
+                ? int.TryParse(e.NewTextValue, out _)
+                : double.TryParse(e.NewTextValue.Replace(',', '.'), out _);
 
-        if (!isValid && e.NewTextValue != "." && e.NewTextValue != ",")
-        {
-            ((Entry)sender!).Text = e.OldTextValue;
-        }
+        if (!isValid && e.NewTextValue != "." && e.NewTextValue != ",") ((Entry)sender!).Text = e.OldTextValue;
     }
 
     private void OnUnfocused(object? sender, FocusEventArgs e)
     {
-        if (_entry == null || string.IsNullOrWhiteSpace(_entry.Text)) 
+        if (_entry == null || string.IsNullOrWhiteSpace(_entry.Text))
         {
             _entry?.Text = MinValue.ToString(CultureInfo.InvariantCulture);
             return;
         }
 
         if (!double.TryParse(_entry.Text.Replace(',', '.'), out var value)) return;
-        
+
         var clamped = Math.Clamp(value, MinValue, MaxValue);
-        
+
         clamped = Math.Round(clamped, Decimals);
-        
+
         if (Math.Abs(value - clamped) > 0.001)
             _entry.Text = clamped.ToString(CultureInfo.InvariantCulture);
     }

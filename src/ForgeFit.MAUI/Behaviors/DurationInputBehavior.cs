@@ -6,10 +6,10 @@ public class DurationInputBehavior : Behavior<Entry>
 {
     public static readonly BindableProperty DurationProperty =
         BindableProperty.Create(nameof(Duration),
-            typeof(TimeSpan), 
-            typeof(DurationInputBehavior), 
-            TimeSpan.Zero, 
-            BindingMode.TwoWay, 
+            typeof(TimeSpan),
+            typeof(DurationInputBehavior),
+            TimeSpan.Zero,
+            BindingMode.TwoWay,
             propertyChanged: OnDurationChanged);
 
     public TimeSpan Duration
@@ -26,7 +26,7 @@ public class DurationInputBehavior : Behavior<Entry>
         _entry = entry;
         _entry.Unfocused += OnUnfocused;
         _entry.BindingContextChanged += OnBindingContextChanged;
-        
+
         UpdateEntryText();
     }
 
@@ -38,6 +38,7 @@ public class DurationInputBehavior : Behavior<Entry>
             _entry.Unfocused -= OnUnfocused;
             _entry.BindingContextChanged -= OnBindingContextChanged;
         }
+
         _entry = null;
     }
 
@@ -55,12 +56,9 @@ public class DurationInputBehavior : Behavior<Entry>
     private void UpdateEntryText()
     {
         if (_entry == null || _entry.IsFocused) return;
-        
+
         var formatted = FormatDuration(Duration);
-        if (_entry.Text != formatted)
-        {
-            _entry.Text = formatted;
-        }
+        if (_entry.Text != formatted) _entry.Text = formatted;
     }
 
     private void OnUnfocused(object? sender, FocusEventArgs e)
@@ -85,14 +83,14 @@ public class DurationInputBehavior : Behavior<Entry>
 
         input = input.Trim();
 
-        if (input.Contains(':') && TimeSpan.TryParseExact(input, ["h\\:mm", "hh\\:mm", "h\\:m"], CultureInfo.InvariantCulture, out result))
+        if (input.Contains(':') && TimeSpan.TryParseExact(input, ["h\\:mm", "hh\\:mm", "h\\:m"],
+                CultureInfo.InvariantCulture, out result))
             return true;
 
         if (!double.TryParse(input, out var minutes)) return false;
-        
+
         result = TimeSpan.FromMinutes(minutes);
         return true;
-
     }
 
     private static string FormatDuration(TimeSpan ts)

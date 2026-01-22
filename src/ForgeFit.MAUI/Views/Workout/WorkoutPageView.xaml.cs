@@ -9,7 +9,7 @@ public partial class WorkoutPageView : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
-    
+
     protected override void OnAppearing()
     {
         base.OnAppearing();

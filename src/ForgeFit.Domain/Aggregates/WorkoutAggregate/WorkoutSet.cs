@@ -6,7 +6,9 @@ namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
 public class WorkoutSet : Entity
 {
-    private WorkoutSet() { }
+    private WorkoutSet()
+    {
+    }
 
     internal WorkoutSet(
         Guid userId,

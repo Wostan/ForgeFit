@@ -7,7 +7,7 @@ namespace ForgeFit.MAUI.Services.Interfaces;
 public interface IWorkoutExerciseService
 {
     Task<ServiceResponse<List<WorkoutExerciseSearchResponse>>> SearchExercisesAsync(
-        string query,
+        string? query,
         List<Muscle>? muscles = null,
         List<BodyPart>? bodyParts = null,
         List<Equipment>? equipment = null,

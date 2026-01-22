@@ -54,22 +54,23 @@
                       Loop="False"
                       PeekAreaInsets="0" />
 
-        <Grid RowDefinitions="Auto, Auto"
-              ColumnDefinitions="Auto, *"
+        <Grid ColumnDefinitions="Auto, *"
               ColumnSpacing="15"
               VerticalOptions="End"
-              RowSpacing="20"
-              Padding="20,0">
+              Margin="20"
+              behaviors:GridSlideBehavior.IsVisibleAnimated="{Binding IsMainNavigationVisible}">
+
             <Button Grid.Column="0"
                     Style="{StaticResource SecondaryButton}"
                     Text="{maui:Translate Action_Back}"
-                    Command="{Binding PreviousStepCommand}"
-                    behaviors:ButtonAnimationBehavior.IsRegVisible="{Binding IsMainNavigationVisible}" />
+                    VerticalOptions="Center"
+                    Command="{Binding PreviousStepCommand}" />
 
             <Button Grid.Column="1"
                     Text="{Binding ButtonText}"
-                    Command="{Binding NextStepCommand}"
-                    behaviors:ButtonAnimationBehavior.IsRegVisible="{Binding IsMainNavigationVisible}" />
+                    VerticalOptions="Center"
+                    Shadow="{x:Null}"
+                    Command="{Binding NextStepCommand}" />
         </Grid>
 
         <ProgressBar HeightRequest="4"

@@ -2,9 +2,8 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
-             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             x:Class="ForgeFit.MAUI.Views.Controls.EntryPopup"
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             x:Class="ForgeFit.MAUI.Views.Controls.TextEntryPopup"
              BackgroundColor="#90000000"
              InputTransparent="False">
     <ContentView.GestureRecognizers>
@@ -30,12 +29,7 @@
                 <Entry Placeholder="{Binding EntryPopupPlaceholder}"
                        Text="{Binding EntryPopupText}"
                        FontSize="16"
-                       Keyboard="Numeric"
-                       HorizontalTextAlignment="Center">
-                    <Entry.Behaviors>
-                        <behaviors:PositiveOnlyBehavior />
-                    </Entry.Behaviors>
-                </Entry>
+                       HorizontalTextAlignment="Center" />
             </Border>
 
             <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">

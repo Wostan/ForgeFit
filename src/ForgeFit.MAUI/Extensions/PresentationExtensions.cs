@@ -19,6 +19,8 @@ public static class PresentationExtensions
 
         builder.Services.AddTransient<WorkoutPageViewModel>();
         builder.Services.AddTransient<ActiveWorkoutPageViewModel>();
+        builder.Services.AddTransient<ExerciseSearchPageViewModel>();
+        builder.Services.AddTransient<WorkoutProgramEditorPageViewModel>();
 
         builder.Services.AddTransient<ProfilePageViewModel>();
 
@@ -36,7 +38,9 @@ public static class PresentationExtensions
 
         builder.Services.AddTransient<WorkoutPageView>();
         builder.Services.AddTransient<ActiveWorkoutPageView>();
-        
+        builder.Services.AddTransient<ExerciseSearchPageView>();
+        builder.Services.AddTransient<WorkoutProgramEditorPageView>();
+
         builder.Services.AddTransient<ProfilePageView>();
 
         return builder;

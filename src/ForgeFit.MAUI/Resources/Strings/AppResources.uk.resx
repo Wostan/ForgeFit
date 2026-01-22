@@ -382,7 +382,7 @@
         <value>Тренувань на тиждень має бути від 1 до 7</value>
     </data>
     <data name="Action_Confirm" xml:space="preserve">
-        <value>Підтвердити</value>
+        <value>Так</value>
     </data>
     <data name="Error_DeadlineTooClose" xml:space="preserve">
         <value>Дедлайн занадто близько (мін. 7 днів)</value>
@@ -439,7 +439,7 @@
         <value>Давайте знайомитись! Як ми можемо вас називати?</value>
     </data>
     <data name="Reg_UsernamePlaceholder" xml:space="preserve">
-        <value>Ваше їм'я</value>
+        <value>Ім'я</value>
     </data>
     <data name="BMI_Normal" xml:space="preserve">
         <value>Нормальна вага</value>
@@ -582,28 +582,97 @@
     <data name="Error_MaxSetsReached" xml:space="preserve">
       <value>Досягнуто ліміт у 20 сетів.</value>
     </data>
-        <data name="Error_CannotDeleteLastSet" xml:space="preserve">
+    <data name="Error_CannotDeleteLastSet" xml:space="preserve">
       <value>Не можна видалити останній сет. Видаліть вправу повністю.</value>
     </data>
-        <data name="Error_NoExercisesInWorkout" xml:space="preserve">
+    <data name="Error_NoExercisesInWorkout" xml:space="preserve">
       <value>Тренування повинно містити хоча б одну вправу.</value>
     </data>
-        <data name="Error_ExerciseWithoutSets" xml:space="preserve">
+    <data name="Error_ExerciseWithoutSets" xml:space="preserve">
       <value>Кожна вправа повинна мати мінімум один сет.</value>
     </data>
-        <data name="Title_AdjustDuration" xml:space="preserve">
+    <data name="Title_AdjustDuration" xml:space="preserve">
       <value>Уточнення часу</value>
     </data>
     <data name="Placeholder_EnterDurationMinutes" xml:space="preserve">
         <value>Введіть дійсну тривалість тренування (від 10 хв. до 5 часів)</value>
     </data>
-        <data name="Error_DurationTooShort" xml:space="preserve">
+    <data name="Error_DurationTooShort" xml:space="preserve">
       <value>Тренування має тривати мінімум 10 хвилин.</value>
     </data>
-        <data name="Error_DurationTooLong" xml:space="preserve">
+    <data name="Error_DurationTooLong" xml:space="preserve">
       <value>Тренування не може перевищувати 5 годин (300 хв).</value>
     </data>
-        <data name="Error_InvalidNumber" xml:space="preserve">
+    <data name="Error_InvalidNumber" xml:space="preserve">
       <value>Будь ласка, введіть коректне число.</value>
+    </data>
+    <data name="Search_AllExercises" xml:space="preserve">
+        <value>Всі вправи</value>
+    </data>
+    <data name="Search_Placeholder_Exercise" xml:space="preserve">
+        <value>Шукати вправи...</value>
+    </data>
+    <data name="Search_Filter" xml:space="preserve">
+        <value>Фільтри</value>
+    </data>
+    <data name="Exercise_Instructions" xml:space="preserve">
+        <value>Інструкція</value>
+    </data>
+    <data name="Filter_BodyParts" xml:space="preserve">
+        <value>Частини тіла</value>
+    </data>
+    <data name="Filter_Equipment" xml:space="preserve">
+        <value>Обладнання</value>
+    </data>
+    <data name="Filter_Muscles" xml:space="preserve">
+        <value>М'язи</value>
+    </data>
+    <data name="Action_AddExercise" xml:space="preserve">
+        <value>Додати вправу</value>
+    </data>
+    <data name="Title_NewProgram" xml:space="preserve">
+      <value>Нове тренування</value>
+    </data>
+    <data name="Placeholder_EnterProgramName" xml:space="preserve">
+      <value>напр., День ніг</value>
+    </data>
+    <data name="Title_RenameProgram" xml:space="preserve">
+      <value>Перейменувати</value>
+    </data>
+    <data name="Msg_EnterNewName" xml:space="preserve">
+      <value>Введіть нову назву</value>
+    </data>
+    <data name="Placeholder_EnterDescription" xml:space="preserve">
+      <value>Додайте опис (необов'язково)...</value>
+    </data>
+    <data name="Action_Create" xml:space="preserve">
+      <value>Створити</value>
+    </data>
+    <data name="Title_UnsavedChanges" xml:space="preserve">
+      <value>Незбережені зміни</value>
+    </data>
+    <data name="Msg_UnsavedChangesConfirm" xml:space="preserve">
+      <value>У вас є незбережені зміни. Ви впевнені, що хочете вийти? Зміни будуть втрачені.</value>
+    </data>
+    <data name="Error_ProgramNameTooLong" xml:space="preserve">
+      <value>Назва має бути менше 50 символів</value>
+    </data>
+    <data name="Error_ProgramDescriptionTooLong" xml:space="preserve">
+      <value>Опис має бути менше 300 символів</value>
+    </data>
+    <data name="Error_TooManyExercises" xml:space="preserve">
+      <value>Занадто багато вправ (макс. 50)</value>
+    </data>
+    <data name="Workout_Description" xml:space="preserve">
+        <value>Опис програми</value>
+    </data>
+    <data name="Workout_Exercises" xml:space="preserve">
+        <value>Вправи</value>
+    </data>
+    <data name="Title_DeleteProgram" xml:space="preserve">
+      <value>Видалити тренування</value>
+    </data>
+    <data name="Msg_DeleteProgramConfirm" xml:space="preserve">
+      <value>Ви впевнені, що хочете видалити цю програму тренувань?</value>
     </data>
 </root>

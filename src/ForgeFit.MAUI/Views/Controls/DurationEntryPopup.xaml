@@ -27,14 +27,14 @@
                    Text="{Binding Title, Source={x:Reference ThisPopup}}"
                    TextColor="{StaticResource TextPrimary}"
                    HorizontalOptions="Center" />
-            
-            <Label Style="{StaticResource LabelBody}" 
-                   Text="{maui:Translate Placeholder_EnterDurationMinutes}" 
+
+            <Label Style="{StaticResource LabelBody}"
+                   Text="{maui:Translate Placeholder_EnterDurationMinutes}"
                    HorizontalTextAlignment="Center"
                    HorizontalOptions="Center" />
 
             <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
-                
+
                 <Border Style="{StaticResource InputWrapper}" WidthRequest="50">
                     <Entry x:Name="HoursEntry"
                            Placeholder="0"
@@ -44,16 +44,16 @@
                            HorizontalTextAlignment="Center"
                            TextChanged="OnTimePartsChanged">
                         <Entry.Behaviors>
-                            <behaviors:NumericClampBehavior MaxValue="5" MinValue="0" Decimals="0"/>
+                            <behaviors:NumericClampBehavior MaxValue="5" MinValue="0" Decimals="0" />
                         </Entry.Behaviors>
                     </Entry>
                 </Border>
 
-                <Label Text=":" 
-                       FontSize="24" 
-                       FontAttributes="Bold" 
-                       VerticalOptions="Center" 
-                       TextColor="{StaticResource TextPrimary}"/>
+                <Label Text=":"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       TextColor="{StaticResource TextPrimary}" />
 
                 <Border Style="{StaticResource InputWrapper}" WidthRequest="60">
                     <Entry x:Name="MinutesEntry"
@@ -65,7 +65,7 @@
                            TextColor="{StaticResource TextPrimary}"
                            TextChanged="OnTimePartsChanged">
                         <Entry.Behaviors>
-                            <behaviors:NumericClampBehavior MaxValue="59" MinValue="0" Decimals="0"/>
+                            <behaviors:NumericClampBehavior MaxValue="59" MinValue="0" Decimals="0" />
                         </Entry.Behaviors>
                     </Entry>
                 </Border>
@@ -77,7 +77,7 @@
                         Style="{StaticResource SecondaryButton}"
                         Text="{maui:Translate Action_Cancel}"
                         Command="{Binding CancelCommand, Source={x:Reference ThisPopup}}" />
-                
+
                 <Button Grid.Column="1"
                         Text="{maui:Translate Action_Save}"
                         Command="{Binding SaveCommand, Source={x:Reference ThisPopup}}" />

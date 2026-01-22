@@ -16,14 +16,6 @@ public class ButtonAnimationBehavior : Behavior<Button>
             false,
             propertyChanged: OnIsLoadingChanged);
 
-    public static readonly BindableProperty IsRegVisibleProperty =
-        BindableProperty.CreateAttached(
-            "IsRegVisible",
-            typeof(bool),
-            typeof(ButtonAnimationBehavior),
-            true,
-            propertyChanged: OnIsRegVisibleChanged);
-
     public static bool GetIsAnimated(BindableObject view)
     {
         return (bool)view.GetValue(IsAnimatedProperty);
@@ -42,16 +34,6 @@ public class ButtonAnimationBehavior : Behavior<Button>
     public static void SetIsLoading(BindableObject view, bool value)
     {
         view.SetValue(IsLoadingProperty, value);
-    }
-
-    public static bool GetIsRegVisible(BindableObject view)
-    {
-        return (bool)view.GetValue(IsRegVisibleProperty);
-    }
-
-    public static void SetIsRegVisible(BindableObject view, bool value)
-    {
-        view.SetValue(IsRegVisibleProperty, value);
     }
 
     private const uint FadeDuration = 400;
@@ -106,32 +88,6 @@ public class ButtonAnimationBehavior : Behavior<Button>
                 await button.FadeToAsync(1, FadeDuration, Easing.CubicOut);
             }
         });
-    }
-
-    private static async void OnIsRegVisibleChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (bindable is not Button button) return;
-
-        var isVisible = (bool)newValue;
-
-        button.CancelAnimations();
-
-        if (isVisible)
-        {
-            button.InputTransparent = false;
-            button.IsVisible = true;
-            button.Opacity = 1;
-
-            await button.TranslateToAsync(0, 0, 400, Easing.CubicOut);
-        }
-        else
-        {
-            button.InputTransparent = true;
-
-            await button.TranslateToAsync(0, 200, 400, Easing.CubicOut);
-
-            button.IsVisible = false;
-        }
     }
 
     protected override void OnAttachedTo(Button button)

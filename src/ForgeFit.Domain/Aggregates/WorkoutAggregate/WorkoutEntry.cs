@@ -75,7 +75,7 @@ public class WorkoutEntry : Entity
             throw new DomainValidationException("PerformedExercises cannot be empty.");
         _performedExercises.AddRange(performedExercises);
     }
-    
+
     public void UpdatePerformedExercises(ICollection<PerformedExercise> performedExercises)
     {
         if (performedExercises is null || performedExercises.Count == 0)
