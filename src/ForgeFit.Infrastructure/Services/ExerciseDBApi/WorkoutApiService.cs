@@ -20,7 +20,7 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         int pageSize = 20)
     {
         if (string.IsNullOrEmpty(query)) query = " ";
-        
+
         var offset = (pageNumber - 1) * pageSize;
         var queryParams = new List<string>
         {
@@ -44,14 +44,9 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         var response = await client.GetAsync(requestUrl);
 
         if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
-        {
             throw new NotFoundException("Please try again later.");
-        }
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new NotFoundException("Failed to retrieve exercises.");
-        }
+        if (!response.IsSuccessStatusCode) throw new NotFoundException("Failed to retrieve exercises.");
 
         var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbResponse>();
 
@@ -71,14 +66,9 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         var response = await client.GetAsync(requestUrl);
 
         if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
-        {
             throw new NotFoundException("Please try again later.");
-        }
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new NotFoundException($"Exercise with id {id} not found.");
-        }
+        if (!response.IsSuccessStatusCode) throw new NotFoundException($"Exercise with id {id} not found.");
 
         var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbSingleResponse>();
 

@@ -113,32 +113,32 @@
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Diary\BarcodeScanner.xaml.cs">
-          <DependentUpon>BarcodeScanner.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>BarcodeScanner.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Diary\FoodDetails.xaml.cs">
-          <DependentUpon>FoodDetails.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>FoodDetails.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Profile\ChangePasswordPopup.xaml.cs">
-          <DependentUpon>ChangePasswordPopup.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>ChangePasswordPopup.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Profile\EditBodyGoalPopup.xaml.cs">
-          <DependentUpon>EditBodyGoalPopup.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>EditBodyGoalPopup.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Profile\EditNutritionGoalPopup.xaml.cs">
-          <DependentUpon>EditNutritionGoalPopup.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>EditNutritionGoalPopup.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Profile\EditProfilePopup.xaml.cs">
-          <DependentUpon>EditProfilePopup.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>EditProfilePopup.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Profile\EditWorkoutGoalPopup.xaml.cs">
-          <DependentUpon>EditWorkoutGoalPopup.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>EditWorkoutGoalPopup.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
 
@@ -163,25 +163,25 @@
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Diary\BarcodeScanner.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Diary\FoodDetails.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Profile\ChangePasswordPopup.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Profile\EditBodyGoalPopup.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Profile\EditNutritionGoalPopup.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Profile\EditProfilePopup.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Profile\EditWorkoutGoalPopup.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
 

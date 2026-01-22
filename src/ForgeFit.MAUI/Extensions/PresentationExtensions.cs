@@ -40,7 +40,7 @@ public static class PresentationExtensions
         builder.Services.AddTransient<ActiveWorkoutPageView>();
         builder.Services.AddTransient<ExerciseSearchPageView>();
         builder.Services.AddTransient<WorkoutProgramEditorPageView>();
-        
+
         builder.Services.AddTransient<ProfilePageView>();
 
         return builder;

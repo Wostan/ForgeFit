@@ -21,7 +21,7 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
     private Func<Task>? _pendingConfirmationAction;
 
     [ObservableProperty] private Guid _programId;
-    
+
     [ObservableProperty] private string _programName = string.Empty;
     [ObservableProperty] private string? _programDescription;
     [ObservableProperty] private ObservableCollection<EditorExerciseItem> _exercises = [];
@@ -42,18 +42,20 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
         _alertService = alertService;
         _localizationManager = localizationManager;
 
-        WeakReferenceMessenger.Default.Register<AddExerciseMessage>(this, (r, m) =>
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
+        WeakReferenceMessenger.Default.Register<AddExerciseMessage>(this,
+            (r, m) =>
             {
-                ((WorkoutProgramEditorPageViewModel)r).AddNewExercise(m.Value);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    ((WorkoutProgramEditorPageViewModel)r).AddNewExercise(m.Value);
+                });
             });
-        });
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!_isInitialized && query.TryGetValue(nameof(ProgramId), out var id) && id is string idStr && Guid.TryParse(idStr, out var guid))
+        if (!_isInitialized && query.TryGetValue(nameof(ProgramId), out var id) && id is string idStr &&
+            Guid.TryParse(idStr, out var guid))
         {
             ProgramId = guid;
             InitializeCommand.Execute(null);
@@ -110,17 +112,14 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
     [RelayCommand]
     private async Task ConfirmRename()
     {
-        if (string.IsNullOrWhiteSpace(TempProgramName))
-        {
-            return;
-        }
-        
+        if (string.IsNullOrWhiteSpace(TempProgramName)) return;
+
         if (TempProgramName.Length > 50)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_ProgramNameTooLong"]);
             return;
         }
-        
+
         ProgramName = TempProgramName;
         IsRenamePopupVisible = false;
     }
@@ -164,12 +163,12 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
         var newOrder = (lastSet?.Order ?? 0) + 1;
 
         var newSet = new EditorSetItem(new WorkoutSetDto(
-            Guid.NewGuid(),
-            newOrder,
-            lastSet?.Reps ?? 10,
-            lastSet?.RestTime ?? TimeSpan.FromMinutes(1.5),
-            lastSet?.Weight ?? 0,
-            lastSet?.WeightUnit ?? WeightUnit.Kg),
+                Guid.NewGuid(),
+                newOrder,
+                lastSet?.Reps ?? 10,
+                lastSet?.RestTime ?? TimeSpan.FromMinutes(1.5),
+                lastSet?.Weight ?? 0,
+                lastSet?.WeightUnit ?? WeightUnit.Kg),
             DeleteSetCommand);
 
         exercise.Sets.Add(newSet);
@@ -189,10 +188,7 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
 
         parentExercise.Sets.Remove(set);
 
-        for (var i = 0; i < parentExercise.Sets.Count; i++)
-        {
-            parentExercise.Sets[i].Order = i + 1;
-        }
+        for (var i = 0; i < parentExercise.Sets.Count; i++) parentExercise.Sets[i].Order = i + 1;
     }
 
     [RelayCommand]
@@ -216,13 +212,13 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
             await _alertService.ShowToastAsync(_localizationManager["Error_NameRequired"]);
             return;
         }
-        
+
         if (ProgramName.Length > 50)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_ProgramNameTooLong"]);
             return;
         }
-        
+
         if (ProgramDescription?.Length > 300)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_ProgramDescriptionTooLong"]);
@@ -273,10 +269,7 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
     {
         ConfirmationTitle = _localizationManager["Title_UnsavedChanges"];
         ConfirmationMessage = _localizationManager["Msg_UnsavedChangesConfirm"];
-        _pendingConfirmationAction = async () =>
-        {
-            await Shell.Current.GoToAsync("..");
-        };
+        _pendingConfirmationAction = async () => { await Shell.Current.GoToAsync(".."); };
         IsConfirmationPopupVisible = true;
     }
 
@@ -326,7 +319,7 @@ public partial class EditorExerciseItem : ObservableObject
 
         Sets = new ObservableCollection<EditorSetItem>(
             dto.WorkoutSets.OrderBy(s => s.Order)
-                           .Select(s => new EditorSetItem(s, deleteSetCommand))
+                .Select(s => new EditorSetItem(s, deleteSetCommand))
         );
     }
 }
@@ -338,10 +331,18 @@ public partial class EditorSetItem : ObservableObject
     [ObservableProperty] private int _order;
 
     [ObservableProperty] private int _reps;
-    partial void OnRepsChanged(int value) => Reps = Math.Clamp(value, 0, 100);
+
+    partial void OnRepsChanged(int value)
+    {
+        Reps = Math.Clamp(value, 0, 100);
+    }
 
     [ObservableProperty] private double _weight;
-    partial void OnWeightChanged(double value) => Weight = Math.Clamp(value, 0, 1500);
+
+    partial void OnWeightChanged(double value)
+    {
+        Weight = Math.Clamp(value, 0, 1500);
+    }
 
     [ObservableProperty] private TimeSpan _restTime;
 
@@ -360,5 +361,8 @@ public partial class EditorSetItem : ObservableObject
         DeleteCommand = deleteCommand;
     }
 
-    public WorkoutSetDto ToDto() => new(Id, Order, Reps, RestTime, Weight, WeightUnit);
+    public WorkoutSetDto ToDto()
+    {
+        return new WorkoutSetDto(Id, Order, Reps, RestTime, Weight, WeightUnit);
+    }
 }

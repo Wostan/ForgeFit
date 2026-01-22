@@ -10,8 +10,15 @@ public class GridSlideBehavior
             true,
             propertyChanged: OnIsVisibleAnimatedChanged);
 
-    public static bool GetIsVisibleAnimated(BindableObject view) => (bool)view.GetValue(IsVisibleAnimatedProperty);
-    public static void SetIsVisibleAnimated(BindableObject view, bool value) => view.SetValue(IsVisibleAnimatedProperty, value);
+    public static bool GetIsVisibleAnimated(BindableObject view)
+    {
+        return (bool)view.GetValue(IsVisibleAnimatedProperty);
+    }
+
+    public static void SetIsVisibleAnimated(BindableObject view, bool value)
+    {
+        view.SetValue(IsVisibleAnimatedProperty, value);
+    }
 
     private const uint AnimDuration = 400;
     private const double TranslationOffset = 100;
@@ -21,7 +28,7 @@ public class GridSlideBehavior
         if (bindable is not VisualElement view) return;
 
         var isVisible = (bool)newValue;
-        
+
         view.CancelAnimations();
 
         if (isVisible)
@@ -29,10 +36,7 @@ public class GridSlideBehavior
             view.IsVisible = true;
             view.InputTransparent = false;
 
-            if (view is { TranslationY: 0, Opacity: 0 })
-            {
-                view.TranslationY = TranslationOffset;
-            }
+            if (view is { TranslationY: 0, Opacity: 0 }) view.TranslationY = TranslationOffset;
 
             await Task.WhenAll(
                 view.TranslateToAsync(0, 0, AnimDuration, Easing.CubicOut),

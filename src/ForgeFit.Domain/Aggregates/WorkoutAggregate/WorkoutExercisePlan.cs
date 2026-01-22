@@ -16,11 +16,13 @@ public class WorkoutExercisePlan : Entity, ITimeFields
     {
         SetWorkoutProgramId(workoutProgramId);
         SetWorkoutExercise(workoutExercise);
-        SetWorkoutSets(workoutSets); 
+        SetWorkoutSets(workoutSets);
         CreatedAt = DateTime.UtcNow;
     }
 
-    private WorkoutExercisePlan() { }
+    private WorkoutExercisePlan()
+    {
+    }
 
     public Guid WorkoutProgramId { get; private set; }
     public WorkoutExercise WorkoutExercise { get; private set; }

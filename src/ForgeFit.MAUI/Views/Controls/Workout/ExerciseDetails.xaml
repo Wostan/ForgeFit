@@ -29,32 +29,33 @@
         </Border.GestureRecognizers>
 
         <Grid MaximumHeightRequest="600">
-            
-            <controls:NavigationHeader Title="{Binding SelectedExerciseDetail.Name, Converter={StaticResource TitleCaseConverter}}"
-                                       BackCommand="{Binding CloseExerciseDetailsCommand}"
-                                       Margin="0,-20,0,-20"
-                                       ZIndex="2" />
+
+            <controls:NavigationHeader
+                Title="{Binding SelectedExerciseDetail.Name, Converter={StaticResource TitleCaseConverter}}"
+                BackCommand="{Binding CloseExerciseDetailsCommand}"
+                Margin="0,-20,0,-20"
+                ZIndex="2" />
 
             <ScrollView>
                 <VerticalStackLayout Spacing="16" Style="{StaticResource MainContentStackLayout}">
-                    
-                    <Border StrokeShape="RoundRectangle 12" 
-                            HeightRequest="200" 
+
+                    <Border StrokeShape="RoundRectangle 12"
+                            HeightRequest="200"
                             WidthRequest="200"
                             HorizontalOptions="Center"
                             Margin="0,0,0,10"
                             StrokeThickness="0">
                         <Image Source="{Binding SelectedExerciseDetail.GifUrl}"
                                Aspect="AspectFill"
-                               IsAnimationPlaying="True"/>
+                               IsAnimationPlaying="True" />
                     </Border>
-                    
+
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="{maui:Translate Filter_Muscles}" Style="{StaticResource LabelBody}"/>
-                    
+                        <Label Text="{maui:Translate Filter_Muscles}" Style="{StaticResource LabelBody}" />
+
                         <CollectionView ItemsSource="{Binding SelectedExerciseDetail.TargetMuscles}">
                             <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8"/>
+                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -65,18 +66,21 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </VerticalStackLayout>
-                    
+
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="{maui:Translate Exercise_Instructions}" Style="{StaticResource LabelBody}"/>
-                    
-                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding SelectedExerciseDetail.Instructions}" Spacing="8">
+                        <Label Text="{maui:Translate Exercise_Instructions}" Style="{StaticResource LabelBody}" />
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding SelectedExerciseDetail.Instructions}"
+                                             Spacing="8">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <Label>
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Style="{StaticResource LabelBody}" Text="• " TextColor="{StaticResource WorkoutColor}"/>
-                                                <Span Style="{StaticResource LabelBody}" FontSize="13" Text="{Binding .}"/>
+                                                <Span Style="{StaticResource LabelBody}" Text="• "
+                                                      TextColor="{StaticResource WorkoutColor}" />
+                                                <Span Style="{StaticResource LabelBody}" FontSize="13"
+                                                      Text="{Binding .}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -84,8 +88,8 @@
                             </BindableLayout.ItemTemplate>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
-                    
-                    <BoxView Color="Transparent"/>
+
+                    <BoxView Color="Transparent" />
 
                     <Button ImageSource="add.svg"
                             Text="{maui:Translate Action_Add}"

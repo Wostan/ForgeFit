@@ -11,11 +11,11 @@ public class WorkoutMapping : IRegister
     {
         config.NewConfig<WorkoutExercise, WorkoutExerciseDto>()
             .Map(dest => dest.GifUrl, src => src.GifUrl != null ? src.GifUrl.ToString() : null);
-        
+
         config.NewConfig<WorkoutSet, WorkoutSetDto>()
             .Map(dest => dest.Weight, src => src.Weight.Value)
             .Map(dest => dest.WeightUnit, src => src.Weight.Unit);
-        
+
         config.NewConfig<WorkoutEntry, WorkoutEntryDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.WorkoutProgramId, src => src.WorkoutProgramId)

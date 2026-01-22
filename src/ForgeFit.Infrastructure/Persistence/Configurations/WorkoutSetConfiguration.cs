@@ -48,7 +48,7 @@ public class WorkoutSetConfiguration : IEntityTypeConfiguration<WorkoutSet>
                 .IsRequired()
                 .HasColumnName("WeightUnit");
         });
-        
+
         // Indexes
         builder.HasIndex(ws => ws.UserId);
         builder.HasIndex(ws => ws.WorkoutExercisePlanId);

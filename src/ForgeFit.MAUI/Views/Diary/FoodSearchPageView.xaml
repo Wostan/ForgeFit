@@ -281,7 +281,7 @@
             </Border>
 
             <diary:BarcodeScanner ZIndex="11"
-                                     IsActive="{Binding IsScannerVisible}" />
+                                  IsActive="{Binding IsScannerVisible}" />
 
             <diary:FoodDetails ZIndex="12">
                 <diary:FoodDetails.Behaviors>

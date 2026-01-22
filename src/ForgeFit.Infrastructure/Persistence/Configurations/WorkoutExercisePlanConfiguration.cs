@@ -18,7 +18,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
         // Properties
         builder.Property(wep => wep.Id)
             .ValueGeneratedNever();
-        
+
         builder.Property(wep => wep.CreatedAt)
             .IsRequired();
 
@@ -64,7 +64,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
                 )
                 .HasMaxLength(2000);
         });
-        
+
         // Indexes
         builder.HasIndex(wep => wep.WorkoutProgramId);
 

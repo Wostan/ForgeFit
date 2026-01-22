@@ -12,10 +12,10 @@ public partial class TextEntryPopup : ContentView
     public TextEntryPopup()
     {
         InitializeComponent();
-        
+
         Content.BindingContext = this;
     }
-    
+
     public static readonly BindableProperty EntryPopupTitleProperty = BindableProperty.Create(
         nameof(EntryPopupTitle), typeof(string), typeof(EntryPopup));
 
@@ -61,4 +61,3 @@ public partial class TextEntryPopup : ContentView
         set => SetValue(EntryPopupPlaceholderProperty, value);
     }
 }
-

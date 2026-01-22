@@ -25,6 +25,7 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _completedWorkouts;
+
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _targetWorkouts;
 
@@ -35,10 +36,10 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [ObservableProperty] private string _statsSubtitle = string.Empty;
 
     [ObservableProperty] private ObservableCollection<WorkoutProgramItem> _programs = [];
-    
+
     [ObservableProperty] private bool _isCreatePopupVisible;
     [ObservableProperty] private string _newProgramName = string.Empty;
-    
+
     [ObservableProperty] private bool _isConfirmationPopupVisible;
     [ObservableProperty] private string _confirmationTitle = string.Empty;
     [ObservableProperty] private string _confirmationMessage = string.Empty;
@@ -168,15 +169,12 @@ public partial class WorkoutPageViewModel : BaseViewModel
         NewProgramName = string.Empty;
         IsCreatePopupVisible = true;
     }
-    
+
     [RelayCommand]
     private async Task ConfirmCreateProgram()
     {
-        if (string.IsNullOrWhiteSpace(NewProgramName))
-        {
-            return;
-        }
-        
+        if (string.IsNullOrWhiteSpace(NewProgramName)) return;
+
         if (NewProgramName.Length > 50)
         {
             await _alertService.ShowToastAsync(_localizationManager["Error_ProgramNameTooLong"]);
@@ -212,19 +210,19 @@ public partial class WorkoutPageViewModel : BaseViewModel
             IsLoading = false;
         }
     }
-    
+
     [RelayCommand]
     private void CloseCreatePopup()
     {
         IsCreatePopupVisible = false;
     }
-    
+
     [RelayCommand]
     private void AskDeleteProgram(WorkoutProgramItem item)
     {
         ConfirmationTitle = _localizationManager["Title_DeleteProgram"];
         ConfirmationMessage = _localizationManager["Msg_DeleteProgramConfirm"];
-        
+
         _pendingConfirmationAction = async () =>
         {
             IsLoading = true;

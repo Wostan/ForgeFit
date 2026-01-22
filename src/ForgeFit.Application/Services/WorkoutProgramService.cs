@@ -84,10 +84,10 @@ public class WorkoutProgramService(
             if (existingPlan == null)
             {
                 var newPlan = CreateExercisePlanEntity(program.Id, userId, dto);
-                
+
                 await workoutProgramRepository.AddPlanAsync(newPlan);
-                
-                program.AddExercisePlan(newPlan); 
+
+                program.AddExercisePlan(newPlan);
             }
             else
             {
@@ -109,8 +109,8 @@ public class WorkoutProgramService(
                             setDto.RestTime,
                             new Weight(setDto.Weight, setDto.WeightUnit)
                         );
-                        
-                        existingPlan.AddSet(newSet); 
+
+                        existingPlan.AddSet(newSet);
                     }
                     else
                     {

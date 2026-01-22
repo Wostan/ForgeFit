@@ -21,11 +21,11 @@ public partial class DurationEntryPopup : ContentView
     }
 
     public static readonly BindableProperty DurationProperty = BindableProperty.Create(
-        nameof(Duration), 
-        typeof(TimeSpan), 
-        typeof(DurationEntryPopup), 
-        TimeSpan.Zero, 
-        BindingMode.TwoWay, 
+        nameof(Duration),
+        typeof(TimeSpan),
+        typeof(DurationEntryPopup),
+        TimeSpan.Zero,
+        BindingMode.TwoWay,
         propertyChanged: OnDurationChanged);
 
     public TimeSpan Duration
@@ -54,10 +54,7 @@ public partial class DurationEntryPopup : ContentView
 
     private static void OnDurationChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is DurationEntryPopup popup && newValue is TimeSpan ts)
-        {
-            popup.UpdateEntriesFromDuration(ts);
-        }
+        if (bindable is DurationEntryPopup popup && newValue is TimeSpan ts) popup.UpdateEntriesFromDuration(ts);
     }
 
     private void UpdateEntriesFromDuration(TimeSpan ts)
@@ -65,10 +62,10 @@ public partial class DurationEntryPopup : ContentView
         if (HoursEntry.IsFocused || MinutesEntry.IsFocused) return;
 
         _isUpdatingUi = true;
-        
+
         HoursEntry.Text = Math.Floor(ts.TotalHours).ToString("0");
         MinutesEntry.Text = ts.Minutes.ToString("00");
-        
+
         _isUpdatingUi = false;
     }
 
@@ -79,11 +76,8 @@ public partial class DurationEntryPopup : ContentView
         if (int.TryParse(HoursEntry.Text, out var h) && int.TryParse(MinutesEntry.Text, out var m))
         {
             var newDuration = new TimeSpan(h, m, 0);
-            
-            if (Duration != newDuration)
-            {
-                Duration = newDuration;
-            }
+
+            if (Duration != newDuration) Duration = newDuration;
         }
         else
         {

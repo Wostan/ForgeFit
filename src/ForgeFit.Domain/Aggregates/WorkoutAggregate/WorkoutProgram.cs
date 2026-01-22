@@ -23,7 +23,9 @@ public class WorkoutProgram : Entity, ITimeFields
         CreatedAt = DateTime.UtcNow;
     }
 
-    private WorkoutProgram() { }
+    private WorkoutProgram()
+    {
+    }
 
     public Guid UserId { get; private set; }
     public string Name { get; private set; }
@@ -69,7 +71,7 @@ public class WorkoutProgram : Entity, ITimeFields
     private void SetWorkoutExercises(ICollection<WorkoutExercisePlan> workoutExercises)
     {
         if (workoutExercises is null) throw new DomainValidationException("Workout exercises cannot be null.");
-        
+
         _workoutExercisePlans.Clear();
         _workoutExercisePlans.AddRange(workoutExercises);
     }

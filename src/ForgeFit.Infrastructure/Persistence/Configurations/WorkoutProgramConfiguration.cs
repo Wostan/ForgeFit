@@ -29,7 +29,7 @@ public class WorkoutProgramConfiguration : IEntityTypeConfiguration<WorkoutProgr
 
         // Filters
         builder.HasQueryFilter(wp => !wp.IsDeleted);
-        
+
         // Indexes
         builder.HasIndex(wp => wp.UserId);
 

@@ -8,10 +8,10 @@ public class RestTimeInputBehavior : Behavior<Entry>
 
     public static readonly BindableProperty TimeProperty =
         BindableProperty.Create(nameof(Time),
-            typeof(TimeSpan), 
-            typeof(RestTimeInputBehavior), 
-            TimeSpan.Zero, 
-            BindingMode.TwoWay, 
+            typeof(TimeSpan),
+            typeof(RestTimeInputBehavior),
+            TimeSpan.Zero,
+            BindingMode.TwoWay,
             propertyChanged: OnTimeChanged);
 
     public TimeSpan Time
@@ -42,6 +42,7 @@ public class RestTimeInputBehavior : Behavior<Entry>
             _entry.Unfocused -= OnUnfocused;
             _entry.BindingContextChanged -= OnBindingContextChanged;
         }
+
         _entry = null;
     }
 
@@ -59,21 +60,18 @@ public class RestTimeInputBehavior : Behavior<Entry>
     private void UpdateEntryText()
     {
         if (_entry == null || _entry.IsFocused) return;
-        
+
         var safeTime = Time > MaxTime ? MaxTime : Time;
         var formatted = FormatTime(safeTime);
-        
-        if (_entry.Text != formatted)
-        {
-            _entry.Text = formatted;
-        }
+
+        if (_entry.Text != formatted) _entry.Text = formatted;
     }
 
     private void OnTextChanged(object? sender, TextChangedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(e.NewTextValue)) return;
         if (!TryParseTime(e.NewTextValue, out var result)) return;
-        
+
         if (result > MaxTime) result = MaxTime;
         if (Time != result) Time = result;
     }
@@ -86,7 +84,8 @@ public class RestTimeInputBehavior : Behavior<Entry>
     private bool TryParseTime(string input, out TimeSpan result)
     {
         input = input.Trim();
-        if (input.Contains(':') && TimeSpan.TryParseExact(input, ["m\\:ss", "mm\\:ss", "m\\:s"], CultureInfo.InvariantCulture, out result))
+        if (input.Contains(':') && TimeSpan.TryParseExact(input, ["m\\:ss", "mm\\:ss", "m\\:s"],
+                CultureInfo.InvariantCulture, out result))
             return true;
 
         if (double.TryParse(input, out var seconds))

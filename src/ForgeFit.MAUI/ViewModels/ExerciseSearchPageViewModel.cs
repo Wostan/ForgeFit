@@ -18,7 +18,7 @@ public partial class ExerciseSearchPageViewModel(
     : BaseViewModel, IQueryAttributable
 {
     private const string DefaultApiQuery = " ";
-    
+
     private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _programName;
@@ -42,12 +42,9 @@ public partial class ExerciseSearchPageViewModel(
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         ResetState();
-        
-        if (query.TryGetValue(nameof(ProgramName), out var name) && name is string nameStr)
-        {
-            ProgramName = nameStr;
-        }
-        
+
+        if (query.TryGetValue(nameof(ProgramName), out var name) && name is string nameStr) ProgramName = nameStr;
+
         InitializeFilters();
         await PerformSearch(string.Empty);
     }
@@ -64,28 +61,22 @@ public partial class ExerciseSearchPageViewModel(
     private void InitializeFilters()
     {
         if (FilterMuscles.Count == 0)
-        {
             foreach (var muscle in Enum.GetValues<Muscle>())
                 FilterMuscles.Add(new FilterItem<Muscle>(muscle, ConvertEnumToReadable(muscle.ToString())));
-        }
 
         if (FilterBodyParts.Count == 0)
-        {
             foreach (var part in Enum.GetValues<BodyPart>())
                 FilterBodyParts.Add(new FilterItem<BodyPart>(part, ConvertEnumToReadable(part.ToString())));
-        }
 
         if (FilterEquipment.Count == 0)
-        {
             foreach (var eq in Enum.GetValues<Equipment>())
                 FilterEquipment.Add(new FilterItem<Equipment>(eq, ConvertEnumToReadable(eq.ToString())));
-        }
-        
+
         foreach (var item in FilterMuscles) item.IsSelected = false;
         foreach (var item in FilterBodyParts) item.IsSelected = false;
         foreach (var item in FilterEquipment) item.IsSelected = false;
     }
-    
+
     private static string ConvertEnumToReadable(string text)
     {
         return System.Text.RegularExpressions.Regex.Replace(text, "(\\B[A-Z])", " $1");
@@ -104,10 +95,12 @@ public partial class ExerciseSearchPageViewModel(
             {
                 await Task.Delay(800, token);
                 if (token.IsCancellationRequested) return;
-                
+
                 MainThread.BeginInvokeOnMainThread(async void () => await PerformSearch(value, token));
             }
-            catch (TaskCanceledException) { }
+            catch (TaskCanceledException)
+            {
+            }
         }, token);
     }
 
@@ -122,16 +115,16 @@ public partial class ExerciseSearchPageViewModel(
         var selectedMuscles = FilterMuscles.Where(x => x.IsSelected).Select(x => x.Value).ToList();
         var selectedParts = FilterBodyParts.Where(x => x.IsSelected).Select(x => x.Value).ToList();
         var selectedEq = FilterEquipment.Where(x => x.IsSelected).Select(x => x.Value).ToList();
-        
+
         var queryToSend = GetQueryToSend(query);
 
         try
         {
             var result = await exerciseService.SearchExercisesAsync(
                 queryToSend,
-                selectedMuscles, 
-                selectedParts, 
-                selectedEq, 
+                selectedMuscles,
+                selectedParts,
+                selectedEq,
                 _currentPage);
 
             if (token.IsCancellationRequested) return;
@@ -140,20 +133,17 @@ public partial class ExerciseSearchPageViewModel(
             {
                 if (result.Data.Count < PageSize) _canLoadMore = false;
 
-                foreach (var item in result.Data)
-                {
-                    SearchResults.Add(new ExerciseSearchItemViewModel(item));
-                }
+                foreach (var item in result.Data) SearchResults.Add(new ExerciseSearchItemViewModel(item));
             }
             else if (result is { Success: false })
             {
-                var errorMsg = new LocalizedString(() => result.Message); 
+                var errorMsg = new LocalizedString(() => result.Message);
                 await alertService.ShowToastAsync(errorMsg.Localized);
             }
         }
         catch
         {
-             if (!token.IsCancellationRequested)
+            if (!token.IsCancellationRequested)
                 await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
         }
         finally
@@ -169,40 +159,37 @@ public partial class ExerciseSearchPageViewModel(
 
         IsLoadingMore = true;
         _currentPage++;
-        
+
         var selectedMuscles = FilterMuscles.Where(x => x.IsSelected).Select(x => x.Value).ToList();
         var selectedParts = FilterBodyParts.Where(x => x.IsSelected).Select(x => x.Value).ToList();
         var selectedEq = FilterEquipment.Where(x => x.IsSelected).Select(x => x.Value).ToList();
 
         var queryToSend = GetQueryToSend(SearchText);
-        
+
         try
         {
             var result = await exerciseService.SearchExercisesAsync(
-                queryToSend, 
-                selectedMuscles, 
-                selectedParts, 
-                selectedEq, 
+                queryToSend,
+                selectedMuscles,
+                selectedParts,
+                selectedEq,
                 _currentPage);
 
             if (result is { Success: true, Data: not null })
             {
                 if (result.Data.Count < PageSize) _canLoadMore = false;
 
-                foreach (var item in result.Data)
-                {
-                    SearchResults.Add(new ExerciseSearchItemViewModel(item));
-                }
+                foreach (var item in result.Data) SearchResults.Add(new ExerciseSearchItemViewModel(item));
             }
             else if (result is { Success: false })
             {
-                var errorMsg = new LocalizedString(() => result.Message); 
+                var errorMsg = new LocalizedString(() => result.Message);
                 await alertService.ShowToastAsync(errorMsg.Localized);
                 _currentPage--;
             }
         }
         catch
-        { 
+        {
             await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
             _currentPage--;
         }
@@ -211,7 +198,7 @@ public partial class ExerciseSearchPageViewModel(
             IsLoadingMore = false;
         }
     }
-    
+
     private static string GetQueryToSend(string userInput)
     {
         return string.IsNullOrWhiteSpace(userInput) ? DefaultApiQuery : userInput;
@@ -222,7 +209,7 @@ public partial class ExerciseSearchPageViewModel(
     {
         IsFiltersVisible = !IsFiltersVisible;
     }
-    
+
     [RelayCommand]
     private void ToggleFilterSelection(object? item)
     {
@@ -251,7 +238,7 @@ public partial class ExerciseSearchPageViewModel(
     private async Task ToggleExercise(ExerciseSearchItemViewModel? itemVm)
     {
         if (itemVm == null || itemVm.IsBusy) return;
-        
+
         itemVm.IsBusy = true;
         await ReturnExerciseToWorkout(itemVm.Data.ExternalId);
         itemVm.IsBusy = false;
@@ -268,7 +255,7 @@ public partial class ExerciseSearchPageViewModel(
                 var exerciseDto = detailsResult.Data;
 
                 WeakReferenceMessenger.Default.Send(new AddExerciseMessage(exerciseDto));
-                
+
                 await Shell.Current.GoToAsync("..");
             }
             else
@@ -288,9 +275,9 @@ public partial class ExerciseSearchPageViewModel(
     private async Task OpenExerciseDetails(ExerciseSearchItemViewModel? itemVm)
     {
         if (itemVm == null || IsLoading || itemVm.IsBusy) return;
-        
+
         itemVm.IsBusy = true;
-        try 
+        try
         {
             var details = await exerciseService.GetExerciseByIdAsync(itemVm.Data.ExternalId);
             if (details is { Success: true, Data: not null })
@@ -300,7 +287,7 @@ public partial class ExerciseSearchPageViewModel(
             }
             else if (details is { Success: false })
             {
-                var errorMsg = new LocalizedString(() => details.Message); 
+                var errorMsg = new LocalizedString(() => details.Message);
                 await alertService.ShowToastAsync(errorMsg.Localized);
             }
         }
@@ -320,7 +307,7 @@ public partial class ExerciseSearchPageViewModel(
         IsDetailsVisible = false;
         SelectedExerciseDetail = null;
     }
-    
+
     [RelayCommand]
     private async Task AddFromDetails()
     {
@@ -332,7 +319,7 @@ public partial class ExerciseSearchPageViewModel(
 
         await Shell.Current.GoToAsync("..");
     }
-    
+
     [RelayCommand]
     private async Task Back()
     {
@@ -344,7 +331,7 @@ public partial class FilterItem<T>(T value, string name) : ObservableObject
 {
     public T Value { get; } = value;
     public string Name { get; } = name;
-    
+
     [ObservableProperty] private bool _isSelected;
 }
 
@@ -356,6 +343,6 @@ public partial class ExerciseSearchItemViewModel(WorkoutExerciseSearchResponse d
 
     public string Name => Data.Name;
     public Uri? GifUrl => Data.GifUrl;
-    
+
     public string TargetMusclesDisplay => string.Join(", ", Data.TargetMuscles);
 }

@@ -11,12 +11,12 @@
              x:Class="ForgeFit.MAUI.Views.Workout.ActiveWorkoutPageView"
              x:DataType="local:ActiveWorkoutPageViewModel"
              Shell.NavBarIsVisible="False">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
             <Color x:Key="SuccessSurface">#0C2517</Color>
-            
+
             <toolkit:BoolToObjectConverter x:Key="BoolToColorConverter"
                                            x:TypeArguments="Color"
                                            TrueObject="{StaticResource SuccessColor}"
@@ -77,7 +77,8 @@
                                             </Grid>
 
                                             <VerticalStackLayout Spacing="4">
-                                                <Grid ColumnDefinitions="40, *, 0.75*, 0.75*, 40" ColumnSpacing="8" Padding="20,0">
+                                                <Grid ColumnDefinitions="40, *, 0.75*, 0.75*, 40" ColumnSpacing="8"
+                                                      Padding="20,0">
                                                     <Label Grid.Column="0" Text="#" Style="{StaticResource LabelBody}"
                                                            FontSize="12" HorizontalTextAlignment="Center" />
                                                     <Label Grid.Column="1" Text="{maui:Translate Workout_Rest}"
@@ -98,11 +99,12 @@
                                                                 <SwipeView.RightItems>
                                                                     <SwipeItems>
                                                                         <SwipeItemView>
-                                                                            <Grid BackgroundColor="{StaticResource DangerColor}"
-                                                                                    WidthRequest="60"
-                                                                                    VerticalOptions="Fill">
+                                                                            <Grid
+                                                                                BackgroundColor="{StaticResource DangerColor}"
+                                                                                WidthRequest="60"
+                                                                                VerticalOptions="Fill">
 
-                                                                                <Image Source="delete.svg" 
+                                                                                <Image Source="delete.svg"
                                                                                     HorizontalOptions="Center"
                                                                                     VerticalOptions="Center" />
 
@@ -123,7 +125,7 @@
                                                                       Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource SuccessSurface},
                                                                       FalseObject={StaticResource Surface}}}">
 
-                                                                    <Border Grid.Column="0" 
+                                                                    <Border Grid.Column="0"
                                                                             Style="{StaticResource InputWrapper}">
                                                                         <Label Text="{Binding Order}"
                                                                                Style="{StaticResource LabelBody}"
@@ -144,36 +146,40 @@
                                                                                PlaceholderColor="{StaticResource TextDisabled}"
                                                                                TextColor="{StaticResource TextPrimary}">
                                                                             <Entry.Behaviors>
-                                                                                <behaviors:RestTimeInputBehavior 
+                                                                                <behaviors:RestTimeInputBehavior
                                                                                     BindingContext="{Binding Source={x:Reference RestEntry}, Path=BindingContext}"
                                                                                     Time="{Binding RestTime}" />
                                                                             </Entry.Behaviors>
                                                                         </Entry>
                                                                     </Border>
 
-                                                                    <Border Grid.Column="2" Style="{StaticResource InputWrapper}">
+                                                                    <Border Grid.Column="2"
+                                                                            Style="{StaticResource InputWrapper}">
                                                                         <Entry Text="{Binding Weight}"
                                                                                FontSize="16"
                                                                                Keyboard="Numeric"
                                                                                HorizontalTextAlignment="Center"
                                                                                TextColor="{StaticResource TextPrimary}">
                                                                             <Entry.Behaviors>
-                                                                                <behaviors:NumericClampBehavior MaxValue="1500" 
-                                                                                    MinValue="0" 
+                                                                                <behaviors:NumericClampBehavior
+                                                                                    MaxValue="1500"
+                                                                                    MinValue="0"
                                                                                     Decimals="2" />
                                                                             </Entry.Behaviors>
                                                                         </Entry>
                                                                     </Border>
 
-                                                                    <Border Grid.Column="3" Style="{StaticResource InputWrapper}">
+                                                                    <Border Grid.Column="3"
+                                                                            Style="{StaticResource InputWrapper}">
                                                                         <Entry Text="{Binding Reps}"
                                                                                FontSize="16"
                                                                                Keyboard="Numeric"
                                                                                HorizontalTextAlignment="Center"
                                                                                TextColor="{StaticResource TextPrimary}">
                                                                             <Entry.Behaviors>
-                                                                                <behaviors:NumericClampBehavior MaxValue="100" 
-                                                                                    MinValue="1" 
+                                                                                <behaviors:NumericClampBehavior
+                                                                                    MaxValue="100"
+                                                                                    MinValue="1"
                                                                                     Decimals="0" />
                                                                             </Entry.Behaviors>
                                                                         </Entry>
@@ -186,13 +192,14 @@
                                                                            WidthRequest="24"
                                                                            VerticalOptions="Center"
                                                                            HorizontalOptions="Center">
-                                                                        
+
                                                                         <Image.GestureRecognizers>
-                                                                            <TapGestureRecognizer Command="{Binding ToggleCompleteCommand}" />
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding ToggleCompleteCommand}" />
                                                                         </Image.GestureRecognizers>
-                        
+
                                                                         <Image.Behaviors>
-                                                                            <toolkit:IconTintColorBehavior 
+                                                                            <toolkit:IconTintColorBehavior
                                                                                 BindingContext="{Binding Source={x:Reference CheckImage}, Path=BindingContext}"
                                                                                 TintColor="{Binding IsCompleted, Converter={StaticResource BoolToColorConverter}}" />
                                                                         </Image.Behaviors>
@@ -214,16 +221,17 @@
                                                     Command="{Binding AddSetCommand}"
                                                     CommandParameter="{Binding .}">
                                                 <Button.Behaviors>
-                                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
+                                                    <toolkit:IconTintColorBehavior
+                                                        TintColor="{StaticResource TextSecondary}" />
                                                 </Button.Behaviors>
-                                            </Button>   
+                                            </Button>
 
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </VerticalStackLayout>
-                        
+
                         <Button Text="{maui:Translate Action_AddExercise}"
                                 Style="{StaticResource TextButton}"
                                 ImageSource="add_big.svg"
@@ -234,14 +242,14 @@
                             <Button.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
                             </Button.Behaviors>
-                        </Button>   
+                        </Button>
 
                         <Button Text="{maui:Translate Action_FinishWorkout}"
                                 ImageSource="check.svg"
                                 BackgroundColor="{StaticResource WorkoutColor}"
                                 BorderColor="{StaticResource WorkoutColor}"
                                 Shadow="{StaticResource WorkoutGlow}"
-                                Command="{Binding AskFinishWorkoutCommand}"/>
+                                Command="{Binding AskFinishWorkoutCommand}" />
 
                     </VerticalStackLayout>
                 </ScrollView>
@@ -252,7 +260,7 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
             </controls:ConfirmationPopup>
-            
+
             <controls:DurationEntryPopup IsVisible="{Binding IsEntryPopupVisible}"
                                          Title="{Binding EntryPopupTitle}"
                                          Duration="{Binding EntryPopupDuration}"

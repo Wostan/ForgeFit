@@ -582,28 +582,28 @@
     <data name="Error_MaxSetsReached" xml:space="preserve">
       <value>Досягнуто ліміт у 20 сетів.</value>
     </data>
-        <data name="Error_CannotDeleteLastSet" xml:space="preserve">
+    <data name="Error_CannotDeleteLastSet" xml:space="preserve">
       <value>Не можна видалити останній сет. Видаліть вправу повністю.</value>
     </data>
-        <data name="Error_NoExercisesInWorkout" xml:space="preserve">
+    <data name="Error_NoExercisesInWorkout" xml:space="preserve">
       <value>Тренування повинно містити хоча б одну вправу.</value>
     </data>
-        <data name="Error_ExerciseWithoutSets" xml:space="preserve">
+    <data name="Error_ExerciseWithoutSets" xml:space="preserve">
       <value>Кожна вправа повинна мати мінімум один сет.</value>
     </data>
-        <data name="Title_AdjustDuration" xml:space="preserve">
+    <data name="Title_AdjustDuration" xml:space="preserve">
       <value>Уточнення часу</value>
     </data>
     <data name="Placeholder_EnterDurationMinutes" xml:space="preserve">
         <value>Введіть дійсну тривалість тренування (від 10 хв. до 5 часів)</value>
     </data>
-        <data name="Error_DurationTooShort" xml:space="preserve">
+    <data name="Error_DurationTooShort" xml:space="preserve">
       <value>Тренування має тривати мінімум 10 хвилин.</value>
     </data>
-        <data name="Error_DurationTooLong" xml:space="preserve">
+    <data name="Error_DurationTooLong" xml:space="preserve">
       <value>Тренування не може перевищувати 5 годин (300 хв).</value>
     </data>
-        <data name="Error_InvalidNumber" xml:space="preserve">
+    <data name="Error_InvalidNumber" xml:space="preserve">
       <value>Будь ласка, введіть коректне число.</value>
     </data>
     <data name="Search_AllExercises" xml:space="preserve">

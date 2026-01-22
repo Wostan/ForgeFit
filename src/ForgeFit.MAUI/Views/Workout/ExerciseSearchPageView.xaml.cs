@@ -15,4 +15,3 @@ public partial class ExerciseSearchPageView : ContentPage
         BindingContext = vm;
     }
 }
-

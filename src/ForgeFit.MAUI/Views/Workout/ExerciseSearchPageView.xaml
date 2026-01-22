@@ -14,7 +14,7 @@
              x:DataType="local:ExerciseSearchPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Workout.ExerciseSearchPageView"
              x:Name="ThisPage">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:BoolToObjectConverter x:Key="StateIconConverter"
@@ -23,7 +23,7 @@
             <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <Grid>
             <controls:NavigationHeader ZIndex="11"
@@ -138,10 +138,10 @@
                                   RowDefinitions="Auto"
                                   Padding="12">
 
-                                <Border Grid.Column="0" 
+                                <Border Grid.Column="0"
                                         Style="{StaticResource CardStyle}"
                                         Padding="0"
-                                        WidthRequest="60" 
+                                        WidthRequest="60"
                                         HeightRequest="60"
                                         Margin="0,0,12,0">
                                     <Grid>
@@ -149,13 +149,14 @@
                                                WidthRequest="24"
                                                HeightRequest="24">
                                             <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
+                                                <toolkit:IconTintColorBehavior
+                                                    TintColor="{StaticResource TextSecondary}" />
                                             </Image.Behaviors>
                                         </Image>
-                                        
+
                                         <Image Source="{Binding GifUrl}"
                                                Aspect="AspectFill"
-                                               IsAnimationPlaying="True"/>
+                                               IsAnimationPlaying="True" />
                                     </Grid>
                                 </Border>
 
@@ -168,7 +169,7 @@
                                            FontSize="14"
                                            LineBreakMode="TailTruncation"
                                            LineHeight="1"
-                                           MaxLines="2"/>
+                                           MaxLines="2" />
 
                                     <Label Text="{Binding TargetMusclesDisplay}"
                                            Style="{StaticResource LabelBody}"
@@ -238,16 +239,16 @@
             </Border>
 
             <workout:ExerciseFilters ZIndex="11"
-                                   IsVisible="{Binding IsFiltersVisible}">
+                                     IsVisible="{Binding IsFiltersVisible}">
                 <workout:ExerciseFilters.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFiltersVisible}" />
                 </workout:ExerciseFilters.Behaviors>
             </workout:ExerciseFilters>
 
             <workout:ExerciseDetails ZIndex="12"
-                                   IsVisible="{Binding IsDetailsVisible}">
+                                     IsVisible="{Binding IsDetailsVisible}">
                 <workout:ExerciseDetails.Behaviors>
-                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsDetailsVisible}" />
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsDetailsVisible}" />
                 </workout:ExerciseDetails.Behaviors>
             </workout:ExerciseDetails>
         </Grid>

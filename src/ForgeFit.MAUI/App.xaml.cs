@@ -32,13 +32,9 @@ public partial class App : Application
         try
         {
             if (await _authService.IsAuthenticatedAsync())
-            {
                 window.Page = new AppShell();
-            }
             else
-            {
                 window.Page = _serviceProvider.GetRequiredService<LoginPageView>();
-            }
         }
         catch
         {
