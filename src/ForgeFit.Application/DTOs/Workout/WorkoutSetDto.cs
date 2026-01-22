@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.ValueObjects;
+﻿using ForgeFit.Domain.Enums.ProfileEnums;
 
 namespace ForgeFit.Application.DTOs.Workout;
 
@@ -7,4 +7,5 @@ public record WorkoutSetDto(
     int Order,
     int Reps,
     TimeSpan RestTime,
-    Weight Weight);
+    double Weight,
+    WeightUnit WeightUnit);

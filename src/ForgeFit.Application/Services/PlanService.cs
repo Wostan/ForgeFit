@@ -26,19 +26,13 @@ public class PlanService(
     public async Task<PlanDto> GeneratePlanAsync(Guid userId)
     {
         var user = await userRepository.GetByIdAsync(userId);
-        if (user == null)
-        {
-            throw new NotFoundException("User not found.");
-        }
-        
+        if (user == null) throw new NotFoundException("User not found.");
+
         var userProfile = user.UserProfile;
-        
+
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
-        if (bodyGoal == null)
-        {
-            throw new NotFoundException("Body goal not found.");
-        }
-        
+        if (bodyGoal == null) throw new NotFoundException("Body goal not found.");
+
         var (workoutPlan, nutritionPlan) = planGenerationService.GenerateFullPlan(userProfile, bodyGoal);
 
         var nutritionDto = new NutritionGoalResponse(
@@ -65,7 +59,7 @@ public class PlanService(
     public async Task<PlanDto> ConfirmPlanAsync(Guid userId, PlanDto plan)
     {
         var existingBodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
-        if (existingBodyGoal != null) 
+        if (existingBodyGoal != null)
         {
             existingBodyGoal.Update(
                 plan.BodyGoal.Title,
@@ -74,9 +68,9 @@ public class PlanService(
                 new Weight(plan.BodyGoal.WeightGoal, plan.BodyGoal.WeightUnit),
                 plan.BodyGoal.GoalType);
         }
-        else 
+        else
         {
-             var bodyGoal = BodyGoal.Create(
+            var bodyGoal = BodyGoal.Create(
                 userId,
                 plan.BodyGoal.Title,
                 plan.BodyGoal.Description,
@@ -84,13 +78,13 @@ public class PlanService(
                 plan.BodyGoal.DueDate,
                 plan.BodyGoal.GoalType,
                 GoalStatus.InProgress);
-             await bodyGoalRepository.AddAsync(bodyGoal);
+            await bodyGoalRepository.AddAsync(bodyGoal);
         }
 
         var existingNutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
         if (existingNutritionGoal != null)
         {
-             existingNutritionGoal.Update(
+            existingNutritionGoal.Update(
                 plan.NutritionGoal.Calories,
                 plan.NutritionGoal.Carbs,
                 plan.NutritionGoal.Protein,
@@ -109,7 +103,7 @@ public class PlanService(
                     plan.NutritionGoal.WaterGoalMl));
             await nutritionGoalRepository.AddAsync(nutritionGoal);
         }
-        
+
         var existingWorkoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
         if (existingWorkoutGoal != null)
         {
@@ -120,17 +114,17 @@ public class PlanService(
         }
         else
         {
-             var workoutGoal = WorkoutGoal.Create(
+            var workoutGoal = WorkoutGoal.Create(
                 userId,
                 new WorkoutPlan(
                     plan.WorkoutGoal.WorkoutsPerWeek,
                     plan.WorkoutGoal.Duration,
                     plan.WorkoutGoal.WorkoutType));
-             await workoutGoalRepository.AddAsync(workoutGoal);
+            await workoutGoalRepository.AddAsync(workoutGoal);
         }
-        
+
         await unitOfWork.SaveChangesAsync();
-        
+
         return plan;
     }
 
@@ -139,18 +133,16 @@ public class PlanService(
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
         var nutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
         var workoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
-        
+
         if (bodyGoal == null || nutritionGoal == null || workoutGoal == null)
-        {
             throw new DomainValidationException("Plan not found.");
-        }
-        
+
         var planDto = new PlanDto(
             mapper.Map<BodyGoalResponse>(bodyGoal),
             mapper.Map<NutritionGoalResponse>(nutritionGoal),
             mapper.Map<WorkoutGoalResponse>(workoutGoal)
         );
-        
+
         return planDto;
     }
 }

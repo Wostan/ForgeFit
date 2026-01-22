@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:templates="using:ForgeFit.MAUI.Views.Auth.Templates"
+             xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             x:Class="ForgeFit.MAUI.Views.Auth.RegistrationPageView"
+             x:DataType="local:RegistrationPageViewModel"
+             x:Name="ThisPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="Step1Template">
+                <templates:Step1CredentialsView />
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step2Template">
+                <templates:Step2PersonalView />
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step3Template">
+                <templates:Step3MeasurementsView />
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step4Template">
+                <templates:Step4GoalView />
+            </DataTemplate>
+
+            <DataTemplate x:Key="Step5Template">
+                <templates:Step5CommitmentView />
+            </DataTemplate>
+
+            <helpers:RegistrationStepTemplateSelector x:Key="StepSelector"
+                                                      Step1Credentials="{StaticResource Step1Template}"
+                                                      Step2Personal="{StaticResource Step2Template}"
+                                                      Step3Measurements="{StaticResource Step3Template}"
+                                                      Step4Goal="{StaticResource Step4Template}"
+                                                      Step5Commitment="{StaticResource Step5Template}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <CarouselView ItemsSource="{Binding Steps}"
+                      ItemTemplate="{StaticResource StepSelector}"
+                      Position="{Binding CurrentPosition}"
+                      VerticalOptions="Fill"
+                      HorizontalScrollBarVisibility="Never"
+                      IsSwipeEnabled="False"
+                      Loop="False"
+                      PeekAreaInsets="0" />
+
+        <Grid ColumnDefinitions="Auto, *"
+              ColumnSpacing="15"
+              VerticalOptions="End"
+              Margin="20"
+              behaviors:GridSlideBehavior.IsVisibleAnimated="{Binding IsMainNavigationVisible}">
+
+            <Button Grid.Column="0"
+                    Style="{StaticResource SecondaryButton}"
+                    Text="{maui:Translate Action_Back}"
+                    VerticalOptions="Center"
+                    Command="{Binding PreviousStepCommand}" />
+
+            <Button Grid.Column="1"
+                    Text="{Binding ButtonText}"
+                    VerticalOptions="Center"
+                    Shadow="{x:Null}"
+                    Command="{Binding NextStepCommand}" />
+        </Grid>
+
+        <ProgressBar HeightRequest="4"
+                     VerticalOptions="End"
+                     IsVisible="{Binding CurrentPosition, Converter={toolkit:IntToBoolConverter}}">
+            <ProgressBar.Behaviors>
+                <toolkit:ProgressBarAnimationBehavior
+                    Progress="{Binding BindingContext.Progress, Source={x:Reference ThisPage}}"
+                    Length="250"
+                    Easing="SinInOut" />
+            </ProgressBar.Behaviors>
+        </ProgressBar>
+    </Grid>
+</ContentPage>

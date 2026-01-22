@@ -16,21 +16,23 @@ namespace ForgeFit.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         // Database
         var connectionString = configuration.GetConnectionString("DefaultConnection")
-                               ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                               ?? throw new InvalidOperationException(
+                                   "Connection string 'DefaultConnection' not found.");
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly("ForgeFit.Infrastructure")
             ));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        
+
         // Configurations
         services.Configure<FoodApiSettings>(configuration.GetSection("FoodApiSettings"));
         services.Configure<ExerciseDbApiSettings>(configuration.GetSection("ExerciseDbApiSettings"));
-        
+
         // Repos
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
@@ -41,7 +43,7 @@ public static class DependencyInjection
         services.AddScoped<IWorkoutEntryRepository, WorkoutEntryRepository>();
         services.AddScoped<IFoodEntryRepository, FoodEntryRepository>();
         services.AddScoped<IDrinkEntryRepository, DrinkEntryRepository>();
-        
+
         // Http Clients
         services.AddHttpClient<IFatSecretTokenService, FatSecretTokenService>();
         services.AddHttpClient<IFoodApiService, FoodApiService>();
@@ -50,11 +52,11 @@ public static class DependencyInjection
             var settings = provider.GetRequiredService<IOptions<ExerciseDbApiSettings>>().Value;
             client.BaseAddress = new Uri(settings.BaseUrl);
         });
-        
+
         // Services
         services.AddScoped<IPasswordHasherService, PasswordHasherService>();
         services.AddScoped<ITokenService, TokenService>();
-        
+
         return services;
     }
 }

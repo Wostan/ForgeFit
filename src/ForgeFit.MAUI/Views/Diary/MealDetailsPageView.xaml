@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
+             behaviors:PageAnimationBehavior.AnimationType="Pop"
+             Shell.NavBarIsVisible="False"
+             x:DataType="local:MealDetailsPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsPageView"
+             x:Name="ThisPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowDefinitions="Auto, *, Auto">
+
+                <controls:NavigationHeader Grid.Row="0"
+                                           Title="{Binding BindingContext.MealTitle, Source={x:Reference ThisPage}}" />
+
+                <Grid Grid.Row="1"
+                      RowDefinitions="Auto, *"
+                      Padding="20,0"
+                      RowSpacing="20">
+
+                    <VerticalStackLayout Grid.Row="0" Spacing="20">
+
+                        <Label Text="{Binding MealEmoji}"
+                               FontSize="64"
+                               HorizontalOptions="Center" />
+
+                        <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
+
+                            <VerticalStackLayout VerticalOptions="Center" Spacing="-4">
+                                <Label Text="{maui:Translate Nutrient_Calories}"
+                                       Style="{StaticResource LabelBody}"
+                                       Margin="0, 0, 0, 5"
+                                       FontSize="12"
+                                       TextTransform="Uppercase"
+                                       HorizontalOptions="Center" />
+
+                                <Label Margin="0" HorizontalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding TotalCalories, StringFormat='{0:F0}'}"
+                                                  Style="{StaticResource LabelH2}" FontSize="16" />
+                                            <Span Text=" " Style="{StaticResource LabelH2}" FontSize="16" />
+                                            <Span Text="{maui:Translate Nutrient_Kcal}"
+                                                  Style="{StaticResource LabelH2}" FontSize="16" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <ProgressBar x:Name="CaloriesBar"
+                                             ProgressColor="{StaticResource Primary}"
+                                             Shadow="{StaticResource CaloriesGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
+                                            Progress="{Binding CaloriesProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
+
+                                <Label HorizontalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
+                                                  Style="{StaticResource LabelBody}" FontSize="12" />
+                                            <Span Text=" " Style="{StaticResource LabelBody}" FontSize="12" />
+                                            <Span Text="{maui:Translate Nutrient_Kcal}"
+                                                  Style="{StaticResource LabelBody}" FontSize="12" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="-4">
+                                <Label Text="{maui:Translate Nutrient_Carbs}"
+                                       Style="{StaticResource LabelBody}"
+                                       Margin="0, 0, 0, 5"
+                                       FontSize="12"
+                                       TextTransform="Uppercase"
+                                       HorizontalOptions="Center" />
+
+                                <Label Text="{Binding TotalCarbs, StringFormat='{0:F0} g'}"
+                                       Style="{StaticResource LabelH2}"
+                                       FontSize="16"
+                                       Margin="0"
+                                       HorizontalOptions="Center" />
+
+                                <ProgressBar x:Name="CarbsBar"
+                                             ProgressColor="{StaticResource CarbsColor}"
+                                             Shadow="{StaticResource CarbsGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference CarbsBar}}"
+                                            Progress="{Binding CarbsProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
+
+                                <Label Text="{Binding MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
+                                       Style="{StaticResource LabelBody}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="-4">
+                                <Label Text="{maui:Translate Nutrient_Protein}"
+                                       Style="{StaticResource LabelBody}"
+                                       Margin="0, 0, 0, 5"
+                                       FontSize="12"
+                                       TextTransform="Uppercase"
+                                       HorizontalOptions="Center" />
+
+                                <Label Text="{Binding TotalProtein, StringFormat='{0:F0} g'}"
+                                       Style="{StaticResource LabelH2}"
+                                       FontSize="16"
+                                       Margin="0"
+                                       HorizontalOptions="Center" />
+
+                                <ProgressBar x:Name="ProteinBar"
+                                             ProgressColor="{StaticResource ProteinColor}"
+                                             Shadow="{StaticResource ProteinGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference ProteinBar}}"
+                                            Progress="{Binding ProteinProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
+
+                                <Label Text="{Binding MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
+                                       Style="{StaticResource LabelBody}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" Spacing="-4">
+                                <Label Text="{maui:Translate Nutrient_Fat}"
+                                       Style="{StaticResource LabelBody}"
+                                       Margin="0, 0, 0, 5"
+                                       FontSize="12"
+                                       TextTransform="Uppercase"
+                                       HorizontalOptions="Center" />
+
+                                <Label Text="{Binding TotalFat, StringFormat='{0:F0} g'}"
+                                       Style="{StaticResource LabelH2}"
+                                       FontSize="16"
+                                       Margin="0"
+                                       HorizontalOptions="Center" />
+
+                                <ProgressBar x:Name="FatBar"
+                                             ProgressColor="{StaticResource FatColor}"
+                                             Shadow="{StaticResource FatGlow}">
+                                    <ProgressBar.Behaviors>
+                                        <toolkit:ProgressBarAnimationBehavior
+                                            BindingContext="{Binding BindingContext, Source={x:Reference FatBar}}"
+                                            Progress="{Binding FatProgress}"
+                                            Length="250"
+                                            Easing="SinInOut" />
+                                    </ProgressBar.Behaviors>
+                                </ProgressBar>
+
+                                <Label Text="{Binding MealTargetFatDisplay, StringFormat='{0:F0} g'}"
+                                       Style="{StaticResource LabelBody}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <Grid Grid.Row="1"
+                          RowDefinitions="Auto, *">
+
+                        <Label Grid.Row="0"
+                               Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Details_FoodProducts}"
+                               TextColor="{StaticResource TextSecondary}" />
+
+                        <Grid Grid.Row="1">
+
+                            <Grid IsVisible="{Binding IsLoading}"
+                                  BackgroundColor="#80000000"
+                                  ZIndex="20">
+                                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                            </Grid>
+
+                            <Border Style="{StaticResource CardStyle}"
+                                    VerticalOptions="Fill"
+                                    Padding="0">
+
+                                <CollectionView ItemsSource="{Binding FoodItems}"
+                                                VerticalScrollBarVisibility="Never"
+                                                SelectionMode="None">
+
+                                    <CollectionView.EmptyView>
+                                        <Label Style="{StaticResource LabelBody}"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               Text="{maui:Translate Details_Empty}" />
+                                    </CollectionView.EmptyView>
+
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                                    </CollectionView.ItemsLayout>
+
+                                    <CollectionView.Header>
+                                        <BoxView HeightRequest="6" Color="Transparent" />
+                                    </CollectionView.Header>
+
+                                    <CollectionView.Footer>
+                                        <BoxView HeightRequest="6" Color="Transparent" />
+                                    </CollectionView.Footer>
+
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:FoodItemDto">
+
+                                            <SwipeView>
+                                                <SwipeView.RightItems>
+                                                    <SwipeItems>
+                                                        <SwipeItemView>
+                                                            <Grid ColumnDefinitions="*,*"
+                                                                  WidthRequest="120"
+                                                                  VerticalOptions="Fill">
+
+                                                                <Grid Grid.Column="0"
+                                                                      BackgroundColor="{StaticResource DangerColor}"
+                                                                      VerticalOptions="Fill"
+                                                                      HorizontalOptions="Fill">
+
+                                                                    <Image Source="delete.svg"
+                                                                           HorizontalOptions="Center"
+                                                                           VerticalOptions="Center" />
+
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference ThisPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                </Grid>
+
+                                                                <Grid Grid.Column="1"
+                                                                      BackgroundColor="{StaticResource Primary}"
+                                                                      VerticalOptions="Fill"
+                                                                      HorizontalOptions="Fill">
+
+                                                                    <Image Source="edit.svg"
+                                                                           HorizontalOptions="Center"
+                                                                           VerticalOptions="Center" />
+
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.OpenEditPopupCommand, Source={x:Reference ThisPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                </Grid>
+
+                                                            </Grid>
+                                                        </SwipeItemView>
+                                                    </SwipeItems>
+                                                </SwipeView.RightItems>
+
+                                                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto"
+                                                      BackgroundColor="{StaticResource Surface}" Padding="16,0">
+
+                                                    <VerticalStackLayout Grid.Column="0" Spacing="-4">
+                                                        <Label Text="{Binding Label}"
+                                                               Style="{StaticResource LabelBody}"
+                                                               FontSize="14"
+                                                               LineBreakMode="TailTruncation"
+                                                               TextColor="{StaticResource TextPrimary}" />
+
+                                                        <Label Style="{StaticResource LabelBody}">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding Amount}"
+                                                                          Style="{StaticResource LabelBody}"
+                                                                          FontSize="14" />
+                                                                    <Span Text=" " />
+                                                                    <Span Text="{Binding ServingUnit}"
+                                                                          Style="{StaticResource LabelBody}"
+                                                                          FontSize="12" />
+                                                                    <Span Text="  •  "
+                                                                          Style="{StaticResource LabelBody}" />
+
+                                                                    <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
+                                                                          Style="{StaticResource LabelBody}"
+                                                                          TextColor="{StaticResource CarbsColor}"
+                                                                          FontSize="14" />
+                                                                    <Span Text=" / "
+                                                                          Style="{StaticResource LabelBody}"
+                                                                          FontSize="12" />
+                                                                    <Span
+                                                                        Text="{Binding Protein, StringFormat='{0:F0}'}"
+                                                                        Style="{StaticResource LabelBody}"
+                                                                        TextColor="{StaticResource ProteinColor}"
+                                                                        FontSize="14" />
+                                                                    <Span Text=" / "
+                                                                          Style="{StaticResource LabelBody}"
+                                                                          FontSize="12" />
+                                                                    <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
+                                                                          Style="{StaticResource LabelBody}"
+                                                                          TextColor="{StaticResource FatColor}"
+                                                                          FontSize="14" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </VerticalStackLayout>
+
+                                                    <Label Grid.Column="1" Grid.RowSpan="2"
+                                                           Style="{StaticResource LabelBody}"
+                                                           VerticalOptions="Center">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
+                                                                      Style="{StaticResource LabelBody}"
+                                                                      TextColor="{StaticResource TextPrimary}"
+                                                                      FontSize="14" />
+                                                                <Span Text=" "
+                                                                      Style="{StaticResource LabelBody}"
+                                                                      FontSize="12" />
+                                                                <Span Text="{maui:Translate Nutrient_Kcal}"
+                                                                      Style="{StaticResource LabelBody}"
+                                                                      FontSize="12" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Grid>
+                                            </SwipeView>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
+                <Button Grid.Row="2"
+                        ImageSource="add_big.svg"
+                        Text="{maui:Translate Action_AddFood}"
+                        Margin="20"
+                        VerticalOptions="End"
+                        Command="{Binding GoToFoodSearchCommand}" />
+            </Grid>
+
+            <diary:FoodDetails ZIndex="10">
+                <diary:FoodDetails.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
+                </diary:FoodDetails.Behaviors>
+            </diary:FoodDetails>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

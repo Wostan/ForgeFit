@@ -1,0 +1,40 @@
+﻿using System.Globalization;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Markup;
+using ForgeFit.MAUI.Extensions;
+using ForgeFit.MAUI.Resources.Strings;
+using LocalizationResourceManager.Maui;
+using Microsoft.Extensions.Logging;
+using ZXing.Net.Maui.Controls;
+
+namespace ForgeFit.MAUI;
+
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkitMarkup()
+            .UseBarcodeReader()
+            .UseLocalizationResourceManager(settings =>
+            {
+                settings.AddResource(AppResources.ResourceManager);
+                settings.InitialCulture(new CultureInfo("uk-UA"));
+                settings.RestoreLatestCulture(true);
+            })
+            .ConfigureUiSettings()
+            .RegisterServices()
+            .RegisterViewModels()
+            .RegisterViews();
+
+#if DEBUG
+        builder.Logging.AddDebug();
+#endif
+
+        return builder.Build();
+    }
+}

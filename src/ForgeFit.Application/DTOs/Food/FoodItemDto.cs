@@ -3,7 +3,7 @@
 public record FoodItemDto(
     string ExternalId,
     string Label,
-    double Calories, 
+    double Calories,
     double Carbs,
     double Protein,
     double Fat,

@@ -9,7 +9,7 @@ public static class ValidationExtension
     {
         services.AddValidatorsFromAssemblyContaining<Program>();
         services.AddFluentValidationAutoValidation();
-        
+
         return services;
     }
 }

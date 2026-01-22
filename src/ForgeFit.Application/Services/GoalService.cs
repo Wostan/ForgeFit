@@ -21,16 +21,10 @@ public class GoalService(
     {
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
 
-        if (bodyGoal == null)
-        {
-            throw new NotFoundException("Body goal not found");
-        }
-        
-        if (userId != bodyGoal.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this body goal");
-        }
-        
+        if (bodyGoal == null) throw new NotFoundException("Body goal not found");
+
+        if (userId != bodyGoal.UserId) throw new UnauthorizedAccessException("You do not own this body goal");
+
         return mapper.Map<BodyGoalResponse>(bodyGoal);
     }
 
@@ -38,15 +32,9 @@ public class GoalService(
     {
         var nutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
 
-        if (nutritionGoal is null)
-        {
-            throw new NotFoundException("Nutrition goal not found");
-        }
-        
-        if (userId != nutritionGoal.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this nutrition goal");
-        }
+        if (nutritionGoal is null) throw new NotFoundException("Nutrition goal not found");
+
+        if (userId != nutritionGoal.UserId) throw new UnauthorizedAccessException("You do not own this nutrition goal");
 
         return mapper.Map<NutritionGoalResponse>(nutritionGoal);
     }
@@ -55,19 +43,13 @@ public class GoalService(
     {
         var workoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
 
-        if (workoutGoal is null)
-        {
-            throw new NotFoundException("Workout goal not found");
-        }
-        
-        if (userId != workoutGoal.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this workout goal");
-        }
-        
+        if (workoutGoal is null) throw new NotFoundException("Workout goal not found");
+
+        if (userId != workoutGoal.UserId) throw new UnauthorizedAccessException("You do not own this workout goal");
+
         return mapper.Map<WorkoutGoalResponse>(workoutGoal);
     }
-    
+
     public async Task<BodyGoalResponse> CreateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoalRequest)
     {
         var bodyGoal = BodyGoal.Create(
@@ -78,62 +60,50 @@ public class GoalService(
             bodyGoalRequest.DueDate,
             bodyGoalRequest.GoalType,
             GoalStatus.InProgress);
-        
+
         await bodyGoalRepository.AddAsync(bodyGoal);
         await unitOfWork.SaveChangesAsync();
-        
+
         return mapper.Map<BodyGoalResponse>(bodyGoal);
     }
 
     public async Task<BodyGoalResponse> UpdateBodyGoalAsync(Guid userId, BodyGoalCreateRequest bodyGoalRequest)
     {
         var bodyGoal = await bodyGoalRepository.GetByUserIdAsync(userId);
-        if (bodyGoal is null)
-        {
-            throw new NotFoundException("Body goal not found");
-        }
-        
-        if (userId != bodyGoal.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this body goal");
-        }
-        
+        if (bodyGoal is null) throw new NotFoundException("Body goal not found");
+
+        if (userId != bodyGoal.UserId) throw new UnauthorizedAccessException("You do not own this body goal");
+
         bodyGoal.Update(
             bodyGoalRequest.Title,
             bodyGoalRequest.Description,
             bodyGoalRequest.DueDate,
             new Weight(bodyGoalRequest.WeightGoal, bodyGoalRequest.WeightUnit),
             bodyGoalRequest.GoalType);
-        
+
         await unitOfWork.SaveChangesAsync();
-        
+
         return mapper.Map<BodyGoalResponse>(bodyGoal);
     }
 
     public async Task<NutritionGoalResponse> UpdateNutritionGoalAsync(
-        Guid userId, 
+        Guid userId,
         NutritionGoalCreateRequest nutritionGoalRequest)
     {
         var nutritionGoal = await nutritionGoalRepository.GetByUserIdAsync(userId);
-        if (nutritionGoal is null)
-        {
-            throw new NotFoundException("Nutrition goal not found");
-        }
-        
-        if (userId != nutritionGoal.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this nutrition goal");
-        }
-        
+        if (nutritionGoal is null) throw new NotFoundException("Nutrition goal not found");
+
+        if (userId != nutritionGoal.UserId) throw new UnauthorizedAccessException("You do not own this nutrition goal");
+
         nutritionGoal.Update(
             nutritionGoalRequest.Calories,
             nutritionGoalRequest.Carbs,
             nutritionGoalRequest.Protein,
             nutritionGoalRequest.Fat,
             nutritionGoalRequest.WaterGoalMl);
-        
+
         await unitOfWork.SaveChangesAsync();
-        
+
         return mapper.Map<NutritionGoalResponse>(nutritionGoal);
     }
 
@@ -142,23 +112,17 @@ public class GoalService(
         WorkoutGoalCreateRequest workoutGoalRequest)
     {
         var workoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
-        if (workoutGoal is null)
-        {
-            throw new NotFoundException("Workout goal not found");
-        }
-        
-        if (userId != workoutGoal.UserId)
-        {
-            throw new UnauthorizedAccessException("You do not own this workout goal");
-        }
-        
+        if (workoutGoal is null) throw new NotFoundException("Workout goal not found");
+
+        if (userId != workoutGoal.UserId) throw new UnauthorizedAccessException("You do not own this workout goal");
+
         workoutGoal.Update(
             workoutGoalRequest.WorkoutsPerWeek,
             workoutGoalRequest.Duration,
             workoutGoalRequest.WorkoutType);
-        
+
         await unitOfWork.SaveChangesAsync();
-        
+
         return mapper.Map<WorkoutGoalResponse>(workoutGoal);
     }
 }

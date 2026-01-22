@@ -6,5 +6,6 @@ namespace ForgeFit.Domain.Primitives.Interfaces;
 
 public interface IDailyNutritionPlanCalculationService
 {
-    DailyNutritionPlan CalculateDailyNutritionPlan(UserProfile userProfile, BodyGoal bodyGoal, WorkoutPlan? workoutPlan);
+    DailyNutritionPlan
+        CalculateDailyNutritionPlan(UserProfile userProfile, BodyGoal bodyGoal, WorkoutPlan? workoutPlan);
 }

@@ -9,7 +9,7 @@ namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 public class FoodEntry : Entity, ITimeFields
 {
     private readonly HashSet<FoodItem> _foodItems = [];
-    
+
     internal FoodEntry(
         Guid userId,
         DayTime dayTime,
@@ -41,7 +41,7 @@ public class FoodEntry : Entity, ITimeFields
     // Navigation properties
     public User User { get; private set; }
     public IReadOnlyCollection<FoodItem> FoodItems => _foodItems;
-    
+
     public static FoodEntry Create(Guid userId, DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
     {
         return new FoodEntry(userId, dayTime, date, foodItems);
@@ -62,21 +62,18 @@ public class FoodEntry : Entity, ITimeFields
 
         DayTime = dayTime;
     }
-    
+
     private void SetDate(DateTime date)
     {
         Date = date;
     }
-    
+
     private void SetFoodItems(HashSet<FoodItem> foodItems)
     {
         _foodItems.Clear();
-        
-        foreach (var item in foodItems)
-        {
-            _foodItems.Add(item);
-        }
-        
+
+        foreach (var item in foodItems) _foodItems.Add(item);
+
         RecalculateTotals();
     }
 

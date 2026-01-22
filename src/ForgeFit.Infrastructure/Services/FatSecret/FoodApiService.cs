@@ -21,7 +21,7 @@ public class FoodApiService(
     {
         var parameters = new Dictionary<string, string>
         {
-            { "method", "foods.search" },
+            { "method", "foods.search.v4" },
             { "search_expression", query },
             { "page_number", (pageNumber - 1).ToString() },
             { "max_results", pageSize.ToString() },
@@ -30,15 +30,28 @@ public class FoodApiService(
             { "format", "json" }
         };
 
-        var response = await ExecuteFatSecretRequestAsync<FatSecretSearchResponse>(parameters);
+        var response = await ExecuteFatSecretRequestAsync<FatSecretSearchRoot>(parameters);
 
-        return response?.FoodsContainer?.Food?
-            .Select(f => new FoodSearchResponse(
-                f.FoodId, 
-                f.FoodName, 
-                f.BrandName, 
-                f.FoodDescription))
-            .ToList() ?? [];
+        var foods = response?.SearchResponse?.Results?.Food ?? [];
+
+        return foods.Select(f =>
+        {
+            var serving = f.Servings?.Serving?.FirstOrDefault();
+
+            var amount = ParseFatSecretDouble(serving?.MetricServingAmount);
+            var unit = serving?.MetricServingUnit ?? "g";
+
+            return new FoodSearchResponse(
+                f.FoodId,
+                f.FoodName,
+                f.BrandName,
+                ParseFatSecretDouble(serving?.Calories),
+                ParseFatSecretDouble(serving?.Carbohydrate),
+                ParseFatSecretDouble(serving?.Protein),
+                ParseFatSecretDouble(serving?.Fat),
+                $"{amount:0.##} {unit}"
+            );
+        }).ToList();
     }
 
     public async Task<FoodProductResponse> SearchByBarcodeAsync(string barcode)
@@ -69,15 +82,71 @@ public class FoodApiService(
         return await GetFoodDetailsAsync(parameters, $"Food with id {id} not found");
     }
 
-    public Task<List<FoodProductResponse>> RecognizeByPhotoAsync(string imageBase64)
+    public async Task<List<FoodProductResponse>> RecognizeByPhotoAsync(string imageBase64)
     {
-        throw new NotImplementedException();
+        if (imageBase64.Length > 999_982)
+            throw new BadRequestException("Image is too large. Limit is ~1MB characters.");
+
+        var token = await fatSecretTokenService.GetAccessTokenAsync();
+
+        var requestBody = new
+        {
+            image_b64 = imageBase64,
+            include_food_data = true,
+            region = _settings.Region,
+            language = _settings.Language
+        };
+
+        const string recognitionUrl = "https://platform.fatsecret.com/rest/image-recognition/v2";
+
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Post, recognitionUrl);
+        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        requestMessage.Content = JsonContent.Create(requestBody);
+
+        using var response = await httpClient.SendAsync(requestMessage);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var err = await response.Content.ReadAsStringAsync();
+            throw new Exception($"FatSecret Recognition Error ({response.StatusCode}): {err}");
+        }
+
+        var recognitionResult = await response.Content.ReadFromJsonAsync<FatSecretRecognitionRoot>();
+
+        var resultList = new List<FoodProductResponse>();
+
+        if (recognitionResult?.FoodResponse == null) return resultList;
+
+        foreach (var (_, _, f) in recognitionResult.FoodResponse)
+        {
+            if (f == null) continue;
+
+            var servings = f.Servings.Serving.Select(s => new FoodServingDto(
+                s.ServingId,
+                ParseFatSecretDouble(s.MetricServingAmount),
+                s.MetricServingUnit,
+                ParseFatSecretDouble(s.Calories),
+                ParseFatSecretDouble(s.Carbohydrate),
+                ParseFatSecretDouble(s.Protein),
+                ParseFatSecretDouble(s.Fat)
+            )).ToList();
+
+            resultList.Add(new FoodProductResponse(
+                f.FoodId,
+                f.FoodName,
+                f.BrandName,
+                servings
+            ));
+        }
+
+        return resultList;
     }
 
     private async Task<T?> ExecuteFatSecretRequestAsync<T>(Dictionary<string, string> parameters)
     {
         var token = await fatSecretTokenService.GetAccessTokenAsync();
-        
+
         using var requestMessage = new HttpRequestMessage(HttpMethod.Post, _settings.BaseUrl);
         requestMessage.Content = new FormUrlEncodedContent(parameters);
         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -89,16 +158,16 @@ public class FoodApiService(
     }
 
     private async Task<FoodProductResponse> GetFoodDetailsAsync(
-        Dictionary<string, string> parameters, 
+        Dictionary<string, string> parameters,
         string notFoundMessage)
     {
         var responseData = await ExecuteFatSecretRequestAsync<FatSecretGetResponse>(parameters);
 
-        if (responseData?.Food is null) 
+        if (responseData?.Food is null)
             throw new NotFoundException(notFoundMessage);
 
         var food = responseData.Food;
-        
+
         var servings = food.Servings.Serving.Select(s => new FoodServingDto(
             s.ServingId,
             ParseFatSecretDouble(s.MetricServingAmount),
@@ -121,9 +190,11 @@ public class FoodApiService(
     {
         if (string.IsNullOrEmpty(value)) return 0;
         return double.TryParse(
-            value, 
-            NumberStyles.Any, 
-            CultureInfo.InvariantCulture, 
-            out var result) ? result : 0;
+            value,
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out var result)
+            ? result
+            : 0;
     }
 }

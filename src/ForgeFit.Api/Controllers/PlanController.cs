@@ -11,7 +11,7 @@ namespace ForgeFit.Api.Controllers;
 public class PlanController(IPlanService planService) : ControllerBase
 {
     [Authorize]
-    [HttpPost("generate")]
+    [HttpGet("generate")]
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -19,7 +19,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var plan = await planService.GeneratePlanAsync(userId);
-        
+
         return Ok(plan);
     }
 
@@ -28,11 +28,11 @@ public class PlanController(IPlanService planService) : ControllerBase
     [ProducesResponseType(typeof(PlanDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<string>> Confirm([FromBody] PlanDto plan)
+    public async Task<ActionResult<PlanDto>> Confirm([FromBody] PlanDto plan)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var result = await planService.ConfirmPlanAsync(userId, plan);
-        
+
         return Created(string.Empty, result);
     }
 
@@ -45,7 +45,7 @@ public class PlanController(IPlanService planService) : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var plan = await planService.GetPlanAsync(userId);
-        
+
         return Ok(plan);
     }
 }

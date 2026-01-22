@@ -57,7 +57,8 @@ public class FoodEntryRepository(AppDbContext context) : IFoodEntryRepository
             .ToListAsync();
     }
 
-    public async Task<List<FoodEntry>> GetAllByUserIdAndDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate)
+    public async Task<List<FoodEntry>> GetAllByUserIdAndDateRangeAsync(Guid userId, DateTime startDate,
+        DateTime endDate)
     {
         return await context.FoodEntries
             .Where(fe => fe.UserId == userId && fe.Date.Date >= startDate.Date && fe.Date.Date <= endDate.Date)

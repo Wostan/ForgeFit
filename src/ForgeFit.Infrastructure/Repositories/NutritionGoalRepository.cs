@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ForgeFit.Infrastructure.Repositories;
 
-public class NutritionGoalRepository (AppDbContext dbContext) : INutritionGoalRepository
+public class NutritionGoalRepository(AppDbContext dbContext) : INutritionGoalRepository
 {
     public async Task AddAsync(NutritionGoal entity)
     {

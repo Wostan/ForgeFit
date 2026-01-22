@@ -6,7 +6,7 @@ namespace ForgeFit.Domain.Events.GoalEvents;
 
 public class WorkoutGoalUpdated(
     Guid workoutGoalId,
-    int workoutsPerWeek, 
+    int workoutsPerWeek,
     Schedule schedule,
     WorkoutType workoutType) : DomainEvent
 {

@@ -13,16 +13,13 @@ public class FatSecretTokenService(
     IOptions<FoodApiSettings> settings) : IFatSecretTokenService
 {
     private readonly FoodApiSettings _settings = settings.Value;
-    
+
     private string _cachedToken = string.Empty;
     private DateTime _tokenExpiry = DateTime.MinValue;
 
     public async Task<string> GetAccessTokenAsync()
     {
-        if (!string.IsNullOrEmpty(_cachedToken) && _tokenExpiry > DateTime.UtcNow.AddMinutes(5))
-        {
-            return _cachedToken;
-        }
+        if (!string.IsNullOrEmpty(_cachedToken) && _tokenExpiry > DateTime.UtcNow.AddMinutes(5)) return _cachedToken;
 
         var request = new HttpRequestMessage(HttpMethod.Post, "https://oauth.fatsecret.com/connect/token");
 
@@ -39,16 +36,14 @@ public class FatSecretTokenService(
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync(); 
+            var errorContent = await response.Content.ReadAsStringAsync();
             throw new Exception($"FatSecret Auth Failed: {response.StatusCode}, {errorContent}");
         }
 
         var tokenData = await response.Content.ReadFromJsonAsync<FatSecretTokenResponse>();
 
         if (tokenData is null || string.IsNullOrEmpty(tokenData.AccessToken))
-        {
             throw new Exception("Failed to retrieve FatSecret Access Token");
-        }
 
         _cachedToken = tokenData.AccessToken;
         _tokenExpiry = DateTime.UtcNow.AddSeconds(tokenData.ExpiresIn);

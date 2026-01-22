@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ForgeFit.Infrastructure.Persistence;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
-{ 
+{
     public DbSet<User> Users { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<BodyGoal> BodyGoals { get; set; }
@@ -19,7 +19,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<WorkoutEntry> WorkoutEntries { get; set; }
     public DbSet<FoodEntry> FoodEntries { get; set; }
     public DbSet<DrinkEntry> DrinkEntries { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);

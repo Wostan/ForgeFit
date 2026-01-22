@@ -10,27 +10,24 @@ public class PerformedExercise : ValueObject
         SetSnapshot(snapshot);
         SetSets(sets);
     }
-    
+
     private PerformedExercise()
     {
     }
 
     public WorkoutExercise Snapshot { get; private set; }
-    
+
     // Navigation properties
     public ICollection<PerformedSet> Sets { get; private set; }
-    
+
     private void SetSnapshot(WorkoutExercise snapshot)
     {
         Snapshot = snapshot ?? throw new DomainValidationException("Exercise snapshot cannot be null");
     }
-    
+
     private void SetSets(ICollection<PerformedSet> sets)
     {
-        if (sets == null || sets.Count == 0)
-        {
-            throw new DomainValidationException("Sets cannot be null");
-        }
+        if (sets == null || sets.Count == 0) throw new DomainValidationException("Sets cannot be null");
         Sets = sets;
     }
 

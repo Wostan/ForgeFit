@@ -52,18 +52,19 @@ public class WorkoutEntryRepository(AppDbContext context) : IWorkoutEntryReposit
 
     public async Task<List<WorkoutEntry>> GetAllByUserIdAndDateAsync(Guid userId, DateTime date)
     {
-        return await  context.WorkoutEntries
+        return await context.WorkoutEntries
             .Where(we => we.UserId == userId && we.CreatedAt.Date == date.Date)
             .Include(we => we.PerformedExercises)
             .ThenInclude(pe => pe.Sets)
             .ToListAsync();
     }
 
-    public async Task<List<WorkoutEntry>> GetAllByUserIdAndDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate)
+    public async Task<List<WorkoutEntry>> GetAllByUserIdAndDateRangeAsync(Guid userId, DateTime startDate,
+        DateTime endDate)
     {
         return await context.WorkoutEntries
-            .Where(we => we.UserId == userId 
-                         && we.CreatedAt.Date >= startDate.Date 
+            .Where(we => we.UserId == userId
+                         && we.CreatedAt.Date >= startDate.Date
                          && we.CreatedAt.Date <= endDate.Date)
             .Include(we => we.PerformedExercises)
             .ThenInclude(pe => pe.Sets)

@@ -9,6 +9,13 @@ public class WorkoutMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
+        config.NewConfig<WorkoutExercise, WorkoutExerciseDto>()
+            .Map(dest => dest.GifUrl, src => src.GifUrl != null ? src.GifUrl.ToString() : null);
+
+        config.NewConfig<WorkoutSet, WorkoutSetDto>()
+            .Map(dest => dest.Weight, src => src.Weight.Value)
+            .Map(dest => dest.WeightUnit, src => src.Weight.Unit);
+
         config.NewConfig<WorkoutEntry, WorkoutEntryDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.WorkoutProgramId, src => src.WorkoutProgramId)
@@ -16,12 +23,13 @@ public class WorkoutMapping : IRegister
             .Map(dest => dest.End, src => src.WorkoutSchedule.End)
             .Map(dest => dest.TotalReps, src => CalculateTotalReps(src.PerformedExercises))
             .Map(dest => dest.TotalVolume, src => CalculateTotalVolume(src.PerformedExercises))
-            .Map(dest => dest.PerformedExercises, src => src.PerformedExercises);
-        
+            .Map(dest => dest.PerformedExercises, src => src.PerformedExercises)
+            .Map(dest => dest.Date, src => src.CreatedAt.Date);
+
         config.NewConfig<PerformedExercise, PerformedExerciseDto>()
             .Map(dest => dest.ExerciseSnapshot, src => src.Snapshot)
             .Map(dest => dest.Sets, src => src.Sets);
-        
+
         config.NewConfig<PerformedSet, PerformedSetDto>()
             .Map(dest => dest.Order, src => src.Order)
             .Map(dest => dest.Reps, src => src.Reps)
@@ -29,7 +37,7 @@ public class WorkoutMapping : IRegister
             .Map(dest => dest.WeightUnit, src => src.Weight.Unit)
             .Map(dest => dest.IsCompleted, src => src.IsCompleted);
     }
-    
+
     private static double CalculateTotalReps(IEnumerable<PerformedExercise> exercises)
     {
         return exercises.Sum(e => e.Sets

@@ -8,13 +8,14 @@ namespace ForgeFit.Domain.Services;
 public class PlanGenerationService(
     IWorkoutPlanGenerationService workoutPlanGenerationService,
     IDailyNutritionPlanCalculationService dailyNutritionPlanCalculationService
-    ) : IPlanGenerationService
+) : IPlanGenerationService
 {
-    public (WorkoutPlan workoutPlan, DailyNutritionPlan nutritionPlan) 
+    public (WorkoutPlan workoutPlan, DailyNutritionPlan nutritionPlan)
         GenerateFullPlan(UserProfile userProfile, BodyGoal bodyGoal)
     {
         var workoutPlan = workoutPlanGenerationService.GenerateWorkoutPlan(userProfile, bodyGoal);
-        var nutritionPlan = dailyNutritionPlanCalculationService.CalculateDailyNutritionPlan(userProfile, bodyGoal, workoutPlan);
+        var nutritionPlan =
+            dailyNutritionPlanCalculationService.CalculateDailyNutritionPlan(userProfile, bodyGoal, workoutPlan);
 
         return (workoutPlan, nutritionPlan);
     }

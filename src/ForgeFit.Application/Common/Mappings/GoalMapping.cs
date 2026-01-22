@@ -12,7 +12,7 @@ public class GoalMapping : IRegister
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.WeightGoal, src => src.WeightGoal.Value)
             .Map(dest => dest.WeightUnit, src => src.WeightGoal.Unit);
-        
+
         config.NewConfig<NutritionGoal, NutritionGoalResponse>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Calories, src => src.DailyNutritionPlan.TargetCalories)

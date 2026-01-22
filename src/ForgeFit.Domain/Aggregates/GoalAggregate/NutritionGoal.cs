@@ -25,7 +25,7 @@ public class NutritionGoal : Entity, ITimeFields
     public User User { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
-    
+
     public static NutritionGoal Create(Guid userId, DailyNutritionPlan dailyNutritionPlan)
     {
         return new NutritionGoal(userId, dailyNutritionPlan);
@@ -38,10 +38,11 @@ public class NutritionGoal : Entity, ITimeFields
 
         UserId = userId;
     }
-    
+
     private void SetDailyNutritionPlan(DailyNutritionPlan dailyNutritionPlan)
     {
-        DailyNutritionPlan = dailyNutritionPlan ?? throw new DomainValidationException("DailyNutritionPlan cannot be null.");
+        DailyNutritionPlan = dailyNutritionPlan ??
+                             throw new DomainValidationException("DailyNutritionPlan cannot be null.");
     }
 
     public void Update(

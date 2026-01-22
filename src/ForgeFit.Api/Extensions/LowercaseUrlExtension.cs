@@ -6,7 +6,7 @@ public static partial class LowercaseUrlExtension
 {
     public static IServiceCollection AddLowercaseUrls(this IServiceCollection services)
     {
-        services.AddRouting(options => 
+        services.AddRouting(options =>
         {
             options.LowercaseUrls = true;
             options.LowercaseQueryStrings = true;
@@ -16,17 +16,15 @@ public static partial class LowercaseUrlExtension
         {
             options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
         });
-        
+
         return services;
     }
-    
+
     public partial class SlugifyParameterTransformer : IOutboundParameterTransformer
     {
         public string? TransformOutbound(object? value)
         {
-            return value == null ? 
-                null : 
-                MyRegex().Replace(value.ToString()!, "$1-$2").ToLower();
+            return value == null ? null : MyRegex().Replace(value.ToString()!, "$1-$2").ToLower();
         }
 
         [System.Text.RegularExpressions.GeneratedRegex("([a-z])([A-Z])")]

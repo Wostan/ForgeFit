@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             x:Class="ForgeFit.MAUI.Views.Controls.Diary.FoodDetails"
+             BackgroundColor="#90000000"
+             InputTransparent="False">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding CloseFoodDetailsCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Margin="20">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <VerticalStackLayout Spacing="16" Padding="20">
+
+            <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, 3*, *">
+                <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                        Style="{StaticResource TextButton}"
+                        ImageSource="arrow_back.svg"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        Shadow="{StaticResource TextShadow}"
+                        Command="{Binding CloseFoodDetailsCommand}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
+                    </Button.Behaviors>
+                </Button>
+
+                <Label Grid.Row="0" Grid.Column="1"
+                       Text="{Binding SelectedFoodDetail.Label}"
+                       Style="{StaticResource LabelH2}"
+                       Margin="0"
+                       LineBreakMode="WordWrap"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Grid.Row="1" Grid.Column="1"
+                       Text="{Binding SelectedFoodDetail.BrandName}"
+                       Style="{StaticResource LabelBody}"
+                       HorizontalOptions="Center"
+                       LineBreakMode="TailTruncation"
+                       IsVisible="{Binding SelectedFoodDetail.BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">
+
+                <VerticalStackLayout Grid.Column="0" Spacing="-4">
+                    <Label Text="{Binding CurrentCalories, StringFormat='{0:F0}'}"
+                           Style="{StaticResource LabelH2}"
+                           Margin="0"
+                           LineBreakMode="TailTruncation"
+                           TextColor="{StaticResource Primary}"
+                           Shadow="{StaticResource CaloriesGlow}"
+                           HorizontalOptions="Center" />
+                    <Label Text="{maui:Translate Nutrient_Kcal}"
+                           Style="{StaticResource LabelBody}"
+                           FontSize="12"
+                           TextTransform="Uppercase"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="-4">
+                    <Label Text="{Binding CurrentCarbs, StringFormat='{0:F1}'}"
+                           Style="{StaticResource LabelH2}"
+                           Margin="0"
+                           LineBreakMode="TailTruncation"
+                           TextColor="{StaticResource CarbsColor}"
+                           Shadow="{StaticResource CarbsGlow}"
+                           HorizontalOptions="Center" />
+                    <Label Text="{maui:Translate Nutrient_Carbs}"
+                           Style="{StaticResource LabelBody}"
+                           FontSize="12"
+                           TextTransform="Uppercase"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="2" Spacing="-4">
+                    <Label Text="{Binding CurrentProtein, StringFormat='{0:F1}'}"
+                           Style="{StaticResource LabelH2}"
+                           Margin="0"
+                           LineBreakMode="TailTruncation"
+                           TextColor="{StaticResource ProteinColor}"
+                           Shadow="{StaticResource ProteinGlow}"
+                           HorizontalOptions="Center" />
+                    <Label Text="{maui:Translate Nutrient_Protein}"
+                           Style="{StaticResource LabelBody}"
+                           FontSize="12"
+                           TextTransform="Uppercase"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="3" Spacing="-4">
+                    <Label Text="{Binding CurrentFat, StringFormat='{0:F1}'}"
+                           Style="{StaticResource LabelH2}"
+                           Margin="0"
+                           LineBreakMode="TailTruncation"
+                           TextColor="{StaticResource FatColor}"
+                           Shadow="{StaticResource FatGlow}"
+                           HorizontalOptions="Center" />
+                    <Label Text="{maui:Translate Nutrient_Fat}"
+                           Style="{StaticResource LabelBody}"
+                           FontSize="12"
+                           TextTransform="Uppercase"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*, 3*" ColumnSpacing="-2">
+
+                <Border Grid.Column="0" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 16,0,16,0">
+                    <Entry Text="{Binding InputAmount, TargetNullValue='0'}"
+                           Keyboard="Numeric"
+                           Placeholder="{Binding SelectedServing.MetricAmount}"
+                           HorizontalTextAlignment="Center">
+                        <Entry.Behaviors>
+                            <behaviors:PositiveOnlyBehavior />
+                        </Entry.Behaviors>
+                    </Entry>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 0,16,0,16">
+                    <Picker x:Name="UnitPicker"
+                            IsEnabled="False"
+                            ItemsSource="{Binding SelectedFoodDetail.Servings}"
+                            ItemDisplayBinding="{Binding MetricUnit}"
+                            SelectedItem="{Binding SelectedServing}"
+                            Title="{maui:Translate Details_Unit}" />
+                </Border>
+            </Grid>
+
+            <Button ImageSource="add.svg"
+                    Text="{maui:Translate Action_Add}"
+                    Command="{Binding SaveFoodCommand}" />
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

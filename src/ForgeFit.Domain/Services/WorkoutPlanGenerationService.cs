@@ -12,35 +12,35 @@ public class WorkoutPlanGenerationService : IWorkoutPlanGenerationService
 {
     private const double MaintenanceRate = 0.15;
     private const double ModerateRate = 0.35;
-    
+
     public WorkoutPlan GenerateWorkoutPlan(UserProfile userProfile, BodyGoal bodyGoal)
     {
         var weightKg = userProfile.Weight.ToKg().Value;
         var goalWeightKg = bodyGoal.WeightGoal.ToKg().Value;
         var age = userProfile.DateOfBirth.GetAge();
-        
+
         ValidateGoalRealism(weightKg, goalWeightKg, bodyGoal.DueDate, bodyGoal.GoalType);
-        
+
         var weeksToGoal = CalculateWeeksToGoal(bodyGoal.DueDate);
-        
+
         var weightChangePerWeek = CalculateWeightChangePerWeek(
-            weightKg, 
-            goalWeightKg, 
+            weightKg,
+            goalWeightKg,
             weeksToGoal);
-        
-        var workoutsPerWeek = CalculateWorkoutsPerWeek(age, 
+
+        var workoutsPerWeek = CalculateWorkoutsPerWeek(age,
             weightChangePerWeek);
-        
+
         var recommendedDuration = CalculateRecommendedDuration(
-            bodyGoal.GoalType, 
-            age, 
+            bodyGoal.GoalType,
+            age,
             weightChangePerWeek);
-        
+
         var workoutType = SetWorkoutType(bodyGoal);
-        
+
         return new WorkoutPlan(workoutsPerWeek, recommendedDuration, workoutType);
     }
-    
+
     private static void ValidateGoalRealism(double current, double target, DateTime? date, GoalType type)
     {
         if (!date.HasValue) return;
@@ -62,7 +62,7 @@ public class WorkoutPlanGenerationService : IWorkoutPlanGenerationService
     private static int? CalculateWeeksToGoal(DateTime? dueDate)
     {
         if (!dueDate.HasValue) return null;
-        
+
         var days = (dueDate.Value.Date - DateTime.UtcNow.Date).TotalDays;
         return days > 0 ? (int)Math.Ceiling(days / 7.0) : null;
     }
@@ -72,7 +72,7 @@ public class WorkoutPlanGenerationService : IWorkoutPlanGenerationService
         if (weeks is null or <= 0) return null;
         return Math.Abs(target - current) / weeks;
     }
-    
+
     private static int CalculateWorkoutsPerWeek(int age, double? ratePerWeek)
     {
         var rate = ratePerWeek ?? 0.25;
@@ -83,7 +83,7 @@ public class WorkoutPlanGenerationService : IWorkoutPlanGenerationService
             <= ModerateRate => 3,
             _ => 4
         };
-        
+
         switch (age)
         {
             case < 25 when rate > ModerateRate:
@@ -106,16 +106,16 @@ public class WorkoutPlanGenerationService : IWorkoutPlanGenerationService
 
         var minutes = 60;
 
-        if (goalType == GoalType.MuscleGain) 
+        if (goalType == GoalType.MuscleGain)
             minutes = 75;
-        
-        if (rate <= MaintenanceRate) 
+
+        if (rate <= MaintenanceRate)
             minutes -= 15;
-        
-        if (goalType == GoalType.FatLoss && rate > ModerateRate) 
+
+        if (goalType == GoalType.FatLoss && rate > ModerateRate)
             minutes += 15;
-        
-        if (age > 50) 
+
+        if (age > 50)
             minutes -= 10;
 
         return TimeSpan.FromMinutes(Math.Clamp(minutes, 30, 120));

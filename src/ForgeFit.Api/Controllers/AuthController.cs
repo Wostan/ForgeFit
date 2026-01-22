@@ -25,7 +25,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             return Conflict(e.Message);
         }
     }
-    
+
     [HttpPost("sign-in")]
     [ProducesResponseType(typeof(UserSignInResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,7 +42,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             return Unauthorized(e.Message);
         }
     }
-    
+
     [HttpPost("check-email")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -50,7 +50,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         return Ok(await authService.CheckEmailAsync(request));
     }
-    
+
     [HttpPost("refresh-token")]
     [ProducesResponseType(typeof(UserSignInResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using ForgeFit.Application.DTOs.User;
 using ForgeFit.Domain.Enums.ProfileEnums;
+using ForgeFit.Domain.ValueObjects.UserValueObjects;
 
 namespace ForgeFit.Api.Validations.User;
 
 public class UserProfileDtoValidator : AbstractValidator<UserProfileDto>
 {
-    public UserProfileDtoValidator() 
+    public UserProfileDtoValidator()
     {
         RuleFor(x => x.Username)
             .NotEmpty().WithMessage("Username is required.")
@@ -19,16 +20,16 @@ public class UserProfileDtoValidator : AbstractValidator<UserProfileDto>
 
         RuleFor(x => x.DateOfBirth)
             .NotEmpty().WithMessage("Date of birth is required.")
-            .LessThan(DateTime.UtcNow.AddYears(-6)).WithMessage("You must be at least 6 years old.")
-            .GreaterThan(DateTime.UtcNow.AddYears(-100)).WithMessage("Please enter a valid date of birth.");
-        
+            .LessThan(DateOfBirth.LatestBirthDate)
+            .GreaterThan(DateOfBirth.EarliestBirthDate).WithMessage("You must be between 13 and 100 years old.");
+
         RuleFor(x => x.Gender).IsInEnum();
-        
+
         RuleFor(x => x.WeightUnit).IsInEnum();
         RuleFor(x => x.Weight)
             .InclusiveBetween(30, 300).When(x => x.WeightUnit == WeightUnit.Kg)
             .InclusiveBetween(66, 660).When(x => x.WeightUnit == WeightUnit.Lb);
-        
+
         RuleFor(x => x.HeightUnit).IsInEnum();
         RuleFor(x => x.Height)
             .InclusiveBetween(100, 250).When(x => x.HeightUnit == HeightUnit.Cm)

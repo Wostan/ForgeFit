@@ -12,7 +12,7 @@ public class PerformedSet : ValueObject
         SetWeight(weight);
         IsCompleted = isCompleted;
     }
-    
+
     private PerformedSet()
     {
     }
@@ -21,22 +21,16 @@ public class PerformedSet : ValueObject
     public int Reps { get; private set; }
     public Weight Weight { get; private set; }
     public bool IsCompleted { get; private set; }
-    
+
     private void SetOrder(int order)
     {
-        if (order < 0)
-        {
-            throw new DomainValidationException("Order cannot be negative.");
-        }
+        if (order < 0) throw new DomainValidationException("Order cannot be negative.");
         Order = order;
     }
 
     private void SetReps(int reps)
     {
-        if (reps < 0)
-        {
-            throw new DomainValidationException("Reps cannot be negative.");
-        }
+        if (reps < 0) throw new DomainValidationException("Reps cannot be negative.");
         Reps = reps;
     }
 

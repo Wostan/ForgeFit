@@ -1,0 +1,48 @@
+﻿using ForgeFit.MAUI.ViewModels;
+using ForgeFit.MAUI.Views;
+using ForgeFit.MAUI.Views.Auth;
+using ForgeFit.MAUI.Views.Diary;
+using ForgeFit.MAUI.Views.Workout;
+
+namespace ForgeFit.MAUI.Extensions;
+
+public static class PresentationExtensions
+{
+    public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
+    {
+        builder.Services.AddTransient<RegistrationPageViewModel>();
+        builder.Services.AddTransient<LoginPageViewModel>();
+
+        builder.Services.AddTransient<DiaryPageViewModel>();
+        builder.Services.AddTransient<MealDetailsPageViewModel>();
+        builder.Services.AddTransient<FoodSearchPageViewModel>();
+
+        builder.Services.AddTransient<WorkoutPageViewModel>();
+        builder.Services.AddTransient<ActiveWorkoutPageViewModel>();
+        builder.Services.AddTransient<ExerciseSearchPageViewModel>();
+        builder.Services.AddTransient<WorkoutProgramEditorPageViewModel>();
+
+        builder.Services.AddTransient<ProfilePageViewModel>();
+
+        return builder;
+    }
+
+    public static MauiAppBuilder RegisterViews(this MauiAppBuilder builder)
+    {
+        builder.Services.AddTransient<RegistrationPageView>();
+        builder.Services.AddTransient<LoginPageView>();
+
+        builder.Services.AddTransient<DiaryPageView>();
+        builder.Services.AddTransient<MealDetailsPageView>();
+        builder.Services.AddTransient<FoodSearchPageView>();
+
+        builder.Services.AddTransient<WorkoutPageView>();
+        builder.Services.AddTransient<ActiveWorkoutPageView>();
+        builder.Services.AddTransient<ExerciseSearchPageView>();
+        builder.Services.AddTransient<WorkoutProgramEditorPageView>();
+
+        builder.Services.AddTransient<ProfilePageView>();
+
+        return builder;
+    }
+}

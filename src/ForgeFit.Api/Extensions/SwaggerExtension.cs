@@ -13,12 +13,12 @@ public static class SwaggerExtensions
                 Title = "ForgeFit API",
                 Version = "v1"
             });
-            
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = """
                               JWT Authorization header using the Bearer scheme.
-                              
+
                               Enter 'Bearer' [space] and then your token in the text input below.
                               Example: "Bearer 12345abcdef"
                               """,
@@ -28,7 +28,7 @@ public static class SwaggerExtensions
                 Scheme = "Bearer"
             });
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme
@@ -40,7 +40,7 @@ public static class SwaggerExtensions
                         },
                         Scheme = "oauth2",
                         Name = "Bearer",
-                        In = ParameterLocation.Header,
+                        In = ParameterLocation.Header
                     },
                     new List<string>()
                 }

@@ -13,24 +13,23 @@ public static class ServiceCollectionExtension
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        
+
         return services;
     }
-    
-    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services,
+        IConfiguration configuration)
     {
         var jwtSection = configuration.GetSection("JwtSettings");
-    
+
         services.Configure<JwtSettings>(jwtSection);
 
         var jwtSettings = jwtSection.Get<JwtSettings>();
 
         if (jwtSettings is null)
-        {
             throw new InvalidOperationException("JwtSettings section is missing in configuration.");
-        }
 
-        services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -39,22 +38,22 @@ public static class ServiceCollectionExtension
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    
+
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
-                    
+
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
                 };
             });
 
         return services;
     }
-    
+
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddInfrastructureServices(configuration);
     }
-    
+
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddApplicationServices();
