@@ -21,10 +21,10 @@ public class BodyGoalConfiguration : IEntityTypeConfiguration<BodyGoal>
         // Properties
         builder.Property(bg => bg.Title)
             .IsRequired()
-            .HasMaxLength(20);
+            .HasMaxLength(100);
 
         builder.Property(bg => bg.Description)
-            .HasMaxLength(100);
+            .HasMaxLength(500);
 
         builder.Property(bg => bg.GoalType)
             .HasConversion<int>()

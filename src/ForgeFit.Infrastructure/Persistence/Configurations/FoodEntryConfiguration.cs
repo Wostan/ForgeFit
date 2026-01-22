@@ -10,10 +10,10 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
     {
         builder.ToTable("FoodEntries", tableBuilder =>
         {
-            tableBuilder.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories > 0");
-            tableBuilder.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs > 0");
-            tableBuilder.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein > 0");
-            tableBuilder.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat > 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat >= 0");
             tableBuilder.HasCheckConstraint("CK_FoodEntries_DayTimeCheck", "DayTime IN (1, 2, 3, 4)");
         });
 
@@ -45,10 +45,10 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
         {
             item.ToTable("FoodItems", tableBuilder =>
             {
-                tableBuilder.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories > 0");
-                tableBuilder.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0");
-                tableBuilder.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0");
-                tableBuilder.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat >= 0");
                 tableBuilder.HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
             });
 

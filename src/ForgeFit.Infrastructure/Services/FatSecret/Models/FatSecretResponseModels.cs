@@ -3,11 +3,29 @@ using ForgeFit.Infrastructure.Services.FatSecret.Converters;
 
 namespace ForgeFit.Infrastructure.Services.FatSecret.Models;
 
-internal record FatSecretSearchResponse(
-    [property: JsonPropertyName("foods")] FatSecretSearchContainer? FoodsContainer
+internal record FatSecretRecognitionRoot(
+    [property: JsonPropertyName("food_response")] 
+    List<FatSecretRecognitionItem>? FoodResponse
 );
 
-internal record FatSecretSearchContainer(
+internal record FatSecretRecognitionItem(
+    [property: JsonPropertyName("food_id")] 
+    long FoodId,
+    [property: JsonPropertyName("food_entry_name")] 
+    string FoodEntryName,
+    [property: JsonPropertyName("food")] 
+    FatSecretDetailedFood? Food
+);
+
+internal record FatSecretSearchRoot(
+    [property: JsonPropertyName("foods_search")] FatSecretSearchResponse? SearchResponse
+);
+
+internal record FatSecretSearchResponse(
+    [property: JsonPropertyName("results")] FatSecretSearchResults? Results
+);
+
+internal record FatSecretSearchResults(
     [property: JsonPropertyName("food")]
     [property: JsonConverter(typeof(SingleOrArrayConverter<FatSecretSearchFoodItem>))]
     List<FatSecretSearchFoodItem>? Food
@@ -20,8 +38,14 @@ internal record FatSecretSearchFoodItem(
     string FoodName,
     [property: JsonPropertyName("brand_name")]
     string? BrandName,
-    [property: JsonPropertyName("food_description")]
-    string FoodDescription
+    [property: JsonPropertyName("servings")] 
+    FatSecretSearchServingsContainer? Servings
+);
+
+internal record FatSecretSearchServingsContainer(
+    [property: JsonPropertyName("serving")]
+    [property: JsonConverter(typeof(SingleOrArrayConverter<FatSecretServing>))]
+    List<FatSecretServing>? Serving
 );
 
 internal record FatSecretGetResponse(

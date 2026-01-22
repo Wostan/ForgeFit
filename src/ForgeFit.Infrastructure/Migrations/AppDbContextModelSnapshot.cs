@@ -96,15 +96,15 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("FoodEntries", null, t =>
                         {
-                            t.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_CaloriesCheck", "Calories >= 0");
 
-                            t.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs >= 0");
 
                             t.HasCheckConstraint("CK_FoodEntries_DayTimeCheck", "DayTime IN (1, 2, 3, 4)");
 
-                            t.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat >= 0");
 
-                            t.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein > 0");
+                            t.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein >= 0");
                         });
                 });
 
@@ -120,8 +120,8 @@ namespace ForgeFit.Infrastructure.Migrations
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
@@ -134,8 +134,8 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -436,7 +436,6 @@ namespace ForgeFit.Infrastructure.Migrations
             modelBuilder.Entity("ForgeFit.Domain.Aggregates.WorkoutAggregate.WorkoutSet", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Order")
@@ -466,7 +465,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                             t.HasCheckConstraint("CK_WorkoutSet_RepsCheck", "Reps > 0");
 
-                            t.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue > 0");
+                            t.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue >= 0");
 
                             t.HasCheckConstraint("CK_WorkoutSets_WeightUnitCheck", "WeightUnit IN (1, 2)");
                         });
@@ -543,13 +542,13 @@ namespace ForgeFit.Infrastructure.Migrations
                                 {
                                     t.HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories >= 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs >= 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat >= 0");
 
-                                    t.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein >= 0");
                                 });
 
                             b1.WithOwner()

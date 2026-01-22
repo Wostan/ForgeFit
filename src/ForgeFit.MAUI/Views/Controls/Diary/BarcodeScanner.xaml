@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scanner="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="ForgeFit.MAUI.Views.Controls.Diary.BarcodeScanner"
+             x:DataType="local:FoodSearchPageViewModel"
+             BackgroundColor="#90000000"
+             InputTransparent="False">
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding ToggleScannerCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Margin="20"
+            StrokeThickness="3">
+
+        <Grid RowDefinitions="Auto, 175" BackgroundColor="{StaticResource Surface}">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer />
+            </Grid.GestureRecognizers>
+
+            <controls:NavigationHeader Grid.Row="0"
+                                       Title="{maui:Translate Search_Barcode}"
+                                       BackCommand="{Binding ToggleScannerCommand}"
+                                       Margin="0,-45,0,-20"
+                                       ZIndex="2" />
+
+            <scanner:CameraBarcodeReaderView Grid.Row="1"
+                                             x:Name="CameraView"
+                                             IsVisible="True"
+                                             IsTorchOn="{Binding IsTorchOn}"
+                                             BarcodesDetected="CameraView_OnBarcodesDetected" />
+
+            <BoxView Grid.Row="0" Grid.RowSpan="2"
+                     x:Name="CameraCurtain"
+                     Color="{StaticResource Surface}"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill"
+                     ZIndex="1" />
+
+            <Image Grid.Row="1" ZIndex="2"
+                   Source="frame.svg"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   WidthRequest="200"
+                   HeightRequest="200"
+                   Opacity="0.75"
+                   InputTransparent="True">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="White" />
+                </Image.Behaviors>
+            </Image>
+
+            <Image Grid.Row="1" ZIndex="2"
+                   Source="barcode.svg"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   WidthRequest="120"
+                   HeightRequest="120"
+                   Opacity="0.5"
+                   InputTransparent="True">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="White" />
+                </Image.Behaviors>
+            </Image>
+
+            <Button Grid.Row="1" ZIndex="2"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="light_off.svg"
+                    Margin="8"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Shadow="{StaticResource TextShadow}"
+                    Command="{Binding ToggleTorchCommand}"
+                    AutomationProperties.Name="Turn flashlight on">
+
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="White" />
+                </Button.Behaviors>
+
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding IsTorchOn}"
+                                 Value="True">
+                        <Setter Property="ImageSource" Value="light_on.svg" />
+                        <Setter Property="AutomationProperties.Name" Value="Turn flashlight off" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+        </Grid>
+    </Border>
+</ContentView>

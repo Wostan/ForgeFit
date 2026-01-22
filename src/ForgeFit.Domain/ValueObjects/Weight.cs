@@ -17,8 +17,8 @@ public class Weight : ValueObject
 
     private void SetWeight(double weight)
     {
-        if (weight <= 0)
-            throw new DomainValidationException("Weight must be greater than 0.");
+        if (weight < 0)
+            throw new DomainValidationException("Weight must be positive.");
 
         Value = weight;
     }

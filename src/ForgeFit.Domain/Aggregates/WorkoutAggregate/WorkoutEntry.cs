@@ -75,10 +75,18 @@ public class WorkoutEntry : Entity
             throw new DomainValidationException("PerformedExercises cannot be empty.");
         _performedExercises.AddRange(performedExercises);
     }
+    
+    public void UpdatePerformedExercises(ICollection<PerformedExercise> performedExercises)
+    {
+        if (performedExercises is null || performedExercises.Count == 0)
+            throw new DomainValidationException("PerformedExercises cannot be empty.");
+        _performedExercises.Clear();
+        _performedExercises.AddRange(performedExercises);
+    }
 
     public void Update(Schedule schedule, ICollection<PerformedExercise> performedExercises)
     {
         SetSchedule(schedule);
-        SetPerformedExercises(performedExercises);
+        UpdatePerformedExercises(performedExercises);
     }
 }

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="ForgeFit.MAUI.Views.Controls.Profile.EditNutritionGoalPopup"
+             BackgroundColor="#90000000">
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding CloseEditNutritionCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Border Style="{StaticResource CardStyle}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Margin="20">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <VerticalStackLayout Spacing="12" Padding="20">
+            <Label Style="{StaticResource LabelBody}"
+                   TextColor="{StaticResource TextPrimary}"
+                   HorizontalOptions="Center"
+                   Text="{maui:Translate Profile_NutritionGoal}" />
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource LabelBody}"
+                       Text="{maui:Translate Nutrient_Calories}"
+                       FontSize="12"
+                       TextColor="{StaticResource TextSecondary}" />
+                <Border Style="{StaticResource InputWrapper}">
+                    <Entry Text="{Binding EditCalories}"
+                           Placeholder="{Binding NutritionGoalCalories}"
+                           Keyboard="Numeric"
+                           HorizontalTextAlignment="Center">
+                        <Entry.Behaviors>
+                            <behaviors:PositiveOnlyBehavior />
+                        </Entry.Behaviors>
+                    </Entry>
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource LabelBody}"
+                           Text="{maui:Translate Nutrient_Carbs}"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center" />
+                    <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                        <Entry Text="{Binding EditCarbs}"
+                               Placeholder="{Binding NutritionGoalCarbs}"
+                               Keyboard="Numeric"
+                               HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <behaviors:PositiveOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource LabelBody}"
+                           Text="{maui:Translate Nutrient_Protein}"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center" />
+                    <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                        <Entry Text="{Binding EditProtein}"
+                               Placeholder="{Binding NutritionGoalProtein}"
+                               Keyboard="Numeric"
+                               HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <behaviors:PositiveOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2">
+                    <Label Style="{StaticResource LabelBody}"
+                           Text="{maui:Translate Nutrient_Fat}"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center" />
+                    <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                        <Entry Text="{Binding EditFat}"
+                               Placeholder="{Binding NutritionGoalFat}"
+                               Keyboard="Numeric"
+                               HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <behaviors:PositiveOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource LabelBody}"
+                       Text="{maui:Translate Nutrient_Water}"
+                       FontSize="12"
+                       TextColor="{StaticResource TextSecondary}" />
+                <Border Style="{StaticResource InputWrapper}">
+                    <Entry Text="{Binding EditWater}"
+                           Placeholder="{Binding NutritionGoalVolumeMl}"
+                           Keyboard="Numeric"
+                           HorizontalTextAlignment="Center">
+                        <Entry.Behaviors>
+                            <behaviors:PositiveOnlyBehavior />
+                        </Entry.Behaviors>
+                    </Entry>
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                <Button Grid.Column="0"
+                        Style="{StaticResource SecondaryButton}"
+                        Text="{maui:Translate Action_Cancel}"
+                        Command="{Binding CloseEditNutritionCommand}" />
+                <Button Grid.Column="1" ImageSource="check.svg" Text="{maui:Translate Action_Save}"
+                        Command="{Binding SaveNutritionCommand}" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

@@ -54,7 +54,7 @@ public class GoalController(IGoalService goalService) : ControllerBase
     [ProducesResponseType(typeof(BodyGoalResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<BodyGoalResponse>> GeneratePlan([FromBody] BodyGoalCreateRequest request)
+    public async Task<ActionResult<BodyGoalResponse>> CreateBodyGoal([FromBody] BodyGoalCreateRequest request)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var goal = await goalService.CreateBodyGoalAsync(userId, request);

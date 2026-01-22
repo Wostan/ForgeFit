@@ -69,16 +69,16 @@ public class BodyGoal : Entity, ITimeFields
         if (string.IsNullOrWhiteSpace(title))
             throw new DomainValidationException("Title cannot be null or whitespace.");
 
-        if (title.Length > 20)
-            throw new DomainValidationException("Title must be less than 20 characters long.");
+        if (title.Length > 100)
+            throw new DomainValidationException("Title must be less than 100 characters long.");
 
         Title = title;
     }
 
     private void SetDescription(string? description)
     {
-        if (description is not null && description.Length > 100)
-            throw new DomainValidationException("Description must be less than 100 characters long.");
+        if (description is not null && description.Length > 500)
+            throw new DomainValidationException("Description must be less than 500 characters long.");
 
         Description = description;
     }

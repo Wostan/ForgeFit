@@ -16,7 +16,6 @@ public class WorkoutProgramRequestValidator : AbstractValidator<WorkoutProgramRe
 
         RuleFor(x => x.WorkoutExercisePlans)
             .NotNull()
-            .Must(x => x.Count > 0).WithMessage("Program must contain at least one exercise.")
             .Must(x => x.Count <= 50).WithMessage("Program cannot have more than 50 exercises.");
 
         RuleForEach(x => x.WorkoutExercisePlans).SetValidator(new WorkoutExercisePlanDtoValidator());

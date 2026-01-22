@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="ForgeFit.MAUI.Views.Controls.StateContainer">
+    <ContentView.ControlTemplate>
+        <ControlTemplate>
+            <Grid>
+                <ContentPresenter Grid.Row="0"
+                                  Opacity="{Binding IsContentVisible, Source={RelativeSource TemplatedParent}, Converter={toolkit:BoolToObjectConverter TrueObject=1, FalseObject=0}}" />
+
+                <Grid IsVisible="{Binding IsLoading, Source={RelativeSource TemplatedParent}}"
+                      ZIndex="100">
+                    <ActivityIndicator IsRunning="{Binding IsLoading, Source={RelativeSource TemplatedParent}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       WidthRequest="60"
+                                       HeightRequest="60" />
+                </Grid>
+
+                <Grid IsVisible="{Binding IsError, Source={RelativeSource TemplatedParent}}"
+                      Padding="20"
+                      ZIndex="99">
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="6">
+
+                        <Image Source="error_circle.svg"
+                               WidthRequest="80"
+                               HeightRequest="80"
+                               Shadow="{StaticResource DangerGlow}">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource DangerColor}" />
+                            </Image.Behaviors>
+                        </Image>
+
+                        <Label Text="{maui:Translate Error_Oops}"
+                               Style="{StaticResource LabelH1}"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Text="{Binding ErrorMessage, Source={RelativeSource TemplatedParent}}"
+                               Style="{StaticResource LabelBody}"
+                               LineHeight="1"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource TextSecondary}" />
+
+                        <Button Text="{maui:Translate Action_Retry}"
+                                Command="{Binding RetryCommand, Source={RelativeSource TemplatedParent}}"
+                                ImageSource="refresh.svg"
+                                HorizontalOptions="Center"
+                                Margin="0,16,0,0" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>

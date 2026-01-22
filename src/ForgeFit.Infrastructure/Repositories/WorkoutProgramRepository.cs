@@ -43,6 +43,8 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
     public async Task<List<WorkoutProgram>> GetAllByUserIdAsync(Guid userId)
     {
         return await context.WorkoutPrograms
+            .Include(wp => wp.WorkoutExercisePlans)
+            .ThenInclude(wep => wep.WorkoutSets)
             .Where(wp => wp.UserId == userId)
             .OrderByDescending(wp => wp.CreatedAt)
             .ToListAsync();
@@ -52,6 +54,8 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
         string workoutProgramName)
     {
         return await context.WorkoutPrograms
+            .Include(wp => wp.WorkoutExercisePlans)
+            .ThenInclude(wep => wep.WorkoutSets)
             .Where(wp => wp.UserId == userId && wp.Name.Contains(workoutProgramName))
             .OrderByDescending(wp => wp.CreatedAt)
             .ToListAsync();
