@@ -382,7 +382,7 @@
         <value>Тренувань на тиждень має бути від 1 до 7</value>
     </data>
     <data name="Action_Confirm" xml:space="preserve">
-        <value>Підтвердити</value>
+        <value>Так</value>
     </data>
     <data name="Error_DeadlineTooClose" xml:space="preserve">
         <value>Дедлайн занадто близько (мін. 7 днів)</value>
