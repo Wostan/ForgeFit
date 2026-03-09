@@ -6,8 +6,11 @@ namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
 public class WorkoutProgram : Entity, ITimeFields
 {
+    #region Private Fields
     private readonly List<WorkoutExercisePlan> _workoutExercisePlans = [];
+    #endregion
 
+    #region Constructors
     internal WorkoutProgram(
         Guid userId,
         string name,
@@ -26,18 +29,24 @@ public class WorkoutProgram : Entity, ITimeFields
     private WorkoutProgram()
     {
     }
+    #endregion
 
+    #region Public Properties
     public Guid UserId { get; private set; }
     public string Name { get; private set; }
     public string? Description { get; private set; }
     public bool IsDeleted { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    #endregion
 
+    #region Navigation Properties
     public User User { get; private set; }
     public IReadOnlyCollection<WorkoutExercisePlan> WorkoutExercisePlans => _workoutExercisePlans.AsReadOnly();
     public ICollection<WorkoutEntry> WorkoutEntries { get; private set; }
+    #endregion
 
+    #region Factory Methods
     public static WorkoutProgram Create(
         Guid userId,
         string name,
@@ -47,7 +56,38 @@ public class WorkoutProgram : Entity, ITimeFields
     {
         return new WorkoutProgram(userId, name, description, workoutExercises);
     }
+    #endregion
 
+    #region Domain Methods
+    public void UpdateDetails(string name, string? description)
+    {
+        SetName(name);
+        SetDescription(description);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddExercisePlan(WorkoutExercisePlan plan)
+    {
+        if (plan is null) throw new DomainValidationException("Plan cannot be null.");
+        _workoutExercisePlans.Add(plan);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RemoveExercisePlan(WorkoutExercisePlan plan)
+    {
+        _workoutExercisePlans.Remove(plan);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SoftDelete()
+    {
+        if (IsDeleted) throw new DomainValidationException("Workout program is already deleted.");
+        IsDeleted = true;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    #endregion
+
+    #region Private Setters
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty) throw new DomainValidationException("UserId cannot be empty.");
@@ -75,31 +115,5 @@ public class WorkoutProgram : Entity, ITimeFields
         _workoutExercisePlans.Clear();
         _workoutExercisePlans.AddRange(workoutExercises);
     }
-
-    public void UpdateDetails(string name, string? description)
-    {
-        SetName(name);
-        SetDescription(description);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void AddExercisePlan(WorkoutExercisePlan plan)
-    {
-        if (plan is null) throw new DomainValidationException("Plan cannot be null.");
-        _workoutExercisePlans.Add(plan);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void RemoveExercisePlan(WorkoutExercisePlan plan)
-    {
-        _workoutExercisePlans.Remove(plan);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void SoftDelete()
-    {
-        if (IsDeleted) throw new DomainValidationException("Workout program is already deleted.");
-        IsDeleted = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
+    #endregion
 }

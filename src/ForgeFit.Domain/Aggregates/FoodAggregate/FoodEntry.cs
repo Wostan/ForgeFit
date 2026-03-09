@@ -8,8 +8,11 @@ namespace ForgeFit.Domain.Aggregates.FoodAggregate;
 
 public class FoodEntry : Entity, ITimeFields
 {
+    #region Private Fields
     private readonly HashSet<FoodItem> _foodItems = [];
+    #endregion
 
+    #region Constructors
     internal FoodEntry(
         Guid userId,
         DayTime dayTime,
@@ -27,7 +30,9 @@ public class FoodEntry : Entity, ITimeFields
     private FoodEntry()
     {
     }
+    #endregion
 
+    #region Public Properties
     public Guid UserId { get; private set; }
     public double Calories { get; private set; }
     public double Carbs { get; private set; }
@@ -37,16 +42,31 @@ public class FoodEntry : Entity, ITimeFields
     public DateTime Date { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    #endregion
 
-    // Navigation properties
+    #region Navigation Properties
     public User User { get; private set; }
     public IReadOnlyCollection<FoodItem> FoodItems => _foodItems;
+    #endregion
 
+    #region Factory Methods
     public static FoodEntry Create(Guid userId, DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
     {
         return new FoodEntry(userId, dayTime, date, foodItems);
     }
+    #endregion
 
+    #region Domain Methods
+    public void Update(DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
+    {
+        SetDayTime(dayTime);
+        SetDate(date);
+        SetFoodItems(foodItems);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    #endregion
+
+    #region Private Setters
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
@@ -77,20 +97,12 @@ public class FoodEntry : Entity, ITimeFields
         RecalculateTotals();
     }
 
-    public void Update(DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
-    {
-        SetDayTime(dayTime);
-        SetDate(date);
-        SetFoodItems(foodItems);
-    }
-
     private void RecalculateTotals()
     {
         Calories = FoodItems.Sum(i => i.Calories);
         Carbs = FoodItems.Sum(i => i.Carbs);
         Protein = FoodItems.Sum(i => i.Protein);
         Fat = FoodItems.Sum(i => i.Fat);
-
-        UpdatedAt = DateTime.UtcNow;
     }
+    #endregion
 }

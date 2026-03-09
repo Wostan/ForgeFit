@@ -6,8 +6,11 @@ namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
 public class WorkoutExercisePlan : Entity, ITimeFields
 {
+    #region Private Fields
     private readonly List<WorkoutSet> _workoutSets = [];
+    #endregion
 
+    #region Constructors
     internal WorkoutExercisePlan(
         Guid workoutProgramId,
         WorkoutExercise workoutExercise,
@@ -23,15 +26,21 @@ public class WorkoutExercisePlan : Entity, ITimeFields
     private WorkoutExercisePlan()
     {
     }
+    #endregion
 
+    #region Public Properties
     public Guid WorkoutProgramId { get; private set; }
     public WorkoutExercise WorkoutExercise { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    #endregion
 
+    #region Navigation Properties
     public WorkoutProgram WorkoutProgram { get; private set; }
     public IReadOnlyCollection<WorkoutSet> WorkoutSets => _workoutSets.AsReadOnly();
+    #endregion
 
+    #region Factory Methods
     public static WorkoutExercisePlan Create(
         Guid workoutProgramId,
         WorkoutExercise workoutExercise,
@@ -40,26 +49,9 @@ public class WorkoutExercisePlan : Entity, ITimeFields
     {
         return new WorkoutExercisePlan(workoutProgramId, workoutExercise, workoutSets);
     }
+    #endregion
 
-    private void SetWorkoutProgramId(Guid workoutProgramId)
-    {
-        if (workoutProgramId == Guid.Empty) throw new DomainValidationException("WorkoutProgramId required");
-        WorkoutProgramId = workoutProgramId;
-    }
-
-    private void SetWorkoutExercise(WorkoutExercise workoutExercise)
-    {
-        WorkoutExercise = workoutExercise ?? throw new DomainValidationException("WorkoutExercise cannot be null");
-    }
-
-    private void SetWorkoutSets(ICollection<WorkoutSet> workoutSets)
-    {
-        if (workoutSets is null) throw new DomainValidationException("Workout sets cannot be null.");
-
-        _workoutSets.Clear();
-        _workoutSets.AddRange(workoutSets);
-    }
-
+    #region Domain Methods
     public void UpdateWorkoutExercise(WorkoutExercise workoutExercise)
     {
         SetWorkoutExercise(workoutExercise);
@@ -78,4 +70,26 @@ public class WorkoutExercisePlan : Entity, ITimeFields
         _workoutSets.Remove(set);
         UpdatedAt = DateTime.UtcNow;
     }
+    #endregion
+
+    #region Private Setters
+    private void SetWorkoutProgramId(Guid workoutProgramId)
+    {
+        if (workoutProgramId == Guid.Empty) throw new DomainValidationException("WorkoutProgramId required");
+        WorkoutProgramId = workoutProgramId;
+    }
+
+    private void SetWorkoutExercise(WorkoutExercise workoutExercise)
+    {
+        WorkoutExercise = workoutExercise ?? throw new DomainValidationException("WorkoutExercise cannot be null");
+    }
+
+    private void SetWorkoutSets(ICollection<WorkoutSet> workoutSets)
+    {
+        if (workoutSets is null) throw new DomainValidationException("Workout sets cannot be null.");
+
+        _workoutSets.Clear();
+        _workoutSets.AddRange(workoutSets);
+    }
+    #endregion
 }

@@ -4,8 +4,12 @@ using ForgeFit.Domain.ValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
-public class WorkoutSet : Entity
+public class WorkoutSet : Entity, ITimeFields
 {
+    #region Private Fields
+    #endregion
+
+    #region Constructors
     private WorkoutSet()
     {
     }
@@ -26,17 +30,26 @@ public class WorkoutSet : Entity
         SetReps(reps);
         SetRestTime(restTime);
         SetWeight(weight);
+        CreatedAt = DateTime.UtcNow;
     }
+    #endregion
 
+    #region Public Properties
     public Guid UserId { get; private set; }
     public Guid WorkoutExercisePlanId { get; private set; }
     public int Order { get; private set; }
     public int Reps { get; private set; }
     public TimeSpan RestTime { get; private set; }
     public Weight Weight { get; private set; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime? UpdatedAt { get; set; }
+    #endregion
 
+    #region Navigation Properties
     public WorkoutExercisePlan WorkoutExercisePlan { get; private set; }
+    #endregion
 
+    #region Factory Methods
     public static WorkoutSet Create(
         Guid userId,
         Guid workoutExercisePlanId,
@@ -48,7 +61,20 @@ public class WorkoutSet : Entity
     {
         return new WorkoutSet(userId, workoutExercisePlanId, order, reps, restTime, weight);
     }
+    #endregion
 
+    #region Domain Methods
+    public void Update(int order, int reps, TimeSpan restTime, Weight weight)
+    {
+        SetOrder(order);
+        SetReps(reps);
+        SetRestTime(restTime);
+        SetWeight(weight);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    #endregion
+
+    #region Private Setters
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty) throw new DomainValidationException("UserId cannot be empty.");
@@ -83,12 +109,5 @@ public class WorkoutSet : Entity
     {
         Weight = weight ?? throw new DomainValidationException("Weight cannot be null");
     }
-
-    public void Update(int order, int reps, TimeSpan restTime, Weight weight)
-    {
-        SetOrder(order);
-        SetReps(reps);
-        SetRestTime(restTime);
-        SetWeight(weight);
-    }
+    #endregion
 }

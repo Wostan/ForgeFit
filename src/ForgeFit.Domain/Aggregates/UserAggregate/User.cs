@@ -7,6 +7,10 @@ namespace ForgeFit.Domain.Aggregates.UserAggregate;
 
 public class User : Entity, ITimeFields
 {
+    #region Private Fields
+    #endregion
+
+    #region Constructors
     internal User(UserProfile userProfile, Email email, string passwordHash)
     {
         SetUserProfile(userProfile);
@@ -18,33 +22,28 @@ public class User : Entity, ITimeFields
     private User()
     {
     }
+    #endregion
 
+    #region Public Properties
     public UserProfile UserProfile { get; private set; }
     public Email Email { get; private set; }
     public string PasswordHash { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    #endregion
 
+    #region Navigation Properties
+    // Navigation properties are handled by EF Core through collections in other entities
+    #endregion
+
+    #region Factory Methods
     public static User Create(UserProfile userProfile, Email email, string passwordHash)
     {
         return new User(userProfile, email, passwordHash);
     }
+    #endregion
 
-    private void SetUserProfile(UserProfile userProfile)
-    {
-        UserProfile = userProfile ?? throw new DomainValidationException("UserProfile cannot be null.");
-    }
-
-    private void SetEmail(Email email)
-    {
-        Email = email ?? throw new DomainValidationException("Email cannot be null.");
-    }
-
-    private void SetPasswordHash(string passwordHash)
-    {
-        PasswordHash = passwordHash ?? throw new DomainValidationException("PasswordHash cannot be null.");
-    }
-
+    #region Domain Methods
     public void UpdateUserProfile(UserProfile userProfile)
     {
         SetUserProfile(userProfile);
@@ -62,4 +61,22 @@ public class User : Entity, ITimeFields
         SetPasswordHash(passwordHash);
         UpdatedAt = DateTime.UtcNow;
     }
+    #endregion
+
+    #region Private Setters
+    private void SetUserProfile(UserProfile userProfile)
+    {
+        UserProfile = userProfile ?? throw new DomainValidationException("UserProfile cannot be null.");
+    }
+
+    private void SetEmail(Email email)
+    {
+        Email = email ?? throw new DomainValidationException("Email cannot be null.");
+    }
+
+    private void SetPasswordHash(string passwordHash)
+    {
+        PasswordHash = passwordHash ?? throw new DomainValidationException("PasswordHash cannot be null.");
+    }
+    #endregion
 }

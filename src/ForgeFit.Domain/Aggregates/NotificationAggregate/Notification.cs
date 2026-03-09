@@ -8,6 +8,10 @@ namespace ForgeFit.Domain.Aggregates.NotificationAggregate;
 
 public class Notification : Entity, ITimeFields
 {
+    #region Private Fields
+    #endregion
+
+    #region Constructors
     internal Notification(
         Guid userId,
         NotificationType notificationType,
@@ -29,7 +33,9 @@ public class Notification : Entity, ITimeFields
     private Notification()
     {
     }
+    #endregion
 
+    #region Public Properties
     public Guid UserId { get; private set; }
     public NotificationType NotificationType { get; private set; }
     public string Title { get; private set; }
@@ -39,10 +45,13 @@ public class Notification : Entity, ITimeFields
     public bool IsSent { get; private set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; set; }
+    #endregion
 
-    // Navigation properties
+    #region Navigation Properties
     public User User { get; private set; }
+    #endregion
 
+    #region Factory Methods
     public static Notification Create(
         Guid userId,
         NotificationType notificationType,
@@ -53,7 +62,32 @@ public class Notification : Entity, ITimeFields
     {
         return new Notification(userId, notificationType, title, body, frequency, scheduledAt);
     }
+    #endregion
 
+    #region Domain Methods
+    public void MarkAsSent()
+    {
+        if (IsSent)
+            throw new DomainValidationException("Notification is already marked as sent.");
+        IsSent = true;
+    }
+
+    public void UpdateInfo(
+        NotificationType notificationType,
+        string title,
+        string body,
+        Frequency frequency
+    )
+    {
+        SetNotificationType(notificationType);
+        SetTitle(title);
+        SetBody(body);
+        SetFrequency(frequency);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    #endregion
+
+    #region Private Setters
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
@@ -101,25 +135,5 @@ public class Notification : Entity, ITimeFields
     {
         ScheduledAt = scheduledAt;
     }
-
-    public void MarkAsSent()
-    {
-        if (IsSent)
-            throw new DomainValidationException("Notification is already marked as sent.");
-        IsSent = true;
-    }
-
-    public void UpdateInfo(
-        NotificationType notificationType,
-        string title,
-        string body,
-        Frequency frequency
-    )
-    {
-        SetNotificationType(notificationType);
-        SetTitle(title);
-        SetBody(body);
-        SetFrequency(frequency);
-        UpdatedAt = DateTime.UtcNow;
-    }
+    #endregion
 }
