@@ -44,7 +44,7 @@ public class WorkoutEntry : Entity, ITimeFields
     #region Navigation Properties
     public User User { get; private set; }
     public WorkoutProgram WorkoutProgram { get; private set; }
-    public ICollection<PerformedExercise> PerformedExercises => _performedExercises.AsReadOnly();
+    public IReadOnlyCollection<PerformedExercise> PerformedExercises => _performedExercises.AsReadOnly();
     #endregion
 
     #region Factory Methods

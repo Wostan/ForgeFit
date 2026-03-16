@@ -22,7 +22,6 @@ public class WorkoutSet : Entity, ITimeFields
         RestTime restTime
     )
     {
-        Id = Guid.NewGuid();
         SetUserId(userId);
         SetWorkoutExercisePlanId(workoutExercisePlanId);
         SetWorkoutSetInfo(workoutSetInfo);
