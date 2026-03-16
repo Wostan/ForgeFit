@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Primitives;
+using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Events.FoodEvents;
 
