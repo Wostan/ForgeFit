@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
@@ -6,6 +6,7 @@ using ForgeFit.Application.DTOs.Goal;
 using ForgeFit.Application.DTOs.Plan;
 using ForgeFit.Domain.Aggregates.GoalAggregate;
 using ForgeFit.Domain.Enums.GoalEnums;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives.Interfaces;
 using ForgeFit.Domain.ValueObjects;
@@ -65,7 +66,7 @@ public class PlanService(
                 plan.BodyGoal.Title,
                 plan.BodyGoal.Description,
                 plan.BodyGoal.DueDate,
-                new Weight(plan.BodyGoal.WeightGoal, plan.BodyGoal.WeightUnit),
+                plan.BodyGoal.WeightUnit == WeightUnit.Kg ? Weight.FromKg(plan.BodyGoal.WeightGoal) : Weight.FromLbs(plan.BodyGoal.WeightGoal),
                 plan.BodyGoal.GoalType);
         }
         else
@@ -74,7 +75,7 @@ public class PlanService(
                 userId,
                 plan.BodyGoal.Title,
                 plan.BodyGoal.Description,
-                new Weight(plan.BodyGoal.WeightGoal, plan.BodyGoal.WeightUnit),
+                plan.BodyGoal.WeightUnit == WeightUnit.Kg ? Weight.FromKg(plan.BodyGoal.WeightGoal) : Weight.FromLbs(plan.BodyGoal.WeightGoal),
                 plan.BodyGoal.DueDate,
                 plan.BodyGoal.GoalType,
                 GoalStatus.InProgress);
@@ -95,7 +96,7 @@ public class PlanService(
         {
             var nutritionGoal = NutritionGoal.Create(
                 userId,
-                new DailyNutritionPlan(
+                DailyNutritionPlan.Create(
                     plan.NutritionGoal.Calories,
                     plan.NutritionGoal.Carbs,
                     plan.NutritionGoal.Protein,

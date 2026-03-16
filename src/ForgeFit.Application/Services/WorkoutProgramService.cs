@@ -1,9 +1,10 @@
-﻿using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 using MapsterMapper;
@@ -104,10 +105,8 @@ public class WorkoutProgramService(
                         var newSet = WorkoutSet.Create(
                             userId,
                             existingPlan.Id,
-                            setDto.Order,
-                            setDto.Reps,
-                            setDto.RestTime,
-                            new Weight(setDto.Weight, setDto.WeightUnit)
+                            new WorkoutSetInfo(setDto.Order, setDto.Reps, setDto.WeightUnit == WeightUnit.Kg ? Weight.FromKg(setDto.Weight) : Weight.FromLbs(setDto.Weight)),
+                            RestTime.FromSeconds((int)setDto.RestTime.TotalSeconds)
                         );
 
                         existingPlan.AddSet(newSet);
@@ -115,10 +114,8 @@ public class WorkoutProgramService(
                     else
                     {
                         existingSet.Update(
-                            setDto.Order,
-                            setDto.Reps,
-                            setDto.RestTime,
-                            new Weight(setDto.Weight, setDto.WeightUnit)
+                            new WorkoutSetInfo(setDto.Order, setDto.Reps, setDto.WeightUnit == WeightUnit.Kg ? Weight.FromKg(setDto.Weight) : Weight.FromLbs(setDto.Weight)),
+                            RestTime.FromSeconds((int)setDto.RestTime.TotalSeconds)
                         );
                     }
                 }
@@ -167,10 +164,8 @@ public class WorkoutProgramService(
             var set = WorkoutSet.Create(
                 userId,
                 plan.Id,
-                sDto.Order,
-                sDto.Reps,
-                sDto.RestTime,
-                new Weight(sDto.Weight, sDto.WeightUnit)
+                new WorkoutSetInfo(sDto.Order, sDto.Reps, sDto.WeightUnit == WeightUnit.Kg ? Weight.FromKg(sDto.Weight) : Weight.FromLbs(sDto.Weight)),
+                RestTime.FromSeconds((int)sDto.RestTime.TotalSeconds)
             );
             plan.AddSet(set);
         }

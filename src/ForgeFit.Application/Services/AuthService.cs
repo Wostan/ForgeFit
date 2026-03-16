@@ -1,9 +1,10 @@
-﻿using ForgeFit.Application.Common.Exceptions.AuthExceptions;
+using ForgeFit.Application.Common.Exceptions.AuthExceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Auth;
 using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
 
@@ -23,11 +24,11 @@ public class AuthService(
 
         var passwordHash = passwordHasherService.HashPassword(request.Password);
 
-        var email = new Email(request.Email);
+        var email = Email.Create(request.Email);
         var avatarUri = string.IsNullOrWhiteSpace(request.Uri) ? null : new Uri(request.Uri);
-        var dateOfBirth = new DateOfBirth(request.DateOfBirth);
-        var weight = new Weight(request.Weight, request.WeightUnit);
-        var height = new Height(request.Height, request.HeightUnit);
+        var dateOfBirth = DateOfBirth.Create(request.DateOfBirth);
+        var weight = request.WeightUnit == WeightUnit.Kg ? Weight.FromKg(request.Weight) : Weight.FromLbs(request.Weight);
+        var height = request.HeightUnit == HeightUnit.Cm ? Height.FromCm(request.Height) : Height.FromInches(request.Height);
 
         var userProfile = new UserProfile(
             request.Username,

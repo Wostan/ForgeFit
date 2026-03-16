@@ -1,9 +1,10 @@
-﻿using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 using MapsterMapper;
@@ -22,7 +23,7 @@ public class WorkoutTrackingService(
 
         var performedExercises = GetPerformedFromDto(workoutEntryDto);
 
-        var schedule = new Schedule(workoutEntryDto.Start, workoutEntryDto.End);
+        var schedule = Schedule.Create(workoutEntryDto.Start, workoutEntryDto.End);
 
         var entry = WorkoutEntry.Create(
             userId,
@@ -45,7 +46,7 @@ public class WorkoutTrackingService(
 
         if (userId != entry.UserId) throw new UnauthorizedAccessException("You do not own this workout entry");
 
-        var schedule = new Schedule(workoutEntryDto.Start, workoutEntryDto.End);
+        var schedule = Schedule.Create(workoutEntryDto.Start, workoutEntryDto.End);
         var performedExercises = GetPerformedFromDto(workoutEntryDto);
 
         entry.Update(schedule, performedExercises);
@@ -114,7 +115,7 @@ public class WorkoutTrackingService(
                 new PerformedSet(
                     s.Order,
                     s.Reps,
-                    new Weight(s.Weight, s.WeightUnit),
+                    s.WeightUnit == WeightUnit.Kg ? Weight.FromKg(s.Weight) : Weight.FromLbs(s.Weight),
                     s.IsCompleted)
             ).ToList();
 
