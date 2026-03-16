@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects.GoalValueObjects;
@@ -26,8 +26,8 @@ public class NutritionGoal : Entity, ITimeFields
     #region Public Properties
     public Guid UserId { get; private set; }
     public DailyNutritionPlan DailyNutritionPlan { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties

@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Enums.FoodEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
@@ -34,14 +35,11 @@ public class FoodEntry : Entity, ITimeFields
 
     #region Public Properties
     public Guid UserId { get; private set; }
-    public double Calories { get; private set; }
-    public double Carbs { get; private set; }
-    public double Protein { get; private set; }
-    public double Fat { get; private set; }
+    public NutritionInfo NutritionInfo { get; private set; }
     public DayTime DayTime { get; private set; }
     public DateTime Date { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties
@@ -90,19 +88,23 @@ public class FoodEntry : Entity, ITimeFields
 
     private void SetFoodItems(HashSet<FoodItem> foodItems)
     {
+        if (foodItems.Count > DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
+            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal");
+        
         _foodItems.Clear();
 
         foreach (var item in foodItems) _foodItems.Add(item);
 
-        RecalculateTotals();
+        RecalculateNutritionInfo();
     }
 
-    private void RecalculateTotals()
+    private void RecalculateNutritionInfo()
     {
-        Calories = FoodItems.Sum(i => i.Calories);
-        Carbs = FoodItems.Sum(i => i.Carbs);
-        Protein = FoodItems.Sum(i => i.Protein);
-        Fat = FoodItems.Sum(i => i.Fat);
+        var totalNutrition = FoodItems.Aggregate(
+            NutritionInfo.Zero,
+            (total, item) => total + new NutritionInfo(item.Calories, item.Carbs, item.Protein, item.Fat));
+        
+        NutritionInfo = totalNutrition;
     }
     #endregion
 }

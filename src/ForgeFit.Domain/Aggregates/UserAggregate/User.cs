@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Exceptions;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
 using Email = ForgeFit.Domain.ValueObjects.UserValueObjects.Email;
@@ -28,8 +29,8 @@ public class User : Entity, ITimeFields
     public UserProfile UserProfile { get; private set; }
     public Email Email { get; private set; }
     public string PasswordHash { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties
@@ -77,6 +78,9 @@ public class User : Entity, ITimeFields
     private void SetPasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash ?? throw new DomainValidationException("PasswordHash cannot be null.");
+        
+        if (passwordHash.Length > DomainConstants.ValidationLimits.MaxPasswordHashLength)
+            throw new DomainValidationException($"Password hash cannot exceed {DomainConstants.ValidationLimits.MaxPasswordHashLength} characters.");
     }
     #endregion
 }

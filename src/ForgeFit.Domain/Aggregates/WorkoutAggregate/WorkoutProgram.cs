@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
@@ -8,6 +9,7 @@ public class WorkoutProgram : Entity, ITimeFields
 {
     #region Private Fields
     private readonly List<WorkoutExercisePlan> _workoutExercisePlans = [];
+    private readonly List<WorkoutEntry> _workoutEntries = [];
     #endregion
 
     #region Constructors
@@ -36,14 +38,14 @@ public class WorkoutProgram : Entity, ITimeFields
     public string Name { get; private set; }
     public string? Description { get; private set; }
     public bool IsDeleted { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties
     public User User { get; private set; }
     public IReadOnlyCollection<WorkoutExercisePlan> WorkoutExercisePlans => _workoutExercisePlans.AsReadOnly();
-    public ICollection<WorkoutEntry> WorkoutEntries { get; private set; }
+    public IReadOnlyCollection<WorkoutEntry> WorkoutEntries => _workoutEntries.AsReadOnly();
     #endregion
 
     #region Factory Methods
@@ -69,12 +71,17 @@ public class WorkoutProgram : Entity, ITimeFields
     public void AddExercisePlan(WorkoutExercisePlan plan)
     {
         if (plan is null) throw new DomainValidationException("Plan cannot be null.");
+        if (_workoutExercisePlans.Any(p => p.Id == plan.Id)) 
+            throw new DomainValidationException("Exercise plan already exists.");
+        
         _workoutExercisePlans.Add(plan);
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void RemoveExercisePlan(WorkoutExercisePlan plan)
     {
+        if (plan is null) throw new DomainValidationException("Plan cannot be null.");
+        
         _workoutExercisePlans.Remove(plan);
         UpdatedAt = DateTime.UtcNow;
     }
@@ -97,20 +104,23 @@ public class WorkoutProgram : Entity, ITimeFields
     private void SetName(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new DomainValidationException("Name cannot be null or whitespace.");
-        if (name.Length > 50) throw new DomainValidationException("Name must be less than 50 characters long.");
+        if (name.Length > DomainConstants.ValidationLimits.MaxWorkoutProgramNameLength) throw new DomainValidationException($"Name must be less than {DomainConstants.ValidationLimits.MaxWorkoutProgramNameLength} characters long.");
         Name = name;
     }
 
     private void SetDescription(string? description)
     {
-        if (description is not null && description.Length > 300)
-            throw new DomainValidationException("Description must be less than 300 characters long.");
+        if (description is not null && description.Length > DomainConstants.ValidationLimits.MaxWorkoutProgramDescriptionLength)
+            throw new DomainValidationException($"Description must be less than {DomainConstants.ValidationLimits.MaxWorkoutProgramDescriptionLength} characters long.");
         Description = description;
     }
 
     private void SetWorkoutExercises(ICollection<WorkoutExercisePlan> workoutExercises)
     {
         if (workoutExercises is null) throw new DomainValidationException("Workout exercises cannot be null.");
+        
+        if (workoutExercises.Count > DomainConstants.ValidationLimits.MaxExercisesPerProgram)
+            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxExercisesPerProgram} exercises per program.");
 
         _workoutExercisePlans.Clear();
         _workoutExercisePlans.AddRange(workoutExercises);

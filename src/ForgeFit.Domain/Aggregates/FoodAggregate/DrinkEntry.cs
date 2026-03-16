@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
@@ -27,8 +28,8 @@ public class DrinkEntry : Entity, ITimeFields
     public Guid UserId { get; private set; }
     public int VolumeMl { get; private set; }
     public DateTime Date { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties
@@ -62,8 +63,8 @@ public class DrinkEntry : Entity, ITimeFields
 
     private void SetVolumeMl(int volumeMl)
     {
-        if (volumeMl <= 0)
-            throw new DomainValidationException("VolumeMl must be greater than 0.");
+        if (volumeMl is < DomainConstants.ValidationLimits.MinDrinkVolumeMl or > DomainConstants.ValidationLimits.MaxDrinkVolumeMl)
+            throw new DomainValidationException($"VolumeMl must be between {DomainConstants.ValidationLimits.MinDrinkVolumeMl} and {DomainConstants.ValidationLimits.MaxDrinkVolumeMl}.");
 
         VolumeMl = volumeMl;
     }

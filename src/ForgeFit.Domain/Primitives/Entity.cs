@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.Domain.Primitives;
+namespace ForgeFit.Domain.Primitives;
 
 public abstract class Entity : IEquatable<Entity>
 {
@@ -33,5 +33,10 @@ public abstract class Entity : IEquatable<Entity>
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return $"{GetType().Name}(Id = {Id})";
     }
 }

@@ -1,10 +1,12 @@
-﻿using ForgeFit.Domain.Exceptions;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.ValueObjects.FoodValueObjects;
 
 public class FoodItem : ValueObject
 {
+    #region Constructors
     public FoodItem(
         string externalId,
         string label,
@@ -21,7 +23,9 @@ public class FoodItem : ValueObject
         SetBfc(calories, carbs, protein, fat);
         SetServingInfo(servingUnit, amount);
     }
+    #endregion
 
+    #region Public Properties
     public string ExternalId { get; private set; }
     public string Label { get; private set; }
     public double Calories { get; private set; }
@@ -30,11 +34,17 @@ public class FoodItem : ValueObject
     public double Fat { get; private set; }
     public string ServingUnit { get; private set; }
     public double Amount { get; private set; }
+    #endregion
 
+    #region Private Methods
     private void SetExternalId(string externalId)
     {
         if (string.IsNullOrWhiteSpace(externalId))
             throw new DomainValidationException("ExternalId cannot be empty");
+        
+        if (externalId.Length > DomainConstants.ValidationLimits.MaxExternalIdLength)
+            throw new DomainValidationException($"ExternalId cannot exceed {DomainConstants.ValidationLimits.MaxExternalIdLength} characters");
+            
         ExternalId = externalId;
     }
 
@@ -42,6 +52,8 @@ public class FoodItem : ValueObject
     {
         if (string.IsNullOrWhiteSpace(label))
             throw new DomainValidationException("Name cannot be empty");
+        if (label.Length > DomainConstants.ValidationLimits.MaxFoodLabelLength)
+            throw new DomainValidationException($"Label cannot exceed {DomainConstants.ValidationLimits.MaxFoodLabelLength} characters");
         Label = label;
     }
 
@@ -60,17 +72,20 @@ public class FoodItem : ValueObject
     {
         if (string.IsNullOrWhiteSpace(servingUnit))
             throw new DomainValidationException("Serving unit is required");
-        if (amount <= 0)
-            throw new DomainValidationException("Amount must be greater than 0");
+        if (amount is < DomainConstants.ValidationLimits.MinFoodAmount or > DomainConstants.ValidationLimits.MaxFoodAmount)
+            throw new DomainValidationException($"Amount must be between {DomainConstants.ValidationLimits.MinFoodAmount} and {DomainConstants.ValidationLimits.MaxFoodAmount}");
 
         ServingUnit = servingUnit;
         Amount = amount;
     }
+    #endregion
 
+    #region ValueObject Implementation
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return ExternalId;
         yield return ServingUnit;
         yield return Amount;
     }
+    #endregion
 }

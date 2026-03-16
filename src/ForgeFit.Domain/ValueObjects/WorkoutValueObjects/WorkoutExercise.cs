@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Enums.WorkoutEnums;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
@@ -6,6 +7,7 @@ namespace ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 
 public class WorkoutExercise : ValueObject
 {
+    #region Constructors
     public WorkoutExercise(
         string externalId,
         string name,
@@ -25,7 +27,9 @@ public class WorkoutExercise : ValueObject
         SetSecondaryMuscles(secondaryMuscles);
         SetInstructions(instructions);
     }
+    #endregion
 
+    #region Public Properties
     public string ExternalId { get; private set; }
     public string Name { get; private set; }
     public Uri? GifUrl { get; private set; }
@@ -34,11 +38,16 @@ public class WorkoutExercise : ValueObject
     public IReadOnlyCollection<Equipment> Equipment { get; private set; }
     public IReadOnlyCollection<Muscle> SecondaryMuscles { get; private set; }
     public IReadOnlyCollection<string> Instructions { get; private set; }
+    #endregion
 
+    #region Private Methods
     private void SetExternalId(string externalId)
     {
         if (string.IsNullOrWhiteSpace(externalId))
             throw new DomainValidationException("ExternalId cannot be null or whitespace");
+        
+        if (externalId.Length > DomainConstants.ValidationLimits.MaxExternalIdLength)
+            throw new DomainValidationException($"ExternalId cannot exceed {DomainConstants.ValidationLimits.MaxExternalIdLength} characters");
 
         ExternalId = externalId;
     }
@@ -48,8 +57,8 @@ public class WorkoutExercise : ValueObject
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainValidationException("Name cannot be null or whitespace");
 
-        if (name.Length > 50)
-            throw new DomainValidationException("Name must be less than 50 characters long");
+        if (name.Length > DomainConstants.ValidationLimits.MaxExerciseNameLength)
+            throw new DomainValidationException($"Name must be less than {DomainConstants.ValidationLimits.MaxExerciseNameLength} characters long");
 
         Name = name;
     }
@@ -92,9 +101,12 @@ public class WorkoutExercise : ValueObject
     {
         Instructions = instructions ?? throw new DomainValidationException("Instructions cannot be null");
     }
+    #endregion
 
+    #region ValueObject Implementation
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return ExternalId;
     }
+    #endregion
 }

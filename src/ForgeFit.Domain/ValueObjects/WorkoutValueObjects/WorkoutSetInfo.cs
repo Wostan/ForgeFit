@@ -1,21 +1,17 @@
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 
-public class PerformedSet : ValueObject
+public class WorkoutSetInfo : ValueObject
 {
     #region Constructors
-    public PerformedSet(int order, int reps, Weight weight, bool isCompleted)
+    public WorkoutSetInfo(int order, int reps, Weight weight)
     {
         SetOrder(order);
         SetReps(reps);
         SetWeight(weight);
-        IsCompleted = isCompleted;
-    }
-
-    private PerformedSet()
-    {
     }
     #endregion
 
@@ -23,19 +19,22 @@ public class PerformedSet : ValueObject
     public int Order { get; private set; }
     public int Reps { get; private set; }
     public Weight Weight { get; private set; }
-    public bool IsCompleted { get; private set; }
     #endregion
 
     #region Private Methods
     private void SetOrder(int order)
     {
-        if (order < 0) throw new DomainValidationException("Order cannot be negative.");
+        if (order < 1)
+            throw new DomainValidationException("Order must be greater than 0.");
+
         Order = order;
     }
 
     private void SetReps(int reps)
     {
-        if (reps < 0) throw new DomainValidationException("Reps cannot be negative.");
+        if (reps is < 1 or > DomainConstants.ValidationLimits.MaxRepsPerSet)
+            throw new DomainValidationException($"Reps must be between 1 and {DomainConstants.ValidationLimits.MaxRepsPerSet}.");
+
         Reps = reps;
     }
 
@@ -51,7 +50,6 @@ public class PerformedSet : ValueObject
         yield return Order;
         yield return Reps;
         yield return Weight;
-        yield return IsCompleted;
     }
     #endregion
 }

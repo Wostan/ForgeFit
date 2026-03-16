@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Exceptions;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
 namespace ForgeFit.Domain.Aggregates.UserAggregate;
@@ -26,8 +27,8 @@ public class RefreshToken : Entity, ITimeFields
     public Guid UserId { get; private set; }
     public string Token { get; private set; }
     public DateTime ExpiryDate { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     public bool IsActive => DateTime.UtcNow < ExpiryDate;
     #endregion
 
@@ -64,6 +65,9 @@ public class RefreshToken : Entity, ITimeFields
     {
         if (string.IsNullOrWhiteSpace(token))
             throw new DomainValidationException("Token cannot be null or whitespace.");
+        
+        if (token.Length > DomainConstants.ValidationLimits.MaxRefreshTokenLength)
+            throw new DomainValidationException($"Token cannot exceed {DomainConstants.ValidationLimits.MaxRefreshTokenLength} characters.");
 
         Token = token;
     }

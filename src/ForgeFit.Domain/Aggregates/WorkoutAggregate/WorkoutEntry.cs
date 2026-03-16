@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects;
@@ -36,8 +37,8 @@ public class WorkoutEntry : Entity, ITimeFields
     public Guid UserId { get; private set; }
     public Guid WorkoutProgramId { get; private set; }
     public Schedule WorkoutSchedule { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties
@@ -93,8 +94,9 @@ public class WorkoutEntry : Entity, ITimeFields
     {
         var duration = workoutSchedule.Duration;
 
-        if (duration < TimeSpan.FromMinutes(10) || duration > TimeSpan.FromHours(5))
-            throw new DomainValidationException("Workout duration hours must be between 10 minutes and 5 hours.");
+        if (duration < TimeSpan.FromMinutes(DomainConstants.ValidationLimits.MinWorkoutDurationMinutes) || 
+            duration > TimeSpan.FromHours(DomainConstants.ValidationLimits.MaxWorkoutDurationHours))
+            throw new DomainValidationException($"Workout duration must be between {DomainConstants.ValidationLimits.MinWorkoutDurationMinutes} minutes and {DomainConstants.ValidationLimits.MaxWorkoutDurationHours} hours.");
         WorkoutSchedule = workoutSchedule;
     }
 

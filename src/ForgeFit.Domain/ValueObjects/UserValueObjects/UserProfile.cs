@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Enums.ProfileEnums;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
@@ -6,6 +7,7 @@ namespace ForgeFit.Domain.ValueObjects.UserValueObjects;
 
 public class UserProfile : ValueObject
 {
+    #region Constructors
     public UserProfile(
         string username,
         Uri? avatarUrl,
@@ -26,28 +28,38 @@ public class UserProfile : ValueObject
     private UserProfile()
     {
     }
+    #endregion
 
+    #region Public Properties
     public string Username { get; private set; }
     public Uri? AvatarUrl { get; private set; }
     public DateOfBirth DateOfBirth { get; private set; }
     public Gender Gender { get; private set; }
     public Weight Weight { get; private set; }
     public Height Height { get; private set; }
+    #endregion
 
+    #region Private Methods
     private void SetUsername(string username)
     {
         if (string.IsNullOrWhiteSpace(username))
             throw new DomainValidationException("Username cannot be null or whitespace.");
-        if (username.Length > 20)
-            throw new DomainValidationException("Username must be less than 20 characters long.");
+        if (username.Length > DomainConstants.ValidationLimits.MaxUsernameLength)
+            throw new DomainValidationException($"Username must be less than {DomainConstants.ValidationLimits.MaxUsernameLength} characters long.");
 
         Username = username;
     }
 
     private void SetAvatarUrl(Uri? avatarUrl)
     {
-        if (avatarUrl is not null && !avatarUrl.IsAbsoluteUri)
+        if (avatarUrl is null)
+            throw new DomainValidationException("AvatarUrl cannot be null.");
+        
+        if (!avatarUrl.IsAbsoluteUri)
             throw new DomainValidationException("AvatarUrl must be an absolute URI.");
+        
+        if (avatarUrl.ToString().Length > DomainConstants.ValidationLimits.MaxAvatarUrlLength)
+            throw new DomainValidationException($"AvatarUrl cannot exceed {DomainConstants.ValidationLimits.MaxAvatarUrlLength} characters.");
 
         AvatarUrl = avatarUrl;
     }
@@ -74,7 +86,9 @@ public class UserProfile : ValueObject
     {
         Height = height;
     }
+    #endregion
 
+    #region ValueObject Implementation
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Username;
@@ -83,4 +97,5 @@ public class UserProfile : ValueObject
         yield return Weight;
         yield return Height;
     }
+    #endregion
 }

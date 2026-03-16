@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
@@ -27,8 +27,8 @@ public class WorkoutGoal : Entity, ITimeFields
     #region Public Properties
     public Guid UserId { get; private set; }
     public WorkoutPlan WorkoutPlan { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties

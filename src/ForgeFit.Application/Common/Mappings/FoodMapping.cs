@@ -1,4 +1,4 @@
-﻿using Mapster;
+using Mapster;
 using ForgeFit.Application.DTOs.Food;
 using ForgeFit.Domain.Aggregates.FoodAggregate;
 using ForgeFit.Domain.ValueObjects.FoodValueObjects;
@@ -13,10 +13,10 @@ public class FoodMapping : IRegister
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.DayTime, src => src.DayTime)
             .Map(dest => dest.Date, src => src.Date)
-            .Map(dest => dest.TotalCalories, src => src.Calories)
-            .Map(dest => dest.TotalProtein, src => src.Protein)
-            .Map(dest => dest.TotalFat, src => src.Fat)
-            .Map(dest => dest.TotalCarbs, src => src.Carbs)
+            .Map(dest => dest.TotalCalories, src => src.NutritionInfo.Calories)
+            .Map(dest => dest.TotalProtein, src => src.NutritionInfo.Protein)
+            .Map(dest => dest.TotalFat, src => src.NutritionInfo.Fat)
+            .Map(dest => dest.TotalCarbs, src => src.NutritionInfo.Carbs)
             .Map(dest => dest.FoodItems, src => src.FoodItems);
 
         config.NewConfig<FoodItemDto, FoodItem>()

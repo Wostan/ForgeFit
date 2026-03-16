@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Enums.NotificationEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
@@ -43,8 +44,8 @@ public class Notification : Entity, ITimeFields
     public Frequency Frequency { get; private set; }
     public TimeOnly ScheduledAt { get; private set; }
     public bool IsSent { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
     #endregion
 
     #region Navigation Properties
@@ -109,8 +110,8 @@ public class Notification : Entity, ITimeFields
         if (string.IsNullOrWhiteSpace(title))
             throw new DomainValidationException("Title cannot be null or whitespace.");
 
-        if (title.Length > 20)
-            throw new DomainValidationException("Title must be less than 20 characters long.");
+        if (title.Length > DomainConstants.ValidationLimits.MaxTitleLength)
+            throw new DomainValidationException($"Title must be less than {DomainConstants.ValidationLimits.MaxTitleLength} characters long.");
 
         Title = title;
     }
@@ -120,8 +121,8 @@ public class Notification : Entity, ITimeFields
         if (string.IsNullOrWhiteSpace(body))
             throw new DomainValidationException("Body cannot be null or whitespace.");
 
-        if (body.Length > 200)
-            throw new DomainValidationException("Body must be less than 200 characters long.");
+        if (body.Length > DomainConstants.ValidationLimits.MaxDescriptionLength)
+            throw new DomainValidationException($"Body must be less than {DomainConstants.ValidationLimits.MaxDescriptionLength} characters long.");
 
         Body = body;
     }
