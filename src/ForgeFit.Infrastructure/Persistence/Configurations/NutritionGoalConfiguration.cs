@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +12,7 @@ public class NutritionGoalConfiguration : IEntityTypeConfiguration<NutritionGoal
         builder.ToTable("NutritionGoals", tableBuilder =>
         {
             tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CaloriesCheck",
-                "DailyNutritionPlan_TargetCalories > 1000");
+                $"DailyNutritionPlan_TargetCalories >= {DomainConstants.ValidationLimits.MinDailyCalories} AND DailyNutritionPlan_TargetCalories <= {DomainConstants.ValidationLimits.MaxDailyCalories}");
             tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CarbsCheck",
                 "DailyNutritionPlan_Carbs > 0");
             tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_ProteinCheck",
@@ -19,7 +20,7 @@ public class NutritionGoalConfiguration : IEntityTypeConfiguration<NutritionGoal
             tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_FatCheck",
                 "DailyNutritionPlan_Fat > 0");
             tableBuilder.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_WaterGoalMlCheck",
-                "DailyNutritionPlan_WaterMl > 1000");
+                $"DailyNutritionPlan_WaterMl >= {DomainConstants.ValidationLimits.MinWaterIntakeMl} AND DailyNutritionPlan_WaterMl <= {DomainConstants.ValidationLimits.MaxWaterIntakeMl}");
         });
 
         builder.HasKey(n => n.Id);
@@ -28,6 +29,9 @@ public class NutritionGoalConfiguration : IEntityTypeConfiguration<NutritionGoal
         builder.Property(n => n.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(n => n.UpdatedAt)
+            .IsRequired(false);
 
         // ValueObject properties
         builder.OwnsOne(n => n.DailyNutritionPlan, dailyNutritionPlan =>

@@ -1,4 +1,6 @@
-﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.WorkoutEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,11 +13,11 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
         builder.ToTable("WorkoutGoals", tableBuilder =>
         {
             tableBuilder.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_WorkoutsPerWeekCheck",
-                "WorkoutPlan_WorkoutsPerWeek > 0 AND WorkoutPlan_WorkoutsPerWeek < 8");
+                $"WorkoutPlan_WorkoutsPerWeek >= {DomainConstants.ValidationLimits.MinWorkoutsPerWeek} AND WorkoutPlan_WorkoutsPerWeek <= {DomainConstants.ValidationLimits.MaxWorkoutsPerWeek}");
             tableBuilder.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_WorkoutTypeCheck",
-                "WorkoutPlan_WorkoutType IN (1, 2, 3)");
+                $"WorkoutPlan_WorkoutType IN ({string.Join(", ", Enum.GetValues<WorkoutType>().Cast<int>())})");
             tableBuilder.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_DurationCheck",
-                "WorkoutPlan_Duration BETWEEN '00:10:00' AND '05:00:00'");
+                $"WorkoutPlan_Duration BETWEEN '00:0{DomainConstants.ValidationLimits.MinWorkoutDurationMinutes}:00' AND '0{DomainConstants.ValidationLimits.MaxWorkoutDurationHours}:00:00'");
         });
 
         builder.HasKey(wg => wg.Id);
@@ -40,6 +42,9 @@ public class WorkoutGoalConfiguration : IEntityTypeConfiguration<WorkoutGoal>
         builder.Property(wg => wg.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(wg => wg.UpdatedAt)
+            .IsRequired(false);
 
         // Indexes
         builder.HasIndex(wg => wg.UserId);

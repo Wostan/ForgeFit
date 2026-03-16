@@ -1,5 +1,6 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,7 +15,7 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
         builder.ToTable("WorkoutEntries", tableBuilder =>
         {
             tableBuilder.HasCheckConstraint("CK_WorkoutEntries_WorkoutSchedule_DurationCheck",
-                "WorkoutSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
+                $"WorkoutSchedule_Duration BETWEEN '00:0{DomainConstants.ValidationLimits.MinWorkoutDurationMinutes}:00' AND '0{DomainConstants.ValidationLimits.MaxWorkoutDurationHours}:00:00'");
         });
 
         builder.HasKey(we => we.Id);
@@ -23,6 +24,9 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
         builder.Property(we => we.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(we => we.UpdatedAt)
+            .IsRequired(false);
 
         // ValueObject properties
         builder.OwnsOne(we => we.WorkoutSchedule, schedule =>
@@ -51,17 +55,17 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
             {
                 snap.Property(e => e.ExternalId)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(DomainConstants.ValidationLimits.MaxExternalIdLength);
 
                 snap.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(DomainConstants.ValidationLimits.MaxExerciseNameLength);
 
                 snap.Property(e => e.GifUrl)
                     .HasConversion(
                         v => v != null ? v.ToString() : null,
                         v => v != null ? new Uri(v) : null)
-                    .HasMaxLength(500);
+                    .HasMaxLength(DomainConstants.ValidationLimits.MaxExerciseGifUrlLength);
 
                 snap.Property(e => e.TargetMuscles)
                     .HasConversion(EnumListConverter<Muscle>())
@@ -84,7 +88,7 @@ public class WorkoutEntryConfiguration : IEntityTypeConfiguration<WorkoutEntry>
                         v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                         v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null)
                              ?? new List<string>()
-                    ).HasMaxLength(2000);
+                    ).HasMaxLength(DomainConstants.ValidationLimits.MaxExerciseInstructionsLength);
                 return;
 
                 ValueConverter<IReadOnlyCollection<TEnum>, string> EnumListConverter<TEnum>() where TEnum : struct, Enum

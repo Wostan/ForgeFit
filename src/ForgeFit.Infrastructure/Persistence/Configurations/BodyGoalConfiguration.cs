@@ -1,4 +1,7 @@
-﻿using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Aggregates.GoalAggregate;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.GoalEnums;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,10 +13,12 @@ public class BodyGoalConfiguration : IEntityTypeConfiguration<BodyGoal>
     {
         builder.ToTable("BodyGoals", tableBuilder =>
         {
-            tableBuilder.HasCheckConstraint("CK_BodyGoals_GoalTypeCheck", "GoalType IN (1, 2, 3, 4)");
-            tableBuilder.HasCheckConstraint("CK_BodyGoals_GoalStatusCheck", "GoalStatus IN (1, 2, 3)");
-            tableBuilder.HasCheckConstraint("CK_BodyGoals_WeightGoal_ValueCheck", "WeightGoal_Value > 0");
-            tableBuilder.HasCheckConstraint("CK_BodyGoals_WeightGoal_UnitCheck", "WeightGoal_Unit IN (1, 2)");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_GoalTypeCheck", $"GoalType IN ({string.Join(", ", Enum.GetValues<GoalType>().Cast<int>())})");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_GoalStatusCheck", $"GoalStatus IN ({string.Join(", ", Enum.GetValues<GoalStatus>().Cast<int>())})");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_WeightGoal_ValueCheck", 
+                $"(WeightGoal_Unit = {(int)WeightUnit.Kg} AND WeightGoal_Value >= {DomainConstants.ValidationLimits.MinWeightKg} AND WeightGoal_Value <= {DomainConstants.ValidationLimits.MaxWeightKg}) OR " +
+                $"(WeightGoal_Unit = {(int)WeightUnit.Lb} AND WeightGoal_Value >= {DomainConstants.ValidationLimits.MinWeightLbs} AND WeightGoal_Value <= {DomainConstants.ValidationLimits.MaxWeightLbs})");
+            tableBuilder.HasCheckConstraint("CK_BodyGoals_WeightGoal_UnitCheck", $"WeightGoal_Unit IN ({string.Join(", ", Enum.GetValues<WeightUnit>().Cast<int>())})");
         });
 
         builder.HasKey(bg => bg.Id);
@@ -21,10 +26,10 @@ public class BodyGoalConfiguration : IEntityTypeConfiguration<BodyGoal>
         // Properties
         builder.Property(bg => bg.Title)
             .IsRequired()
-            .HasMaxLength(100);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxTitleLength);
 
         builder.Property(bg => bg.Description)
-            .HasMaxLength(500);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxDescriptionLength);
 
         builder.Property(bg => bg.GoalType)
             .HasConversion<int>()
@@ -37,6 +42,9 @@ public class BodyGoalConfiguration : IEntityTypeConfiguration<BodyGoal>
         builder.Property(bg => bg.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(bg => bg.UpdatedAt)
+            .IsRequired(false);
 
         // ValueObject properties
         builder.OwnsOne(bg => bg.WeightGoal, weightGoal =>

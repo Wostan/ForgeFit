@@ -1,5 +1,6 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Enums.WorkoutEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,23 +23,26 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
         builder.Property(wep => wep.CreatedAt)
             .IsRequired();
 
+        builder.Property(wep => wep.UpdatedAt)
+            .IsRequired(false);
+
         // ValueObjects
         builder.OwnsOne(wep => wep.WorkoutExercise, exercise =>
         {
             exercise.Property(e => e.ExternalId)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxExternalIdLength);
 
             exercise.Property(e => e.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxExerciseNameLength);
 
             exercise.Property(e => e.GifUrl)
                 .HasConversion(
                     v => v != null ? v.ToString() : null,
                     v => v != null ? new Uri(v) : null
                 )
-                .HasMaxLength(500);
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxExerciseGifUrlLength);
 
             exercise.Property(e => e.TargetMuscles)
                 .HasConversion(EnumListConverter<Muscle>())
@@ -62,7 +66,7 @@ public class WorkoutExercisePlanConfiguration : IEntityTypeConfiguration<Workout
                     v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null)
                          ?? new List<string>()
                 )
-                .HasMaxLength(2000);
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxExerciseInstructionsLength);
         });
 
         // Indexes
