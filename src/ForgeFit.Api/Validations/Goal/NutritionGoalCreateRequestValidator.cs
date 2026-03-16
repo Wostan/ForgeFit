@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Goal;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Goal;
 
@@ -8,7 +9,7 @@ public class NutritionGoalCreateRequestValidator : AbstractValidator<NutritionGo
     public NutritionGoalCreateRequestValidator()
     {
         RuleFor(x => x.Calories)
-            .InclusiveBetween(500, 10000).WithMessage("Daily calories must be between 500 and 10000.");
+            .InclusiveBetween(DomainConstants.ValidationLimits.MinDailyCalories, DomainConstants.ValidationLimits.MaxDailyCalories).WithMessage($"Daily calories must be between {DomainConstants.ValidationLimits.MinDailyCalories} and {DomainConstants.ValidationLimits.MaxDailyCalories}.");
 
         RuleFor(x => x.Carbs)
             .GreaterThan(0).WithMessage("Carbs must be greater than 0.");
@@ -20,6 +21,6 @@ public class NutritionGoalCreateRequestValidator : AbstractValidator<NutritionGo
             .GreaterThan(0).WithMessage("Fat must be greater than 0.");
 
         RuleFor(x => x.WaterGoalMl)
-            .InclusiveBetween(1000, 10000).WithMessage("Water goal should be at least 1000ml.");
+            .InclusiveBetween(DomainConstants.ValidationLimits.MinWaterIntakeMl, DomainConstants.ValidationLimits.MaxWaterIntakeMl).WithMessage($"Water goal should be at least {DomainConstants.ValidationLimits.MinWaterIntakeMl}ml.");
     }
 }

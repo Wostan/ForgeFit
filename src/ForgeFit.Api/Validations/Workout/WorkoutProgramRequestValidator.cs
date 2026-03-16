@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Workout;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Workout;
 
@@ -9,14 +10,14 @@ public class WorkoutProgramRequestValidator : AbstractValidator<WorkoutProgramRe
     {
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Name is required.")
-            .MaximumLength(50).WithMessage("Name must be less than 50 characters long.");
+            .MaximumLength(DomainConstants.ValidationLimits.MaxWorkoutProgramNameLength).WithMessage($"Name must be less than {DomainConstants.ValidationLimits.MaxWorkoutProgramNameLength} characters long.");
 
         RuleFor(x => x.Description)
-            .MaximumLength(300).WithMessage("Description must be less than 300 characters long.");
+            .MaximumLength(DomainConstants.ValidationLimits.MaxWorkoutProgramDescriptionLength).WithMessage($"Description must be less than {DomainConstants.ValidationLimits.MaxWorkoutProgramDescriptionLength} characters long.");
 
         RuleFor(x => x.WorkoutExercisePlans)
             .NotNull()
-            .Must(x => x.Count <= 50).WithMessage("Program cannot have more than 50 exercises.");
+            .Must(x => x.Count <= DomainConstants.ValidationLimits.MaxExercisesPerProgram).WithMessage($"Program cannot have more than {DomainConstants.ValidationLimits.MaxExercisesPerProgram} exercises.");
 
         RuleForEach(x => x.WorkoutExercisePlans).SetValidator(new WorkoutExercisePlanDtoValidator());
     }
