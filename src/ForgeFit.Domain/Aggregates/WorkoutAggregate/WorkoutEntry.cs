@@ -66,23 +66,6 @@ public class WorkoutEntry : Entity, ITimeFields
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AddPerformedExercise(PerformedExercise exercise)
-    {
-        if (exercise is null) throw new DomainValidationException("Performed exercise cannot be null.");
-        if (_performedExercises.Contains(exercise))
-            throw new DomainValidationException("Performed exercise already exists.");
-        
-        _performedExercises.Add(exercise);
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void RemovePerformedExercise(PerformedExercise exercise)
-    {
-        if (exercise is null) throw new DomainValidationException("Performed exercise cannot be null.");
-        
-        _performedExercises.Remove(exercise);
-        UpdatedAt = DateTime.UtcNow;
-    }
 
     public void Update(Schedule schedule, ICollection<PerformedExercise> performedExercises)
     {
@@ -124,6 +107,8 @@ public class WorkoutEntry : Entity, ITimeFields
         _performedExercises.Clear();
         foreach (var exercise in performedExercises)
         {
+            if (_performedExercises.Contains(exercise))
+                throw new DomainValidationException("Performed exercise already exists.");
             _performedExercises.Add(exercise);
         }
     }

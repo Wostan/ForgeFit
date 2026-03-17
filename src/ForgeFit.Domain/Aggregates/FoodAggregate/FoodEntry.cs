@@ -62,41 +62,10 @@ public class FoodEntry : Entity, ITimeFields
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AddFoodItem(FoodItem item)
-    {
-        if (item is null) throw new DomainValidationException("Food item cannot be null.");
-        if (_foodItems.Contains(item))
-            throw new DomainValidationException("Food item already exists.");
-        
-        if (_foodItems.Count >= DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
-            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal.");
-        
-        _foodItems.Add(item);
-        RecalculateNutritionInfo();
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void RemoveFoodItem(FoodItem item)
-    {
-        if (item is null) throw new DomainValidationException("Food item cannot be null.");
-        
-        _foodItems.Remove(item);
-        RecalculateNutritionInfo();
-        UpdatedAt = DateTime.UtcNow;
-    }
 
     public void UpdateFoodItems(HashSet<FoodItem> foodItems)
     {
-        if (foodItems.Count > DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
-            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal");
-
-        _foodItems.Clear();
-        foreach (var item in foodItems) 
-        {
-            _foodItems.Add(item);
-        }
-
-        RecalculateNutritionInfo();
+        SetFoodItems(foodItems);
         UpdatedAt = DateTime.UtcNow;
     }
     #endregion
@@ -128,10 +97,13 @@ public class FoodEntry : Entity, ITimeFields
         if (foodItems.Count > DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
             throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal");
         
-        foreach (var item in foodItems) 
+        _foodItems.Clear();
+        if (foodItems.Any(item => !_foodItems.Add(item)))
         {
-            AddFoodItem(item);
+            throw new DomainValidationException("Food item already exists.");
         }
+
+        RecalculateNutritionInfo();
     }
 
     private void RecalculateNutritionInfo()
