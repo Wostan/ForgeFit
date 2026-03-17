@@ -55,11 +55,48 @@ public class FoodEntry : Entity, ITimeFields
     #endregion
 
     #region Domain Methods
-    public void Update(DayTime dayTime, DateTime date, HashSet<FoodItem> foodItems)
+    public void Update(DayTime dayTime, DateTime date)
     {
         SetDayTime(dayTime);
         SetDate(date);
-        SetFoodItems(foodItems);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddFoodItem(FoodItem item)
+    {
+        if (item is null) throw new DomainValidationException("Food item cannot be null.");
+        if (_foodItems.Contains(item))
+            throw new DomainValidationException("Food item already exists.");
+        
+        if (_foodItems.Count >= DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
+            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal.");
+        
+        _foodItems.Add(item);
+        RecalculateNutritionInfo();
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RemoveFoodItem(FoodItem item)
+    {
+        if (item is null) throw new DomainValidationException("Food item cannot be null.");
+        
+        _foodItems.Remove(item);
+        RecalculateNutritionInfo();
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateFoodItems(HashSet<FoodItem> foodItems)
+    {
+        if (foodItems.Count > DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
+            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal");
+
+        _foodItems.Clear();
+        foreach (var item in foodItems) 
+        {
+            _foodItems.Add(item);
+        }
+
+        RecalculateNutritionInfo();
         UpdatedAt = DateTime.UtcNow;
     }
     #endregion
@@ -91,11 +128,10 @@ public class FoodEntry : Entity, ITimeFields
         if (foodItems.Count > DomainConstants.ValidationLimits.MaxFoodItemsPerMeal)
             throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} food items per meal");
         
-        _foodItems.Clear();
-
-        foreach (var item in foodItems) _foodItems.Add(item);
-
-        RecalculateNutritionInfo();
+        foreach (var item in foodItems) 
+        {
+            AddFoodItem(item);
+        }
     }
 
     private void RecalculateNutritionInfo()

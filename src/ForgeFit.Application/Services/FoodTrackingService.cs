@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
@@ -44,7 +44,8 @@ public class FoodTrackingService(
 
         var foodItems = GetFoodItemsFromDto(request.FoodItems);
 
-        foodEntry.Update(request.DayTime, request.Date, foodItems);
+        foodEntry.Update(request.DayTime, request.Date);
+        foodEntry.UpdateFoodItems(foodItems);
         await unitOfWork.SaveChangesAsync();
 
         return mapper.Map<FoodEntryDto>(foodEntry);
