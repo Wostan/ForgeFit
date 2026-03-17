@@ -74,6 +74,9 @@ public class WorkoutProgram : Entity, ITimeFields
         if (_workoutExercisePlans.Any(p => p.Id == plan.Id)) 
             throw new DomainValidationException("Exercise plan already exists.");
         
+        if (_workoutExercisePlans.Count >= DomainConstants.ValidationLimits.MaxExercisesPerProgram)
+            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxExercisesPerProgram} exercises per program.");
+        
         _workoutExercisePlans.Add(plan);
         UpdatedAt = DateTime.UtcNow;
     }
@@ -83,6 +86,24 @@ public class WorkoutProgram : Entity, ITimeFields
         if (plan is null) throw new DomainValidationException("Plan cannot be null.");
         
         _workoutExercisePlans.Remove(plan);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddWorkoutEntry(WorkoutEntry entry)
+    {
+        if (entry is null) throw new DomainValidationException("Workout entry cannot be null.");
+        if (_workoutEntries.Any(e => e.Id == entry.Id))
+            throw new DomainValidationException("Workout entry already exists.");
+        
+        _workoutEntries.Add(entry);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RemoveWorkoutEntry(WorkoutEntry entry)
+    {
+        if (entry is null) throw new DomainValidationException("Workout entry cannot be null.");
+        
+        _workoutEntries.Remove(entry);
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -119,11 +140,11 @@ public class WorkoutProgram : Entity, ITimeFields
     {
         if (workoutExercises is null) throw new DomainValidationException("Workout exercises cannot be null.");
         
-        if (workoutExercises.Count > DomainConstants.ValidationLimits.MaxExercisesPerProgram)
-            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxExercisesPerProgram} exercises per program.");
-
-        _workoutExercisePlans.Clear();
-        _workoutExercisePlans.AddRange(workoutExercises);
+        foreach (var exercise in workoutExercises)
+        {
+            AddExercisePlan(exercise);
+        }
     }
+
     #endregion
 }

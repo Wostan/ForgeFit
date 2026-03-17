@@ -60,21 +60,37 @@ public class WorkoutEntry : Entity, ITimeFields
     #endregion
 
     #region Domain Methods
-    public void Update(Schedule schedule, ICollection<PerformedExercise> performedExercises)
+    public void Update(Schedule schedule)
     {
         SetSchedule(schedule);
-        UpdatePerformedExercises(performedExercises);
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void UpdatePerformedExercises(ICollection<PerformedExercise> performedExercises)
+    public void AddPerformedExercise(PerformedExercise exercise)
     {
-        if (performedExercises is null || performedExercises.Count == 0)
-            throw new DomainValidationException("PerformedExercises cannot be empty.");
-        _performedExercises.Clear();
-        _performedExercises.AddRange(performedExercises);
+        if (exercise is null) throw new DomainValidationException("Performed exercise cannot be null.");
+        if (_performedExercises.Contains(exercise))
+            throw new DomainValidationException("Performed exercise already exists.");
+        
+        _performedExercises.Add(exercise);
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public void RemovePerformedExercise(PerformedExercise exercise)
+    {
+        if (exercise is null) throw new DomainValidationException("Performed exercise cannot be null.");
+        
+        _performedExercises.Remove(exercise);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Update(Schedule schedule, ICollection<PerformedExercise> performedExercises)
+    {
+        SetSchedule(schedule);
+        SetPerformedExercises(performedExercises);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     #endregion
 
     #region Private Setters
@@ -104,7 +120,12 @@ public class WorkoutEntry : Entity, ITimeFields
     {
         if (performedExercises == null || performedExercises.Count == 0)
             throw new DomainValidationException("PerformedExercises cannot be empty.");
-        _performedExercises.AddRange(performedExercises);
+            
+        _performedExercises.Clear();
+        foreach (var exercise in performedExercises)
+        {
+            _performedExercises.Add(exercise);
+        }
     }
     #endregion
 }

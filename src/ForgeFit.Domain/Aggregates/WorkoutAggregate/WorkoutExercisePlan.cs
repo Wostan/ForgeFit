@@ -62,6 +62,10 @@ public class WorkoutExercisePlan : Entity, ITimeFields
     public void AddSet(WorkoutSet set)
     {
         if (set is null) throw new DomainValidationException("Set cannot be null.");
+        
+        if (_workoutSets.Count >= DomainConstants.ValidationLimits.MaxSetsPerExercise)
+            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxSetsPerExercise} sets per exercise.");
+        
         _workoutSets.Add(set);
         UpdatedAt = DateTime.UtcNow;
     }
@@ -89,11 +93,11 @@ public class WorkoutExercisePlan : Entity, ITimeFields
     {
         if (workoutSets is null) throw new DomainValidationException("Workout sets cannot be null.");
         
-        if (workoutSets.Count > DomainConstants.ValidationLimits.MaxSetsPerExercise)
-            throw new DomainValidationException($"Cannot exceed {DomainConstants.ValidationLimits.MaxSetsPerExercise} sets per exercise.");
-
-        _workoutSets.Clear();
-        _workoutSets.AddRange(workoutSets);
+        foreach (var set in workoutSets)
+        {
+            AddSet(set);
+        }
     }
+
     #endregion
 }
