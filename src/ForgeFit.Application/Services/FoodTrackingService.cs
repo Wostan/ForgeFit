@@ -65,7 +65,7 @@ public class FoodTrackingService(
 
     public async Task<FoodEntryDto> GetFoodEntryAsync(Guid userId, Guid entryId)
     {
-        var foodEntry = await foodEntryRepository.GetByIdWithNavigationsAsync(entryId);
+        var foodEntry = await foodEntryRepository.GetByIdAsync(entryId);
 
         if (foodEntry == null) throw new NotFoundException("Food entry not found");
 
