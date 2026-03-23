@@ -29,7 +29,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     }
 
     [HttpPost("check-email")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CheckEmailResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CheckEmailResponse>> CheckEmail([FromBody] CheckEmailRequest request)
     {
