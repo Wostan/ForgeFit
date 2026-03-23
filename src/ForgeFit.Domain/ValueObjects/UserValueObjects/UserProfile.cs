@@ -52,14 +52,14 @@ public class UserProfile : ValueObject
 
     private void SetAvatarUrl(Uri? avatarUrl)
     {
-        if (avatarUrl is null)
-            throw new DomainValidationException("AvatarUrl cannot be null.");
-        
-        if (!avatarUrl.IsAbsoluteUri)
-            throw new DomainValidationException("AvatarUrl must be an absolute URI.");
-        
-        if (avatarUrl.ToString().Length > DomainConstants.ValidationLimits.MaxAvatarUrlLength)
-            throw new DomainValidationException($"AvatarUrl cannot exceed {DomainConstants.ValidationLimits.MaxAvatarUrlLength} characters.");
+        if (avatarUrl != null)
+        {
+            if (!avatarUrl.IsAbsoluteUri)
+                throw new DomainValidationException("AvatarUrl must be an absolute URI.");
+            
+            if (avatarUrl.ToString().Length > DomainConstants.ValidationLimits.MaxAvatarUrlLength)
+                throw new DomainValidationException($"AvatarUrl cannot exceed {DomainConstants.ValidationLimits.MaxAvatarUrlLength} characters.");
+        }
 
         AvatarUrl = avatarUrl;
     }
