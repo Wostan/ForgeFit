@@ -136,7 +136,7 @@ public class PlanService(
         var workoutGoal = await workoutGoalRepository.GetByUserIdAsync(userId);
 
         if (bodyGoal == null || nutritionGoal == null || workoutGoal == null)
-            throw new DomainValidationException("Plan not found.");
+            throw new NotFoundException("Plan not found.");
 
         var planDto = new PlanDto(
             mapper.Map<BodyGoalResponse>(bodyGoal),

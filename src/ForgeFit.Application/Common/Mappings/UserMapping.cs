@@ -19,15 +19,5 @@ public class UserMapping : IRegister
             .Map(dest => dest.WeightUnit, src => src.Weight.Unit)
             .Map(dest => dest.Height, src => src.Height.Value)
             .Map(dest => dest.HeightUnit, src => src.Height.Unit);
-
-        config.NewConfig<UserProfileDto, UserProfile>()
-            .MapWith(src => new UserProfile(
-                src.Username,
-                string.IsNullOrWhiteSpace(src.AvatarUrl) ? null : new Uri(src.AvatarUrl),
-                DateOfBirth.Create(src.DateOfBirth),
-                src.Gender,
-                Weight.FromKg(src.WeightUnit == WeightUnit.Kg ? src.Weight : src.Weight * 0.453592),
-                Height.FromCm(src.HeightUnit == HeightUnit.Cm ? src.Height : src.Height * 2.54)
-            ));
     }
 }
