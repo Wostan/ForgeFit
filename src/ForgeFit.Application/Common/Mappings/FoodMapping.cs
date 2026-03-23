@@ -19,9 +19,6 @@ public class FoodMapping : IRegister
             .Map(dest => dest.TotalCarbs, src => src.NutritionInfo.Carbs)
             .Map(dest => dest.FoodItems, src => src.FoodItems);
 
-        config.NewConfig<FoodItemDto, FoodItem>()
-            .MapToConstructor(true);
-
         config.NewConfig<FoodItem, FoodItemDto>();
     }
 }
