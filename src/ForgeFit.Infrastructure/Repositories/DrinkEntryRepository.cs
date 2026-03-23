@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Domain.Aggregates.FoodAggregate;
 using ForgeFit.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,9 @@ public class DrinkEntryRepository(AppDbContext context) : IDrinkEntryRepository
 
     public async Task<List<DrinkEntry>> GetAllAsync()
     {
-        return await context.DrinkEntries.ToListAsync();
+        return await context.DrinkEntries
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<bool> ExistsAsync(Guid id)
@@ -34,12 +36,16 @@ public class DrinkEntryRepository(AppDbContext context) : IDrinkEntryRepository
 
     public async Task<List<DrinkEntry>> GetAllByUserIdAsync(Guid userId)
     {
-        return await context.DrinkEntries.Where(de => de.UserId == userId).ToListAsync();
+        return await context.DrinkEntries
+            .AsNoTracking()
+            .Where(de => de.UserId == userId)
+            .ToListAsync();
     }
 
     public async Task<List<DrinkEntry>> GetAllByUserIdAndDateAsync(Guid userId, DateTime date)
     {
         return await context.DrinkEntries
+            .AsNoTracking()
             .Where(de => de.UserId == userId && de.Date.Date == date.Date)
             .ToListAsync();
     }
@@ -48,6 +54,7 @@ public class DrinkEntryRepository(AppDbContext context) : IDrinkEntryRepository
         DateTime endDate)
     {
         return await context.DrinkEntries
+            .AsNoTracking()
             .Where(de => de.UserId == userId && de.Date.Date >= startDate.Date && de.Date.Date <= endDate.Date)
             .ToListAsync();
     }

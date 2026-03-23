@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Infrastructure.Configurations;
@@ -32,6 +32,7 @@ public static class DependencyInjection
         // Configurations
         services.Configure<FoodApiSettings>(configuration.GetSection("FoodApiSettings"));
         services.Configure<ExerciseDbApiSettings>(configuration.GetSection("ExerciseDbApiSettings"));
+        services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
         // Repos
         services.AddScoped<IUserRepository, UserRepository>();
