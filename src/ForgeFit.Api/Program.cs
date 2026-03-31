@@ -26,6 +26,8 @@ try
         .AddInfrastructure(builder.Configuration);
 
     var app = builder.Build();
+    
+    app.ApplyMigrations();
 
     app.UseExceptionHandling();
     app.UseSerilogRequestLogging();
