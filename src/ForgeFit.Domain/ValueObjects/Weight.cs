@@ -28,13 +28,13 @@ public class Weight : ValueObject
 
         Value = Unit switch
         {
-            WeightUnit.Kg when weight is < DomainConstants.ValidationLimits.MinWeightKg
+            WeightUnit.Kg when weight is < 0
                 or > DomainConstants.ValidationLimits.MaxWeightKg => throw new DomainValidationException(
-                $"Weight in kg must be between {DomainConstants.ValidationLimits.MinWeightKg} and {DomainConstants.ValidationLimits.MaxWeightKg}."),
+                $"Weight in kg must be between 0 and {DomainConstants.ValidationLimits.MaxWeightKg}."),
             
-            WeightUnit.Lb when weight is < DomainConstants.ValidationLimits.MinWeightLbs
+            WeightUnit.Lb when weight is < 0
                 or > DomainConstants.ValidationLimits.MaxWeightLbs => throw new DomainValidationException(
-                $"Weight in lbs must be between {DomainConstants.ValidationLimits.MinWeightLbs} and {DomainConstants.ValidationLimits.MaxWeightLbs}."),
+                $"Weight in lbs must be between 0 and {DomainConstants.ValidationLimits.MaxWeightLbs}."),
             _ => weight
         };
     }
