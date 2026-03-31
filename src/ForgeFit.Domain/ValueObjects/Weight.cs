@@ -26,17 +26,7 @@ public class Weight : ValueObject
         if (weight < 0)
             throw new DomainValidationException("Weight must be positive.");
 
-        Value = Unit switch
-        {
-            WeightUnit.Kg when weight is < 0
-                or > DomainConstants.ValidationLimits.MaxWeightKg => throw new DomainValidationException(
-                $"Weight in kg must be between 0 and {DomainConstants.ValidationLimits.MaxWeightKg}."),
-            
-            WeightUnit.Lb when weight is < 0
-                or > DomainConstants.ValidationLimits.MaxWeightLbs => throw new DomainValidationException(
-                $"Weight in lbs must be between 0 and {DomainConstants.ValidationLimits.MaxWeightLbs}."),
-            _ => weight
-        };
+        Value = weight;
     }
 
     private void SetWeightUnit(WeightUnit unit)
