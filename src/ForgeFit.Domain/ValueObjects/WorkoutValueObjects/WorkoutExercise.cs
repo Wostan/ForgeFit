@@ -27,6 +27,8 @@ public class WorkoutExercise : ValueObject
         SetSecondaryMuscles(secondaryMuscles);
         SetInstructions(instructions);
     }
+    
+    private WorkoutExercise() { }
     #endregion
 
     #region Public Properties

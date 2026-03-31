@@ -13,6 +13,8 @@ public class Height : ValueObject
         SetHeightUnit(unit);
         SetHeight(value);
     }
+    
+    private Height() { }
     #endregion
 
     #region Public Properties

@@ -23,6 +23,8 @@ public class FoodItem : ValueObject
         SetBfc(calories, carbs, protein, fat);
         SetServingInfo(servingUnit, amount);
     }
+    
+    private FoodItem() { }
     #endregion
 
     #region Public Properties

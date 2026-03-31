@@ -13,6 +13,8 @@ public class WorkoutSetInfo : ValueObject
         SetReps(reps);
         SetWeight(weight);
     }
+
+    private WorkoutSetInfo() { }
     #endregion
 
     #region Public Properties

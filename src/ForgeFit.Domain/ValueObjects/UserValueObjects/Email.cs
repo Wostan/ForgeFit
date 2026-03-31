@@ -12,6 +12,8 @@ public partial class Email : ValueObject
     {
         SetEmail(value);
     }
+    
+    private Email() { }
     #endregion
 
     #region Public Properties

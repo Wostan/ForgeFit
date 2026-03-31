@@ -11,6 +11,8 @@ public class RestTime : ValueObject
     {
         SetValue(value);
     }
+    
+    private RestTime() { }
     #endregion
 
     #region Public Properties

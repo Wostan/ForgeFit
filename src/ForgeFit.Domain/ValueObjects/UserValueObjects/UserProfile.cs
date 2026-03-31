@@ -24,10 +24,8 @@ public class UserProfile : ValueObject
         SetWeight(weight);
         SetHeight(height);
     }
-
-    private UserProfile()
-    {
-    }
+    
+    private UserProfile() { }
     #endregion
 
     #region Public Properties

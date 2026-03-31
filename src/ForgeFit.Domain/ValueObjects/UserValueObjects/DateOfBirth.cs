@@ -11,6 +11,8 @@ public class DateOfBirth : ValueObject
     {
         SetDate(value);
     }
+    
+    private DateOfBirth() { }
     #endregion
 
     #region Public Properties

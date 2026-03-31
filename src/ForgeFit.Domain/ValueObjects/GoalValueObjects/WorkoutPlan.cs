@@ -17,6 +17,8 @@ public class WorkoutPlan : ValueObject
         SetDuration(duration);
         SetWorkoutType(workoutType);
     }
+    
+    private WorkoutPlan() { }
     #endregion
 
     #region Public Properties

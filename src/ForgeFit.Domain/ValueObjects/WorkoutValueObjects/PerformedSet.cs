@@ -14,9 +14,7 @@ public class PerformedSet : ValueObject
         IsCompleted = isCompleted;
     }
 
-    private PerformedSet()
-    {
-    }
+    private PerformedSet() { }
     #endregion
 
     #region Public Properties

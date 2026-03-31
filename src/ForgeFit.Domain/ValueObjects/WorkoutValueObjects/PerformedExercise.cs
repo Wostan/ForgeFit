@@ -12,9 +12,7 @@ public class PerformedExercise : ValueObject
         SetSets(sets);
     }
 
-    private PerformedExercise()
-    {
-    }
+    private PerformedExercise() { }
     #endregion
 
     #region Public Properties

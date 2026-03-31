@@ -20,6 +20,8 @@ public class DailyNutritionPlan : ValueObject
         SetFat(fat);
         SetWaterMl(waterMl);
     }
+    
+    private DailyNutritionPlan() { }
     #endregion
 
     #region Public Properties

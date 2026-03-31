@@ -13,6 +13,8 @@ public class NutritionInfo : ValueObject
         SetProtein(protein);
         SetFat(fat);
     }
+    
+    private NutritionInfo() { }
     #endregion
 
     #region Public Properties
