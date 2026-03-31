@@ -85,9 +85,6 @@ public class WorkoutProgramService(
             if (existingPlan == null)
             {
                 var newPlan = CreateExercisePlanEntity(program.Id, userId, dto);
-
-                await workoutProgramRepository.AddPlanAsync(newPlan);
-
                 program.AddExercisePlan(newPlan);
             }
             else
