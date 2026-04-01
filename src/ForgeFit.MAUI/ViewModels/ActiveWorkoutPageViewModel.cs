@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -7,42 +8,30 @@ using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.Views.Workout;
+using ForgeFit.MAUI.ViewModels.Workout;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels;
 
 public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private IDispatcherTimer? _timer;
-    private TimeSpan _totalWorkoutDuration;
-    private TimeSpan _currentRestTime;
-    private bool _isResting;
-
     private bool _isInitialized;
-
     private string _programName = string.Empty;
     private string? _programDescription;
 
-    private Func<Task>? _pendingConfirmationAction;
-
-    [ObservableProperty] private Guid _programId;
-    [ObservableProperty] private string _headerTitle = "00:00:00";
-    [ObservableProperty] private ObservableCollection<ActiveExerciseItem> _exercises = [];
-
-    [ObservableProperty] private bool _isConfirmationPopupVisible;
-    [ObservableProperty] private string _confirmationTitle = string.Empty;
-    [ObservableProperty] private string _confirmationMessage = string.Empty;
-
-    [ObservableProperty] private bool _isEntryPopupVisible;
-    [ObservableProperty] private string _entryPopupTitle = string.Empty;
-    [ObservableProperty] private string _entryPopupPlaceholder = string.Empty;
-    [ObservableProperty] private TimeSpan _entryPopupDuration;
     private readonly IWorkoutProgramService _workoutProgramService;
     private readonly IWorkoutTrackingService _workoutTrackingService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
 
-    public ActiveWorkoutPageViewModel(IWorkoutProgramService workoutProgramService,
+    public WorkoutTimerViewModel TimerVM { get; }
+    public ExerciseSessionViewModel ExerciseVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
+
+    [ObservableProperty] private Guid _programId;
+
+    public ActiveWorkoutPageViewModel(
+        IWorkoutProgramService workoutProgramService,
         IWorkoutTrackingService workoutTrackingService,
         IAlertService alertService,
         ILocalizationResourceManager localizationManager)
@@ -52,21 +41,22 @@ public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributa
         _alertService = alertService;
         _localizationManager = localizationManager;
 
-        WeakReferenceMessenger.Default.Register<AddExerciseMessage>(this,
-            (r, m) =>
-            {
-                MainThread.BeginInvokeOnMainThread(() => { ((ActiveWorkoutPageViewModel)r).AddNewExercise(m.Value); });
-            });
+        TimerVM = new WorkoutTimerViewModel();
+        PopupVM = new PopupManagerViewModel(localizationManager);
+        ExerciseVM = new ExerciseSessionViewModel(alertService, localizationManager, ProgramId, OnSetCompleted);
+
+        ExerciseVM.DeleteExerciseRequested += OnDeleteExerciseRequested;
+        PopupVM.DurationValidationError += OnDurationValidationError;
+        PopupVM.DurationCorrectionSaved += OnDurationCorrectionSaved;
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!_isInitialized && query.TryGetValue(nameof(ProgramId), out var id) && id is string idStr &&
-            Guid.TryParse(idStr, out var guid))
-        {
-            ProgramId = guid;
-            InitializeCommand.Execute(null);
-        }
+        if (_isInitialized || !query.TryGetValue(nameof(ProgramId), out var id) || id is not string idStr ||
+            !Guid.TryParse(idStr, out var guid)) return;
+        
+        ProgramId = guid;
+        InitializeCommand.Execute(null);
     }
 
     [RelayCommand]
@@ -89,18 +79,9 @@ public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributa
             _programName = result.Data.Name;
             _programDescription = result.Data.Description;
 
-            var mappedExercises = result.Data.WorkoutExercisePlans
-                .Select(plan => new ActiveExerciseItem(
-                    plan,
-                    OnSetCompleted,
-                    DeleteSetCommand,
-                    AskDeleteExerciseCommand,
-                    AddSetCommand))
-                .ToList();
+            ExerciseVM.InitializeExercises(result.Data.WorkoutExercisePlans);
 
-            Exercises = new ObservableCollection<ActiveExerciseItem>(mappedExercises);
-
-            StartTimer();
+            TimerVM.StartTimer();
             _isInitialized = true;
         }
         catch (Exception)
@@ -114,239 +95,109 @@ public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributa
         }
     }
 
-    private void AddNewExercise(WorkoutExerciseDto exerciseDto)
-    {
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            var defaultSet = new WorkoutSetDto(Guid.NewGuid(), 1, 10, TimeSpan.FromMinutes(1.5), 0, WeightUnit.Kg);
-
-            var tempPlanDto = new WorkoutExercisePlanDto(Guid.NewGuid(), ProgramId, exerciseDto, [defaultSet]);
-
-            var activeItem = new ActiveExerciseItem(
-                tempPlanDto,
-                OnSetCompleted,
-                DeleteSetCommand,
-                AskDeleteExerciseCommand,
-                AddSetCommand);
-
-            Exercises.Add(activeItem);
-        });
-    }
-
-    private void StartTimer()
-    {
-        _totalWorkoutDuration = TimeSpan.Zero;
-        _timer = Application.Current?.Dispatcher.CreateTimer();
-        if (_timer == null) return;
-
-        _timer.Interval = TimeSpan.FromSeconds(1);
-        _timer.Tick += OnTimerTick;
-        _timer.Start();
-    }
-
-    private void OnTimerTick(object? sender, EventArgs e)
-    {
-        _totalWorkoutDuration = _totalWorkoutDuration.Add(TimeSpan.FromSeconds(1));
-
-        if (_isResting)
-        {
-            if (_currentRestTime.TotalSeconds > 0)
-            {
-                _currentRestTime = _currentRestTime.Add(TimeSpan.FromSeconds(-1));
-                HeaderTitle = _currentRestTime.ToString(@"mm\:ss");
-            }
-            else
-            {
-                _isResting = false;
-            }
-        }
-
-        if (!_isResting) HeaderTitle = _totalWorkoutDuration.ToString(@"hh\:mm\:ss");
-    }
-
+    
     private void OnSetCompleted(ActiveSetItem set)
     {
         if (set.IsCompleted)
         {
-            _currentRestTime = set.RestTime;
-            _isResting = true;
-            HeaderTitle = _currentRestTime.ToString(@"mm\:ss");
+            TimerVM.SetRestTime(set.RestTime);
         }
         else
         {
-            _isResting = false;
-            HeaderTitle = _totalWorkoutDuration.ToString(@"hh\:mm\:ss");
+            TimerVM.ClearRestTime();
         }
     }
 
-    [RelayCommand]
-    private void AddSet(ActiveExerciseItem exercise)
+    private void OnDeleteExerciseRequested(ActiveExerciseItem exercise)
     {
-        if (exercise.Sets.Count >= 20)
-        {
-            _alertService.ShowToastAsync(_localizationManager["Error_MaxSetsReached"]);
-            return;
-        }
-
-        var lastSet = exercise.Sets.LastOrDefault();
-        var newOrder = (lastSet?.Order ?? 0) + 1;
-
-        var newSet = new ActiveSetItem(new WorkoutSetDto(
-                Guid.NewGuid(),
-                newOrder,
-                lastSet?.Reps ?? 10,
-                lastSet?.RestTime ?? TimeSpan.FromMinutes(1.5),
-                lastSet?.Weight ?? 0,
-                lastSet?.WeightUnit ?? WeightUnit.Kg),
-            OnSetCompleted,
-            DeleteSetCommand);
-
-        exercise.Sets.Add(newSet);
-    }
-
-    [RelayCommand]
-    private void DeleteSet(ActiveSetItem set)
-    {
-        var parentExercise = Exercises.FirstOrDefault(e => e.Sets.Contains(set));
-        if (parentExercise == null) return;
-
-        if (parentExercise.Sets.Count <= 1)
-        {
-            _alertService.ShowToastAsync(_localizationManager["Error_CannotDeleteLastSet"]);
-            return;
-        }
-
-        parentExercise.Sets.Remove(set);
-
-        for (var i = 0; i < parentExercise.Sets.Count; i++) parentExercise.Sets[i].Order = i + 1;
-    }
-
-    [RelayCommand]
-    private void AskDeleteExercise(ActiveExerciseItem exercise)
-    {
-        ConfirmationTitle = _localizationManager["Title_DeleteExercise"];
-        ConfirmationMessage = _localizationManager["Msg_DeleteExerciseConfirm"];
-        _pendingConfirmationAction = async () =>
-        {
-            Exercises.Remove(exercise);
-            await Task.CompletedTask;
-        };
-        IsConfirmationPopupVisible = true;
+        PopupVM.ShowConfirmation(
+            "Title_DeleteExercise",
+            "Msg_DeleteExerciseConfirm",
+            async () =>
+            {
+                ExerciseVM.Exercises.Remove(exercise);
+                await Task.CompletedTask;
+            });
     }
 
     [RelayCommand]
     private void AskFinishWorkout()
     {
-        if (!Exercises.Any())
+        if (!ExerciseVM.HasExercises())
         {
             _alertService.ShowToastAsync(_localizationManager["Error_NoExercisesInWorkout"]);
             return;
         }
 
-        if (Exercises.Any(e => e.Sets.Count == 0))
+        if (ExerciseVM.HasExercisesWithoutSets())
         {
             _alertService.ShowToastAsync(_localizationManager["Error_ExerciseWithoutSets"]);
             return;
         }
 
-        var totalMinutes = _totalWorkoutDuration.TotalMinutes;
+        var totalMinutes = TimerVM.TotalWorkoutDuration.TotalMinutes;
 
         if (totalMinutes is < 10 or > 300)
         {
-            EntryPopupTitle = _localizationManager["Title_AdjustDuration"];
-            EntryPopupPlaceholder = _localizationManager["Placeholder_EnterDurationMinutes"];
-
-            EntryPopupDuration = _totalWorkoutDuration;
-
-            if (EntryPopupDuration.TotalMinutes < 10)
-                EntryPopupDuration = TimeSpan.FromMinutes(10);
-
-            IsEntryPopupVisible = true;
+            PopupVM.ShowDurationEntry(TimerVM.TotalWorkoutDuration);
             return;
         }
 
         ShowFinishConfirmation();
     }
 
-    [RelayCommand]
-    private void SaveCorrectedDuration()
+    private void OnDurationValidationError(string errorKey)
     {
-        var minutes = EntryPopupDuration.TotalMinutes;
-
-        switch (minutes)
-        {
-            case < 10:
-                _alertService.ShowToastAsync(_localizationManager["Error_DurationTooShort"]);
-                return;
-            case > 300:
-                _alertService.ShowToastAsync(_localizationManager["Error_DurationTooLong"]);
-                return;
-        }
-
-        _totalWorkoutDuration = EntryPopupDuration;
-        IsEntryPopupVisible = false;
-
-        ShowFinishConfirmation();
+        _alertService.ShowToastAsync(_localizationManager[errorKey]);
     }
 
-    [RelayCommand]
-    private void CloseEntryPopup()
+    private async void OnDurationCorrectionSaved(TimeSpan correctedDuration)
     {
-        IsEntryPopupVisible = false;
+        TimerVM.SetTotalDuration(correctedDuration);
+        await FinishWorkoutInternal();
     }
 
     private void ShowFinishConfirmation()
     {
-        ConfirmationTitle = _localizationManager["Title_FinishWorkout"];
-        ConfirmationMessage = _localizationManager["Msg_FinishWorkoutConfirm"];
-        _pendingConfirmationAction = FinishWorkoutInternal;
-        IsConfirmationPopupVisible = true;
+        PopupVM.ShowConfirmation(
+            "Title_FinishWorkout",
+            "Msg_FinishWorkoutConfirm",
+            FinishWorkoutInternal);
     }
 
     [RelayCommand]
     private async Task ConfirmAction()
     {
-        IsConfirmationPopupVisible = false;
-        if (_pendingConfirmationAction != null)
-        {
-            await _pendingConfirmationAction.Invoke();
-            _pendingConfirmationAction = null;
-        }
+        await PopupVM.ConfirmActionCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
     private void CloseConfirmationPopup()
     {
-        IsConfirmationPopupVisible = false;
-        _pendingConfirmationAction = null;
+        PopupVM.CloseConfirmationPopupCommand.Execute(null);
     }
 
     private async Task FinishWorkoutInternal()
     {
-        StopTimer();
+        TimerVM.StopTimer();
         IsLoading = true;
 
         try
         {
             var endTime = TimeOnly.FromDateTime(DateTime.Now);
-            var startTime = endTime.Add(-_totalWorkoutDuration);
+            var startTime = endTime.Add(-TimerVM.TotalWorkoutDuration);
 
             var workoutEntry = new WorkoutEntryDto(
                 Guid.NewGuid(),
                 ProgramId,
                 startTime,
                 endTime,
-                Exercises.Select(e => e.ToPerformedExerciseDto()).ToList(),
-                CalculateTotalVolume(),
-                CalculateTotalReps()
+                ExerciseVM.GetPerformedExercises(),
+                ExerciseVM.CalculateTotalVolume(),
+                ExerciseVM.CalculateTotalReps()
             );
 
-            var updatedPlans = Exercises.Select(e => new WorkoutExercisePlanDto(
-                e.Id,
-                ProgramId,
-                e.WorkoutExercise,
-                e.Sets.Select(s => s.ToDto()).ToList()
-            )).ToList();
+            var updatedPlans = ExerciseVM.GetUpdatedPlans();
 
             var programUpdateRequest = new WorkoutProgramRequest(
                 _programName,
@@ -379,7 +230,7 @@ public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributa
         {
             var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
             await _alertService.ShowToastAsync(genericError.Localized);
-            _timer?.Start();
+            TimerVM.StartTimer();
         }
         finally
         {
@@ -396,49 +247,28 @@ public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributa
     [RelayCommand]
     private void AskCancelWorkout()
     {
-        ConfirmationTitle = _localizationManager["Title_CancelWorkout"];
-        ConfirmationMessage = _localizationManager["Msg_CancelWorkoutConfirm"];
-
-        _pendingConfirmationAction = CancelWorkoutInternal;
-
-        IsConfirmationPopupVisible = true;
+        PopupVM.ShowConfirmation(
+            "Title_CancelWorkout",
+            "Msg_CancelWorkoutConfirm",
+            CancelWorkoutInternal);
     }
 
     private async Task CancelWorkoutInternal()
     {
-        StopTimer();
+        TimerVM.StopTimer();
         await Shell.Current.GoToAsync("..");
-    }
-
-    private void StopTimer()
-    {
-        if (_timer == null) return;
-
-        _timer.Stop();
-        _timer.Tick -= OnTimerTick;
-        _timer = null;
-    }
-
-    private double CalculateTotalVolume()
-    {
-        return Exercises.Sum(e => e.Sets.Where(s => s.IsCompleted).Sum(s => s.Weight * s.Reps));
-    }
-
-    private double CalculateTotalReps()
-    {
-        return Exercises.Sum(e => e.Sets.Where(s => s.IsCompleted).Sum(s => s.Reps));
     }
 
     private void HandleError(LocalizedString errorMsg)
     {
-        if (Exercises.Any())
+        if (ExerciseVM.HasExercises())
             _alertService.ShowToastAsync(errorMsg.Localized);
         else
             Error = errorMsg;
     }
 }
 
-public partial class ActiveExerciseItem : ObservableObject
+public class ActiveExerciseItem : ObservableObject
 {
     public Guid Id { get; }
     public WorkoutExerciseDto WorkoutExercise { get; }
@@ -486,16 +316,24 @@ public partial class ActiveSetItem : ObservableObject
 
     partial void OnRepsChanged(int value)
     {
-        if (value < 0) Reps = 0;
-        else if (value > 100) Reps = 100;
+        Reps = value switch
+        {
+            < 0 => 0,
+            > 100 => 100,
+            _ => Reps
+        };
     }
 
     [ObservableProperty] private double _weight;
 
     partial void OnWeightChanged(double value)
     {
-        if (value < 0) Weight = 0;
-        else if (value > 1500) Weight = 1500;
+        Weight = value switch
+        {
+            < 0 => 0,
+            > 1500 => 1500,
+            _ => Weight
+        };
     }
 
     [ObservableProperty] private TimeSpan _restTime;
@@ -513,7 +351,7 @@ public partial class ActiveSetItem : ObservableObject
 
     partial void OnIsCompletedChanged(bool value)
     {
-        _onCompletedChanged?.Invoke(this);
+        _onCompletedChanged(this);
     }
 
     public ActiveSetItem(

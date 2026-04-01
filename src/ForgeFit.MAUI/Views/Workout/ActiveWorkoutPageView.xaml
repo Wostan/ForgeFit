@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -25,10 +25,10 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid>
+        <Grid x:Name="RootGrid">
             <controls:NavigationHeader ZIndex="11"
                                        BackCommand="{Binding AskCancelWorkoutCommand}"
-                                       Title="{Binding HeaderTitle}" />
+                                       Title="{Binding TimerVM.HeaderTitle}" />
 
             <controls:StateContainer IsLoading="{Binding IsLoading}"
                                      IsError="{Binding IsError}"
@@ -38,7 +38,7 @@
                 <ScrollView>
                     <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
 
-                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Exercises}"
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding ExerciseVM.Exercises}"
                                              Spacing="8">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="local:ActiveExerciseItem">
@@ -255,19 +255,20 @@
                 </ScrollView>
             </controls:StateContainer>
 
-            <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}">
+            <controls:ConfirmationPopup IsVisible="{Binding PopupVM.IsConfirmationPopupVisible}" 
+                                        BindingContext="{Binding PopupVM}">
                 <controls:ConfirmationPopup.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding Source={x:Reference Name=RootGrid}, Path=BindingContext.PopupVM.IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
             </controls:ConfirmationPopup>
 
-            <controls:DurationEntryPopup IsVisible="{Binding IsEntryPopupVisible}"
-                                         Title="{Binding EntryPopupTitle}"
-                                         Duration="{Binding EntryPopupDuration}"
-                                         SaveCommand="{Binding SaveCorrectedDurationCommand}"
-                                         CancelCommand="{Binding CloseEntryPopupCommand}">
+            <controls:DurationEntryPopup IsVisible="{Binding PopupVM.IsEntryPopupVisible}"
+                                         Title="{Binding PopupVM.EntryPopupTitle}"
+                                         Duration="{Binding PopupVM.EntryPopupDuration}"
+                                         SaveCommand="{Binding PopupVM.SaveCorrectedDurationCommand}"
+                                         CancelCommand="{Binding PopupVM.CloseEntryPopupCommand}">
                 <controls:DurationEntryPopup.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEntryPopupVisible}" />
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding PopupVM.IsEntryPopupVisible}" />
                 </controls:DurationEntryPopup.Behaviors>
             </controls:DurationEntryPopup>
 
