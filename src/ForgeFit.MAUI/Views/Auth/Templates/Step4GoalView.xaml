@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -43,7 +43,7 @@
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding TargetWeight, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding GoalVM.TargetWeight, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
                                           Style="{StaticResource LabelH1}"
                                           FontSize="36" />
@@ -56,19 +56,19 @@
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="{Binding MinTargetWeight}"
-                            Maximum="{Binding MaxTargetWeight}"
-                            Value="{Binding TargetWeight}"
+                    <Slider Minimum="{Binding GoalVM.MinTargetWeight}"
+                            Maximum="{Binding GoalVM.MaxTargetWeight}"
+                            Value="{Binding GoalVM.TargetWeight}"
                             ThumbColor="{StaticResource Primary}"
                             MinimumTrackColor="{StaticResource Primary}" />
 
                     <Grid ColumnDefinitions="Auto, *, Auto" Padding="5,0">
                         <Label Grid.Column="0"
-                               Text="{Binding MinTargetWeight, StringFormat='{0:F0}'}"
+                               Text="{Binding GoalVM.MinTargetWeight, StringFormat='{0:F0}'}"
                                Style="{StaticResource LabelBody}" />
 
                         <Label Grid.Column="2"
-                               Text="{Binding MaxTargetWeight, StringFormat='{0:F0}'}"
+                               Text="{Binding GoalVM.MaxTargetWeight, StringFormat='{0:F0}'}"
                                Style="{StaticResource LabelBody}" />
                     </Grid>
                 </VerticalStackLayout>
@@ -76,7 +76,7 @@
 
             <VerticalStackLayout>
                 <Border Style="{StaticResource CardStyle}"
-                        IsEnabled="{Binding IsDeadlineActive}">
+                        IsEnabled="{Binding GoalVM.IsDeadlineActive}">
                     <Grid RowDefinitions="Auto, *">
                         <Grid ColumnDefinitions="Auto, *" Grid.Row="0" VerticalOptions="Center">
                             <Label Grid.Column="0"
@@ -84,7 +84,7 @@
                                    Style="{StaticResource LabelH2}" />
 
                             <Label Grid.Column="1"
-                                   Text="{Binding DaysLeftText}"
+                                   Text="{Binding GoalVM.DaysLeftText}"
                                    Style="{StaticResource LabelBody}"
                                    TextColor="{StaticResource Primary}"
                                    FontSize="12"
@@ -93,8 +93,8 @@
                         </Grid>
 
                         <DatePicker Grid.Row="1"
-                                    Date="{Binding GoalDueDate}"
-                                    MinimumDate="{Binding MinGoalDate}"
+                                    Date="{Binding GoalVM.GoalDueDate}"
+                                    MinimumDate="{Binding GoalVM.MinGoalDate}"
                                     Format="dd MMM yyyy"
                                     FontSize="42"
                                     HorizontalOptions="Center"
@@ -105,21 +105,20 @@
                 <HorizontalStackLayout Spacing="5"
                                        HorizontalOptions="Start"
                                        VerticalOptions="Start">
-                    <CheckBox IsChecked="{Binding IsNoDeadline}"
+                    <CheckBox IsChecked="{Binding GoalVM.IsNoDeadline}"
                               Color="{StaticResource Primary}" />
 
                     <Label Text="{maui:Translate Goal_NoDeadline}"
                            VerticalOptions="Center"
                            Style="{StaticResource LabelBody}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleDeadlineCommand}" />
+                            <TapGestureRecognizer Command="{Binding GoalVM.ToggleDeadlineCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
 
-            <Label Text="{Binding Error.Localized}"
-                   Opacity="{Binding IsError}"
+            <Label Text="{Binding GoalVM.ValidationError.Localized}"
                    TextColor="{StaticResource DangerColor}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"

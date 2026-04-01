@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -39,7 +39,7 @@
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding Height, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding MeasurementsVM.Height, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
                                           Style="{StaticResource LabelH1}" />
                                     <Span Text=" "
@@ -53,7 +53,7 @@
 
                     <Slider Minimum="100"
                             Maximum="250"
-                            Value="{Binding Height}" />
+                            Value="{Binding MeasurementsVM.Height}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
                         <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="100" />
@@ -73,7 +73,7 @@
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding Weight, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding MeasurementsVM.Weight, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
                                           Style="{StaticResource LabelH1}" />
                                     <Span Text=" "
@@ -87,7 +87,7 @@
 
                     <Slider Minimum="30"
                             Maximum="300"
-                            Value="{Binding Weight}" />
+                            Value="{Binding MeasurementsVM.Weight}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
                         <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="30" />
@@ -100,7 +100,7 @@
 
         <Border Grid.Row="2"
                 Style="{StaticResource CardStyle}"
-                Stroke="{Binding BmiColor}"
+                Stroke="{Binding MeasurementsVM.BmiColor}"
                 VerticalOptions="End">
 
             <Grid ColumnDefinitions="Auto, *">
@@ -109,20 +109,20 @@
                            Style="{StaticResource LabelBody}"
                            FontSize="14"
                            HorizontalOptions="Center" />
-                    <Label Text="{Binding BmiValue, StringFormat='{0:F1}'}"
+                    <Label Text="{Binding MeasurementsVM.BmiValue, StringFormat='{0:F1}'}"
                            Style="{StaticResource LabelH1}"
                            FontSize="40"
-                           TextColor="{Binding BmiColor}"
+                           TextColor="{Binding MeasurementsVM.BmiColor}"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
-                    <Label Text="{Binding BmiCategoryText.Localized}"
+                    <Label Text="{Binding MeasurementsVM.BmiCategoryText.Localized}"
                            Style="{StaticResource LabelH2}"
-                           TextColor="{Binding BmiColor}"
+                           TextColor="{Binding MeasurementsVM.BmiColor}"
                            HorizontalTextAlignment="End" />
 
-                    <Label Text="{Binding BmiDescription.Localized}"
+                    <Label Text="{Binding MeasurementsVM.BmiDescription.Localized}"
                            Style="{StaticResource LabelBody}"
                            FontSize="12"
                            HorizontalTextAlignment="End" />

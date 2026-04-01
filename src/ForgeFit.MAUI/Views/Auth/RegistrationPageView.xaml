@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -45,9 +45,9 @@
     </ContentPage.Resources>
 
     <Grid>
-        <CarouselView ItemsSource="{Binding Steps}"
+        <CarouselView ItemsSource="{Binding NavigationVM.Steps}"
                       ItemTemplate="{StaticResource StepSelector}"
-                      Position="{Binding CurrentPosition}"
+                      Position="{Binding NavigationVM.CurrentPosition}"
                       VerticalOptions="Fill"
                       HorizontalScrollBarVisibility="Never"
                       IsSwipeEnabled="False"
@@ -58,7 +58,7 @@
               ColumnSpacing="15"
               VerticalOptions="End"
               Margin="20"
-              behaviors:GridSlideBehavior.IsVisibleAnimated="{Binding IsMainNavigationVisible}">
+              behaviors:GridSlideBehavior.IsVisibleAnimated="{Binding NavigationVM.IsMainNavigationVisible}">
 
             <Button Grid.Column="0"
                     Style="{StaticResource SecondaryButton}"
@@ -67,7 +67,7 @@
                     Command="{Binding PreviousStepCommand}" />
 
             <Button Grid.Column="1"
-                    Text="{Binding ButtonText}"
+                    Text="{Binding NavigationVM.ButtonText}"
                     VerticalOptions="Center"
                     Shadow="{x:Null}"
                     Command="{Binding NextStepCommand}" />
@@ -75,10 +75,10 @@
 
         <ProgressBar HeightRequest="4"
                      VerticalOptions="End"
-                     IsVisible="{Binding CurrentPosition, Converter={toolkit:IntToBoolConverter}}">
+                     IsVisible="{Binding NavigationVM.CurrentPosition, Converter={toolkit:IntToBoolConverter}}">
             <ProgressBar.Behaviors>
                 <toolkit:ProgressBarAnimationBehavior
-                    Progress="{Binding BindingContext.Progress, Source={x:Reference ThisPage}}"
+                    Progress="{Binding BindingContext.NavigationVM.Progress, Source={x:Reference ThisPage}}"
                     Length="250"
                     Easing="SinInOut" />
             </ProgressBar.Behaviors>
