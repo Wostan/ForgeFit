@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -26,7 +26,7 @@
                     <controls:ViewBox Stretch="Uniform">
                         <Grid WidthRequest="100" HeightRequest="100">
 
-                            <progressRing:ProgressRing Progress="{Binding CarbsProgress}"
+                            <progressRing:ProgressRing Progress="{Binding NutritionVM.CarbsProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
                                                        Color="{StaticResource CarbsColor}"
@@ -41,13 +41,13 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding CurrentCarbs, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding NutritionVM.CurrentCarbs, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="18"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TargetCarbsDisplay, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding NutritionVM.TargetCarbsDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -59,7 +59,7 @@
                 <Grid Grid.Row="0" Grid.Column="1">
                     <controls:ViewBox>
                         <Grid WidthRequest="100" HeightRequest="100">
-                            <progressRing:ProgressRing Progress="{Binding ProteinProgress}"
+                            <progressRing:ProgressRing Progress="{Binding NutritionVM.ProteinProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
                                                        Color="{StaticResource ProteinColor}"
@@ -74,13 +74,13 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding CurrentProtein, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding NutritionVM.CurrentProtein, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="18"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TargetProteinDisplay, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding NutritionVM.TargetProteinDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -92,7 +92,7 @@
                 <Grid Grid.Row="0" Grid.Column="2">
                     <controls:ViewBox>
                         <Grid WidthRequest="100" HeightRequest="100">
-                            <progressRing:ProgressRing Progress="{Binding FatProgress}"
+                            <progressRing:ProgressRing Progress="{Binding NutritionVM.FatProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
                                                        Color="{StaticResource FatColor}"
@@ -107,13 +107,13 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding CurrentFat, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding NutritionVM.CurrentFat, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="18"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TargetFatDisplay, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding NutritionVM.TargetFatDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -133,12 +133,12 @@
                                HorizontalTextAlignment="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding CurrentCalories, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding NutritionVM.CurrentCalories, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" FontSize="14" />
-                                    <Span Text="{Binding TargetCaloriesDisplay, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding NutritionVM.TargetCaloriesDisplay, StringFormat='{0:F0}'}"
                                           Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBody}" FontSize="14" />
@@ -152,7 +152,7 @@
                         <ProgressBar.Behaviors>
                             <toolkit:ProgressBarAnimationBehavior
                                 BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
-                                Progress="{Binding CaloriesProgress}"
+                                Progress="{Binding NutritionVM.CaloriesProgress}"
                                 Length="250"
                                 Easing="SinInOut" />
                         </ProgressBar.Behaviors>
@@ -170,12 +170,12 @@
                                HorizontalTextAlignment="End">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding CurrentWater}"
+                                    <Span Text="{Binding WaterVM.CurrentWater}"
                                           Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" FontSize="14" />
-                                    <Span Text="{Binding TargetWaterDisplay}"
+                                    <Span Text="{Binding WaterVM.TargetWaterDisplay}"
                                           Style="{StaticResource LabelBody}" FontSize="14" />
                                     <Span Text=" "
                                           Style="{StaticResource LabelBody}" FontSize="14" />
@@ -189,7 +189,7 @@
                         <ProgressBar.Behaviors>
                             <toolkit:ProgressBarAnimationBehavior
                                 BindingContext="{Binding BindingContext, Source={x:Reference WaterBar}}"
-                                Progress="{Binding WaterProgress}"
+                                Progress="{Binding WaterVM.WaterProgress}"
                                 Length="250"
                                 Easing="SinInOut" />
                         </ProgressBar.Behaviors>

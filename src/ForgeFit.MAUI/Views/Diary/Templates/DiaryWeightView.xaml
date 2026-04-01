@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -40,7 +40,7 @@
                                 <FormattedString>
                                     <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}" />
                                     <Span Text=": " Style="{StaticResource LabelBody}" />
-                                    <Span Text="{Binding TargetWeightDisplay}" Style="{StaticResource LabelBody}"
+                                    <Span Text="{Binding WeightVM.TargetWeightDisplay}" Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" " Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}" />
@@ -55,7 +55,7 @@
                                 <FormattedString>
                                     <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}" />
                                     <Span Text=": " Style="{StaticResource LabelBody}" />
-                                    <Span Text="{Binding WeightLeft, StringFormat='{0:F1}'}"
+                                    <Span Text="{Binding WeightVM.WeightLeft, StringFormat='{0:F1}'}"
                                           Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource WeightColor}" />
                                     <Span Text=" " Style="{StaticResource LabelBody}" />
@@ -72,7 +72,7 @@
                         <ProgressBar.Behaviors>
                             <toolkit:ProgressBarAnimationBehavior
                                 BindingContext="{Binding BindingContext, Source={x:Reference WeightBar}}"
-                                Progress="{Binding WeightProgress}"
+                                Progress="{Binding WeightVM.WeightProgress}"
                                 Length="250"
                                 Easing="SinInOut" />
                         </ProgressBar.Behaviors>
@@ -92,14 +92,14 @@
                                 ImageSource="remove.svg"
                                 HorizontalOptions="End"
                                 Shadow="{StaticResource WeightGlow}"
-                                Command="{Binding DecreaseWeightCommand}">
+                                Command="{Binding WeightVM.DecreaseWeightCommand}">
                             <Button.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimaryDark}" />
                             </Button.Behaviors>
                         </Button>
 
                         <Label Grid.Column="1"
-                               Text="{Binding CurrentWeightInput}"
+                               Text="{Binding WeightVM.CurrentWeightInput}"
                                Style="{StaticResource WeightEntryStyle}" />
 
                         <Button Grid.Column="2"
@@ -107,7 +107,7 @@
                                 ImageSource="add_big.svg"
                                 HorizontalOptions="Start"
                                 Shadow="{StaticResource WeightGlow}"
-                                Command="{Binding IncreaseWeightCommand}">
+                                Command="{Binding WeightVM.IncreaseWeightCommand}">
                             <Button.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimaryDark}" />
                             </Button.Behaviors>
