@@ -1,11 +1,9 @@
-﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ForgeFit.MAUI.Messages;
-using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
-using ForgeFit.MAUI.Views.Workout;
+using ForgeFit.MAUI.ViewModels.Workout;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels;
@@ -23,27 +21,9 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
     [ObservableProperty] private bool _isRefreshing;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
-    private int _completedWorkouts;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
-    private int _targetWorkouts;
-
-    public double WorkoutProgress => TargetWorkouts > 0
-        ? (double)CompletedWorkouts / TargetWorkouts
-        : 0;
-
-    [ObservableProperty] private string _statsSubtitle = string.Empty;
-
-    [ObservableProperty] private ObservableCollection<WorkoutProgramItem> _programs = [];
-
-    [ObservableProperty] private bool _isCreatePopupVisible;
-    [ObservableProperty] private string _newProgramName = string.Empty;
-
-    [ObservableProperty] private bool _isConfirmationPopupVisible;
-    [ObservableProperty] private string _confirmationTitle = string.Empty;
-    [ObservableProperty] private string _confirmationMessage = string.Empty;
-    private Func<Task>? _pendingConfirmationAction;
+    public WorkoutStatsViewModel StatsVM { get; }
+    public WorkoutProgramManagerViewModel ProgramManagerVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
 
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,
@@ -57,6 +37,10 @@ public partial class WorkoutPageViewModel : BaseViewModel
         _goalService = goalService;
         _alertService = alertService;
         _localizationManager = localizationManager;
+
+        StatsVM = new WorkoutStatsViewModel(workoutTrackingService, goalService);
+        ProgramManagerVM = new WorkoutProgramManagerViewModel(workoutProgramService, alertService, localizationManager);
+        PopupVM = new PopupManagerViewModel(localizationManager);
 
         WeakReferenceMessenger.Default.Register<WorkoutPageViewModel, WorkoutDataUpdatedMessage>(
             this,
@@ -84,44 +68,12 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
         try
         {
-            var today = DateTime.Today;
+            var statsTask = StatsVM.LoadStatsAsync(token);
+            var programsTask = ProgramManagerVM.LoadProgramsAsync(token);
 
-            var daysSinceMonday = ((int)today.DayOfWeek - 1 + 7) % 7;
-            var monday = today.AddDays(-daysSinceMonday);
-            var nextMonday = monday.AddDays(7);
-
-            var goalTask = _goalService.GetWorkoutGoal(token);
-            var statsTask = _workoutTrackingService.GetEntriesByDateRangeAsync(monday, nextMonday, token);
-            var programsTask = _workoutProgramService.GetAllProgramsAsync();
-
-            await Task.WhenAll(goalTask, statsTask, programsTask);
+            await Task.WhenAll(statsTask, programsTask);
 
             if (token.IsCancellationRequested) return;
-
-            string? errorMessage = null;
-            if (!goalTask.Result.Success) errorMessage = goalTask.Result.Message;
-            else if (!statsTask.Result.Success) errorMessage = statsTask.Result.Message;
-            else if (!programsTask.Result.Success) errorMessage = programsTask.Result.Message;
-
-            if (errorMessage != null)
-            {
-                HandleError(new LocalizedString(() => errorMessage));
-                return;
-            }
-
-            if (goalTask.Result is { Success: true, Data: not null })
-                TargetWorkouts = goalTask.Result.Data.WorkoutsPerWeek;
-
-            if (statsTask.Result is { Success: true, Data: not null }) CompletedWorkouts = statsTask.Result.Data.Count;
-
-            if (programsTask.Result is { Success: true, Data: not null })
-            {
-                var viewModels = programsTask.Result.Data
-                    .Select(dto => new WorkoutProgramItem(dto));
-                Programs = new ObservableCollection<WorkoutProgramItem>(viewModels);
-            }
-
-            UpdateStatsSubtitle();
 
             _isInitialized = true;
             Error = null;
@@ -166,129 +118,41 @@ public partial class WorkoutPageViewModel : BaseViewModel
     [RelayCommand]
     private void GoToCreateProgram()
     {
-        NewProgramName = string.Empty;
-        IsCreatePopupVisible = true;
+        PopupVM.ShowCreatePopup();
     }
 
     [RelayCommand]
     private async Task ConfirmCreateProgram()
     {
-        if (string.IsNullOrWhiteSpace(NewProgramName)) return;
-
-        if (NewProgramName.Length > 50)
-        {
-            await _alertService.ShowToastAsync(_localizationManager["Error_ProgramNameTooLong"]);
-            return;
-        }
-
-        IsCreatePopupVisible = false;
-        IsLoading = true;
-
-        try
-        {
-            var request = new WorkoutProgramRequest(NewProgramName, null, []);
-            var result = await _workoutProgramService.CreateProgramAsync(request);
-
-            if (result is { Success: true, Data: not null })
-            {
-                Programs.Insert(0, new WorkoutProgramItem(result.Data));
-
-                await Shell.Current.GoToAsync($"{nameof(WorkoutProgramEditorPageView)}?ProgramId={result.Data.Id}");
-            }
-            else
-            {
-                var errorMsg = new LocalizedString(() => result.Message);
-                await _alertService.ShowToastAsync(errorMsg.Localized);
-            }
-        }
-        catch (Exception)
-        {
-            await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
-        }
-        finally
-        {
-            IsLoading = false;
-        }
-    }
-
-    [RelayCommand]
-    private void CloseCreatePopup()
-    {
-        IsCreatePopupVisible = false;
+        PopupVM.CloseCreatePopupCommand.Execute(null);
+        await ProgramManagerVM.CreateProgramCommand.ExecuteAsync(PopupVM.CreateInputValue);
     }
 
     [RelayCommand]
     private void AskDeleteProgram(WorkoutProgramItem item)
     {
-        ConfirmationTitle = _localizationManager["Title_DeleteProgram"];
-        ConfirmationMessage = _localizationManager["Msg_DeleteProgramConfirm"];
-
-        _pendingConfirmationAction = async () =>
-        {
-            IsLoading = true;
-            try
-            {
-                var result = await _workoutProgramService.DeleteProgramAsync(item.Program.Id);
-                if (result.Success)
-                {
-                    Programs.Remove(item);
-                    UpdateStatsSubtitle();
-                }
-                else
-                {
-                    var errorMsg = new LocalizedString(() => result.Message);
-                    await _alertService.ShowToastAsync(errorMsg.Localized);
-                }
-            }
-            catch (Exception)
-            {
-                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        };
-
-        IsConfirmationPopupVisible = true;
-    }
-
-    [RelayCommand]
-    private async Task ConfirmAction()
-    {
-        IsConfirmationPopupVisible = false;
-        if (_pendingConfirmationAction != null)
-        {
-            await _pendingConfirmationAction.Invoke();
-            _pendingConfirmationAction = null;
-        }
-    }
-
-    [RelayCommand]
-    private void CloseConfirmationPopup()
-    {
-        IsConfirmationPopupVisible = false;
-        _pendingConfirmationAction = null;
+        PopupVM.ShowConfirmation(
+            "Title_DeleteProgram",
+            "Msg_DeleteProgramConfirm",
+            async () => await ProgramManagerVM.DeleteProgramCommand.ExecuteAsync(item));
     }
 
     [RelayCommand]
     private async Task GoToEditProgram(WorkoutProgramItem item)
     {
-        await Shell.Current.GoToAsync($"{nameof(WorkoutProgramEditorPageView)}?ProgramId={item.Program.Id}");
+        await ProgramManagerVM.GoToEditProgramCommand.ExecuteAsync(item);
     }
 
     [RelayCommand]
     private async Task StartProgram(WorkoutProgramItem item)
     {
-        await Shell.Current.GoToAsync($"{nameof(ActiveWorkoutPageView)}?ProgramId={item.Program.Id}");
+        await ProgramManagerVM.StartProgramCommand.ExecuteAsync(item);
     }
 
     private void SetLoadingState()
     {
-        CompletedWorkouts = 0;
-        TargetWorkouts = 0;
-        StatsSubtitle = "-";
-        Programs.Clear();
+        StatsVM.ResetStats();
+        ProgramManagerVM.ResetPrograms();
     }
 
     private void HandleError(LocalizedString errorMsg)
@@ -304,21 +168,4 @@ public partial class WorkoutPageViewModel : BaseViewModel
         }
     }
 
-    private void UpdateStatsSubtitle()
-    {
-        StatsSubtitle = $"{CompletedWorkouts} / {TargetWorkouts} completed";
-    }
-}
-
-public class WorkoutProgramItem(WorkoutProgramResponse program)
-{
-    public WorkoutProgramResponse Program { get; } = program;
-
-    public IEnumerable<WorkoutExercisePlanDto> Top3Exercises =>
-        Program.WorkoutExercisePlans?.Take(3) ?? [];
-
-    public int RemainingCount =>
-        Math.Max(0, (Program.WorkoutExercisePlans?.Count ?? 0) - 3);
-
-    public bool HasMore => RemainingCount > 0;
 }

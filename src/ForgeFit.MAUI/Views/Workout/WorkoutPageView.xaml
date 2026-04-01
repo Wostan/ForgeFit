@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -9,6 +9,7 @@
              xmlns:models="using:ForgeFit.MAUI.Models.DTOs.Workout"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             xmlns:workout="clr-namespace:ForgeFit.MAUI.ViewModels.Workout"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
              x:DataType="local:WorkoutPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageView"
@@ -18,7 +19,7 @@
         <ResourceDictionary>
             <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
 
-            <DataTemplate x:Key="ProgramItemTemplate" x:DataType="local:WorkoutProgramItem">
+            <DataTemplate x:Key="ProgramItemTemplate" x:DataType="workout:WorkoutProgramItem">
                 <SwipeView Threshold="70">
                     <SwipeView.RightItems>
                         <SwipeItems>
@@ -50,7 +51,7 @@
                             Padding="0">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=GoToEditProgramCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=ProgramManagerVM.GoToEditProgramCommand}"
                                 CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
 
@@ -69,7 +70,7 @@
                                          Padding="0"
                                          Source="edit.svg"
                                          Shadow="{StaticResource WorkoutGlow}"
-                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=GoToEditProgramCommand}"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=ProgramManagerVM.GoToEditProgramCommand}"
                                          CommandParameter="{Binding .}">
                                 <ImageButton.Behaviors>
                                     <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
@@ -152,7 +153,7 @@
                                     VerticalOptions="End"
                                     MinimumHeightRequest="-1"
                                     Shadow="{StaticResource WorkoutGlow}"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=StartProgramCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutPageViewModel}}, Path=ProgramManagerVM.StartProgramCommand}"
                                     CommandParameter="{Binding .}" />
                         </Grid>
                     </Border>
@@ -186,11 +187,11 @@
                                             <Label>
                                                 <Label.FormattedText>
                                                     <FormattedString>
-                                                        <Span Text="{Binding CompletedWorkouts, StringFormat='{0:F0}'}"
+                                                        <Span Text="{Binding StatsVM.CompletedWorkouts, StringFormat='{0:F0}'}"
                                                               Style="{StaticResource LabelH1}"
                                                               TextColor="{StaticResource WorkoutColor}" />
                                                         <Span Text=" / " Style="{StaticResource LabelBody}" />
-                                                        <Span Text="{Binding TargetWorkouts, StringFormat='{0:F0}'}"
+                                                        <Span Text="{Binding StatsVM.TargetWorkouts, StringFormat='{0:F0}'}"
                                                               Style="{StaticResource LabelBody}" />
                                                         <Span Text=" " Style="{StaticResource LabelBody}" />
                                                         <Span Text="{maui:Translate Workout_Done}"
@@ -209,7 +210,7 @@
                                             <ProgressBar.Behaviors>
                                                 <toolkit:ProgressBarAnimationBehavior
                                                     BindingContext="{Binding BindingContext, Source={x:Reference WorkoutBar}}"
-                                                    Progress="{Binding WorkoutProgress}"
+                                                    Progress="{Binding StatsVM.WorkoutProgress}"
                                                     Length="250"
                                                     Easing="SinInOut" />
                                             </ProgressBar.Behaviors>
@@ -234,7 +235,7 @@
                                 <Label Text="{maui:Translate Workout_MyPrograms_Title}"
                                        Style="{StaticResource LabelH2}" />
 
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Programs}"
+                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding ProgramManagerVM.Programs}"
                                                      BindableLayout.ItemTemplate="{StaticResource ProgramItemTemplate}"
                                                      Spacing="8" />
 
@@ -245,7 +246,7 @@
                                        IsVisible="False">
                                     <Label.Triggers>
                                         <DataTrigger TargetType="Label"
-                                                     Binding="{Binding Programs.Count, FallbackValue=0}"
+                                                     Binding="{Binding ProgramManagerVM.Programs.Count, FallbackValue=0}"
                                                      Value="0">
                                             <Setter Property="IsVisible" Value="True" />
                                         </DataTrigger>
@@ -261,15 +262,17 @@
             <controls:TextEntryPopup IsVisible="{Binding IsCreatePopupVisible}"
                                      EntryPopupTitle="{maui:Translate Title_NewProgram}"
                                      EntryPopupPlaceholder="{maui:Translate Placeholder_EnterProgramName}"
-                                     EntryPopupText="{Binding NewProgramName}"
-                                     EntryPopupButtonCommand="{Binding ConfirmCreateProgramCommand}"
-                                     CloseEntryPopupCommand="{Binding CloseCreatePopupCommand}">
+                                     EntryPopupText="{Binding CreateInputValue}"
+                                     EntryPopupButtonCommand="{Binding Source={x:Reference ThisPage}, Path=BindingContext.ConfirmCreateProgramCommand}"
+                                     CloseEntryPopupCommand="{Binding CloseCreatePopupCommand}"
+                                     BindingContext="{Binding PopupVM}">
                 <controls:TextEntryPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsCreatePopupVisible}" />
                 </controls:TextEntryPopup.Behaviors>
             </controls:TextEntryPopup>
 
-            <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}">
+            <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}"
+                                     BindingContext="{Binding PopupVM}">
                 <controls:ConfirmationPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
