@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -7,6 +7,7 @@
              xmlns:maui="using:LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:viewmodels="using:ForgeFit.MAUI.ViewModels.Workout"
              xmlns:helpers="using:ForgeFit.MAUI.Helpers"
              x:Class="ForgeFit.MAUI.Views.Workout.WorkoutProgramEditorPageView"
              x:DataType="local:WorkoutProgramEditorPageViewModel"
@@ -25,7 +26,7 @@
                 <controls:NavigationHeader.CustomTitleView>
                     <Grid HorizontalOptions="Fill" VerticalOptions="Center" Margin="10,0">
 
-                        <Label Text="{Binding BindingContext.ProgramName, Source={x:Reference ThisPage}}"
+                        <Label Text="{Binding BindingContext.ProgramVM.ProgramName, Source={x:Reference ThisPage}}"
                                Style="{StaticResource LabelH2}"
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
@@ -54,7 +55,7 @@
                                Style="{StaticResource LabelH2}" />
 
                         <Border Style="{StaticResource InputWrapper}" HeightRequest="100">
-                            <Editor Text="{Binding ProgramDescription}"
+                            <Editor Text="{Binding ProgramVM.ProgramDescription}"
                                     Placeholder="{maui:Translate Placeholder_EnterDescription}"
                                     MaxLength="300"
                                     HeightRequest="100" />
@@ -81,10 +82,10 @@
                             </Button>
                         </Grid>
 
-                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Exercises}"
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding ExerciseVM.Exercises}"
                                              Spacing="8">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="local:EditorExerciseItem">
+                                <DataTemplate x:DataType="viewmodels:EditorExerciseItem">
                                     <Border Style="{StaticResource CardStyle}" Padding="0">
                                         <VerticalStackLayout Spacing="16" Padding="0,20">
 
@@ -137,7 +138,7 @@
 
                                                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding Sets}">
                                                     <BindableLayout.ItemTemplate>
-                                                        <DataTemplate x:DataType="local:EditorSetItem">
+                                                        <DataTemplate x:DataType="viewmodels:EditorSetItem">
                                                             <SwipeView>
                                                                 <SwipeView.RightItems>
                                                                     <SwipeItems>
@@ -270,21 +271,22 @@
             </Grid>
 
             <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}"
+                                        BindingContext="{Binding PopupVM}"
                                         ZIndex="30">
                 <controls:ConfirmationPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
             </controls:ConfirmationPopup>
 
-            <controls:TextEntryPopup IsVisible="{Binding IsRenamePopupVisible}"
+            <controls:TextEntryPopup IsVisible="{Binding PopupVM.IsRenamePopupVisible}"
                                      EntryPopupTitle="{maui:Translate Title_RenameProgram}"
                                      EntryPopupPlaceholder="{maui:Translate Msg_EnterNewName}"
-                                     EntryPopupText="{Binding TempProgramName}"
+                                     EntryPopupText="{Binding PopupVM.TempProgramName}"
                                      EntryPopupButtonCommand="{Binding ConfirmRenameCommand}"
-                                     CloseEntryPopupCommand="{Binding CloseRenamePopupCommand}"
+                                     CloseEntryPopupCommand="{Binding PopupVM.CloseRenamePopupCommand}"
                                      ZIndex="30">
                 <controls:TextEntryPopup.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsRenamePopupVisible}" />
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding PopupVM.IsRenamePopupVisible}" />
                 </controls:TextEntryPopup.Behaviors>
             </controls:TextEntryPopup>
 

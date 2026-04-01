@@ -1,0 +1,113 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Models.DTOs.Workout;
+using ForgeFit.MAUI.Services.Interfaces;
+using LocalizationResourceManager.Maui;
+
+namespace ForgeFit.MAUI.ViewModels.Workout;
+
+public partial class ProgramManagerViewModel(
+    IWorkoutProgramService workoutProgramService,
+    IAlertService alertService,
+    ILocalizationResourceManager localizationManager)
+    : BaseViewModel
+{
+    [ObservableProperty] private Guid _programId;
+    [ObservableProperty] private string _programName = string.Empty;
+    [ObservableProperty] private string? _programDescription;
+
+    public async Task<bool> LoadProgramAsync(Guid programId)
+    {
+        ProgramId = programId;
+        
+        try
+        {
+            var result = await workoutProgramService.GetProgramAsync(ProgramId);
+            if (!result.Success || result.Data == null)
+            {
+                HandleError(new LocalizedString(() => result.Message));
+                return false;
+            }
+
+            ProgramName = result.Data.Name;
+            ProgramDescription = result.Data.Description;
+            return true;
+        }
+        catch (Exception)
+        {
+            HandleError(new LocalizedString(() => localizationManager["UnexpectedErrorMessage"]));
+            return false;
+        }
+    }
+
+    public async Task<bool> SaveProgramAsync(List<WorkoutExercisePlanDto> exercisePlans)
+    {
+        if (string.IsNullOrWhiteSpace(ProgramName))
+        {
+            await alertService.ShowToastAsync(localizationManager["Error_NameRequired"]);
+            return false;
+        }
+
+        if (ProgramName.Length > 50)
+        {
+            await alertService.ShowToastAsync(localizationManager["Error_ProgramNameTooLong"]);
+            return false;
+        }
+
+        if (ProgramDescription?.Length > 300)
+        {
+            await alertService.ShowToastAsync(localizationManager["Error_ProgramDescriptionTooLong"]);
+            return false;
+        }
+
+        if (exercisePlans.Count > 50)
+        {
+            await alertService.ShowToastAsync(localizationManager["Error_TooManyExercises"]);
+            return false;
+        }
+
+        IsLoading = true;
+        try
+        {
+            var request = new WorkoutProgramRequest(ProgramName, ProgramDescription, exercisePlans);
+            var result = await workoutProgramService.UpdateProgramAsync(ProgramId, request);
+
+            if (result.Success)
+            {
+                return true;
+            }
+            else
+            {
+                await alertService.ShowToastAsync(result.Message);
+                return false;
+            }
+        }
+        catch (Exception)
+        {
+            await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
+            return false;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public async Task<bool> ValidateProgramNameAsync(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return false;
+        if (name.Length <= 50) return true;
+        
+        await alertService.ShowToastAsync(localizationManager["Error_ProgramNameTooLong"]);
+        return false;
+    }
+
+    public void UpdateProgramName(string name)
+    {
+        ProgramName = name;
+    }
+
+    private void HandleError(LocalizedString errorMsg)
+    {
+        Error = errorMsg;
+    }
+}

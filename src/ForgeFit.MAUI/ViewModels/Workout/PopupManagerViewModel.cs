@@ -17,6 +17,9 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
     [ObservableProperty] private string _entryPopupPlaceholder = string.Empty;
     [ObservableProperty] private TimeSpan _entryPopupDuration;
 
+    [ObservableProperty] private bool _isRenamePopupVisible;
+    [ObservableProperty] private string _tempProgramName = string.Empty;
+
     public void ShowConfirmation(string titleKey, string messageKey, Func<Task> confirmationAction)
     {
         ConfirmationTitle = localizationManager[titleKey];
@@ -80,6 +83,18 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
     private void CloseEntryPopup()
     {
         IsEntryPopupVisible = false;
+    }
+
+    public void ShowRenamePopup(string currentName)
+    {
+        TempProgramName = currentName;
+        IsRenamePopupVisible = true;
+    }
+
+    [RelayCommand]
+    private void CloseRenamePopup()
+    {
+        IsRenamePopupVisible = false;
     }
 
     public event Action<string>? DurationValidationError;
