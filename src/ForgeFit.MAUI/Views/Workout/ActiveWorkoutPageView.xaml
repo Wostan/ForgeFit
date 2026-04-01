@@ -7,6 +7,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="using:LocalizationResourceManager.Maui"
              xmlns:local="using:ForgeFit.MAUI.ViewModels"
+             xmlns:workoutModels="using:ForgeFit.MAUI.ViewModels.Workout"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
              x:Class="ForgeFit.MAUI.Views.Workout.ActiveWorkoutPageView"
              x:DataType="local:ActiveWorkoutPageViewModel"
@@ -41,7 +42,7 @@
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding ExerciseVM.Exercises}"
                                              Spacing="8">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="local:ActiveExerciseItem">
+                                <DataTemplate x:DataType="workoutModels:ActiveExerciseItem">
                                     <Border Style="{StaticResource CardStyle}" Padding="0">
                                         <VerticalStackLayout Spacing="16" Padding="0,20">
 
@@ -94,7 +95,7 @@
 
                                                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding Sets}">
                                                     <BindableLayout.ItemTemplate>
-                                                        <DataTemplate x:DataType="local:ActiveSetItem">
+                                                        <DataTemplate x:DataType="workoutModels:ActiveSetItem">
                                                             <SwipeView>
                                                                 <SwipeView.RightItems>
                                                                     <SwipeItems>
