@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -36,14 +36,14 @@
                                              HorizontalOptions="End"
                                              Padding="0"
                                              Source="edit.svg"
-                                             Command="{Binding EditProfileCommand}">
+                                             Command="{Binding UserProfileVM.EditProfileCommand}">
                                     <ImageButton.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                                     </ImageButton.Behaviors>
                                 </ImageButton>
 
                                 <VerticalStackLayout Grid.Column="1">
-                                    <Label Style="{StaticResource LabelH2}" Text="{Binding Username}" />
+                                    <Label Style="{StaticResource LabelH2}" Text="{Binding UserProfileVM.Username}" />
                                     <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" Direction="Row">
                                         <Label Style="{StaticResource LabelBody}">
                                             <Label.FormattedText>
@@ -51,7 +51,7 @@
                                                     <Span Style="{StaticResource LabelBody}" Text="🎂" />
                                                     <Span Style="{StaticResource LabelBody}" Text=" " />
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding BirthDate}" />
+                                                          Text="{Binding UserProfileVM.BirthDate}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -59,10 +59,10 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding GenderEmoji}" />
+                                                          Text="{Binding UserProfileVM.GenderEmoji}" />
                                                     <Span Style="{StaticResource LabelBody}" Text=" " />
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding Gender}" />
+                                                          Text="{Binding UserProfileVM.Gender}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -72,10 +72,10 @@
                                                     <Span Style="{StaticResource LabelBody}" Text="⚖️" />
                                                     <Span Style="{StaticResource LabelBody}" Text=" " />
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding Weight}" />
+                                                          Text="{Binding UserProfileVM.Weight}" />
                                                     <Span Style="{StaticResource LabelBody}" Text=" " />
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding WeightUnit}" />
+                                                          Text="{Binding UserProfileVM.WeightUnit}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -85,10 +85,10 @@
                                                     <Span Style="{StaticResource LabelBody}" Text="🧍‍♂️️" />
                                                     <Span Style="{StaticResource LabelBody}" Text=" " />
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding Height}" />
+                                                          Text="{Binding UserProfileVM.Height}" />
                                                     <Span Style="{StaticResource LabelBody}" Text=" " />
                                                     <Span Style="{StaticResource LabelBody}"
-                                                          Text="{Binding HeightUnit}" />
+                                                          Text="{Binding UserProfileVM.HeightUnit}" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -118,7 +118,7 @@
                                     </Button.Behaviors>
                                 </Button>
 
-                                <Button Grid.Column="2"
+                                        <Button Grid.Column="2"
                                         Style="{StaticResource TextButton}"
                                         ImageSource="edit.svg"
                                         Text="{maui:Translate Action_Edit}"
@@ -126,7 +126,7 @@
                                         Padding="0"
                                         MinimumHeightRequest="-1"
                                         HorizontalOptions="End"
-                                        Command="{Binding OpenEditBodyGoalCommand}">
+                                        Command="{Binding BodyGoalVM.OpenEditBodyGoalCommand}">
                                     <Button.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                                     </Button.Behaviors>
@@ -142,7 +142,7 @@
                                            HorizontalOptions="Start"
                                            VerticalOptions="Center"
                                            LineBreakMode="TailTruncation"
-                                           Text="{Binding BodyGoalTitle}" />
+                                           Text="{Binding BodyGoalVM.BodyGoalTitle}" />
 
                                     <Label Grid.Row="0" Grid.Column="2"
                                            Style="{StaticResource LabelBody}"
@@ -150,14 +150,14 @@
                                            VerticalOptions="Center"
                                            MaxLines="1"
                                            LineBreakMode="HeadTruncation"
-                                           Text="{Binding BodyGoalDueDate}" />
+                                           Text="{Binding BodyGoalVM.BodyGoalDueDate}" />
 
                                     <Border Grid.Row="1" Grid.Column="0"
                                             Style="{StaticResource CardStyle}" Padding="0"
                                             HeightRequest="{Binding Width, Source={RelativeSource Self}}">
                                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                             <Label Grid.Row="0"
-                                                   Text="{Binding BodyGoalEmoji}"
+                                                   Text="{Binding BodyGoalVM.BodyGoalEmoji}"
                                                    FontSize="32"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="Center" />
@@ -165,7 +165,7 @@
                                             <controls:ViewBox Grid.Row="1" Stretch="Uniform" HorizontalOptions="Center"
                                                               VerticalOptions="Start">
                                                 <Label Style="{StaticResource LabelBody}"
-                                                       Text="{Binding BodyGoalType}"
+                                                       Text="{Binding BodyGoalVM.BodyGoalType}"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        MaxLines="1"
                                                        LineBreakMode="NoWrap"
@@ -178,7 +178,7 @@
                                             HeightRequest="{Binding Width, Source={RelativeSource Self}}">
                                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                             <Label Grid.Row="0"
-                                                   Text="{Binding NutritionGoalCalories}"
+                                                   Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
                                                    FontSize="32"
                                                    Margin="0"
                                                    VerticalOptions="Center"
@@ -197,7 +197,7 @@
                                             HeightRequest="{Binding Width, Source={RelativeSource Self}}">
                                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                             <Label Grid.Row="0"
-                                                   Text="{Binding BodyGoalWeight}"
+                                                   Text="{Binding BodyGoalVM.BodyGoalWeight}"
                                                    FontSize="32"
                                                    Margin="0"
                                                    VerticalOptions="Center"
@@ -218,7 +218,7 @@
                                            HorizontalOptions="Start"
                                            LineBreakMode="TailTruncation"
                                            MaxLines="10"
-                                           Text="{Binding BodyGoalDescription}" />
+                                           Text="{Binding BodyGoalVM.BodyGoalDescription}" />
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
@@ -238,7 +238,7 @@
                                         Padding="0"
                                         MinimumHeightRequest="-1"
                                         HorizontalOptions="End"
-                                        Command="{Binding OpenEditNutritionGoalCommand}">
+                                        Command="{Binding NutritionGoalVM.OpenEditNutritionGoalCommand}">
                                     <Button.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                                     </Button.Behaviors>
@@ -251,7 +251,7 @@
                                         <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding NutritionGoalCalories}"
+                                                       Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource Primary}"
                                                        Shadow="{StaticResource PrimaryGlow}"
@@ -270,7 +270,7 @@
                                         <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding NutritionGoalVolumeMl}"
+                                                       Text="{Binding NutritionGoalVM.NutritionGoalVolumeMl}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource WaterColor}"
                                                        Shadow="{StaticResource WaterGlow}"
@@ -291,7 +291,7 @@
                                         <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding NutritionGoalCarbs}"
+                                                       Text="{Binding NutritionGoalVM.NutritionGoalCarbs}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource CarbsColor}"
                                                        Shadow="{StaticResource CarbsGlow}"
@@ -310,7 +310,7 @@
                                         <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding NutritionGoalProtein}"
+                                                       Text="{Binding NutritionGoalVM.NutritionGoalProtein}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource ProteinColor}"
                                                        Shadow="{StaticResource ProteinGlow}"
@@ -329,7 +329,7 @@
                                         <Border Grid.Column="2" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding NutritionGoalFat}"
+                                                       Text="{Binding NutritionGoalVM.NutritionGoalFat}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource FatColor}"
                                                        Shadow="{StaticResource FatGlow}"
@@ -365,7 +365,7 @@
                                         Padding="0"
                                         MinimumHeightRequest="-1"
                                         HorizontalOptions="End"
-                                        Command="{Binding OpenEditWorkoutGoalCommand}">
+                                        Command="{Binding WorkoutGoalVM.OpenEditWorkoutGoalCommand}">
                                     <Button.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
                                     </Button.Behaviors>
@@ -378,7 +378,7 @@
                                         <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding WorkoutGoalPerWeek}"
+                                                       Text="{Binding WorkoutGoalVM.WorkoutGoalPerWeek}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource WorkoutColor}"
                                                        Shadow="{StaticResource WorkoutGlow}"
@@ -400,7 +400,7 @@
                                         <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="0">
                                             <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                                 <Label Grid.Row="0"
-                                                       Text="{Binding WorkoutGoalDurationMinutes}"
+                                                       Text="{Binding WorkoutGoalVM.WorkoutGoalDurationMinutes}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource WorkoutColor}"
                                                        Shadow="{StaticResource WorkoutGlow}"
@@ -426,7 +426,7 @@
                                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                                             <controls:ViewBox Grid.Row="0" Stretch="Uniform" HorizontalOptions="Center"
                                                               VerticalOptions="Center">
-                                                <Label Text="{Binding WorkoutGoalType}"
+                                                <Label Text="{Binding WorkoutGoalVM.WorkoutGoalType}"
                                                        FontSize="32"
                                                        TextColor="{StaticResource WorkoutColor}"
                                                        Shadow="{StaticResource WorkoutGlow}"
@@ -457,7 +457,7 @@
                                     <Button Grid.Row="0"
                                             Style="{StaticResource SecondaryButton}"
                                             Text="{maui:Translate Action_ChangePassword}"
-                                            Command="{Binding OpenChangePasswordCommand}" />
+                                            Command="{Binding PasswordChangeVM.OpenChangePasswordCommand}" />
                                     <Button Grid.Row="1"
                                             Text="{maui:Translate Action_Logout}"
                                             Style="{StaticResource SecondaryButton}"
@@ -470,37 +470,37 @@
                 </ScrollView>
             </RefreshView>
 
-            <profile:EditProfilePopup>
+            <profile:EditProfilePopup BindingContext="{Binding UserProfileVM}">
                 <profile:EditProfilePopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditProfilePopupVisible}" />
                 </profile:EditProfilePopup.Behaviors>
             </profile:EditProfilePopup>
 
-            <profile:EditBodyGoalPopup>
+            <profile:EditBodyGoalPopup BindingContext="{Binding BodyGoalVM}">
                 <profile:EditBodyGoalPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditBodyGoalPopupVisible}" />
                 </profile:EditBodyGoalPopup.Behaviors>
             </profile:EditBodyGoalPopup>
 
-            <profile:EditNutritionGoalPopup>
+            <profile:EditNutritionGoalPopup BindingContext="{Binding NutritionGoalVM}">
                 <profile:EditNutritionGoalPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditNutritionGoalPopupVisible}" />
                 </profile:EditNutritionGoalPopup.Behaviors>
             </profile:EditNutritionGoalPopup>
 
-            <profile:EditWorkoutGoalPopup>
+            <profile:EditWorkoutGoalPopup BindingContext="{Binding WorkoutGoalVM}">
                 <profile:EditWorkoutGoalPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditWorkoutGoalPopupVisible}" />
                 </profile:EditWorkoutGoalPopup.Behaviors>
             </profile:EditWorkoutGoalPopup>
 
-            <profile:ChangePasswordPopup>
+            <profile:ChangePasswordPopup BindingContext="{Binding PasswordChangeVM}">
                 <profile:ChangePasswordPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsChangePasswordPopupVisible}" />
                 </profile:ChangePasswordPopup.Behaviors>
             </profile:ChangePasswordPopup>
 
-            <controls:ConfirmationPopup>
+            <controls:ConfirmationPopup BindingContext="{Binding ConfirmationVM}">
                 <controls:ConfirmationPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
