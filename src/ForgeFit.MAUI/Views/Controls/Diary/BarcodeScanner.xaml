@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -13,7 +13,7 @@
              InputTransparent="False">
 
     <ContentView.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding ToggleScannerCommand}" />
+        <TapGestureRecognizer Command="{Binding ScannerVM.ToggleScannerCommand}" />
     </ContentView.GestureRecognizers>
 
     <Border Style="{StaticResource CardStyle}"
@@ -31,14 +31,14 @@
 
             <controls:NavigationHeader Grid.Row="0"
                                        Title="{maui:Translate Search_Barcode}"
-                                       BackCommand="{Binding ToggleScannerCommand}"
+                                       BackCommand="{Binding ScannerVM.ToggleScannerCommand}"
                                        Margin="0,-45,0,-20"
                                        ZIndex="2" />
 
             <scanner:CameraBarcodeReaderView Grid.Row="1"
                                              x:Name="CameraView"
                                              IsVisible="True"
-                                             IsTorchOn="{Binding IsTorchOn}"
+                                             IsTorchOn="{Binding ScannerVM.IsTorchOn}"
                                              BarcodesDetected="CameraView_OnBarcodesDetected" />
 
             <BoxView Grid.Row="0" Grid.RowSpan="2"
@@ -81,7 +81,7 @@
                     HorizontalOptions="End"
                     VerticalOptions="End"
                     Shadow="{StaticResource TextShadow}"
-                    Command="{Binding ToggleTorchCommand}"
+                    Command="{Binding ScannerVM.ToggleTorchCommand}"
                     AutomationProperties.Name="Turn flashlight on">
 
                 <Button.Behaviors>
@@ -90,7 +90,7 @@
 
                 <Button.Triggers>
                     <DataTrigger TargetType="Button"
-                                 Binding="{Binding IsTorchOn}"
+                                 Binding="{Binding ScannerVM.IsTorchOn}"
                                  Value="True">
                         <Setter Property="ImageSource" Value="light_on.svg" />
                         <Setter Property="AutomationProperties.Name" Value="Turn flashlight off" />

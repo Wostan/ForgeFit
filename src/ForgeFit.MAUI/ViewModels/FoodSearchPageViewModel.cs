@@ -1,678 +1,222 @@
-﻿using System.Collections.ObjectModel;
-using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using LocalizationResourceManager.Maui;
-using ZXing.Net.Maui;
 
 namespace ForgeFit.MAUI.ViewModels;
 
-public partial class FoodSearchPageViewModel(
-    IFoodService foodService,
-    IDiaryService diaryService,
-    IAlertService alertService,
-    ILocalizationResourceManager localizationManager)
-    : BaseViewModel, IQueryAttributable
+public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private CancellationTokenSource? _searchCts;
+    private readonly IFoodService _foodService;
+    private readonly IDiaryService _diaryService;
+    private readonly IAlertService _alertService;
+    private readonly ILocalizationResourceManager _localizationManager;
 
-    [ObservableProperty] private string _dateStr = string.Empty;
-    [ObservableProperty] private string _mealTypeStr = string.Empty;
-    [ObservableProperty] private string _entryIdStr = string.Empty;
     [ObservableProperty] private string _mealTitle = string.Empty;
 
     private DateTime _date;
     private DayTime _mealType;
 
-    private HashSet<string> _existingProductIds = [];
+    public FoodSearchViewModel SearchVM { get; }
+    public FoodDetailsViewModel DetailsVM { get; }
+    public FoodScannerViewModel ScannerVM { get; }
+    public FoodDiaryIntegrationViewModel DiaryVM { get; }
 
-    [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private bool _isShowingRecent = true;
-    [ObservableProperty] private bool _isScannerVisible;
-    [ObservableProperty] private bool _isTorchOn;
+    public FoodSearchPageViewModel(
+        IFoodService foodService,
+        IDiaryService diaryService,
+        IAlertService alertService,
+        ILocalizationResourceManager localizationManager)
+    {
+        _foodService = foodService;
+        _diaryService = diaryService;
+        _alertService = alertService;
+        _localizationManager = localizationManager;
 
-    [ObservableProperty] private bool _isLoadingMore;
-    private int _currentPage = 1;
-    private const int PageSize = 20;
-    private bool _canLoadMore = true;
+        SearchVM = new FoodSearchViewModel();
+        DetailsVM = new FoodDetailsViewModel(alertService);
+        ScannerVM = new FoodScannerViewModel();
+        DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService);
 
-    public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
+        SetupCallbacks();
+    }
 
-    [ObservableProperty] private bool _isFoodDetailsVisible;
-    [ObservableProperty] private FoodProductResponse? _selectedFoodDetail;
-    [ObservableProperty] private FoodServingDto? _selectedServing;
+    private void SetupCallbacks()
+    {
+        SearchVM.PerformSearchCallback = PerformSearchAsync;
+        SearchVM.LoadRecentCallback = LoadRecentAsync;
+        SearchVM.LoadMoreCallback = LoadMoreAsync;
+        SearchVM.ToggleItemCallback = ToggleItemAsync;
+        SearchVM.OpenFoodDetailsCallback = OpenFoodDetailsAsync;
 
-    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
-    private string? _inputAmount;
+        DetailsVM.OpenFoodDetailsCallback = (product, source) => DetailsVM.OpenFoodDetailsInternal(product, source, SearchVM.IsShowingRecent);
+        DetailsVM.CloseFoodDetailsCallback = CloseFoodDetailsInternal;
+        DetailsVM.SaveFoodCallback = SaveFoodInternal;
 
-    public double CurrentCalories => CalculateNutrient(s => s.Calories);
-    public double CurrentCarbs => CalculateNutrient(s => s.Carbs);
-    public double CurrentProtein => CalculateNutrient(s => s.Protein);
-    public double CurrentFat => CalculateNutrient(s => s.Fat);
-
-    private Guid? _entryId;
+        ScannerVM.BarcodeDetectedCallback = BarcodeDetectedAsync;
+    }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         ResetState();
-
         IsLoading = true;
 
         if (query.TryGetValue("Date", out var dateObj) && DateTime.TryParse(dateObj.ToString(), out var date))
-        {
             _date = date;
-            DateStr = date.ToString("yyyy-MM-dd");
-        }
 
         if (query.TryGetValue("MealType", out var typeObj) && Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
         {
             _mealType = type;
-            MealTypeStr = type.ToString();
-
             MealTitle = type switch
             {
-                DayTime.Breakfast => localizationManager["Meal_Breakfast"],
-                DayTime.Lunch => localizationManager["Meal_Lunch"],
-                DayTime.Dinner => localizationManager["Meal_Dinner"],
-                _ => localizationManager["Meal_Snack"]
+                DayTime.Breakfast => _localizationManager["Meal_Breakfast"],
+                DayTime.Lunch => _localizationManager["Meal_Lunch"],
+                DayTime.Dinner => _localizationManager["Meal_Dinner"],
+                _ => _localizationManager["Meal_Snack"]
             };
         }
 
+        Guid? entryId = null;
         if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id))
-        {
-            _entryId = id;
-            EntryIdStr = id.ToString();
-        }
+            entryId = id;
 
-        await RefreshExistingIdsAsync();
-        LoadRecent();
+        DiaryVM.Initialize(_date, _mealType, entryId);
+        await DiaryVM.RefreshExistingIdsAsync();
+        await SearchVM.LoadRecentAsync();
     }
 
     private void ResetState()
     {
-        SearchText = string.Empty;
-        IsShowingRecent = true;
-        IsScannerVisible = false;
-        IsTorchOn = false;
-        SearchResults.Clear();
-        _existingProductIds.Clear();
-        _entryId = null;
-        EntryIdStr = string.Empty;
-
-        IsFoodDetailsVisible = false;
-        ResetPopupState();
-
-        _searchCts?.Cancel();
+        SearchVM.ResetState();
+        DetailsVM.ResetPopupState();
+        ScannerVM.ResetState();
+        DiaryVM.ResetState();
         IsLoading = false;
     }
 
-    private async Task RefreshExistingIdsAsync()
+    private async Task PerformSearchAsync(string query, CancellationToken token)
     {
-        try
+        var result = await _foodService.SearchFoodAsync(query, SearchVM.GetCurrentPage());
+
+        if (token.IsCancellationRequested) return;
+
+        if (result is not { Success: true, Data: not null })
         {
-            if (_entryId.HasValue)
+            if (result is { Success: false })
             {
-                var result = await diaryService.GetEntryAsync(_entryId.Value);
-                if (result is { Success: true, Data: not null })
-                    _existingProductIds = result.Data.FoodItems.Select(x => x.ExternalId).ToHashSet();
+                var errorMsg = new LocalizedString(() => result.Message);
+                await _alertService.ShowToastAsync(errorMsg.Localized);
             }
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
-    partial void OnSearchTextChanged(string value)
-    {
-        _searchCts?.Cancel();
-        _searchCts?.Dispose();
-        _searchCts = new CancellationTokenSource();
-        var token = _searchCts.Token;
-
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            LoadRecent(token);
             return;
         }
 
-        Task.Run(async () =>
+        if (result.Data.Count < 20) SearchVM.SetCanLoadMore(false);
+
+        foreach (var item in result.Data)
         {
-            try
-            {
-                await Task.Delay(800, token);
-                if (token.IsCancellationRequested) return;
-
-                MainThread.BeginInvokeOnMainThread(async void () => await PerformSearch(value, token));
-            }
-            catch (TaskCanceledException)
-            {
-            }
-        }, token);
-    }
-
-    private async Task PerformSearch(string query, CancellationToken token)
-    {
-        _currentPage = 1;
-        _canLoadMore = true;
-
-        IsLoading = true;
-        IsShowingRecent = false;
-        SearchResults.Clear();
-
-        try
-        {
-            var result = await foodService.SearchFoodAsync(query, _currentPage);
-
-            if (token.IsCancellationRequested) return;
-
-            if (result is { Success: true, Data: not null })
-            {
-                if (result.Data.Count < PageSize) _canLoadMore = false;
-
-                foreach (var item in result.Data)
-                {
-                    var vm = new FoodSearchItemViewModel(item);
-                    if (_existingProductIds.Contains(item.ExternalId)) vm.IsAdded = true;
-                    SearchResults.Add(vm);
-                }
-            }
-            else if (result is { Success: false })
-            {
-                var errorMsg = new LocalizedString(() => result.Message);
-                await alertService.ShowToastAsync(errorMsg.Localized);
-            }
-        }
-        catch (Exception)
-        {
-            if (!token.IsCancellationRequested)
-                await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
-        }
-        finally
-        {
-            IsLoading = false;
+            var vm = new FoodSearchItemViewModel(item);
+            if (DiaryVM.IsProductAdded(item.ExternalId)) vm.IsAdded = true;
+            SearchVM.AddSearchResult(vm);
         }
     }
 
-    [RelayCommand]
-    private async Task LoadMore()
+    private async Task LoadRecentAsync(CancellationToken token = default)
     {
-        if (IsShowingRecent || IsLoading || IsLoadingMore || !_canLoadMore || string.IsNullOrWhiteSpace(SearchText))
-            return;
+        var from = DateTime.Now.AddDays(-7);
+        var to = DateTime.Now;
 
-        IsLoadingMore = true;
-        _currentPage++;
+        var result = await _diaryService.GetEntriesByDateRangeAsync(from, to, token);
 
-        try
-        {
-            var result = await foodService.SearchFoodAsync(SearchText, _currentPage);
+        if (token.IsCancellationRequested) return;
+        if (result is not { Success: true, Data: not null }) return;
 
-            if (result is { Success: true, Data: not null })
-            {
-                if (result.Data.Count < PageSize) _canLoadMore = false;
-
-                foreach (var item in result.Data)
-                {
-                    var vm = new FoodSearchItemViewModel(item);
-                    if (_existingProductIds.Contains(item.ExternalId)) vm.IsAdded = true;
-                    SearchResults.Add(vm);
-                }
-            }
-            else
-            {
-                _currentPage--;
-            }
-        }
-        catch
-        {
-            _currentPage--;
-        }
-        finally
-        {
-            IsLoadingMore = false;
-        }
-    }
-
-    private async void LoadRecent(CancellationToken token = default)
-    {
-        if (!string.IsNullOrWhiteSpace(SearchText)) return;
-
-        IsLoading = true;
-        IsShowingRecent = true;
-        SearchResults.Clear();
-
-        try
-        {
-            var from = DateTime.Now.AddDays(-7);
-            var to = DateTime.Now;
-
-            var result = await diaryService.GetEntriesByDateRangeAsync(from, to, token);
-
-            if (token.IsCancellationRequested) return;
-
-            if (result is { Success: true, Data: not null })
-            {
-                var recentItems = result.Data
-                    .SelectMany(e => e.FoodItems)
-                    .Reverse()
-                    .GroupBy(x => x.ExternalId)
-                    .Select(g => g.First())
-                    .Take(20)
-                    .ToList();
-
-                foreach (var item in recentItems)
-                {
-                    var servingString = $"{item.Amount} {item.ServingUnit}";
-
-                    var dto = new FoodSearchResponse(
-                        item.ExternalId,
-                        item.Label,
-                        null,
-                        item.Calories,
-                        item.Carbs,
-                        item.Protein,
-                        item.Fat,
-                        servingString
-                    );
-
-                    var vm = new FoodSearchItemViewModel(dto);
-                    if (_existingProductIds.Contains(item.ExternalId)) vm.IsAdded = true;
-                    SearchResults.Add(vm);
-                }
-            }
-        }
-        catch (Exception)
-        {
-            if (!token.IsCancellationRequested)
-                await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
-        }
-        finally
-        {
-            IsLoading = false;
-        }
-    }
-
-    [RelayCommand]
-    private async Task ToggleItem(FoodSearchItemViewModel? itemVm)
-    {
-        if (itemVm == null || itemVm.IsAdding) return;
-
-        if (itemVm.IsAdded)
-            await RemoveItemInternal(itemVm);
-        else
-            await QuickAddInternal(itemVm);
-    }
-
-    private async Task QuickAddInternal(FoodSearchItemViewModel itemVm)
-    {
-        itemVm.IsAdding = true;
-
-        try
-        {
-            var productResult = await foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
-
-            if (productResult is { Success: true, Data: not null })
-            {
-                var product = productResult.Data;
-
-                FoodServingDto? targetServing = null;
-                double amount = 0;
-                var isHistoryMatch = false;
-
-                if (IsShowingRecent && !string.IsNullOrEmpty(itemVm.Data.Serving))
-                {
-                    var parts = itemVm.Data.Serving.Split(' ');
-                    if (parts.Length >= 2)
-                        if (double.TryParse(parts[0], out var historyAmount))
-                        {
-                            var historyUnit = parts.Last();
-
-                            targetServing = product.Servings.FirstOrDefault(s =>
-                                string.Equals(s.MetricUnit, historyUnit, StringComparison.OrdinalIgnoreCase));
-
-                            if (targetServing != null)
-                            {
-                                amount = historyAmount;
-                                isHistoryMatch = true;
-                            }
-                        }
-                }
-
-                if (!isHistoryMatch)
-                {
-                    targetServing = product.Servings.FirstOrDefault();
-                    amount = targetServing?.MetricAmount ?? 100;
-                }
-
-                var unit = targetServing?.MetricUnit ?? "g";
-
-                var baseAmount = targetServing?.MetricAmount ?? 1;
-                var ratio = amount / baseAmount;
-
-                var newItem = new FoodItemDto(
-                    product.ExternalId,
-                    product.Label,
-                    (targetServing?.Calories ?? itemVm.Calories) * ratio,
-                    (targetServing?.Carbs ?? itemVm.Carbs) * ratio,
-                    (targetServing?.Protein ?? itemVm.Protein) * ratio,
-                    (targetServing?.Fat ?? itemVm.Fat) * ratio,
-                    unit,
-                    amount
-                );
-
-                await AddEntryToDiaryInternal(newItem);
-                itemVm.IsAdded = true;
-                _existingProductIds.Add(product.ExternalId);
-            }
-            else
-            {
-                var errorMsg = new LocalizedString(() => productResult.Message);
-                await alertService.ShowToastAsync(errorMsg.Localized);
-            }
-        }
-        catch (Exception ex)
-        {
-            var errorMsg = new LocalizedString(() => ex.Message);
-            await alertService.ShowToastAsync(errorMsg.Localized);
-        }
-        finally
-        {
-            itemVm.IsAdding = false;
-        }
-    }
-
-    private async Task RemoveItemInternal(FoodSearchItemViewModel itemVm)
-    {
-        itemVm.IsAdding = true;
-
-        try
-        {
-            var entriesResult = await diaryService.GetEntriesByDateAsync(_date);
-
-            if (entriesResult is { Success: true, Data: not null })
-            {
-                var existingEntry = entriesResult.Data.FirstOrDefault(e => e.DayTime == _mealType);
-
-                if (existingEntry != null)
-                {
-                    var itemToRemove = existingEntry.FoodItems
-                        .FirstOrDefault(x => x.ExternalId == itemVm.Data.ExternalId);
-
-                    if (itemToRemove != null)
-                    {
-                        var updatedItems = existingEntry.FoodItems.ToList();
-                        updatedItems.Remove(itemToRemove);
-
-                        if (updatedItems.Count == 0)
-                        {
-                            await diaryService.DeleteEntryAsync(existingEntry.Id);
-                        }
-                        else
-                        {
-                            var updateRequest = new FoodEntryCreateRequest(_mealType, _date, updatedItems);
-                            await diaryService.UpdateEntryAsync(existingEntry.Id, updateRequest);
-                        }
-
-                        WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
-
-                        itemVm.IsAdded = false;
-                        _existingProductIds.Remove(itemVm.Data.ExternalId);
-                    }
-                }
-            }
-        }
-        catch
-        {
-            await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
-        }
-        finally
-        {
-            itemVm.IsAdding = false;
-        }
-    }
-
-    [RelayCommand]
-    private async Task OpenFoodDetails(FoodSearchItemViewModel? itemVm)
-    {
-        if (itemVm is null || IsLoading || itemVm.IsAdding || itemVm.IsAdded) return;
-
-        itemVm.IsAdding = true;
-        ResetPopupState();
-
-        try
-        {
-            var result = await foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
-
-            if (result is { Success: true, Data: not null })
-            {
-                await OpenFoodDetailsInternal(result.Data, itemVm.Data);
-            }
-            else
-            {
-                var errorMsg = new LocalizedString(() => result.Message);
-                await alertService.ShowToastAsync(errorMsg.Localized);
-            }
-        }
-        catch
-        {
-            await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
-        }
-        finally
-        {
-            itemVm.IsAdding = false;
-        }
-    }
-
-    private Task OpenFoodDetailsInternal(FoodProductResponse productDetails, FoodSearchResponse sourceItem)
-    {
-        var uniqueServings = productDetails.Servings
-            .GroupBy(s => s.MetricUnit)
+        var recentItems = result.Data
+            .SelectMany(e => e.FoodItems)
+            .Reverse()
+            .GroupBy(x => x.ExternalId)
             .Select(g => g.First())
+            .Take(20)
             .ToList();
 
-        productDetails = productDetails with { Servings = uniqueServings };
-        SelectedFoodDetail = productDetails;
-
-        FoodServingDto? targetServing = null;
-
-        if (IsShowingRecent && !string.IsNullOrEmpty(sourceItem.Serving))
+        foreach (var item in recentItems)
         {
-            var parts = sourceItem.Serving.Split(' ');
-            if (parts.Length > 1)
-            {
-                var historyUnit = parts.Last();
+            var servingString = $"{item.Amount} {item.ServingUnit}";
 
-                targetServing = uniqueServings.FirstOrDefault(s =>
-                    string.Equals(s.MetricUnit, historyUnit, StringComparison.OrdinalIgnoreCase));
-            }
+            var dto = new FoodSearchResponse(
+                item.ExternalId,
+                item.Label,
+                null,
+                item.Calories,
+                item.Carbs,
+                item.Protein,
+                item.Fat,
+                servingString
+            );
+
+            var vm = new FoodSearchItemViewModel(dto);
+            if (DiaryVM.IsProductAdded(item.ExternalId)) vm.IsAdded = true;
+            SearchVM.AddSearchResult(vm);
+        }
+    }
+
+    private async Task LoadMoreAsync()
+    {
+        var result = await _foodService.SearchFoodAsync(SearchVM.SearchText, SearchVM.GetCurrentPage());
+
+        if (result is not { Success: true, Data: not null })
+        {
+            SearchVM.DecrementPage();
+            return;
         }
 
-        targetServing ??= uniqueServings.FirstOrDefault();
-        SelectedServing = targetServing;
+        if (result.Data.Count < 20) SearchVM.SetCanLoadMore(false);
 
-        if (targetServing == null)
+        foreach (var item in result.Data)
         {
-            InputAmount = "100";
-            IsFoodDetailsVisible = true;
-            return Task.CompletedTask;
+            var vm = new FoodSearchItemViewModel(item);
+            if (DiaryVM.IsProductAdded(item.ExternalId)) vm.IsAdded = true;
+            SearchVM.AddSearchResult(vm);
         }
+    }
 
-        if (IsShowingRecent && sourceItem.Calories > 0 && targetServing.Calories > 0)
-        {
-            var ratio = sourceItem.Calories / targetServing.Calories;
-            InputAmount = Math.Round(targetServing.MetricAmount * ratio, 2).ToString(CultureInfo.InvariantCulture);
-        }
+    private async Task ToggleItemAsync(FoodSearchItemViewModel itemVm)
+    {
+        if (itemVm.IsAdded)
+            await DiaryVM.RemoveItemInternal(itemVm);
         else
-        {
-            InputAmount = targetServing.MetricAmount.ToString(CultureInfo.InvariantCulture);
-        }
+            await DiaryVM.QuickAddInternal(itemVm, SearchVM.IsShowingRecent);
+    }
 
-        IsFoodDetailsVisible = true;
+    private async Task OpenFoodDetailsAsync(FoodSearchItemViewModel itemVm)
+    {
+        var result = await _foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
+
+        if (result is { Success: true, Data: not null })
+            await DetailsVM.OpenFoodDetailsInternal(result.Data, itemVm.Data, SearchVM.IsShowingRecent);
+        else
+            await _alertService.ShowToastAsync(new LocalizedString(() => result.Message).Localized);
+    }
+
+    private Task CloseFoodDetailsInternal()
+    {
+        DetailsVM.IsFoodDetailsVisible = false;
         return Task.CompletedTask;
     }
 
-    [RelayCommand]
-    private void CloseFoodDetails()
+    private async Task SaveFoodInternal(FoodItemDto newItem)
     {
-        IsFoodDetailsVisible = false;
+        await DiaryVM.AddEntryToDiaryInternal(newItem);
     }
 
-    [RelayCommand(CanExecute = nameof(CanSaveFood))]
-    private async Task SaveFood()
-    {
-        if (SelectedFoodDetail == null || SelectedServing == null || string.IsNullOrEmpty(InputAmount)) return;
-
-        var product = SelectedFoodDetail;
-        var serving = SelectedServing;
-        var amount = double.Parse(InputAmount);
-
-        var itemVm = SearchResults.FirstOrDefault(x => x.Data.ExternalId == product.ExternalId);
-        itemVm?.IsAdding = true;
-
-        IsFoodDetailsVisible = false;
-        ResetPopupState();
-
-        try
-        {
-            var ratio = amount / serving.MetricAmount;
-
-            var newItem = new FoodItemDto(
-                product.ExternalId, product.Label,
-                serving.Calories * ratio, serving.Carbs * ratio,
-                serving.Protein * ratio, serving.Fat * ratio,
-                serving.MetricUnit, amount
-            );
-
-            await AddEntryToDiaryInternal(newItem);
-
-            if (itemVm != null)
-            {
-                itemVm.IsAdded = true;
-                _existingProductIds.Add(product.ExternalId);
-            }
-        }
-        catch (Exception ex)
-        {
-            var errorMsg = new LocalizedString(() => ex.Message);
-            await alertService.ShowToastAsync(errorMsg.Localized);
-        }
-        finally
-        {
-            itemVm?.IsAdding = false;
-        }
-    }
-
-    private async Task AddEntryToDiaryInternal(FoodItemDto newItem)
-    {
-        if (_entryId.HasValue)
-        {
-            var entryResult = await diaryService.GetEntryAsync(_entryId.Value);
-            if (entryResult is { Success: true, Data: not null })
-            {
-                var updatedItems = entryResult.Data.FoodItems.ToList();
-                updatedItems.Add(newItem);
-                var updateRequest = new FoodEntryCreateRequest(_mealType, _date, updatedItems);
-                await diaryService.UpdateEntryAsync(_entryId.Value, updateRequest);
-            }
-        }
-        else
-        {
-            var createRequest = new FoodEntryCreateRequest(_mealType, _date, [newItem]);
-            var createResponse = await diaryService.CreateEntryAsync(createRequest);
-            if (createResponse is { Success: true, Data: not null })
-            {
-                _entryId = createResponse.Data.Id;
-                EntryIdStr = _entryId.Value.ToString();
-            }
-        }
-
-        WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
-    }
-
-    private void ResetPopupState()
-    {
-        SelectedFoodDetail = null;
-        SelectedServing = null;
-        InputAmount = null;
-        NotifyPopupUpdates();
-    }
-
-    private bool CanSaveFood()
-    {
-        return double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
-    }
-
-    partial void OnInputAmountChanged(string? value)
-    {
-        NotifyPopupUpdates();
-        SaveFoodCommand.NotifyCanExecuteChanged();
-    }
-
-    partial void OnSelectedServingChanged(FoodServingDto? value)
-    {
-        NotifyPopupUpdates();
-    }
-
-    private void NotifyPopupUpdates()
-    {
-        OnPropertyChanged(nameof(CurrentCalories));
-        OnPropertyChanged(nameof(CurrentCarbs));
-        OnPropertyChanged(nameof(CurrentProtein));
-        OnPropertyChanged(nameof(CurrentFat));
-    }
-
-    private double CalculateNutrient(Func<FoodServingDto, double> selector)
-    {
-        var val = double.TryParse(InputAmount, out var amount) ? amount : 0;
-        if (SelectedServing == null || SelectedServing.MetricAmount == 0 || val <= 0) return 0;
-        return val * selector(SelectedServing) / SelectedServing.MetricAmount;
-    }
-
-    [RelayCommand]
-    private void ToggleScanner()
-    {
-        IsScannerVisible = !IsScannerVisible;
-    }
-
-    [RelayCommand]
-    private void ToggleTorch()
-    {
-        IsTorchOn = !IsTorchOn;
-    }
-
-    [RelayCommand]
-    private async Task BarcodeDetected(string barcode)
-    {
-        if (string.IsNullOrEmpty(barcode)) return;
-
-        try
-        {
-            HapticFeedback.Perform();
-        }
-        catch
-        {
-            // ignored
-        }
-
-        IsScannerVisible = false;
-        await PerformBarcodeSearch(barcode);
-    }
-
-    private async Task PerformBarcodeSearch(string barcode)
+    private async Task BarcodeDetectedAsync(string barcode)
     {
         IsLoading = true;
-        IsShowingRecent = false;
-        SearchResults.Clear();
-        SearchText = barcode;
 
         try
         {
-            var result = await foodService.GetProductByBarcodeAsync(barcode);
+            var result = await _foodService.GetProductByBarcodeAsync(barcode);
 
             if (result is { Success: true, Data: not null })
             {
@@ -686,20 +230,22 @@ public partial class FoodSearchPageViewModel(
                     $"{baseServing?.MetricAmount} {baseServing?.MetricUnit}")
                 );
 
-                if (_existingProductIds.Contains(p.ExternalId)) itemVm.IsAdded = true;
+                if (DiaryVM.IsProductAdded(p.ExternalId)) itemVm.IsAdded = true;
 
-                SearchResults.Add(itemVm);
-                await OpenFoodDetailsInternal(p, itemVm.Data);
+                ScannerVM.IsScannerVisible = false;
+                SearchVM.ClearSearchResults();
+                SearchVM.AddSearchResult(itemVm);
+                await DetailsVM.OpenFoodDetailsInternal(p, itemVm.Data, false);
+                return;
             }
-            else
-            {
-                var errorMsg = new LocalizedString(() => result.Message);
-                await alertService.ShowToastAsync(errorMsg.Localized);
-            }
+
+            ScannerVM.IsScannerVisible = false;
+            await _alertService.ShowToastAsync(new LocalizedString(() => result.Message).Localized);
         }
         catch
         {
-            await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
+            ScannerVM.IsScannerVisible = false;
+            await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
         }
         finally
         {
@@ -710,15 +256,22 @@ public partial class FoodSearchPageViewModel(
     [RelayCommand]
     private async Task Back()
     {
-        if (_entryId.HasValue)
+        if (DetailsVM.IsFoodDetailsVisible)
         {
-            var idStr = Uri.EscapeDataString(_entryId.Value.ToString());
-            await Shell.Current.GoToAsync($"..?EntryId={idStr}", false);
+            DetailsVM.IsFoodDetailsVisible = false;
+            return;
         }
+
+        if (ScannerVM.IsScannerVisible)
+        {
+            ScannerVM.IsScannerVisible = false;
+            return;
+        }
+
+        if (DiaryVM.EntryId.HasValue)
+            await Shell.Current.GoToAsync($"..?EntryId={Uri.EscapeDataString(DiaryVM.EntryId.Value.ToString())}", false);
         else
-        {
             await Shell.Current.GoToAsync("..", false);
-        }
     }
 }
 

@@ -1,4 +1,4 @@
-﻿using ForgeFit.MAUI.ViewModels;
+using ForgeFit.MAUI.ViewModels;
 
 namespace ForgeFit.MAUI.Views.Diary;
 
@@ -15,10 +15,10 @@ public partial class FoodSearchPageView : ContentPage
         if (BindingContext is not FoodSearchPageViewModel vm)
             return base.OnBackButtonPressed();
 
-        if (vm is { IsFoodDetailsVisible: true } or { IsScannerVisible: true })
+        if (vm.DetailsVM.IsFoodDetailsVisible || vm.ScannerVM.IsScannerVisible)
         {
-            vm.IsScannerVisible = false;
-            vm.IsFoodDetailsVisible = false;
+            vm.ScannerVM.IsScannerVisible = false;
+            vm.DetailsVM.IsFoodDetailsVisible = false;
             return true;
         }
 

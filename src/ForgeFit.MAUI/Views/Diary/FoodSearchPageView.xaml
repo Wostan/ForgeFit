@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -50,7 +50,7 @@
 
                                     <Style.Triggers>
                                         <DataTrigger TargetType="Label"
-                                                     Binding="{Binding BindingContext.SearchText,
+                                                     Binding="{Binding BindingContext.SearchVM.SearchText,
                                                Source={x:Reference ThisPage},
                                                Converter={toolkit:IsStringNotNullOrEmptyConverter}}"
                                                      Value="True">
@@ -64,7 +64,7 @@
                                                               Style="{StaticResource LabelBody}" />
 
                                                         <Span
-                                                            Text="{Binding BindingContext.SearchText, Source={x:Reference ThisPage}}"
+                                                            Text="{Binding BindingContext.SearchVM.SearchText, Source={x:Reference ThisPage}}"
                                                             Style="{StaticResource LabelBody}" />
 
                                                         <Span Text="'"
@@ -81,17 +81,17 @@
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
 
-            <CollectionView ItemsSource="{Binding SearchResults}"
+            <CollectionView ItemsSource="{Binding SearchVM.SearchResults}"
                             RemainingItemsThreshold="5"
-                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
-                            Opacity="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
+                            RemainingItemsThresholdReachedCommand="{Binding SearchVM.LoadMoreCommand}"
+                            Opacity="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
 
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Spacing="10"
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center"
                                          Opacity="0.5"
-                                         IsVisible="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
+                                         IsVisible="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
                         <Image Source="search.svg"
                                WidthRequest="100"
                                HeightRequest="100">
@@ -125,7 +125,7 @@
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenFoodDetailsCommand}"
+                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SearchVM.OpenFoodDetailsCommand}"
                                     CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
 
@@ -224,7 +224,7 @@
                                       HeightRequest="50">
 
                                     <ImageButton
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleItemCommand}"
+                                        Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SearchVM.ToggleItemCommand}"
                                         CommandParameter="{Binding .}"
                                         IsVisible="{Binding IsAdding, Converter={toolkit:InvertedBoolConverter}}"
                                         Source="{Binding IsAdded, Converter={StaticResource StateIconConverter}}"
@@ -250,8 +250,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <ActivityIndicator IsRunning="{Binding IsLoading}"
-                               IsVisible="{Binding IsLoading}"
+            <ActivityIndicator IsRunning="{Binding SearchVM.IsLoading}"
+                               IsVisible="{Binding SearchVM.IsLoading}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"
                                HeightRequest="50"
@@ -267,12 +267,12 @@
                                Placeholder="{maui:Translate Search_Placeholder}"
                                ReturnType="Done"
                                IsTextPredictionEnabled="True"
-                               Text="{Binding SearchText}"
+                               Text="{Binding SearchVM.SearchText}"
                                SearchIconColor="{StaticResource TextPrimary}" />
                     <Button Grid.Column="1"
                             Style="{StaticResource TextButton}"
                             ImageSource="barcode_scanner.svg"
-                            Command="{Binding ToggleScannerCommand}">
+                            Command="{Binding ScannerVM.ToggleScannerCommand}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                         </Button.Behaviors>
@@ -281,9 +281,9 @@
             </Border>
 
             <diary:BarcodeScanner ZIndex="11"
-                                  IsActive="{Binding IsScannerVisible}" />
+                                  IsActive="{Binding ScannerVM.IsScannerVisible}" />
 
-            <diary:FoodDetails ZIndex="12">
+            <diary:FoodDetails ZIndex="12" BindingContext="{Binding DetailsVM}">
                 <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </diary:FoodDetails.Behaviors>
