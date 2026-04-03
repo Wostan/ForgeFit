@@ -5,11 +5,11 @@
              xmlns:helpers="using:ForgeFit.MAUI.Helpers"
              xmlns:maui="using:LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:templates="using:ForgeFit.MAUI.Views.Auth.Templates"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
              x:Class="ForgeFit.MAUI.Views.Auth.RegistrationPageView"
-             x:DataType="local:RegistrationPageViewModel"
+             x:DataType="registration:RegistrationPageViewModel"
              x:Name="ThisPage"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">

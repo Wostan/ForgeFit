@@ -6,11 +6,10 @@
              xmlns:controls="using:ForgeFit.MAUI.Views.Controls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="using:LocalizationResourceManager.Maui"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
-             xmlns:workoutModels="using:ForgeFit.MAUI.ViewModels.Workout"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             xmlns:activeSession="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ActiveSession"
              x:Class="ForgeFit.MAUI.Views.Workout.ActiveWorkoutPageView"
-             x:DataType="local:ActiveWorkoutPageViewModel"
+             x:DataType="activeSession:ActiveWorkoutPageViewModel"
              Shell.NavBarIsVisible="False">
 
     <ContentPage.Resources>
@@ -42,7 +41,7 @@
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding ExerciseVM.Exercises}"
                                              Spacing="8">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="workoutModels:ActiveExerciseItem">
+                                <DataTemplate x:DataType="activeSession:ActiveExerciseItem">
                                     <Border Style="{StaticResource CardStyle}" Padding="0">
                                         <VerticalStackLayout Spacing="16" Padding="0,20">
 
@@ -95,7 +94,7 @@
 
                                                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding Sets}">
                                                     <BindableLayout.ItemTemplate>
-                                                        <DataTemplate x:DataType="workoutModels:ActiveSetItem">
+                                                        <DataTemplate x:DataType="activeSession:ActiveSetItem">
                                                             <SwipeView>
                                                                 <SwipeView.RightItems>
                                                                     <SwipeItems>

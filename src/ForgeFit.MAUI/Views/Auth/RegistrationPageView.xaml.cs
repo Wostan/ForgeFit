@@ -1,4 +1,5 @@
 ﻿using ForgeFit.MAUI.ViewModels;
+using RegistrationPageViewModel = ForgeFit.MAUI.ViewModels.Registration.RegistrationPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Auth;
 

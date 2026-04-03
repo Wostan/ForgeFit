@@ -5,12 +5,12 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
+             xmlns:foodSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
-             x:DataType="local:FoodSearchPageViewModel"
+             x:DataType="foodSearch:FoodSearchPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchPageView"
              x:Name="ThisPage">
     <ContentPage.Resources>
@@ -118,7 +118,7 @@
                 </CollectionView.Footer>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="local:FoodSearchItemViewModel">
+                    <DataTemplate x:DataType="foodSearch:FoodSearchItemViewModel">
                         <Border Style="{StaticResource CardStyle}"
                                 Padding="0" Margin="16,0"
                                 Shadow="{x:Null}">

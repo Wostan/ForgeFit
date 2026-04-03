@@ -2,12 +2,12 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.Templates"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
-             x:DataType="local:DiaryPageViewModel"
+             x:DataType="main:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryPageView"
              x:Name="ThisPage">
     <ContentPage.Content>

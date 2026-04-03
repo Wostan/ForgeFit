@@ -3,13 +3,13 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maui="using:LocalizationResourceManager.Maui"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:views="using:ForgeFit.MAUI.Views.Auth"
+             xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step3MeasurementsView">
 
     <Grid RowDefinitions="Auto, *, Auto"
           Padding="30,50,30,130"
-          x:DataType="local:RegistrationPageViewModel"
+          x:DataType="registration:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
 
         <VerticalStackLayout Grid.Row="0"

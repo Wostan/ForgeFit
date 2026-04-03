@@ -1,5 +1,6 @@
 using ForgeFit.MAUI.ViewModels;
 using ZXing.Net.Maui;
+using FoodSearchPageViewModel = ForgeFit.MAUI.ViewModels.Diary.FoodSearch.FoodSearchPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Controls.Diary;
 

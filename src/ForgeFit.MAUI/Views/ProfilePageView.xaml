@@ -6,10 +6,10 @@
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:profile="using:ForgeFit.MAUI.Views.Controls.Profile"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
-             x:DataType="local:ProfilePageViewModel"
+             x:DataType="main:ProfilePageViewModel"
              x:Class="ForgeFit.MAUI.Views.ProfilePageView">
     <ContentPage.Content>
         <Grid>

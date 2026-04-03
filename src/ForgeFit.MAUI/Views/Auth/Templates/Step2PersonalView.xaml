@@ -5,15 +5,15 @@
              xmlns:maui="using:LocalizationResourceManager.Maui"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:views="using:ForgeFit.MAUI.Views.Auth"
              xmlns:enums="using:ForgeFit.MAUI.Models.Enums.ProfileEnums"
+             xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step2PersonalView">
 
     <Grid RowDefinitions="Auto, *, Auto"
           Padding="30,50,30,150"
           x:Name="RootGrid"
-          x:DataType="local:RegistrationPageViewModel"
+          x:DataType="registration:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
 
         <VerticalStackLayout Grid.Row="0"

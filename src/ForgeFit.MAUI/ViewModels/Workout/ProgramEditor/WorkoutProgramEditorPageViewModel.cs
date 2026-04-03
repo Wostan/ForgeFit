@@ -1,0 +1,157 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
+using ForgeFit.MAUI.Models.DTOs.Workout;
+using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.Views.Workout;
+using LocalizationResourceManager.Maui;
+
+namespace ForgeFit.MAUI.ViewModels.Workout.ProgramEditor;
+
+public partial class WorkoutProgramEditorPageViewModel : Core.BaseViewModel, IQueryAttributable
+{
+    private readonly IWorkoutProgramService _workoutProgramService;
+    private readonly IAlertService _alertService;
+    private readonly ILocalizationResourceManager _localizationManager;
+
+    private bool _isInitialized;
+
+    public ProgramManagerViewModel ProgramVM { get; }
+    public Core.PopupManagerViewModel PopupVM { get; }
+    [ObservableProperty] private ExerciseEditorViewModel _exerciseVM;
+
+    public WorkoutProgramEditorPageViewModel(
+        IWorkoutProgramService workoutProgramService,
+        IAlertService alertService,
+        ILocalizationResourceManager localizationManager)
+    {
+        _workoutProgramService = workoutProgramService;
+        _alertService = alertService;
+        _localizationManager = localizationManager;
+
+        ProgramVM = new ProgramManagerViewModel(workoutProgramService, alertService, localizationManager);
+        ExerciseVM = new ExerciseEditorViewModel(alertService, localizationManager, Guid.Empty);
+        PopupVM = new Core.PopupManagerViewModel(localizationManager);
+
+        ExerciseVM.DeleteExerciseRequested += OnDeleteExerciseRequested;
+
+        WeakReferenceMessenger.Default.Register<AddExerciseMessage>(this,
+            (r, m) =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    ((WorkoutProgramEditorPageViewModel)r).AddNewExercise(m.Value);
+                });
+            });
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (_isInitialized || !query.TryGetValue("ProgramId", out var id)
+                           || id is not string idStr
+                           || !Guid.TryParse(idStr, out var guid)) return;
+
+        ProgramVM.ProgramId = guid;
+        ExerciseVM = new ExerciseEditorViewModel(_alertService, _localizationManager, guid);
+        ExerciseVM.DeleteExerciseRequested += OnDeleteExerciseRequested;
+        InitializeCommand.Execute(null);
+    }
+
+    [RelayCommand]
+    private async Task Initialize()
+    {
+        if (_isInitialized) return;
+
+        IsLoading = true;
+        Error = null;
+        try
+        {
+            var success = await ProgramVM.LoadProgramAsync(ProgramVM.ProgramId);
+            if (!success) return;
+
+            var result = await _workoutProgramService.GetProgramAsync(ProgramVM.ProgramId);
+            if (result is { Success: true, Data: not null })
+                ExerciseVM.InitializeExercises(result.Data.WorkoutExercisePlans);
+
+            _isInitialized = true;
+        }
+        catch (Exception)
+        {
+            HandleError(new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]));
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    [RelayCommand]
+    private void OpenRenamePopup()
+    {
+        PopupVM.ShowRenamePopup(ProgramVM.ProgramName);
+    }
+
+    [RelayCommand]
+    private async Task ConfirmRename()
+    {
+        var isValid = await ProgramVM.ValidateProgramNameAsync(PopupVM.TempProgramName);
+        if (!isValid) return;
+
+        ProgramVM.UpdateProgramName(PopupVM.TempProgramName);
+        PopupVM.CloseRenamePopupCommand.Execute(null);
+    }
+
+
+    private void AddNewExercise(WorkoutExerciseDto exerciseDto)
+    {
+        ExerciseVM.AddNewExercise(exerciseDto);
+    }
+
+    [RelayCommand]
+    private async Task AddExercise()
+    {
+        await Shell.Current.GoToAsync($"{nameof(ExerciseSearchPageView)}?ProgramName={ProgramVM.ProgramName}");
+    }
+
+
+    private void OnDeleteExerciseRequested(EditorExerciseItem exercise)
+    {
+        PopupVM.ShowConfirmation(
+            "Title_DeleteExercise",
+            "Msg_DeleteExerciseConfirm",
+            async () =>
+            {
+                ExerciseVM.Exercises.Remove(exercise);
+                await Task.CompletedTask;
+            });
+    }
+
+    [RelayCommand]
+    private async Task SaveProgram()
+    {
+        var exercisePlans = ExerciseVM.GetExercisePlans();
+        var success = await ProgramVM.SaveProgramAsync(exercisePlans);
+
+        if (success)
+        {
+            WeakReferenceMessenger.Default.Send(new WorkoutDataUpdatedMessage());
+            await Shell.Current.GoToAsync("..");
+        }
+    }
+
+    [RelayCommand]
+    private void AskCancel()
+    {
+        PopupVM.ShowConfirmation(
+            "Title_UnsavedChanges",
+            "Msg_UnsavedChangesConfirm",
+            async () => { await Shell.Current.GoToAsync(".."); });
+    }
+
+
+    private void HandleError(LocalizedString errorMsg)
+    {
+        Error = errorMsg;
+    }
+}

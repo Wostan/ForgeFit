@@ -5,10 +5,10 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
-             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.DrinkTracking"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
-             x:DataType="local:DiaryPageViewModel"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
+             x:DataType="main:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryHydrationView">
     <VerticalStackLayout Spacing="4">
 
@@ -99,7 +99,7 @@
                                             ImageSource="delete.svg"
                                             VerticalOptions="Center"
                                             Shadow="{StaticResource DangerGlow}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:DiaryPageViewModel}}, Path=WaterVM.DeleteWaterEntryCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type main:DiaryPageViewModel}}, Path=WaterVM.DeleteWaterEntryCommand}"
                                             CommandParameter="{Binding .}">
                                         <Button.Behaviors>
                                             <toolkit:IconTintColorBehavior TintColor="{StaticResource DangerColor}" />

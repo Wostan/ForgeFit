@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ForgeFit.MAUI.ViewModels;
+using ActiveWorkoutPageViewModel = ForgeFit.MAUI.ViewModels.Workout.ActiveSession.ActiveWorkoutPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Workout;
 

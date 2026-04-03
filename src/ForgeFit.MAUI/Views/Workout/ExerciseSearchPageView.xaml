@@ -5,13 +5,13 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:workout="using:ForgeFit.MAUI.Views.Controls.Workout"
              xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             xmlns:exerciseSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
-             x:DataType="local:ExerciseSearchPageViewModel"
+             x:DataType="exerciseSearch:ExerciseSearchPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Workout.ExerciseSearchPageView"
              x:Name="ThisPage">
 
@@ -123,7 +123,7 @@
                 </CollectionView.Footer>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="local:ExerciseSearchItemViewModel">
+                    <DataTemplate x:DataType="exerciseSearch:ExerciseSearchItemViewModel">
                         <Border Style="{StaticResource CardStyle}"
                                 Padding="0" Margin="16,0"
                                 Shadow="{x:Null}">
