@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -24,10 +23,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
     private CancellationTokenSource? _cts;
 
-    [ObservableProperty] private string _dateStr = string.Empty;
-    [ObservableProperty] private string _mealTypeStr = string.Empty;
-    [ObservableProperty] private string? _entryIdStr;
-
     [ObservableProperty] private string _mealTitle = string.Empty;
     [ObservableProperty] private string _mealEmoji = string.Empty;
 
@@ -36,42 +31,12 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private Guid? _entryId;
 
     private FoodEntryDto? _currentEntry;
+    private FoodItemDto? _editingItem;
 
     public ObservableCollection<FoodItemDto> FoodItems { get; } = [];
 
-    [ObservableProperty] private double _totalCalories;
-    [ObservableProperty] private double _totalCarbs;
-    [ObservableProperty] private double _totalProtein;
-    [ObservableProperty] private double _totalFat;
-
-    [ObservableProperty] private double _caloriesProgress;
-    [ObservableProperty] private double _carbsProgress;
-    [ObservableProperty] private double _proteinProgress;
-    [ObservableProperty] private double _fatProgress;
-
-    private double _dailyTargetCalories;
-    private double _dailyTargetCarbs;
-    private double _dailyTargetProtein;
-    private double _dailyTargetFat;
-
-    [ObservableProperty] private double _mealTargetCalories;
-    [ObservableProperty] private double _mealTargetCarbs;
-    [ObservableProperty] private double _mealTargetProtein;
-    [ObservableProperty] private double _mealTargetFat;
-
-    [ObservableProperty] private string _mealTargetCaloriesDisplay;
-    [ObservableProperty] private string _mealTargetCarbsDisplay;
-    [ObservableProperty] private string _mealTargetProteinDisplay;
-    [ObservableProperty] private string _mealTargetFatDisplay;
-
-    [ObservableProperty] private bool _isFoodDetailsVisible;
-    [ObservableProperty] private FoodProductResponse? _selectedFoodDetail;
-    [ObservableProperty] private FoodServingDto? _selectedServing;
-
-    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
-    private string? _inputAmount;
-
-    private FoodItemDto? _editingItem;
+    public FoodDetailsViewModel DetailsVM { get; }
+    public MealMacroStatsViewModel MacrosVM { get; }
 
     public MealDetailsPageViewModel(
         IDiaryService diaryService,
@@ -85,11 +50,56 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _goalService = goalService;
         _alertService = alertService;
         _localizationManager = localizationManager;
+        
+        DetailsVM = new FoodDetailsViewModel(alertService); 
+        MacrosVM = new MealMacroStatsViewModel();
+
+        SetupFoodDetailsCallbacks();
 
         WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, DiaryUpdatedMessage>(
             this,
             (r, m) => { _ = r.LoadDataAsync(); }
         );
+    }
+
+    private void SetupFoodDetailsCallbacks()
+    {
+        DetailsVM.SaveFoodCallback = async newItem =>
+        {
+            if (_editingItem == null || _entryId == null) return;
+
+            var originalItem = _editingItem;
+            var index = FoodItems.IndexOf(_editingItem);
+            if (index >= 0) FoodItems[index] = newItem;
+            _editingItem = null;
+            MacrosVM.CalculateTotals(FoodItems);
+
+            try
+            {
+                var request = new FoodEntryCreateRequest(_mealType, _date, FoodItems.ToList());
+                var response = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
+
+                if (response.Success && response.Data is not null)
+                    return;
+
+                var errorMsg = new LocalizedString(() => response.Message);
+                await _alertService.ShowToastAsync(errorMsg.Localized);
+
+                if (index >= 0 && !FoodItems.Contains(originalItem))
+                    FoodItems[index] = originalItem;
+
+                MacrosVM.CalculateTotals(FoodItems);
+            }
+            catch
+            {
+                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+
+                if (index >= 0 && !FoodItems.Contains(originalItem))
+                    FoodItems[index] = originalItem;
+
+                MacrosVM.CalculateTotals(FoodItems);
+            }
+        };
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -99,20 +109,17 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         if (query.TryGetValue("Date", out var dateObj) && DateTime.TryParse(dateObj.ToString(), out var date))
         {
             _date = date;
-            DateStr = date.ToString("yyyy-MM-dd");
         }
 
         if (query.TryGetValue("MealType", out var typeObj) && Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
         {
             _mealType = type;
-            MealTypeStr = type.ToString();
             SetupMealInfo(type);
         }
 
         if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id))
         {
             _entryId = id;
-            EntryIdStr = id.ToString();
         }
 
         LoadDataCommand.Execute(null);
@@ -127,25 +134,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _entryId = null;
         _editingItem = null;
 
-        IsFoodDetailsVisible = false;
-        SelectedFoodDetail = null;
-        SelectedServing = null;
-        InputAmount = null;
-
-        TotalCalories = 0;
-        TotalCarbs = 0;
-        TotalProtein = 0;
-        TotalFat = 0;
-
-        CaloriesProgress = 0;
-        CarbsProgress = 0;
-        ProteinProgress = 0;
-        FatProgress = 0;
-
-        MealTargetCaloriesDisplay = "-";
-        MealTargetCarbsDisplay = "-";
-        MealTargetProteinDisplay = "-";
-        MealTargetFatDisplay = "-";
+        MacrosVM.Reset();
 
         IsLoading = false;
     }
@@ -191,29 +180,28 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
             if (goalTask.Result is { Success: true, Data: not null })
             {
-                var g = goalTask.Result.Data;
-                _dailyTargetCalories = g.Calories;
-                _dailyTargetCarbs = g.Carbs;
-                _dailyTargetProtein = g.Protein;
-                _dailyTargetFat = g.Fat;
+                MacrosVM.CalculateTargets(goalTask.Result.Data, _mealType);
             }
 
             var entryResponse = entryTask.Result;
-            if (_entryId.HasValue)
+            if (!_entryId.HasValue)
             {
-                if (!entryResponse.Success || entryResponse.Data == null)
-                {
-                    ClearEntryState();
-                    return;
-                }
-
-                _currentEntry = entryResponse.Data;
-                FoodItems.Clear();
-                foreach (var item in _currentEntry.FoodItems)
-                    FoodItems.Add(item);
+                MacrosVM.CalculateTotals(FoodItems);
+                return;
             }
 
-            RecalculateMacros();
+            if (!entryResponse.Success || entryResponse.Data == null)
+            {
+                ClearEntryState();
+                return;
+            }
+
+            _currentEntry = entryResponse.Data;
+            FoodItems.Clear();
+            foreach (var item in _currentEntry.FoodItems)
+                FoodItems.Add(item);
+
+            MacrosVM.CalculateTotals(FoodItems);
         }
         catch (OperationCanceledException)
         {
@@ -234,57 +222,60 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _entryId = null;
         _currentEntry = null;
         FoodItems.Clear();
-        RecalculateMacros();
+        MacrosVM.CalculateTotals(FoodItems);
     }
 
 
     [RelayCommand]
     private async Task DeleteItem(FoodItemDto item)
     {
-        if (_currentEntry == null || _entryId == null) return;
+        if (_currentEntry == null || _entryId == null)
+            return;
 
         var deletedIndex = FoodItems.IndexOf(item);
         FoodItems.Remove(item);
-        RecalculateMacros();
+        MacrosVM.CalculateTotals(FoodItems);
 
         try
         {
             if (FoodItems.Count == 0)
             {
                 var result = await _diaryService.DeleteEntryAsync(_entryId.Value);
-                if (result.Success)
-                {
-                    _entryId = null;
-                    _currentEntry = null;
-                    RecalculateMacros();
-                }
-                else
-                {
-                    FoodItems.Add(item);
-                    RecalculateMacros();
-                    await _alertService.ShowToastAsync(result.Message);
-                }
-            }
-            else
-            {
-                var request = new FoodEntryCreateRequest(_mealType, _date, FoodItems.ToList());
-                var result = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
-
                 if (!result.Success)
                 {
-                    if (deletedIndex >= 0) FoodItems.Insert(deletedIndex, item);
-                    else FoodItems.Add(item);
-
-                    RecalculateMacros();
-                    var errorMsg = new LocalizedString(() => result.Message);
-                    await _alertService.ShowToastAsync(errorMsg.Localized);
+                    FoodItems.Add(item);
+                    MacrosVM.CalculateTotals(FoodItems);
+                    await _alertService.ShowToastAsync(result.Message);
+                    return;
                 }
+
+                _entryId = null;
+                _currentEntry = null;
+                MacrosVM.CalculateTotals(FoodItems);
+                return;
             }
+
+            var request = new FoodEntryCreateRequest(_mealType, _date, FoodItems.ToList());
+            var updateResult = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
+
+            if (updateResult.Success)
+                return;
+
+            if (deletedIndex >= 0)
+                FoodItems.Insert(deletedIndex, item);
+            else
+                FoodItems.Add(item);
+
+            MacrosVM.CalculateTotals(FoodItems);
+            var errorMsg = new LocalizedString(() => updateResult.Message);
+            await _alertService.ShowToastAsync(errorMsg.Localized);
         }
         catch
         {
-            if (deletedIndex >= 0 && !FoodItems.Contains(item)) FoodItems.Insert(deletedIndex, item);
-            RecalculateMacros();
+            if (deletedIndex >= 0 && !FoodItems.Contains(item))
+                FoodItems.Insert(deletedIndex, item);
+
+            MacrosVM.CalculateTotals(FoodItems);
             await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
         }
     }
@@ -302,15 +293,8 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
             if (result is { Success: true, Data: not null })
             {
-                var details = result.Data;
                 _editingItem = item;
-                SelectedFoodDetail = details;
-
-                SelectedServing = details.Servings.FirstOrDefault(s => s.MetricUnit == item.ServingUnit)
-                                  ?? details.Servings.FirstOrDefault();
-
-                InputAmount = item.Amount.ToString(CultureInfo.InvariantCulture);
-                IsFoodDetailsVisible = true;
+                DetailsVM.OpenFoodDetailsInternal(result.Data, item);
             }
             else
             {
@@ -329,136 +313,9 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     }
 
     [RelayCommand]
-    private void CloseFoodDetails()
-    {
-        IsFoodDetailsVisible = false;
-        _editingItem = null;
-        InputAmount = null;
-    }
-
-    [RelayCommand(CanExecute = nameof(CanSaveFood))]
-    private async Task SaveFood()
-    {
-        if (_editingItem == null || SelectedFoodDetail == null || SelectedServing == null ||
-            string.IsNullOrEmpty(InputAmount)) return;
-        if (_entryId == null) return;
-
-        IsFoodDetailsVisible = false;
-
-        var amount = double.Parse(InputAmount, CultureInfo.InvariantCulture);
-        var ratio = amount / SelectedServing.MetricAmount;
-
-        var updatedItem = _editingItem with
-        {
-            Amount = amount,
-            ServingUnit = SelectedServing.MetricUnit,
-            Calories = SelectedServing.Calories * ratio,
-            Carbs = SelectedServing.Carbs * ratio,
-            Protein = SelectedServing.Protein * ratio,
-            Fat = SelectedServing.Fat * ratio
-        };
-
-        var index = FoodItems.IndexOf(_editingItem);
-        if (index >= 0) FoodItems[index] = updatedItem;
-
-        RecalculateMacros();
-        _editingItem = null;
-
-        try
-        {
-            var request = new FoodEntryCreateRequest(_mealType, _date, FoodItems.ToList());
-            var response = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
-
-            if (!response.Success || response.Data is null)
-            {
-                var errorMsg = new LocalizedString(() => response.Message);
-                await _alertService.ShowToastAsync(errorMsg.Localized);
-            }
-        }
-        catch
-        {
-            await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
-        }
-    }
-
-    private bool CanSaveFood()
-    {
-        return double.TryParse(InputAmount, out var amount) && amount is > 0 and <= 5000;
-    }
-
-    [RelayCommand]
     private async Task GoToFoodSearch()
     {
         await Shell.Current.GoToAsync(
             $"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
-    }
-
-    public double CurrentCalories => CalculateNutrient(s => s.Calories);
-    public double CurrentCarbs => CalculateNutrient(s => s.Carbs);
-    public double CurrentProtein => CalculateNutrient(s => s.Protein);
-    public double CurrentFat => CalculateNutrient(s => s.Fat);
-
-    private double CalculateNutrient(Func<FoodServingDto, double> selector)
-    {
-        var amount = double.TryParse(InputAmount, out var a) ? a : 0;
-
-        if (SelectedServing == null || SelectedServing.MetricAmount == 0 || amount <= 0)
-            return 0;
-
-        return amount * selector(SelectedServing) / SelectedServing.MetricAmount;
-    }
-
-    partial void OnInputAmountChanged(string? value)
-    {
-        NotifyPopupUpdates();
-    }
-
-    partial void OnSelectedServingChanged(FoodServingDto? value)
-    {
-        NotifyPopupUpdates();
-    }
-
-    private void NotifyPopupUpdates()
-    {
-        OnPropertyChanged(nameof(CurrentCalories));
-        OnPropertyChanged(nameof(CurrentCarbs));
-        OnPropertyChanged(nameof(CurrentProtein));
-        OnPropertyChanged(nameof(CurrentFat));
-    }
-
-    private void RecalculateTargetsOnly()
-    {
-        var ratio = _mealType switch
-        {
-            DayTime.Breakfast => 0.25,
-            DayTime.Lunch => 0.35,
-            DayTime.Dinner => 0.25,
-            _ => 0.15
-        };
-
-        MealTargetCalories = _dailyTargetCalories * ratio;
-        MealTargetCarbs = _dailyTargetCarbs * ratio;
-        MealTargetProtein = _dailyTargetProtein * ratio;
-        MealTargetFat = _dailyTargetFat * ratio;
-
-        MealTargetCaloriesDisplay = MealTargetCalories.ToString("F0");
-        MealTargetCarbsDisplay = MealTargetCarbs.ToString("F0");
-        MealTargetProteinDisplay = MealTargetProtein.ToString("F0");
-        MealTargetFatDisplay = MealTargetFat.ToString("F0");
-    }
-
-    private void RecalculateMacros()
-    {
-        TotalCalories = FoodItems.Sum(x => x.Calories);
-        TotalCarbs = FoodItems.Sum(x => x.Carbs);
-        TotalProtein = FoodItems.Sum(x => x.Protein);
-        TotalFat = FoodItems.Sum(x => x.Fat);
-
-        RecalculateTargetsOnly();
-
-        CaloriesProgress = MealTargetCalories > 0 ? TotalCalories / MealTargetCalories : 0;
-        CarbsProgress = MealTargetCarbs > 0 ? TotalCarbs / MealTargetCarbs : 0;
-        ProteinProgress = MealTargetProtein > 0 ? TotalProtein / MealTargetProtein : 0;
-        FatProgress = MealTargetFat > 0 ? TotalFat / MealTargetFat : 0;
     }
 }

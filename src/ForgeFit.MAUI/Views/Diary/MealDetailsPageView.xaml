@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -45,7 +45,7 @@
                                 <Label Margin="0" HorizontalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding TotalCalories, StringFormat='{0:F0}'}"
+                                            <Span Text="{Binding MacrosVM.TotalCalories, StringFormat='{0:F0}'}"
                                                   Style="{StaticResource LabelH2}" FontSize="16" />
                                             <Span Text=" " Style="{StaticResource LabelH2}" FontSize="16" />
                                             <Span Text="{maui:Translate Nutrient_Kcal}"
@@ -60,7 +60,7 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior
                                             BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
-                                            Progress="{Binding CaloriesProgress}"
+                                            Progress="{Binding MacrosVM.CaloriesProgress}"
                                             Length="250"
                                             Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
@@ -69,7 +69,7 @@
                                 <Label HorizontalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
+                                            <Span Text="{Binding MacrosVM.MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
                                                   Style="{StaticResource LabelBody}" FontSize="12" />
                                             <Span Text=" " Style="{StaticResource LabelBody}" FontSize="12" />
                                             <Span Text="{maui:Translate Nutrient_Kcal}"
@@ -87,7 +87,7 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TotalCarbs, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MacrosVM.TotalCarbs, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="16"
                                        Margin="0"
@@ -99,13 +99,13 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior
                                             BindingContext="{Binding BindingContext, Source={x:Reference CarbsBar}}"
-                                            Progress="{Binding CarbsProgress}"
+                                            Progress="{Binding MacrosVM.CarbsProgress}"
                                             Length="250"
                                             Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
-                                <Label Text="{Binding MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MacrosVM.MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -119,7 +119,7 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TotalProtein, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MacrosVM.TotalProtein, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="16"
                                        Margin="0"
@@ -131,13 +131,13 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior
                                             BindingContext="{Binding BindingContext, Source={x:Reference ProteinBar}}"
-                                            Progress="{Binding ProteinProgress}"
+                                            Progress="{Binding MacrosVM.ProteinProgress}"
                                             Length="250"
                                             Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
-                                <Label Text="{Binding MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MacrosVM.MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -151,7 +151,7 @@
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
-                                <Label Text="{Binding TotalFat, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MacrosVM.TotalFat, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
                                        FontSize="16"
                                        Margin="0"
@@ -163,13 +163,13 @@
                                     <ProgressBar.Behaviors>
                                         <toolkit:ProgressBarAnimationBehavior
                                             BindingContext="{Binding BindingContext, Source={x:Reference FatBar}}"
-                                            Progress="{Binding FatProgress}"
+                                            Progress="{Binding MacrosVM.FatProgress}"
                                             Length="250"
                                             Easing="SinInOut" />
                                     </ProgressBar.Behaviors>
                                 </ProgressBar>
 
-                                <Label Text="{Binding MealTargetFatDisplay, StringFormat='{0:F0} g'}"
+                                <Label Text="{Binding MacrosVM.MealTargetFatDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="12"
                                        HorizontalOptions="Center" />
@@ -355,7 +355,7 @@
                         Command="{Binding GoToFoodSearchCommand}" />
             </Grid>
 
-            <diary:FoodDetails ZIndex="10">
+            <diary:FoodDetails ZIndex="10" BindingContext="{Binding DetailsVM}">
                 <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </diary:FoodDetails.Behaviors>

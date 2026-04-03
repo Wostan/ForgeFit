@@ -35,7 +35,8 @@ public partial class FoodDetailsViewModel(
     [RelayCommand(CanExecute = nameof(CanSaveFood))]
     private async Task SaveFood()
     {
-        if (SelectedFoodDetail == null || SelectedServing == null || string.IsNullOrEmpty(InputAmount) || SaveFoodCallback == null) return;
+        if (SelectedFoodDetail == null || SelectedServing == null || string.IsNullOrEmpty(InputAmount) || SaveFoodCallback == null)
+            return;
 
         var product = SelectedFoodDetail;
         var serving = SelectedServing;
@@ -68,7 +69,9 @@ public partial class FoodDetailsViewModel(
 
     private bool CanSaveFood()
     {
-        if (string.IsNullOrEmpty(InputAmount)) return false;
+        if (string.IsNullOrEmpty(InputAmount))
+            return false;
+
         var normalizedInput = InputAmount.Replace(',', '.');
         return double.TryParse(normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var amount) && amount is > 0 and <= 5000;
     }
@@ -94,10 +97,16 @@ public partial class FoodDetailsViewModel(
 
     private double CalculateNutrient(Func<FoodServingDto, double> selector)
     {
-        if (string.IsNullOrEmpty(InputAmount)) return 0;
+        if (string.IsNullOrEmpty(InputAmount))
+            return 0;
+
         var normalizedInput = InputAmount.Replace(',', '.');
-        if (!double.TryParse(normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var val) || val <= 0) return 0;
-        if (SelectedServing == null || SelectedServing.MetricAmount == 0) return 0;
+        if (!double.TryParse(normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var val) || val <= 0)
+            return 0;
+
+        if (SelectedServing == null || SelectedServing.MetricAmount == 0)
+            return 0;
+
         return val * selector(SelectedServing) / SelectedServing.MetricAmount;
     }
 
@@ -149,6 +158,19 @@ public partial class FoodDetailsViewModel(
             InputAmount = targetServing.MetricAmount.ToString(CultureInfo.InvariantCulture);
         }
 
+        IsFoodDetailsVisible = true;
+    }
+
+    public void OpenFoodDetailsInternal(FoodProductResponse productDetails, FoodItemDto existingItem)
+    {
+        var uniqueServings = productDetails.Servings.GroupBy(s => s.MetricUnit).Select(g => g.First()).ToList();
+        productDetails = productDetails with { Servings = uniqueServings };
+        SelectedFoodDetail = productDetails;
+
+        SelectedServing = uniqueServings.FirstOrDefault(s => string.Equals(s.MetricUnit, existingItem.ServingUnit, StringComparison.OrdinalIgnoreCase)) 
+                          ?? uniqueServings.FirstOrDefault();
+
+        InputAmount = existingItem.Amount.ToString(CultureInfo.InvariantCulture);
         IsFoodDetailsVisible = true;
     }
 }
