@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -18,7 +18,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:BoolToObjectConverter x:Key="StateIconConverter"
-                                           TrueObject=""
+                                           TrueObject=""    
                                            FalseObject="add.svg" />
             <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
         </ResourceDictionary>
@@ -54,7 +54,7 @@
 
                                     <Style.Triggers>
                                         <DataTrigger TargetType="Label"
-                                                     Binding="{Binding BindingContext.SearchText, 
+                                                     Binding="{Binding BindingContext.SearchVM.SearchText, 
                                                      Source={x:Reference ThisPage},
                                                      Converter={toolkit:IsStringNotNullOrEmptyConverter}}"
                                                      Value="True">
@@ -68,7 +68,7 @@
                                                               Style="{StaticResource LabelBody}" />
 
                                                         <Span
-                                                            Text="{Binding BindingContext.SearchText,
+                                                            Text="{Binding BindingContext.SearchVM.SearchText,
                                                             Source={x:Reference ThisPage}}"
                                                             Style="{StaticResource LabelBody}" />
 
@@ -86,17 +86,17 @@
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
 
-            <CollectionView ItemsSource="{Binding SearchResults}"
+            <CollectionView ItemsSource="{Binding SearchVM.SearchResults}"
                             RemainingItemsThreshold="5"
-                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
-                            Opacity="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
+                            RemainingItemsThresholdReachedCommand="{Binding SearchVM.LoadMoreCommand}"
+                            Opacity="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
 
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Spacing="10"
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center"
                                          Opacity="0.5"
-                                         IsVisible="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}">
+                                         IsVisible="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
                         <Image Source="search.svg"
                                WidthRequest="100"
                                HeightRequest="100">
@@ -130,7 +130,7 @@
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenExerciseDetailsCommand}"
+                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SearchVM.OpenExerciseDetailsCommand}"
                                     CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
 
@@ -184,7 +184,7 @@
                                       VerticalOptions="Center">
 
                                     <ImageButton
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleExerciseCommand}"
+                                        Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SearchVM.ToggleExerciseCommand}"
                                         CommandParameter="{Binding .}"
                                         IsVisible="{Binding IsBusy, Converter={toolkit:InvertedBoolConverter}}"
                                         Source="{Binding IsBusy, Converter={StaticResource StateIconConverter}}"
@@ -209,8 +209,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <ActivityIndicator IsRunning="{Binding IsLoading}"
-                               IsVisible="{Binding IsLoading}"
+            <ActivityIndicator IsRunning="{Binding SearchVM.IsLoading}"
+                               IsVisible="{Binding SearchVM.IsLoading}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"
                                HeightRequest="50"
@@ -225,12 +225,12 @@
                     <SearchBar Grid.Column="0"
                                Placeholder="{maui:Translate Search_Placeholder_Exercise}"
                                ReturnType="Search"
-                               Text="{Binding SearchText}"
+                               Text="{Binding SearchVM.SearchText}"
                                SearchIconColor="{StaticResource TextPrimary}" />
                     <Button Grid.Column="1"
                             Style="{StaticResource TextButton}"
                             ImageSource="filter.svg"
-                            Command="{Binding ToggleFiltersCommand}">
+                            Command="{Binding FiltersVM.ToggleFiltersCommand}">
                         <Button.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
                         </Button.Behaviors>
@@ -239,14 +239,16 @@
             </Border>
 
             <workout:ExerciseFilters ZIndex="11"
-                                     IsVisible="{Binding IsFiltersVisible}">
+                                     IsVisible="{Binding FiltersVM.IsFiltersVisible}"
+                                     BindingContext="{Binding FiltersVM}">
                 <workout:ExerciseFilters.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFiltersVisible}" />
                 </workout:ExerciseFilters.Behaviors>
             </workout:ExerciseFilters>
 
             <workout:ExerciseDetails ZIndex="12"
-                                     IsVisible="{Binding IsDetailsVisible}">
+                                     IsVisible="{Binding DetailsVM.IsDetailsVisible}"
+                                     BindingContext="{Binding DetailsVM}">
                 <workout:ExerciseDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsDetailsVisible}" />
                 </workout:ExerciseDetails.Behaviors>
