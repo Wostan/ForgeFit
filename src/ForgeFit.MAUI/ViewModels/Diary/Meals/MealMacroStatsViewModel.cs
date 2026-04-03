@@ -7,25 +7,24 @@ namespace ForgeFit.MAUI.ViewModels.Diary.Meals;
 
 public partial class MealMacroStatsViewModel : ObservableObject
 {
-    [ObservableProperty] private double _totalCalories;
-    [ObservableProperty] private double _totalCarbs;
-    [ObservableProperty] private double _totalProtein;
-    [ObservableProperty] private double _totalFat;
-
     [ObservableProperty] private double _caloriesProgress;
     [ObservableProperty] private double _carbsProgress;
-    [ObservableProperty] private double _proteinProgress;
     [ObservableProperty] private double _fatProgress;
 
     [ObservableProperty] private double _mealTargetCalories;
-    [ObservableProperty] private double _mealTargetCarbs;
-    [ObservableProperty] private double _mealTargetProtein;
-    [ObservableProperty] private double _mealTargetFat;
 
     [ObservableProperty] private string _mealTargetCaloriesDisplay = "-";
+    [ObservableProperty] private double _mealTargetCarbs;
     [ObservableProperty] private string _mealTargetCarbsDisplay = "-";
-    [ObservableProperty] private string _mealTargetProteinDisplay = "-";
+    [ObservableProperty] private double _mealTargetFat;
     [ObservableProperty] private string _mealTargetFatDisplay = "-";
+    [ObservableProperty] private double _mealTargetProtein;
+    [ObservableProperty] private string _mealTargetProteinDisplay = "-";
+    [ObservableProperty] private double _proteinProgress;
+    [ObservableProperty] private double _totalCalories;
+    [ObservableProperty] private double _totalCarbs;
+    [ObservableProperty] private double _totalFat;
+    [ObservableProperty] private double _totalProtein;
 
     public void CalculateTargets(NutritionGoalResponse dailyGoal, DayTime mealType)
     {

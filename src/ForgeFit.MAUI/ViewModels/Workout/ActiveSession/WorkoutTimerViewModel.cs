@@ -4,18 +4,14 @@ namespace ForgeFit.MAUI.ViewModels.Workout.ActiveSession;
 
 public partial class WorkoutTimerViewModel : ObservableObject
 {
-    private IDispatcherTimer? _timer;
-    private TimeSpan _totalWorkoutDuration;
     private TimeSpan _currentRestTime;
-    private bool _isResting;
 
     [ObservableProperty] private string _headerTitle = "00:00:00";
+    private bool _isResting;
+    private IDispatcherTimer? _timer;
+    private TimeSpan _totalWorkoutDuration;
 
     public TimeSpan TotalWorkoutDuration => _totalWorkoutDuration;
-
-    public WorkoutTimerViewModel()
-    {
-    }
 
     public void StartTimer()
     {

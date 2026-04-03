@@ -4,26 +4,21 @@ using ForgeFit.MAUI.Models.DTOs.Auth;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.Views.Auth;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Registration;
 
-public partial class RegistrationPageViewModel : Core.BaseViewModel
+public partial class RegistrationPageViewModel : BaseViewModel
 {
-    private readonly IAuthService _authService;
     private readonly IAlertService _alertService;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IAuthService _authService;
     private readonly IBmiService _bmiService;
     private readonly IGoalService _goalService;
-    private readonly IPlanService _planService;
     private readonly ILocalizationResourceManager _localizationManager;
-
-    public EmailValidationViewModel EmailVM { get; }
-    public PersonalInfoViewModel PersonalVM { get; }
-    public MeasurementsViewModel MeasurementsVM { get; }
-    public GoalSettingsViewModel GoalVM { get; }
-    public NavigationViewModel NavigationVM { get; }
+    private readonly IPlanService _planService;
+    private readonly IServiceProvider _serviceProvider;
 
     public RegistrationPageViewModel(
         IAuthService authService,
@@ -62,6 +57,12 @@ public partial class RegistrationPageViewModel : Core.BaseViewModel
 
         GoalVM.SetCurrentMeasurements(MeasurementsVM.Height, MeasurementsVM.Weight);
     }
+
+    public EmailValidationViewModel EmailVM { get; }
+    public PersonalInfoViewModel PersonalVM { get; }
+    public MeasurementsViewModel MeasurementsVM { get; }
+    public GoalSettingsViewModel GoalVM { get; }
+    public NavigationViewModel NavigationVM { get; }
 
     [RelayCommand]
     private void OnEntryChanged(object? obj = null)

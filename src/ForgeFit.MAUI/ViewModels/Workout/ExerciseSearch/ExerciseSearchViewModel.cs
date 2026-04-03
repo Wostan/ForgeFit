@@ -6,14 +6,14 @@ namespace ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch;
 
 public partial class ExerciseSearchViewModel : ObservableObject
 {
+    private bool _canLoadMore;
+
+    private int _currentPage = 1;
+    [ObservableProperty] private bool _isLoading;
+    [ObservableProperty] private bool _isLoadingMore;
     private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private bool _isLoading;
-    [ObservableProperty] private bool _isLoadingMore;
-
-    private int _currentPage = 1;
-    private bool _canLoadMore;
 
     public ObservableCollection<ExerciseSearchItemViewModel> SearchResults { get; } = [];
 

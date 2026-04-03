@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Goals;
@@ -10,20 +11,21 @@ public partial class NutritionGoalViewModel(
     IGoalService goalService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
-    [ObservableProperty] private string _nutritionGoalCalories = string.Empty;
-    [ObservableProperty] private string _nutritionGoalCarbs = string.Empty;
-    [ObservableProperty] private string _nutritionGoalProtein = string.Empty;
-    [ObservableProperty] private string _nutritionGoalFat = string.Empty;
-    [ObservableProperty] private string _nutritionGoalVolumeMl = string.Empty;
-
-    [ObservableProperty] private bool _isEditNutritionGoalPopupVisible;
+    private NutritionGoalResponse? _currentNutritionGoal;
     [ObservableProperty] private string? _editCalories;
     [ObservableProperty] private string? _editCarbs;
-    [ObservableProperty] private string? _editProtein;
     [ObservableProperty] private string? _editFat;
+    [ObservableProperty] private string? _editProtein;
     [ObservableProperty] private string? _editWater;
+
+    [ObservableProperty] private bool _isEditNutritionGoalPopupVisible;
+    [ObservableProperty] private string _nutritionGoalCalories = string.Empty;
+    [ObservableProperty] private string _nutritionGoalCarbs = string.Empty;
+    [ObservableProperty] private string _nutritionGoalFat = string.Empty;
+    [ObservableProperty] private string _nutritionGoalProtein = string.Empty;
+    [ObservableProperty] private string _nutritionGoalVolumeMl = string.Empty;
 
     public void UpdateState(NutritionGoalResponse goal)
     {
@@ -110,8 +112,6 @@ public partial class NutritionGoalViewModel(
             IsLoading = false;
         }
     }
-
-    private NutritionGoalResponse? _currentNutritionGoal;
 
     public void SetCurrentGoal(NutritionGoalResponse goal)
     {

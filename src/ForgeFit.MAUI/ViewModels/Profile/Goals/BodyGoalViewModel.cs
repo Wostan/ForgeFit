@@ -6,6 +6,7 @@ using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Models.Enums.GoalEnums;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Goals;
@@ -16,23 +17,23 @@ public partial class BodyGoalViewModel(
     IGoalRealismValidator goalRealismValidator,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
-    private BodyGoalResponse? _currentBodyGoal;
-    private UserProfileDto? _currentUserProfile;
-
-    [ObservableProperty] private string _bodyGoalEmoji = "🎯";
-    [ObservableProperty] private string _bodyGoalWeight = string.Empty;
-    [ObservableProperty] private string _bodyGoalTitle = string.Empty;
     [ObservableProperty] private string _bodyGoalDescription = string.Empty;
     [ObservableProperty] private string _bodyGoalDueDate = string.Empty;
-    [ObservableProperty] private string _bodyGoalType = string.Empty;
 
-    [ObservableProperty] private bool _isEditBodyGoalPopupVisible;
-    [ObservableProperty] private string? _editTargetWeight;
-    [ObservableProperty] private string? _editBodyGoalTitle;
+    [ObservableProperty] private string _bodyGoalEmoji = "🎯";
+    [ObservableProperty] private string _bodyGoalTitle = string.Empty;
+    [ObservableProperty] private string _bodyGoalType = string.Empty;
+    [ObservableProperty] private string _bodyGoalWeight = string.Empty;
+    private BodyGoalResponse? _currentBodyGoal;
+    private UserProfileDto? _currentUserProfile;
     [ObservableProperty] private string? _editBodyGoalDescription;
     [ObservableProperty] private DateTime? _editBodyGoalDueDate;
+    [ObservableProperty] private string? _editBodyGoalTitle;
+    [ObservableProperty] private string? _editTargetWeight;
+
+    [ObservableProperty] private bool _isEditBodyGoalPopupVisible;
 
     public void UpdateState(BodyGoalResponse goal)
     {

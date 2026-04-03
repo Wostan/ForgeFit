@@ -13,10 +13,9 @@ public class FoodDiaryIntegrationViewModel(
     IFoodService foodService,
     IAlertService alertService) : ObservableObject
 {
-    private Guid? _entryId;
     private DateTime _date;
+    private Guid? _entryId;
     private DayTime _mealType;
-    private HashSet<string> _existingProductIds = [];
 
     public Guid? EntryId
     {
@@ -34,7 +33,7 @@ public class FoodDiaryIntegrationViewModel(
         }
     }
 
-    public HashSet<string> ExistingProductIds => _existingProductIds;
+    public HashSet<string> ExistingProductIds { get; private set; } = [];
 
     public Func<FoodSearchItemViewModel, Task>? QuickAddCallback { get; set; }
     public Func<FoodSearchItemViewModel, Task>? RemoveCallback { get; set; }
@@ -44,7 +43,7 @@ public class FoodDiaryIntegrationViewModel(
         _date = date;
         _mealType = mealType;
         _entryId = entryId;
-        _existingProductIds.Clear();
+        ExistingProductIds.Clear();
     }
 
     public async Task RefreshExistingIdsAsync()
@@ -54,7 +53,7 @@ public class FoodDiaryIntegrationViewModel(
             if (!_entryId.HasValue) return;
             var result = await diaryService.GetEntryAsync(_entryId.Value);
             if (result is { Success: true, Data: not null })
-                _existingProductIds = result.Data.FoodItems.Select(x => x.ExternalId).ToHashSet();
+                ExistingProductIds = result.Data.FoodItems.Select(x => x.ExternalId).ToHashSet();
         }
         catch
         {
@@ -110,7 +109,7 @@ public class FoodDiaryIntegrationViewModel(
 
             await AddEntryToDiaryInternal(newItem);
             itemVm.IsAdded = true;
-            _existingProductIds.Add(product.ExternalId);
+            ExistingProductIds.Add(product.ExternalId);
         }
         catch (Exception ex)
         {
@@ -147,7 +146,7 @@ public class FoodDiaryIntegrationViewModel(
 
             WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
             itemVm.IsAdded = false;
-            _existingProductIds.Remove(itemVm.Data.ExternalId);
+            ExistingProductIds.Remove(itemVm.Data.ExternalId);
         }
         catch
         {
@@ -181,22 +180,22 @@ public class FoodDiaryIntegrationViewModel(
 
     public void ResetState()
     {
-        _existingProductIds.Clear();
+        ExistingProductIds.Clear();
         _entryId = null;
     }
 
     public bool IsProductAdded(string externalId)
     {
-        return _existingProductIds.Contains(externalId);
+        return ExistingProductIds.Contains(externalId);
     }
 
     public void MarkProductAsAdded(string externalId)
     {
-        _existingProductIds.Add(externalId);
+        ExistingProductIds.Add(externalId);
     }
 
     public void MarkProductAsRemoved(string externalId)
     {
-        _existingProductIds.Remove(externalId);
+        ExistingProductIds.Remove(externalId);
     }
 }

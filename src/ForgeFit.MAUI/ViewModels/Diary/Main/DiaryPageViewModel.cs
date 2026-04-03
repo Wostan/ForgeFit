@@ -5,29 +5,27 @@ using CommunityToolkit.Mvvm.Messaging;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.Meals;
+using ForgeFit.MAUI.ViewModels.Diary.Tracking;
 using Humanizer;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Main;
 
-public partial class DiaryPageViewModel : Core.BaseViewModel
+public partial class DiaryPageViewModel : BaseViewModel
 {
+    private readonly IAlertService _alertService;
     private readonly IDiaryService _diaryService;
     private readonly IGoalService _goalService;
-    private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
+    private CancellationTokenSource? _cts;
+    [ObservableProperty] private string _dateTitle = string.Empty;
 
     private bool _isInitialized;
-    private CancellationTokenSource? _cts;
 
     [ObservableProperty] private bool _isRefreshing;
     [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
-    [ObservableProperty] private string _dateTitle = string.Empty;
-
-    public Tracking.NutritionTrackingViewModel NutritionVM { get; }
-    public Tracking.WaterTrackingViewModel WaterVM { get; }
-    public Tracking.WeightManagementViewModel WeightVM { get; }
-    public Meals.MealDashboardViewModel MealVM { get; }
 
     public DiaryPageViewModel(
         IDiaryService diaryService,
@@ -42,10 +40,10 @@ public partial class DiaryPageViewModel : Core.BaseViewModel
         _alertService = alertService;
         _localizationManager = localizationManager;
 
-        NutritionVM = new Tracking.NutritionTrackingViewModel(goalService);
-        WaterVM = new Tracking.WaterTrackingViewModel(drinkTrackingService, alertService);
-        WeightVM = new Tracking.WeightManagementViewModel(goalService, userService, alertService, localizationManager);
-        MealVM = new Meals.MealDashboardViewModel();
+        NutritionVM = new NutritionTrackingViewModel(goalService);
+        WaterVM = new WaterTrackingViewModel(drinkTrackingService, alertService);
+        WeightVM = new WeightManagementViewModel(goalService, userService, alertService, localizationManager);
+        MealVM = new MealDashboardViewModel();
 
         MealVM.SetSelectedDate(SelectedDate);
 
@@ -59,6 +57,11 @@ public partial class DiaryPageViewModel : Core.BaseViewModel
             (r, _) => { r.RefreshCommand.ExecuteAsync(null); }
         );
     }
+
+    public NutritionTrackingViewModel NutritionVM { get; }
+    public WaterTrackingViewModel WaterVM { get; }
+    public WeightManagementViewModel WeightVM { get; }
+    public MealDashboardViewModel MealVM { get; }
 
 
     partial void OnSelectedDateChanged(DateTime value)
@@ -158,7 +161,7 @@ public partial class DiaryPageViewModel : Core.BaseViewModel
 
         DateTitle = string.IsNullOrWhiteSpace(humanized)
             ? SelectedDate.ToString("D", _localizationManager.CurrentCulture)
-            : To.Transform(humanized, To.SentenceCase);
+            : humanized.Transform(To.SentenceCase);
     }
 
     [RelayCommand]

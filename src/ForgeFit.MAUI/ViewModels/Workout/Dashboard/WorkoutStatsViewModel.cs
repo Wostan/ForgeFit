@@ -1,12 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.Dashboard;
 
 public partial class WorkoutStatsViewModel(
     IWorkoutTrackingService workoutTrackingService,
     IGoalService goalService)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WorkoutProgress))]
     private int _completedWorkouts;

@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Tracking;
 
-public partial class NutritionTrackingViewModel : Core.BaseViewModel
+public partial class NutritionTrackingViewModel : BaseViewModel
 {
     private readonly IGoalService _goalService;
 
@@ -14,33 +15,31 @@ public partial class NutritionTrackingViewModel : Core.BaseViewModel
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CarbsProgress))]
     private double _currentCarbs;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
-    private double _currentProtein;
-
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(FatProgress))]
     private double _currentFat;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
+    private double _currentProtein;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CaloriesProgress))]
     private double _targetCalories;
 
+    [ObservableProperty] private string? _targetCaloriesDisplay;
+
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CarbsProgress))]
     private double _targetCarbs;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
-    private double _targetProtein;
+    [ObservableProperty] private string? _targetCarbsDisplay;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(FatProgress))]
     private double _targetFat;
 
-    [ObservableProperty] private string? _targetCaloriesDisplay;
-    [ObservableProperty] private string? _targetCarbsDisplay;
-    [ObservableProperty] private string? _targetProteinDisplay;
     [ObservableProperty] private string? _targetFatDisplay;
 
-    public double CaloriesProgress => TargetCalories > 0 ? CurrentCalories / TargetCalories : 0;
-    public double CarbsProgress => TargetCarbs > 0 ? CurrentCarbs / TargetCarbs : 0;
-    public double ProteinProgress => TargetProtein > 0 ? CurrentProtein / TargetProtein : 0;
-    public double FatProgress => TargetFat > 0 ? CurrentFat / TargetFat : 0;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
+    private double _targetProtein;
+
+    [ObservableProperty] private string? _targetProteinDisplay;
 
     public NutritionTrackingViewModel(
         IGoalService goalService)
@@ -48,6 +47,11 @@ public partial class NutritionTrackingViewModel : Core.BaseViewModel
         _goalService = goalService;
         SetLoadingState();
     }
+
+    public double CaloriesProgress => TargetCalories > 0 ? CurrentCalories / TargetCalories : 0;
+    public double CarbsProgress => TargetCarbs > 0 ? CurrentCarbs / TargetCarbs : 0;
+    public double ProteinProgress => TargetProtein > 0 ? CurrentProtein / TargetProtein : 0;
+    public double FatProgress => TargetFat > 0 ? CurrentFat / TargetFat : 0;
 
     private void SetLoadingState()
     {

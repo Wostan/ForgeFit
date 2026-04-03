@@ -2,21 +2,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Tracking;
 
-public partial class WeightManagementViewModel : Core.BaseViewModel
+public partial class WeightManagementViewModel : BaseViewModel
 {
-    private readonly IGoalService _goalService;
-    private readonly IUserService _userService;
     private readonly IAlertService _alertService;
+    private readonly IGoalService _goalService;
     private readonly ILocalizationResourceManager _localizationManager;
-
-    private CancellationTokenSource? _weightCts;
-    private UserProfileDto? _userProfile;
-
-    [ObservableProperty] private string _currentWeightInput = string.Empty;
+    private readonly IUserService _userService;
 
     [NotifyPropertyChangedFor(nameof(WeightProgress))]
     [NotifyPropertyChangedFor(nameof(WeightLeft))]
@@ -24,15 +20,17 @@ public partial class WeightManagementViewModel : Core.BaseViewModel
     [ObservableProperty]
     private double _currentWeight;
 
+    [ObservableProperty] private string _currentWeightInput = string.Empty;
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(WeightProgress))]
     [NotifyPropertyChangedFor(nameof(WeightLeft))]
     private double _targetWeight;
 
     [ObservableProperty] private string? _targetWeightDisplay;
+    private UserProfileDto? _userProfile;
 
-    public double WeightProgress => TargetWeight > 0 ? CurrentWeight / TargetWeight : 0;
-    public double WeightLeft => Math.Abs(TargetWeight - CurrentWeight);
+    private CancellationTokenSource? _weightCts;
 
     public WeightManagementViewModel(
         IGoalService goalService,
@@ -46,6 +44,9 @@ public partial class WeightManagementViewModel : Core.BaseViewModel
         _localizationManager = localizationManager;
         SetLoadingState();
     }
+
+    public double WeightProgress => TargetWeight > 0 ? CurrentWeight / TargetWeight : 0;
+    public double WeightLeft => Math.Abs(TargetWeight - CurrentWeight);
 
     private void SetLoadingState()
     {

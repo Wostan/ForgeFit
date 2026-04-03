@@ -5,10 +5,9 @@ namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 
 public partial class FoodScannerViewModel : ObservableObject
 {
+    private bool _isProcessingBarcode;
     [ObservableProperty] private bool _isScannerVisible;
     [ObservableProperty] private bool _isTorchOn;
-
-    private bool _isProcessingBarcode;
 
     public Func<string, Task>? BarcodeDetectedCallback { get; set; }
 

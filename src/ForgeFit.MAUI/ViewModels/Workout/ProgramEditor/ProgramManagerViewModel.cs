@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.ProgramEditor;
@@ -9,11 +10,11 @@ public partial class ProgramManagerViewModel(
     IWorkoutProgramService workoutProgramService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
+    [ObservableProperty] private string? _programDescription;
     [ObservableProperty] private Guid _programId;
     [ObservableProperty] private string _programName = string.Empty;
-    [ObservableProperty] private string? _programDescription;
 
     public async Task<bool> LoadProgramAsync(Guid programId)
     {

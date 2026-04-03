@@ -6,15 +6,15 @@ namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 
 public partial class FoodSearchViewModel : ObservableObject
 {
+    private bool _canLoadMore = true;
+
+    private int _currentPage = 1;
+    [ObservableProperty] private bool _isLoading;
+    [ObservableProperty] private bool _isLoadingMore;
+    [ObservableProperty] private bool _isShowingRecent = true;
     private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private bool _isShowingRecent = true;
-    [ObservableProperty] private bool _isLoadingMore;
-    [ObservableProperty] private bool _isLoading;
-
-    private int _currentPage = 1;
-    private bool _canLoadMore = true;
 
     public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 

@@ -5,31 +5,26 @@ using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Profile.Goals;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Main;
 
-public partial class ProfilePageViewModel : Core.BaseViewModel
+public partial class ProfilePageViewModel : BaseViewModel
 {
-    private readonly IUserService _userService;
-    private readonly IGoalService _goalService;
-    private readonly IPlanService _planService;
+    private readonly IAlertService _alertService;
     private readonly IAuthService _authService;
     private readonly IBmiService _bmiService;
-    private readonly IAlertService _alertService;
+    private readonly IGoalService _goalService;
     private readonly ILocalizationResourceManager _localizationManager;
+    private readonly IPlanService _planService;
+    private readonly IUserService _userService;
 
     private CancellationTokenSource? _cts;
-    [ObservableProperty] private bool _isRefreshing;
-
-    public UserProfileViewModel UserProfileVM { get; }
-    public Goals.BodyGoalViewModel BodyGoalVM { get; }
-    public Goals.NutritionGoalViewModel NutritionGoalVM { get; }
-    public Goals.WorkoutGoalViewModel WorkoutGoalVM { get; }
-    public PasswordChangeViewModel PasswordChangeVM { get; }
-    public ConfirmationViewModel ConfirmationVM { get; }
 
     private BodyGoalResponse? _currentBodyGoal;
+    [ObservableProperty] private bool _isRefreshing;
 
     public ProfilePageViewModel(
         IUserService userService,
@@ -50,10 +45,10 @@ public partial class ProfilePageViewModel : Core.BaseViewModel
         _localizationManager = localizationManager;
 
         UserProfileVM = new UserProfileViewModel(userService, alertService, localizationManager);
-        BodyGoalVM = new Goals.BodyGoalViewModel(goalService, bmiService, goalRealismValidator, alertService,
+        BodyGoalVM = new BodyGoalViewModel(goalService, bmiService, goalRealismValidator, alertService,
             localizationManager);
-        NutritionGoalVM = new Goals.NutritionGoalViewModel(goalService, alertService, localizationManager);
-        WorkoutGoalVM = new Goals.WorkoutGoalViewModel(goalService, alertService, localizationManager);
+        NutritionGoalVM = new NutritionGoalViewModel(goalService, alertService, localizationManager);
+        WorkoutGoalVM = new WorkoutGoalViewModel(goalService, alertService, localizationManager);
         PasswordChangeVM = new PasswordChangeViewModel(userService, alertService, localizationManager);
         ConfirmationVM = new ConfirmationViewModel(localizationManager);
 
@@ -67,6 +62,13 @@ public partial class ProfilePageViewModel : Core.BaseViewModel
 
         LoadDataCommand.Execute(null);
     }
+
+    public UserProfileViewModel UserProfileVM { get; }
+    public BodyGoalViewModel BodyGoalVM { get; }
+    public NutritionGoalViewModel NutritionGoalVM { get; }
+    public WorkoutGoalViewModel WorkoutGoalVM { get; }
+    public PasswordChangeViewModel PasswordChangeVM { get; }
+    public ConfirmationViewModel ConfirmationVM { get; }
 
     [RelayCommand]
     private async Task LoadDataAsync()

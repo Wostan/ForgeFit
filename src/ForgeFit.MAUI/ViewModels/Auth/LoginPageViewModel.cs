@@ -1,6 +1,4 @@
-﻿
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,24 +6,26 @@ using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Handlers;
 using ForgeFit.MAUI.Models.DTOs.Auth;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.Views.Auth;
 using LocalizationResourceManager.Maui;
+
 // ReSharper disable once RedundantUsingDirective
 
 namespace ForgeFit.MAUI.ViewModels.Auth;
 
-public partial class LoginPageViewModel : Core.BaseViewModel
+public partial class LoginPageViewModel : BaseViewModel
 {
-    private readonly IAuthService _authService;
     private readonly IAlertService _alertService;
+    private readonly IAuthService _authService;
     private readonly ILocalizationResourceManager _localizationManager;
     private readonly IServiceProvider _serviceProvider;
 
     [ObservableProperty] private string? _email;
-    [ObservableProperty] private string? _password;
 
     [ObservableProperty] private bool _isEmailError;
     [ObservableProperty] private bool _isEmptyPasswordField;
+    [ObservableProperty] private string? _password;
 
     [ObservableProperty] private LanguageItem? _selectedLanguage;
 
@@ -47,8 +47,6 @@ public partial class LoginPageViewModel : Core.BaseViewModel
     }
 
     public bool IsNotLoading => !IsLoading;
-
-    public record LanguageItem(string Name, string Code);
 
     public List<LanguageItem> Languages { get; } =
     [
@@ -155,4 +153,6 @@ public partial class LoginPageViewModel : Core.BaseViewModel
 
     [GeneratedRegex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")]
     private static partial Regex EmailRegex();
+
+    public record LanguageItem(string Name, string Code);
 }

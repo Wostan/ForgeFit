@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Main;
@@ -10,11 +11,11 @@ public partial class PasswordChangeViewModel(
     IUserService userService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
     [ObservableProperty] private bool _isChangePasswordPopupVisible;
-    [ObservableProperty] private string? _oldPasswordInput;
     [ObservableProperty] private string? _newPasswordInput;
+    [ObservableProperty] private string? _oldPasswordInput;
 
     [RelayCommand]
     private void OpenChangePassword()

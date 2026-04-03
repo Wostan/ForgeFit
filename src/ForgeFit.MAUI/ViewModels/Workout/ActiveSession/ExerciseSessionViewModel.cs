@@ -14,8 +14,8 @@ public partial class ExerciseSessionViewModel : ObservableObject
 {
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
-    private readonly Guid _programId;
     private readonly Action<ActiveSetItem> _onSetCompleted;
+    private readonly Guid _programId;
 
     [ObservableProperty] private ObservableCollection<ActiveExerciseItem> _exercises = [];
 

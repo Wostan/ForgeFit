@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Main;
@@ -13,26 +14,26 @@ public partial class UserProfileViewModel(
     IUserService userService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
-    private UserProfileDto? _currentUserProfile;
-
-    [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _avatarUrl = string.Empty;
     [ObservableProperty] private string _birthDate = string.Empty;
-    [ObservableProperty] private string _genderEmoji = string.Empty;
+    private UserProfileDto? _currentUserProfile;
+    [ObservableProperty] private DateTime _editBirthDate;
+    [ObservableProperty] private string? _editCurrentWeight;
+    [ObservableProperty] private Gender _editGender;
+    [ObservableProperty] private string? _editHeight;
+    [ObservableProperty] private string? _editUsername;
     [ObservableProperty] private string _gender = string.Empty;
-    [ObservableProperty] private string _weight = string.Empty;
-    [ObservableProperty] private WeightUnit _weightUnit;
+    [ObservableProperty] private string _genderEmoji = string.Empty;
     [ObservableProperty] private string _height = string.Empty;
     [ObservableProperty] private HeightUnit _heightUnit;
 
     [ObservableProperty] private bool _isEditProfilePopupVisible;
-    [ObservableProperty] private string? _editUsername;
-    [ObservableProperty] private DateTime _editBirthDate;
-    [ObservableProperty] private Gender _editGender;
-    [ObservableProperty] private string? _editHeight;
-    [ObservableProperty] private string? _editCurrentWeight;
+
+    [ObservableProperty] private string _username = string.Empty;
+    [ObservableProperty] private string _weight = string.Empty;
+    [ObservableProperty] private WeightUnit _weightUnit;
 
     public ObservableCollection<Gender> Genders { get; } = new(Enum.GetValues<Gender>());
 

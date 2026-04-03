@@ -7,36 +7,32 @@ using ForgeFit.MAUI.Models;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 using ForgeFit.MAUI.Views.Diary;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Meals;
 
-public partial class MealDetailsPageViewModel : Core.BaseViewModel, IQueryAttributable
+public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributable
 {
+    private readonly IAlertService _alertService;
     private readonly IDiaryService _diaryService;
     private readonly IFoodService _foodService;
     private readonly IGoalService _goalService;
-
-    private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
 
     private CancellationTokenSource? _cts;
 
-    [ObservableProperty] private string _mealTitle = string.Empty;
-    [ObservableProperty] private string _mealEmoji = string.Empty;
+    private FoodEntryDto? _currentEntry;
 
     private DateTime _date;
-    private DayTime _mealType;
-    private Guid? _entryId;
-
-    private FoodEntryDto? _currentEntry;
     private FoodItemDto? _editingItem;
+    private Guid? _entryId;
+    [ObservableProperty] private string _mealEmoji = string.Empty;
 
-    public ObservableCollection<FoodItemDto> FoodItems { get; } = [];
-
-    public FoodSearch.FoodDetailsViewModel DetailsVM { get; }
-    public MealMacroStatsViewModel MacrosVM { get; }
+    [ObservableProperty] private string _mealTitle = string.Empty;
+    private DayTime _mealType;
 
     public MealDetailsPageViewModel(
         IDiaryService diaryService,
@@ -51,7 +47,7 @@ public partial class MealDetailsPageViewModel : Core.BaseViewModel, IQueryAttrib
         _alertService = alertService;
         _localizationManager = localizationManager;
 
-        DetailsVM = new FoodSearch.FoodDetailsViewModel(alertService);
+        DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();
 
         SetupFoodDetailsCallbacks();
@@ -60,6 +56,29 @@ public partial class MealDetailsPageViewModel : Core.BaseViewModel, IQueryAttrib
             this,
             (r, m) => { _ = r.LoadDataAsync(); }
         );
+    }
+
+    public ObservableCollection<FoodItemDto> FoodItems { get; } = [];
+
+    public FoodDetailsViewModel DetailsVM { get; }
+    public MealMacroStatsViewModel MacrosVM { get; }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        ResetState();
+
+        if (query.TryGetValue("Date", out var dateObj) &&
+            DateTime.TryParse(dateObj.ToString(), out var date)) _date = date;
+
+        if (query.TryGetValue("MealType", out var typeObj) && Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
+        {
+            _mealType = type;
+            SetupMealInfo(type);
+        }
+
+        if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id)) _entryId = id;
+
+        LoadDataCommand.Execute(null);
     }
 
     private void SetupFoodDetailsCallbacks()
@@ -100,24 +119,6 @@ public partial class MealDetailsPageViewModel : Core.BaseViewModel, IQueryAttrib
                 MacrosVM.CalculateTotals(FoodItems);
             }
         };
-    }
-
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        ResetState();
-
-        if (query.TryGetValue("Date", out var dateObj) &&
-            DateTime.TryParse(dateObj.ToString(), out var date)) _date = date;
-
-        if (query.TryGetValue("MealType", out var typeObj) && Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
-        {
-            _mealType = type;
-            SetupMealInfo(type);
-        }
-
-        if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id)) _entryId = id;
-
-        LoadDataCommand.Execute(null);
     }
 
     private void ResetState()

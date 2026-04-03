@@ -6,22 +6,22 @@ namespace ForgeFit.MAUI.ViewModels.Core;
 
 public partial class PopupManagerViewModel(ILocalizationResourceManager localizationManager) : ObservableObject
 {
-    private Func<Task>? _pendingConfirmationAction;
+    [ObservableProperty] private string _confirmationMessage = string.Empty;
+    [ObservableProperty] private string _confirmationTitle = string.Empty;
+    [ObservableProperty] private string _createInputValue = string.Empty;
+    [ObservableProperty] private TimeSpan _entryPopupDuration;
+    [ObservableProperty] private string _entryPopupPlaceholder = string.Empty;
+    [ObservableProperty] private string _entryPopupTitle = string.Empty;
 
     [ObservableProperty] private bool _isConfirmationPopupVisible;
-    [ObservableProperty] private string _confirmationTitle = string.Empty;
-    [ObservableProperty] private string _confirmationMessage = string.Empty;
-
-    [ObservableProperty] private bool _isEntryPopupVisible;
-    [ObservableProperty] private string _entryPopupTitle = string.Empty;
-    [ObservableProperty] private string _entryPopupPlaceholder = string.Empty;
-    [ObservableProperty] private TimeSpan _entryPopupDuration;
-
-    [ObservableProperty] private bool _isRenamePopupVisible;
-    [ObservableProperty] private string _tempProgramName = string.Empty;
 
     [ObservableProperty] private bool _isCreatePopupVisible;
-    [ObservableProperty] private string _createInputValue = string.Empty;
+
+    [ObservableProperty] private bool _isEntryPopupVisible;
+
+    [ObservableProperty] private bool _isRenamePopupVisible;
+    private Func<Task>? _pendingConfirmationAction;
+    [ObservableProperty] private string _tempProgramName = string.Empty;
 
     public void ShowConfirmation(string titleKey, string messageKey, Func<Task> confirmationAction)
     {

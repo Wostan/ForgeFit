@@ -2,18 +2,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
+using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.Views.Diary;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Meals;
 
-public partial class MealDashboardViewModel : Core.BaseViewModel
+public partial class MealDashboardViewModel : BaseViewModel
 {
+    private DateTime _selectedDate = DateTime.Today;
     public MealDashboardItem Breakfast { get; } = new(DayTime.Breakfast);
     public MealDashboardItem Lunch { get; } = new(DayTime.Lunch);
     public MealDashboardItem Dinner { get; } = new(DayTime.Dinner);
     public MealDashboardItem Snack { get; } = new(DayTime.Snack);
-
-    private DateTime _selectedDate = DateTime.Today;
 
     public void SetSelectedDate(DateTime selectedDate)
     {
@@ -85,17 +85,17 @@ public partial class MealDashboardViewModel : Core.BaseViewModel
 
 public partial class MealDashboardItem(DayTime type) : ObservableObject
 {
-    public DayTime Type { get; } = type;
-
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(Progress))]
     private double _currentCalories;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(Progress))]
-    private double _targetCalories;
 
     [ObservableProperty] private Guid? _entryId;
 
     [ObservableProperty] private bool _hasEntry;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(Progress))]
+    private double _targetCalories;
+
+    public DayTime Type { get; } = type;
 
     public double Progress => TargetCalories > 0 ? CurrentCalories / TargetCalories : 0;
 }

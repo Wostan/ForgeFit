@@ -1,14 +1,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Main;
 
-public partial class ConfirmationViewModel(ILocalizationResourceManager localizationManager) : Core.BaseViewModel
+public partial class ConfirmationViewModel(ILocalizationResourceManager localizationManager) : BaseViewModel
 {
-    [ObservableProperty] private bool _isConfirmationPopupVisible;
-    [ObservableProperty] private string _confirmationTitle = string.Empty;
     [ObservableProperty] private string _confirmationMessage = string.Empty;
+    [ObservableProperty] private string _confirmationTitle = string.Empty;
+    [ObservableProperty] private bool _isConfirmationPopupVisible;
 
     private Func<Task>? _pendingConfirmationAction;
 

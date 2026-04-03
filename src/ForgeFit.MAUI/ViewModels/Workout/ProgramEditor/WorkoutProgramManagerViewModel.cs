@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.Views.Workout;
 using LocalizationResourceManager.Maui;
 
@@ -12,7 +13,7 @@ public partial class WorkoutProgramManagerViewModel(
     IWorkoutProgramService workoutProgramService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
     [ObservableProperty] private ObservableCollection<WorkoutProgramItem> _programs = [];
 

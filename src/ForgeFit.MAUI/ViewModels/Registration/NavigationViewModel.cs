@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Registration;
@@ -10,19 +11,14 @@ public record LanguageItem(string Name, string Code);
 public partial class NavigationViewModel : BaseViewModel
 {
     private readonly ILocalizationResourceManager _localizationManager;
+    [ObservableProperty] private string _buttonText = string.Empty;
+    [ObservableProperty] private string _commitmentSubtitle = string.Empty;
 
     [ObservableProperty] private string _commitmentTitle = string.Empty;
-    [ObservableProperty] private string _commitmentSubtitle = string.Empty;
-    [ObservableProperty] private bool _isMainNavigationVisible = true;
     [ObservableProperty] private int _currentPosition;
-    [ObservableProperty] private string _buttonText = string.Empty;
+    [ObservableProperty] private bool _isMainNavigationVisible = true;
     [ObservableProperty] private double _progress;
     [ObservableProperty] private LanguageItem? _selectedLanguage;
-
-    public ObservableCollection<string> Steps { get; } =
-    [
-        "Credentials", "Personal", "Measurements", "Goal", "Commitment"
-    ];
 
     public NavigationViewModel(ILocalizationResourceManager localizationManager)
     {
@@ -34,6 +30,11 @@ public partial class NavigationViewModel : BaseViewModel
 
         UpdateState();
     }
+
+    public ObservableCollection<string> Steps { get; } =
+    [
+        "Credentials", "Personal", "Measurements", "Goal", "Commitment"
+    ];
 
     public List<LanguageItem> Languages { get; } =
     [

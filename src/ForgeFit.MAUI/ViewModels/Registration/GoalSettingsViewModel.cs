@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Registration;
@@ -12,18 +13,18 @@ public partial class GoalSettingsViewModel : BaseViewModel
     private readonly IGoalRealismValidator _goalValidator;
     private readonly ILocalizationResourceManager _localizationManager;
 
-    [ObservableProperty] private double _targetWeight;
-    [ObservableProperty] private double _minTargetWeight = 30;
-    [ObservableProperty] private double _maxTargetWeight = 300;
-    [ObservableProperty] private string _daysLeftText = string.Empty;
-    [ObservableProperty] private DateTime _goalDueDate = DateTime.Today.AddMonths(3);
-    [ObservableProperty] private bool _isNoDeadline;
-    [ObservableProperty] private bool _isDeadlineActive = true;
-
-    public DateTime MinGoalDate => DateTime.Today.AddDays(7);
-
     private double _currentHeight;
     private double _currentWeight;
+    [ObservableProperty] private string _daysLeftText = string.Empty;
+    [ObservableProperty] private DateTime _goalDueDate = DateTime.Today.AddMonths(3);
+    [ObservableProperty] private bool _isDeadlineActive = true;
+    [ObservableProperty] private bool _isNoDeadline;
+    [ObservableProperty] private double _maxTargetWeight = 300;
+    [ObservableProperty] private double _minTargetWeight = 30;
+
+    [ObservableProperty] private double _targetWeight;
+
+    [ObservableProperty] private LocalizedString? _validationError;
 
     public GoalSettingsViewModel(
         IBmiService bmiService,
@@ -36,6 +37,8 @@ public partial class GoalSettingsViewModel : BaseViewModel
 
         RecalculateDaysLeft();
     }
+
+    public DateTime MinGoalDate => DateTime.Today.AddDays(7);
 
     public void SetCurrentMeasurements(double height, double weight)
     {
@@ -132,6 +135,4 @@ public partial class GoalSettingsViewModel : BaseViewModel
     {
         ValidationError = null;
     }
-
-    [ObservableProperty] private LocalizedString? _validationError;
 }

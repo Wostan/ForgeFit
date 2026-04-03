@@ -3,26 +3,22 @@ using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 
-public partial class FoodSearchPageViewModel : Core.BaseViewModel, IQueryAttributable
+public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private readonly IFoodService _foodService;
-    private readonly IDiaryService _diaryService;
     private readonly IAlertService _alertService;
+    private readonly IDiaryService _diaryService;
+    private readonly IFoodService _foodService;
     private readonly ILocalizationResourceManager _localizationManager;
 
-    [ObservableProperty] private string _mealTitle = string.Empty;
-
     private DateTime _date;
-    private DayTime _mealType;
 
-    public FoodSearchViewModel SearchVM { get; }
-    public FoodDetailsViewModel DetailsVM { get; }
-    public FoodScannerViewModel ScannerVM { get; }
-    public FoodDiaryIntegrationViewModel DiaryVM { get; }
+    [ObservableProperty] private string _mealTitle = string.Empty;
+    private DayTime _mealType;
 
     public FoodSearchPageViewModel(
         IFoodService foodService,
@@ -43,21 +39,10 @@ public partial class FoodSearchPageViewModel : Core.BaseViewModel, IQueryAttribu
         SetupCallbacks();
     }
 
-    private void SetupCallbacks()
-    {
-        SearchVM.PerformSearchCallback = PerformSearchAsync;
-        SearchVM.LoadRecentCallback = LoadRecentAsync;
-        SearchVM.LoadMoreCallback = LoadMoreAsync;
-        SearchVM.ToggleItemCallback = ToggleItemAsync;
-        SearchVM.OpenFoodDetailsCallback = OpenFoodDetailsAsync;
-
-        DetailsVM.OpenFoodDetailsCallback = (product, source) =>
-            DetailsVM.OpenFoodDetailsInternal(product, source, SearchVM.IsShowingRecent);
-        DetailsVM.CloseFoodDetailsCallback = CloseFoodDetailsInternal;
-        DetailsVM.SaveFoodCallback = SaveFoodInternal;
-
-        ScannerVM.BarcodeDetectedCallback = BarcodeDetectedAsync;
-    }
+    public FoodSearchViewModel SearchVM { get; }
+    public FoodDetailsViewModel DetailsVM { get; }
+    public FoodScannerViewModel ScannerVM { get; }
+    public FoodDiaryIntegrationViewModel DiaryVM { get; }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -86,6 +71,22 @@ public partial class FoodSearchPageViewModel : Core.BaseViewModel, IQueryAttribu
         DiaryVM.Initialize(_date, _mealType, entryId);
         await DiaryVM.RefreshExistingIdsAsync();
         await SearchVM.LoadRecentAsync();
+    }
+
+    private void SetupCallbacks()
+    {
+        SearchVM.PerformSearchCallback = PerformSearchAsync;
+        SearchVM.LoadRecentCallback = LoadRecentAsync;
+        SearchVM.LoadMoreCallback = LoadMoreAsync;
+        SearchVM.ToggleItemCallback = ToggleItemAsync;
+        SearchVM.OpenFoodDetailsCallback = OpenFoodDetailsAsync;
+
+        DetailsVM.OpenFoodDetailsCallback = (product, source) =>
+            DetailsVM.OpenFoodDetailsInternal(product, source, SearchVM.IsShowingRecent);
+        DetailsVM.CloseFoodDetailsCallback = CloseFoodDetailsInternal;
+        DetailsVM.SaveFoodCallback = SaveFoodInternal;
+
+        ScannerVM.BarcodeDetectedCallback = BarcodeDetectedAsync;
     }
 
     private void ResetState()
@@ -280,10 +281,10 @@ public partial class FoodSearchPageViewModel : Core.BaseViewModel, IQueryAttribu
 
 public partial class FoodSearchItemViewModel(FoodSearchResponse data) : ObservableObject
 {
-    public FoodSearchResponse Data { get; } = data;
+    [ObservableProperty] private bool _isAdded;
 
     [ObservableProperty] private bool _isAdding;
-    [ObservableProperty] private bool _isAdded;
+    public FoodSearchResponse Data { get; } = data;
 
     public string Label => Data.Label;
     public string BrandName => Data.BrandName ?? "";

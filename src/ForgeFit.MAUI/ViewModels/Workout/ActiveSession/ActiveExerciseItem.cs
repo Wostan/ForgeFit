@@ -7,13 +7,6 @@ namespace ForgeFit.MAUI.ViewModels.Workout.ActiveSession;
 
 public class ActiveExerciseItem : ObservableObject
 {
-    public Guid Id { get; }
-    public WorkoutExerciseDto WorkoutExercise { get; }
-    public ObservableCollection<ActiveSetItem> Sets { get; }
-
-    public IRelayCommand DeleteExerciseCommand { get; }
-    public IRelayCommand AddSetCommand { get; }
-
     public ActiveExerciseItem(
         WorkoutExercisePlanDto dto,
         Action<ActiveSetItem> onSetAction,
@@ -31,6 +24,13 @@ public class ActiveExerciseItem : ObservableObject
                 .Select(s => new ActiveSetItem(s, onSetAction, deleteSetCommand))
         );
     }
+
+    public Guid Id { get; }
+    public WorkoutExerciseDto WorkoutExercise { get; }
+    public ObservableCollection<ActiveSetItem> Sets { get; }
+
+    public IRelayCommand DeleteExerciseCommand { get; }
+    public IRelayCommand AddSetCommand { get; }
 
     public PerformedExerciseDto ToPerformedExerciseDto()
     {

@@ -4,22 +4,20 @@ using CommunityToolkit.Mvvm.Messaging;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.Views.Workout;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.ProgramEditor;
 
-public partial class WorkoutProgramEditorPageViewModel : Core.BaseViewModel, IQueryAttributable
+public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private readonly IWorkoutProgramService _workoutProgramService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
+    private readonly IWorkoutProgramService _workoutProgramService;
+    [ObservableProperty] private ExerciseEditorViewModel _exerciseVM;
 
     private bool _isInitialized;
-
-    public ProgramManagerViewModel ProgramVM { get; }
-    public Core.PopupManagerViewModel PopupVM { get; }
-    [ObservableProperty] private ExerciseEditorViewModel _exerciseVM;
 
     public WorkoutProgramEditorPageViewModel(
         IWorkoutProgramService workoutProgramService,
@@ -32,7 +30,7 @@ public partial class WorkoutProgramEditorPageViewModel : Core.BaseViewModel, IQu
 
         ProgramVM = new ProgramManagerViewModel(workoutProgramService, alertService, localizationManager);
         ExerciseVM = new ExerciseEditorViewModel(alertService, localizationManager, Guid.Empty);
-        PopupVM = new Core.PopupManagerViewModel(localizationManager);
+        PopupVM = new PopupManagerViewModel(localizationManager);
 
         ExerciseVM.DeleteExerciseRequested += OnDeleteExerciseRequested;
 
@@ -45,6 +43,9 @@ public partial class WorkoutProgramEditorPageViewModel : Core.BaseViewModel, IQu
                 });
             });
     }
+
+    public ProgramManagerViewModel ProgramVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {

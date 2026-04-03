@@ -3,30 +3,30 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.DrinkTracking;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Tracking;
 
-public partial class WaterTrackingViewModel : Core.BaseViewModel
+public partial class WaterTrackingViewModel : BaseViewModel
 {
-    private readonly IDrinkTrackingService _drinkTrackingService;
     private readonly IAlertService _alertService;
-
-    [ObservableProperty] private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
-    [ObservableProperty] private bool _isWaterInputVisible;
-
-    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(SaveCustomWaterCommand))]
-    private string _waterInputValue = "";
+    private readonly IDrinkTrackingService _drinkTrackingService;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WaterProgress))]
     private double _currentWater;
+
+    [ObservableProperty] private bool _isWaterInputVisible;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(WaterProgress))]
     private double _targetWater;
 
     [ObservableProperty] private string? _targetWaterDisplay;
 
-    public double WaterProgress => TargetWater > 0 ? CurrentWater / TargetWater : 0;
+    [ObservableProperty] private ObservableCollection<DrinkEntryResponse> _waterEntries = [];
+
+    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(SaveCustomWaterCommand))]
+    private string _waterInputValue = "";
 
     public WaterTrackingViewModel(
         IDrinkTrackingService drinkTrackingService,
@@ -36,6 +36,8 @@ public partial class WaterTrackingViewModel : Core.BaseViewModel
         _alertService = alertService;
         SetLoadingState();
     }
+
+    public double WaterProgress => TargetWater > 0 ? CurrentWater / TargetWater : 0;
 
     private void SetLoadingState()
     {

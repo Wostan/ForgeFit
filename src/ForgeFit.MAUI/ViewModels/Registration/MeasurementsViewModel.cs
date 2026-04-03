@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Registration;
@@ -8,13 +9,15 @@ public partial class MeasurementsViewModel : BaseViewModel
 {
     private readonly IBmiService _bmiService;
     private readonly ILocalizationResourceManager _localizationManager;
-
-    [ObservableProperty] private double _height = 175;
-    [ObservableProperty] private double _weight = 75;
-    [ObservableProperty] private double _bmiValue;
     [ObservableProperty] private LocalizedString? _bmiCategoryText;
     [ObservableProperty] private Color _bmiColor = Colors.Gray;
     [ObservableProperty] private LocalizedString? _bmiDescription;
+    [ObservableProperty] private double _bmiValue;
+
+    [ObservableProperty] private double _height = 175;
+
+    [ObservableProperty] private LocalizedString? _validationError;
+    [ObservableProperty] private double _weight = 75;
 
     public MeasurementsViewModel(IBmiService bmiService, ILocalizationResourceManager localizationManager)
     {
@@ -86,8 +89,6 @@ public partial class MeasurementsViewModel : BaseViewModel
     {
         ValidationError = null;
     }
-
-    [ObservableProperty] private LocalizedString? _validationError;
 
     public event Action? TargetLimitsChanged;
 }

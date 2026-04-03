@@ -9,51 +9,17 @@ public partial class ActiveSetItem : ObservableObject
 {
     private readonly Action<ActiveSetItem> _onCompletedChanged;
 
-    public Guid Id { get; }
+    [ObservableProperty] private bool _isCompleted;
 
     [ObservableProperty] private int _order;
 
     [ObservableProperty] private int _reps;
 
-    partial void OnRepsChanged(int value)
-    {
-        Reps = value switch
-        {
-            < 0 => 0,
-            > 100 => 100,
-            _ => Reps
-        };
-    }
+    [ObservableProperty] private TimeSpan _restTime;
 
     [ObservableProperty] private double _weight;
 
-    partial void OnWeightChanged(double value)
-    {
-        Weight = value switch
-        {
-            < 0 => 0,
-            > 1500 => 1500,
-            _ => Weight
-        };
-    }
-
-    [ObservableProperty] private TimeSpan _restTime;
-
-    partial void OnRestTimeChanged(TimeSpan value)
-    {
-        if (value.TotalMinutes >= 10) RestTime = TimeSpan.FromMinutes(9).Add(TimeSpan.FromSeconds(59));
-    }
-
     [ObservableProperty] private WeightUnit _weightUnit;
-
-    [ObservableProperty] private bool _isCompleted;
-
-    public IRelayCommand DeleteCommand { get; }
-
-    partial void OnIsCompletedChanged(bool value)
-    {
-        _onCompletedChanged(this);
-    }
 
     public ActiveSetItem(
         WorkoutSetDto dto,
@@ -68,6 +34,40 @@ public partial class ActiveSetItem : ObservableObject
         WeightUnit = dto.WeightUnit;
         _onCompletedChanged = onCompletedChanged;
         DeleteCommand = deleteCommand;
+    }
+
+    public Guid Id { get; }
+
+    public IRelayCommand DeleteCommand { get; }
+
+    partial void OnRepsChanged(int value)
+    {
+        Reps = value switch
+        {
+            < 0 => 0,
+            > 100 => 100,
+            _ => Reps
+        };
+    }
+
+    partial void OnWeightChanged(double value)
+    {
+        Weight = value switch
+        {
+            < 0 => 0,
+            > 1500 => 1500,
+            _ => Weight
+        };
+    }
+
+    partial void OnRestTimeChanged(TimeSpan value)
+    {
+        if (value.TotalMinutes >= 10) RestTime = TimeSpan.FromMinutes(9).Add(TimeSpan.FromSeconds(59));
+    }
+
+    partial void OnIsCompletedChanged(bool value)
+    {
+        _onCompletedChanged(this);
     }
 
     [RelayCommand]

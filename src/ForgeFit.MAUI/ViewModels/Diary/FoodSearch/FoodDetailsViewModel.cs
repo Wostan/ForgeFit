@@ -9,12 +9,12 @@ namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 public partial class FoodDetailsViewModel(
     IAlertService alertService) : ObservableObject
 {
+    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
+    private string? _inputAmount;
+
     [ObservableProperty] private bool _isFoodDetailsVisible;
     [ObservableProperty] private FoodProductResponse? _selectedFoodDetail;
     [ObservableProperty] private FoodServingDto? _selectedServing;
-
-    [NotifyCanExecuteChangedFor(nameof(SaveFoodCommand))] [ObservableProperty]
-    private string? _inputAmount;
 
     public double CurrentCalories => CalculateNutrient(s => s.Calories);
     public double CurrentCarbs => CalculateNutrient(s => s.Carbs);
@@ -43,7 +43,8 @@ public partial class FoodDetailsViewModel(
         var serving = SelectedServing;
         var normalizedInput = InputAmount.Replace(',', '.');
 
-        if (!double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var amount) ||
+        if (!double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture,
+                out var amount) ||
             amount <= 0)
         {
             await alertService.ShowToastAsync("Invalid amount");
@@ -75,7 +76,8 @@ public partial class FoodDetailsViewModel(
             return false;
 
         var normalizedInput = InputAmount.Replace(',', '.');
-        return double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var amount) &&
+        return double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture,
+                   out var amount) &&
                amount is > 0 and <= 5000;
     }
 
@@ -104,7 +106,8 @@ public partial class FoodDetailsViewModel(
             return 0;
 
         var normalizedInput = InputAmount.Replace(',', '.');
-        if (!double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var val) || val <= 0)
+        if (!double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var val) ||
+            val <= 0)
             return 0;
 
         if (SelectedServing == null || SelectedServing.MetricAmount == 0)

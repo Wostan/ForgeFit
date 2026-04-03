@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.ProgramEditor;
@@ -12,7 +13,7 @@ public partial class ExerciseEditorViewModel(
     IAlertService alertService,
     ILocalizationResourceManager localizationManager,
     Guid programId)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
     [ObservableProperty] private ObservableCollection<EditorExerciseItem> _exercises = [];
 

@@ -1,27 +1,23 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.Views.Workout;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.ActiveSession;
 
-public partial class ActiveWorkoutPageViewModel : Core.BaseViewModel, IQueryAttributable
+public partial class ActiveWorkoutPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private readonly IWorkoutProgramService _workoutProgramService;
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
+    private readonly IWorkoutProgramService _workoutProgramService;
 
     private bool _isInitialized;
-    private string _programName = string.Empty;
     private string? _programDescription;
 
-    public WorkoutTimerViewModel TimerVM { get; }
-    public ExerciseSessionViewModel ExerciseVM { get; }
-    public Core.PopupManagerViewModel PopupVM { get; }
-    public WorkoutCompletionViewModel CompletionVM { get; }
-
     [ObservableProperty] private Guid _programId;
+    private string _programName = string.Empty;
 
     public ActiveWorkoutPageViewModel(
         IWorkoutProgramService workoutProgramService,
@@ -34,7 +30,7 @@ public partial class ActiveWorkoutPageViewModel : Core.BaseViewModel, IQueryAttr
         _localizationManager = localizationManager;
 
         TimerVM = new WorkoutTimerViewModel();
-        PopupVM = new Core.PopupManagerViewModel(localizationManager);
+        PopupVM = new PopupManagerViewModel(localizationManager);
         CompletionVM = new WorkoutCompletionViewModel(workoutTrackingService, workoutProgramService, alertService,
             localizationManager);
         ExerciseVM = new ExerciseSessionViewModel(alertService, localizationManager, ProgramId, OnSetCompleted);
@@ -43,6 +39,11 @@ public partial class ActiveWorkoutPageViewModel : Core.BaseViewModel, IQueryAttr
         PopupVM.DurationValidationError += OnDurationValidationError;
         PopupVM.DurationCorrectionSaved += OnDurationCorrectionSaved;
     }
+
+    public WorkoutTimerViewModel TimerVM { get; }
+    public ExerciseSessionViewModel ExerciseVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
+    public WorkoutCompletionViewModel CompletionVM { get; }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {

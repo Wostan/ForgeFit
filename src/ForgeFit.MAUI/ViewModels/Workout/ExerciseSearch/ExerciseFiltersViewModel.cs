@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.Enums.WorkoutEnums;
@@ -93,6 +94,6 @@ public partial class ExerciseFiltersViewModel : ObservableObject
         return FilterEquipment.Where(x => x.IsSelected).Select(x => x.Value).ToList();
     }
 
-    [System.Text.RegularExpressions.GeneratedRegex("(\\B[A-Z])")]
-    private static partial System.Text.RegularExpressions.Regex MyRegex();
+    [GeneratedRegex("(\\B[A-Z])")]
+    private static partial Regex MyRegex();
 }

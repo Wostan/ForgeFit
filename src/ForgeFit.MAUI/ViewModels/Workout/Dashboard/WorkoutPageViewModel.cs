@@ -13,15 +13,11 @@ public partial class WorkoutPageViewModel : BaseViewModel
 {
     private readonly IAlertService _alertService;
     private readonly ILocalizationResourceManager _localizationManager;
-
-    private bool _isInitialized;
     private CancellationTokenSource? _cts;
 
-    [ObservableProperty] private bool _isRefreshing;
+    private bool _isInitialized;
 
-    public WorkoutStatsViewModel StatsVM { get; }
-    public WorkoutProgramManagerViewModel ProgramManagerVM { get; }
-    public PopupManagerViewModel PopupVM { get; }
+    [ObservableProperty] private bool _isRefreshing;
 
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,
@@ -44,6 +40,10 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
         SetLoadingState();
     }
+
+    public WorkoutStatsViewModel StatsVM { get; }
+    public WorkoutProgramManagerViewModel ProgramManagerVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
 
     [RelayCommand]
     private async Task Initialize()

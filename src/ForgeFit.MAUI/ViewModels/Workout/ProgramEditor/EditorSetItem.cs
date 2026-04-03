@@ -7,29 +7,15 @@ namespace ForgeFit.MAUI.ViewModels.Workout.ProgramEditor;
 
 public partial class EditorSetItem : ObservableObject
 {
-    public Guid Id { get; }
-
     [ObservableProperty] private int _order;
 
     [ObservableProperty] private int _reps;
 
-    partial void OnRepsChanged(int value)
-    {
-        Reps = Math.Clamp(value, 0, 100);
-    }
+    [ObservableProperty] private TimeSpan _restTime;
 
     [ObservableProperty] private double _weight;
 
-    partial void OnWeightChanged(double value)
-    {
-        Weight = Math.Clamp(value, 0, 1500);
-    }
-
-    [ObservableProperty] private TimeSpan _restTime;
-
     [ObservableProperty] private WeightUnit _weightUnit;
-
-    public IRelayCommand DeleteCommand { get; }
 
     public EditorSetItem(WorkoutSetDto dto, IRelayCommand deleteCommand)
     {
@@ -40,6 +26,20 @@ public partial class EditorSetItem : ObservableObject
         RestTime = dto.RestTime;
         WeightUnit = dto.WeightUnit;
         DeleteCommand = deleteCommand;
+    }
+
+    public Guid Id { get; }
+
+    public IRelayCommand DeleteCommand { get; }
+
+    partial void OnRepsChanged(int value)
+    {
+        Reps = Math.Clamp(value, 0, 100);
+    }
+
+    partial void OnWeightChanged(double value)
+    {
+        Weight = Math.Clamp(value, 0, 1500);
     }
 
     public WorkoutSetDto ToDto()

@@ -5,24 +5,20 @@ using CommunityToolkit.Mvvm.Messaging;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch;
 
-public partial class ExerciseSearchPageViewModel : Core.BaseViewModel, IQueryAttributable
+public partial class ExerciseSearchPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private readonly IWorkoutExerciseService _exerciseService;
-    private readonly IAlertService _alertService;
-    private readonly ILocalizationResourceManager _localizationManager;
-
     private const string DefaultApiQuery = " ";
     private const int PageSize = 20;
+    private readonly IAlertService _alertService;
+    private readonly IWorkoutExerciseService _exerciseService;
+    private readonly ILocalizationResourceManager _localizationManager;
 
     [ObservableProperty] private string _programName = string.Empty;
-
-    public ExerciseSearchViewModel SearchVM { get; }
-    public ExerciseFiltersViewModel FiltersVM { get; }
-    public ExerciseDetailsViewModel DetailsVM { get; }
 
     public ExerciseSearchPageViewModel(
         IWorkoutExerciseService exerciseService,
@@ -40,17 +36,9 @@ public partial class ExerciseSearchPageViewModel : Core.BaseViewModel, IQueryAtt
         SetupCallbacks();
     }
 
-    private void SetupCallbacks()
-    {
-        SearchVM.PerformSearchCallback = async (query, token) => await PerformSearchAsync(query, token);
-        SearchVM.LoadMoreCallback = async () => await LoadMoreAsync();
-        SearchVM.ToggleExerciseCallback = async (itemVm) => await ToggleExerciseAsync(itemVm);
-        SearchVM.OpenDetailsCallback = async (itemVm) => await OpenDetailsAsync(itemVm);
-
-        FiltersVM.ApplyFiltersCallback = async () => await PerformSearchAsync(SearchVM.SearchText, default);
-
-        DetailsVM.AddFromDetailsCallback = async (exercise) => await AddFromDetailsAsync(exercise);
-    }
+    public ExerciseSearchViewModel SearchVM { get; }
+    public ExerciseFiltersViewModel FiltersVM { get; }
+    public ExerciseDetailsViewModel DetailsVM { get; }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -63,6 +51,18 @@ public partial class ExerciseSearchPageViewModel : Core.BaseViewModel, IQueryAtt
 
         SearchVM.SearchText = " ";
         SearchVM.SearchText = string.Empty;
+    }
+
+    private void SetupCallbacks()
+    {
+        SearchVM.PerformSearchCallback = async (query, token) => await PerformSearchAsync(query, token);
+        SearchVM.LoadMoreCallback = async () => await LoadMoreAsync();
+        SearchVM.ToggleExerciseCallback = async itemVm => await ToggleExerciseAsync(itemVm);
+        SearchVM.OpenDetailsCallback = async itemVm => await OpenDetailsAsync(itemVm);
+
+        FiltersVM.ApplyFiltersCallback = async () => await PerformSearchAsync(SearchVM.SearchText, default);
+
+        DetailsVM.AddFromDetailsCallback = async exercise => await AddFromDetailsAsync(exercise);
     }
 
     private void ResetState()
@@ -186,7 +186,7 @@ public partial class ExerciseSearchPageViewModel : Core.BaseViewModel, IQueryAtt
         if (details is not { Success: true, Data: not null })
         {
             if (details is not { Success: false }) return;
-            
+
             var errorMsg = new LocalizedString(() => details.Message);
             await _alertService.ShowToastAsync(errorMsg.Localized);
             return;
@@ -222,17 +222,15 @@ public partial class ExerciseSearchPageViewModel : Core.BaseViewModel, IQueryAtt
 
 public partial class FilterItem<T>(T value, string name) : ObservableObject
 {
+    [ObservableProperty] private bool _isSelected;
     public T Value { get; } = value;
     public string Name { get; } = name;
-
-    [ObservableProperty] private bool _isSelected;
 }
 
 public partial class ExerciseSearchItemViewModel(WorkoutExerciseSearchResponse data) : ObservableObject
 {
-    public WorkoutExerciseSearchResponse Data { get; } = data;
-
     [ObservableProperty] private bool _isBusy;
+    public WorkoutExerciseSearchResponse Data { get; } = data;
 
     public string Name => Data.Name;
     public Uri? GifUrl => Data.GifUrl;

@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.Enums.WorkoutEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Profile.Goals;
@@ -13,18 +14,18 @@ public partial class WorkoutGoalViewModel(
     IGoalService goalService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager)
-    : Core.BaseViewModel
+    : BaseViewModel
 {
     private WorkoutGoalResponse? _currentWorkoutGoal;
-
-    [ObservableProperty] private string _workoutGoalPerWeek = string.Empty;
-    [ObservableProperty] private string _workoutGoalDurationMinutes = string.Empty;
-    [ObservableProperty] private string _workoutGoalType = string.Empty;
+    [ObservableProperty] private string? _editDurationMinutes;
+    [ObservableProperty] private string? _editWorkoutsPerWeek;
+    [ObservableProperty] private WorkoutTypeOption _editWorkoutType = new();
 
     [ObservableProperty] private bool _isEditWorkoutGoalPopupVisible;
-    [ObservableProperty] private string? _editWorkoutsPerWeek;
-    [ObservableProperty] private string? _editDurationMinutes;
-    [ObservableProperty] private WorkoutTypeOption _editWorkoutType = new();
+    [ObservableProperty] private string _workoutGoalDurationMinutes = string.Empty;
+
+    [ObservableProperty] private string _workoutGoalPerWeek = string.Empty;
+    [ObservableProperty] private string _workoutGoalType = string.Empty;
 
     public ObservableCollection<WorkoutTypeOption> WorkoutTypes { get; } = [];
 

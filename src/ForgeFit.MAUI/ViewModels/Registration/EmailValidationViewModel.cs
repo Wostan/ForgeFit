@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Registration;
@@ -13,16 +14,18 @@ public partial class EmailValidationViewModel(
     ILocalizationResourceManager localizationManager)
     : BaseViewModel
 {
-    private CancellationTokenSource? _emailCheckCts;
+    [ObservableProperty] private string _confirmPassword = string.Empty;
 
     [ObservableProperty] private string _email = string.Empty;
-    [ObservableProperty] private string _password = string.Empty;
-    [ObservableProperty] private string _confirmPassword = string.Empty;
-    [ObservableProperty] private bool _isEmailError;
-    [ObservableProperty] private bool _isPasswordError;
+    private CancellationTokenSource? _emailCheckCts;
     [ObservableProperty] private bool _isConfirmPasswordError;
     [ObservableProperty] private bool _isEmailCheckRunning;
+    [ObservableProperty] private bool _isEmailError;
     [ObservableProperty] private bool _isEmailVerified;
+    [ObservableProperty] private bool _isPasswordError;
+    [ObservableProperty] private string _password = string.Empty;
+
+    [ObservableProperty] private LocalizedString? _validationError;
 
     [RelayCommand]
     public void OnEntryChanged(object? obj = null)
@@ -153,8 +156,6 @@ public partial class EmailValidationViewModel(
         IsConfirmPasswordError = false;
         ValidationError = null;
     }
-
-    [ObservableProperty] private LocalizedString? _validationError;
 
     [GeneratedRegex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")]
     private static partial Regex EmailRegex();

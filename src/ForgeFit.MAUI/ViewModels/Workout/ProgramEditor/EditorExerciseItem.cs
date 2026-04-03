@@ -7,13 +7,6 @@ namespace ForgeFit.MAUI.ViewModels.Workout.ProgramEditor;
 
 public class EditorExerciseItem : ObservableObject
 {
-    public Guid Id { get; }
-    public WorkoutExerciseDto WorkoutExercise { get; }
-    public ObservableCollection<EditorSetItem> Sets { get; }
-
-    public IRelayCommand DeleteExerciseCommand { get; }
-    public IRelayCommand AddSetCommand { get; }
-
     public EditorExerciseItem(
         WorkoutExercisePlanDto dto,
         IRelayCommand deleteSetCommand,
@@ -30,4 +23,11 @@ public class EditorExerciseItem : ObservableObject
                 .Select(s => new EditorSetItem(s, deleteSetCommand))
         );
     }
+
+    public Guid Id { get; }
+    public WorkoutExerciseDto WorkoutExercise { get; }
+    public ObservableCollection<EditorSetItem> Sets { get; }
+
+    public IRelayCommand DeleteExerciseCommand { get; }
+    public IRelayCommand AddSetCommand { get; }
 }
