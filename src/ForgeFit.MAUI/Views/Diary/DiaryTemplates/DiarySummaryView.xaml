@@ -8,7 +8,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
              x:DataType="main:DiaryPageViewModel"
-             x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiarySummaryView">
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiarySummaryView">
     <VerticalStackLayout Spacing="4">
 
         <Label Style="{StaticResource LabelBody}"

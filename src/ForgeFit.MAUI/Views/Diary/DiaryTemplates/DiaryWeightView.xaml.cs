@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.MAUI.Views.Diary.Templates;
+﻿namespace ForgeFit.MAUI.Views.Diary.DiaryTemplates;
 
 public partial class DiaryWeightView : ContentView
 {

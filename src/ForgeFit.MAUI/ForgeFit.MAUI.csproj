@@ -137,10 +137,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Views\Diary\Templates\DiaryHydrationView.xaml"/>
-        <AdditionalFiles Include="Views\Diary\Templates\DiaryMealsView.xaml"/>
-        <AdditionalFiles Include="Views\Diary\Templates\DiarySummaryView.xaml"/>
-        <AdditionalFiles Include="Views\Diary\Templates\DiaryWeightView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryHydrationView.xaml" />
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryMealsView.xaml" />
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiarySummaryView.xaml" />
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryWeightView.xaml" />
     </ItemGroup>
 
     <ItemGroup>

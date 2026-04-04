@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:meals="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Meals"
+             x:DataType="meals:MealDetailsPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsTemplates.MealMacrosView">
+    <VerticalStackLayout Spacing="20">
+
+        <Label Text="{Binding MealEmoji}"
+               FontSize="64"
+               HorizontalOptions="Center" />
+
+        <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
+
+            <VerticalStackLayout VerticalOptions="Center" Spacing="-4">
+                <Label Text="{maui:Translate Nutrient_Calories}"
+                       Style="{StaticResource LabelBody}"
+                       Margin="0, 0, 0, 5"
+                       FontSize="12"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Margin="0" HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding MacrosVM.TotalCalories, StringFormat='{0:F0}'}"
+                                  Style="{StaticResource LabelH2}" FontSize="16" />
+                            <Span Text=" " Style="{StaticResource LabelH2}" FontSize="16" />
+                            <Span Text="{maui:Translate Nutrient_Kcal}"
+                                  Style="{StaticResource LabelH2}" FontSize="16" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <ProgressBar x:Name="CaloriesBar"
+                             ProgressColor="{StaticResource Primary}"
+                             Shadow="{StaticResource CaloriesGlow}">
+                    <ProgressBar.Behaviors>
+                        <toolkit:ProgressBarAnimationBehavior
+                            BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
+                            Progress="{Binding MacrosVM.CaloriesProgress}"
+                            Length="250"
+                            Easing="SinInOut" />
+                    </ProgressBar.Behaviors>
+                </ProgressBar>
+
+                <Label HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding MacrosVM.MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
+                                  Style="{StaticResource LabelBody}" FontSize="12" />
+                            <Span Text=" " Style="{StaticResource LabelBody}" FontSize="12" />
+                            <Span Text="{maui:Translate Nutrient_Kcal}"
+                                  Style="{StaticResource LabelBody}" FontSize="12" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="-4">
+                <Label Text="{maui:Translate Nutrient_Carbs}"
+                       Style="{StaticResource LabelBody}"
+                       Margin="0, 0, 0, 5"
+                       FontSize="12"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalCarbs, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelH2}"
+                       FontSize="16"
+                       Margin="0"
+                       HorizontalOptions="Center" />
+
+                <ProgressBar x:Name="CarbsBar"
+                             ProgressColor="{StaticResource CarbsColor}"
+                             Shadow="{StaticResource CarbsGlow}">
+                    <ProgressBar.Behaviors>
+                        <toolkit:ProgressBarAnimationBehavior
+                            BindingContext="{Binding BindingContext, Source={x:Reference CarbsBar}}"
+                            Progress="{Binding MacrosVM.CarbsProgress}"
+                            Length="250"
+                            Easing="SinInOut" />
+                    </ProgressBar.Behaviors>
+                </ProgressBar>
+
+                <Label Text="{Binding MacrosVM.MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="12"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="-4">
+                <Label Text="{maui:Translate Nutrient_Protein}"
+                       Style="{StaticResource LabelBody}"
+                       Margin="0, 0, 0, 5"
+                       FontSize="12"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalProtein, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelH2}"
+                       FontSize="16"
+                       Margin="0"
+                       HorizontalOptions="Center" />
+
+                <ProgressBar x:Name="ProteinBar"
+                             ProgressColor="{StaticResource ProteinColor}"
+                             Shadow="{StaticResource ProteinGlow}">
+                    <ProgressBar.Behaviors>
+                        <toolkit:ProgressBarAnimationBehavior
+                            BindingContext="{Binding BindingContext, Source={x:Reference ProteinBar}}"
+                            Progress="{Binding MacrosVM.ProteinProgress}"
+                            Length="250"
+                            Easing="SinInOut" />
+                    </ProgressBar.Behaviors>
+                </ProgressBar>
+
+                <Label Text="{Binding MacrosVM.MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="12"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" Spacing="-4">
+                <Label Text="{maui:Translate Nutrient_Fat}"
+                       Style="{StaticResource LabelBody}"
+                       Margin="0, 0, 0, 5"
+                       FontSize="12"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalFat, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelH2}"
+                       FontSize="16"
+                       Margin="0"
+                       HorizontalOptions="Center" />
+
+                <ProgressBar x:Name="FatBar"
+                             ProgressColor="{StaticResource FatColor}"
+                             Shadow="{StaticResource FatGlow}">
+                    <ProgressBar.Behaviors>
+                        <toolkit:ProgressBarAnimationBehavior
+                            BindingContext="{Binding BindingContext, Source={x:Reference FatBar}}"
+                            Progress="{Binding MacrosVM.FatProgress}"
+                            Length="250"
+                            Easing="SinInOut" />
+                    </ProgressBar.Behaviors>
+                </ProgressBar>
+
+                <Label Text="{Binding MacrosVM.MealTargetFatDisplay, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="12"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

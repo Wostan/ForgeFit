@@ -7,7 +7,7 @@
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
              x:DataType="main:DiaryPageViewModel"
-             x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryWeightView">
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryWeightView">
     <ContentView.Resources>
         <Style x:Key="WeightEntryStyle" TargetType="Entry">
             <Setter Property="VerticalOptions" Value="Center" />

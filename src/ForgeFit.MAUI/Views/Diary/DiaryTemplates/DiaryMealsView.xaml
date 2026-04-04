@@ -8,7 +8,7 @@
              xmlns:enums="clr-namespace:ForgeFit.MAUI.Models.Enums.FoodEnums"
              xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
              x:DataType="main:DiaryPageViewModel"
-             x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryMealsView">
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryMealsView">
     <VerticalStackLayout Spacing="4">
 
         <Label Style="{StaticResource LabelBody}"

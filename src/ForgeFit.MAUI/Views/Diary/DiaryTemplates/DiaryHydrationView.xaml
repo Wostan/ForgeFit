@@ -9,7 +9,7 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
              x:DataType="main:DiaryPageViewModel"
-             x:Class="ForgeFit.MAUI.Views.Diary.Templates.DiaryHydrationView">
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryHydrationView">
     <VerticalStackLayout Spacing="4">
 
         <Label Style="{StaticResource LabelBody}"
