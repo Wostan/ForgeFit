@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             xmlns:exerciseSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch"
+             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Workout.ExerciseSearchTemplates"
+             x:DataType="exerciseSearch:ExerciseSearchItemViewModel"
+             x:Class="ForgeFit.MAUI.Views.Workout.ExerciseSearchTemplates.ExerciseSearchItemCardView"
+             x:Name="ThisView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <toolkit:BoolToObjectConverter x:Key="StateIconConverter"
+                                           TrueObject=""
+                                           FalseObject="add.svg" />
+            <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Border Style="{StaticResource CardStyle}"
+            Padding="0" Margin="16,0"
+            Shadow="{x:Null}">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:ExerciseSearchResultsView}}, Path=BindingContext.SearchVM.OpenExerciseDetailsCommand}"
+                CommandParameter="{Binding .}" />
+        </Border.GestureRecognizers>
+
+        <Grid ColumnDefinitions="Auto, *, 50"
+              RowDefinitions="Auto"
+              Padding="12">
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource CardStyle}"
+                    Padding="0"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    Margin="0,0,12,0">
+                <Grid>
+                    <Image Source="workout.svg"
+                           WidthRequest="24"
+                           HeightRequest="24">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior
+                                TintColor="{StaticResource TextSecondary}" />
+                        </Image.Behaviors>
+                    </Image>
+
+                    <Image Source="{Binding GifUrl}"
+                           Aspect="AspectFill"
+                           IsAnimationPlaying="True" />
+                </Grid>
+            </Border>
+
+            <VerticalStackLayout Grid.Column="1"
+                                 VerticalOptions="Center">
+
+                <Label Text="{Binding Name, Converter={StaticResource TitleCaseConverter}}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="14"
+                       LineBreakMode="TailTruncation"
+                       LineHeight="1"
+                       MaxLines="2" />
+
+                <Label Text="{Binding TargetMusclesDisplay}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="12"
+                       TextColor="{StaticResource TextSecondary}"
+                       LineBreakMode="TailTruncation" />
+            </VerticalStackLayout>
+
+            <Grid Grid.Column="2"
+                  WidthRequest="50"
+                  HeightRequest="50"
+                  VerticalOptions="Center">
+
+                <ImageButton
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type templates:ExerciseSearchResultsView}}, Path=BindingContext.SearchVM.ToggleExerciseCommand}"
+                    CommandParameter="{Binding .}"
+                    IsVisible="{Binding IsBusy, Converter={toolkit:InvertedBoolConverter}}"
+                    Source="{Binding IsBusy, Converter={StaticResource StateIconConverter}}"
+                    Shadow="{StaticResource WorkoutGlow}"
+                    Aspect="Center">
+                    <ImageButton.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
+                    </ImageButton.Behaviors>
+                </ImageButton>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="{StaticResource WorkoutColor}"
+                                   HeightRequest="24"
+                                   WidthRequest="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+            </Grid>
+        </Grid>
+    </Border>
+
+</ContentView>

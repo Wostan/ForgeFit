@@ -134,6 +134,10 @@
             <DependentUpon>EditWorkoutGoalPopup.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Views\Profile\ProfilePageView.xaml.cs">
+          <DependentUpon>ProfilePageView.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -176,6 +180,9 @@
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Profile\EditWorkoutGoalPopup.xaml">
             <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Profile\ProfilePageView.xaml">
+          <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
 

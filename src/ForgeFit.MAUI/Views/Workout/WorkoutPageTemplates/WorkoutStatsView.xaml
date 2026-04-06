@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             xmlns:dashboard="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.Dashboard"
+             x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageTemplates.WorkoutStatsView"
+             x:DataType="dashboard:WorkoutPageViewModel"
+             x:Name="ThisView">
+
+    <VerticalStackLayout Spacing="6">
+        <Label Text="{maui:Translate Workout_Stats_Title}"
+               Style="{StaticResource LabelH2}" />
+
+        <Border Style="{StaticResource CardStyle}" Padding="0">
+            <VerticalStackLayout Padding="16">
+                <Grid>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding StatsVM.CompletedWorkouts, StringFormat='{0:F0}'}"
+                                      Style="{StaticResource LabelH1}"
+                                      TextColor="{StaticResource WorkoutColor}" />
+                                <Span Text=" / " Style="{StaticResource LabelBody}" />
+                                <Span Text="{Binding StatsVM.TargetWorkouts, StringFormat='{0:F0}'}"
+                                      Style="{StaticResource LabelBody}" />
+                                <Span Text=" " Style="{StaticResource LabelBody}" />
+                                <Span Text="{maui:Translate Workout_Done}"
+                                      Style="{StaticResource LabelBody}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label Text="🏋️‍♀️" FontSize="24"
+                           VerticalOptions="Center" HorizontalOptions="End"
+                           Shadow="{StaticResource WorkoutGlow}" />
+                </Grid>
+
+                <ProgressBar x:Name="WorkoutBar" ProgressColor="{StaticResource WorkoutColor}"
+                             Shadow="{StaticResource WorkoutGlow}">
+                    <ProgressBar.Behaviors>
+                        <toolkit:ProgressBarAnimationBehavior
+                            BindingContext="{Binding BindingContext, Source={x:Reference WorkoutBar}}"
+                            Progress="{Binding StatsVM.WorkoutProgress}"
+                            Length="250"
+                            Easing="SinInOut" />
+                    </ProgressBar.Behaviors>
+                </ProgressBar>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="using:LocalizationResourceManager.Maui"
+             xmlns:programEditor="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ProgramEditor"
+             xmlns:dashboard="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.Dashboard"
+             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Workout.WorkoutPageTemplates"
+             x:Class="ForgeFit.MAUI.Views.Workout.WorkoutPageTemplates.ProgramListView"
+             x:DataType="dashboard:WorkoutPageViewModel"
+             x:Name="ThisList">
+
+    <VerticalStackLayout Spacing="6">
+        <Label Text="{maui:Translate Workout_MyPrograms_Title}"
+               Style="{StaticResource LabelH2}" />
+
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding ProgramManagerVM.Programs}"
+                             Spacing="8">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="programEditor:WorkoutProgramItem">
+                    
+                    <SwipeView Threshold="70">
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItemView>
+                                    <Border BackgroundColor="{StaticResource DangerColor}"
+                                            WidthRequest="90"
+                                            Padding="10,0,0,0"
+                                            VerticalOptions="Fill"
+                                            Stroke="Transparent">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="0, 16, 0, 16" />
+                                        </Border.StrokeShape>
+                                        <Grid>
+                                            <Image Source="delete.svg"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={x:Reference ThisList}, Path=BindingContext.AskDeleteProgramCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                    </Border>
+                                </SwipeItemView>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <templates:ProgramItemView />
+                        
+                    </SwipeView>
+                    
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+
+        <Label Text="{maui:Translate Workout_EmptyPrograms}"
+               Style="{StaticResource LabelBody}"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False">
+            <Label.Triggers>
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding ProgramManagerVM.Programs.Count, FallbackValue=0}"
+                             Value="0">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+    </VerticalStackLayout>
+</ContentView>

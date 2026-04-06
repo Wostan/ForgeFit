@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
+             x:Class="ForgeFit.MAUI.Views.Profile.ProfilePageTemplates.ProfileBodyGoalCardView"
+             x:DataType="main:ProfilePageViewModel"
+             x:Name="ThisView">
+
+    <VerticalStackLayout Spacing="4">
+        <Grid ColumnDefinitions="*,Auto,*">
+            <Label Grid.Column="0"
+                   Style="{StaticResource LabelBody}"
+                   Text="{maui:Translate Profile_MyGoals}"
+                   TextColor="{StaticResource TextSecondary}" />
+
+            <Button Grid.Column="1"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="refresh.svg"
+                    Text="{maui:Translate Profile_UpdatePlan}"
+                    TextColor="{StaticResource Primary}"
+                    Padding="0"
+                    MinimumHeightRequest="-1"
+                    HorizontalOptions="End"
+                    Command="{Binding UpdatePlanCommand}">
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                </Button.Behaviors>
+            </Button>
+
+            <Button Grid.Column="2"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="edit.svg"
+                    Text="{maui:Translate Action_Edit}"
+                    TextColor="{StaticResource Primary}"
+                    Padding="0"
+                    MinimumHeightRequest="-1"
+                    HorizontalOptions="End"
+                    Command="{Binding BodyGoalVM.OpenEditBodyGoalCommand}">
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                </Button.Behaviors>
+            </Button>
+        </Grid>
+
+        <Border Style="{StaticResource CardStyle}" Padding="0">
+            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*" ColumnSpacing="10"
+                  RowSpacing="10"
+                  Padding="20">
+                <Label Grid.Row="0" Grid.ColumnSpan="2"
+                       Style="{StaticResource LabelH2}"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       LineBreakMode="TailTruncation"
+                       Text="{Binding BodyGoalVM.BodyGoalTitle}" />
+
+                <Label Grid.Row="0" Grid.Column="2"
+                       Style="{StaticResource LabelBody}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       MaxLines="1"
+                       LineBreakMode="HeadTruncation"
+                       Text="{Binding BodyGoalVM.BodyGoalDueDate}" />
+
+                <Border Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource CardStyle}" Padding="0"
+                        HeightRequest="{Binding Width, Source={RelativeSource Self}}">
+                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                        <Label Grid.Row="0"
+                               Text="{Binding BodyGoalVM.BodyGoalEmoji}"
+                               FontSize="32"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+                        <controls:ViewBox Grid.Row="1" Stretch="Uniform" HorizontalOptions="Center"
+                                          VerticalOptions="Start">
+                            <Label Style="{StaticResource LabelBody}"
+                                   Text="{Binding BodyGoalVM.BodyGoalType}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   MaxLines="1"
+                                   LineBreakMode="NoWrap"
+                                   HorizontalTextAlignment="Center" />
+                        </controls:ViewBox>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1"
+                        Style="{StaticResource CardStyle}" Padding="0"
+                        HeightRequest="{Binding Width, Source={RelativeSource Self}}">
+                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                        <Label Grid.Row="0"
+                               Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
+                               FontSize="32"
+                               Margin="0"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+                        <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Kcal}"
+                               TextColor="{StaticResource TextSecondary}"
+                               MaxLines="1"
+                               LineBreakMode="WordWrap"
+                               HorizontalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2"
+                        Style="{StaticResource CardStyle}" Padding="0"
+                        HeightRequest="{Binding Width, Source={RelativeSource Self}}">
+                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                        <Label Grid.Row="0"
+                               Text="{Binding BodyGoalVM.BodyGoalWeight}"
+                               FontSize="32"
+                               Margin="0"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+                        <Label Grid.Row="1"
+                               Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Diary_Weight}"
+                               TextColor="{StaticResource TextSecondary}"
+                               MaxLines="1"
+                               LineBreakMode="WordWrap"
+                               HorizontalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <Label Grid.Row="2" Grid.ColumnSpan="3"
+                       Style="{StaticResource LabelBody}"
+                       HorizontalOptions="Start"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="10"
+                       Text="{Binding BodyGoalVM.BodyGoalDescription}" />
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+
+</ContentView>

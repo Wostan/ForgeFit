@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
+             x:Class="ForgeFit.MAUI.Views.Profile.ProfilePageTemplates.UserProfileCardView"
+             x:DataType="main:ProfilePageViewModel"
+             x:Name="ThisView">
+
+    <Border Style="{StaticResource CardStyle}" Padding="0">
+        <Grid ColumnDefinitions="Auto,*" Padding="20" ColumnSpacing="20">
+            <Border StrokeShape="RoundRectangle 50" HeightRequest="50" WidthRequest="50">
+                <Image Source="avatar.png"
+                       VerticalOptions="Fill"
+                       HorizontalOptions="Fill">
+                    <ImageButton.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                    </ImageButton.Behaviors>
+                </Image>
+            </Border>
+
+            <ImageButton Grid.Column="1"
+                         VerticalOptions="Start"
+                         HorizontalOptions="End"
+                         Padding="0"
+                         Source="edit.svg"
+                         Command="{Binding UserProfileVM.EditProfileCommand}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+
+            <VerticalStackLayout Grid.Column="1">
+                <Label Style="{StaticResource LabelH2}" Text="{Binding UserProfileVM.Username}" />
+                <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" Direction="Row">
+                    <Label Style="{StaticResource LabelBody}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Style="{StaticResource LabelBody}" Text="🎂" />
+                                <Span Style="{StaticResource LabelBody}" Text=" " />
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.BirthDate}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Style="{StaticResource LabelBody}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.GenderEmoji}" />
+                                <Span Style="{StaticResource LabelBody}" Text=" " />
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.Gender}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Style="{StaticResource LabelBody}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Style="{StaticResource LabelBody}" Text="⚖️" />
+                                <Span Style="{StaticResource LabelBody}" Text=" " />
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.Weight}" />
+                                <Span Style="{StaticResource LabelBody}" Text=" " />
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.WeightUnit}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Style="{StaticResource LabelBody}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Style="{StaticResource LabelBody}" Text="🧍‍♂️️" />
+                                <Span Style="{StaticResource LabelBody}" Text=" " />
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.Height}" />
+                                <Span Style="{StaticResource LabelBody}" Text=" " />
+                                <Span Style="{StaticResource LabelBody}"
+                                      Text="{Binding UserProfileVM.HeightUnit}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </FlexLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+
+</ContentView>

@@ -4,10 +4,10 @@
     x:Class="ForgeFit.MAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:ForgeFit.MAUI.Views"
     xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
     xmlns:diary="clr-namespace:ForgeFit.MAUI.Views.Diary"
     xmlns:workout="using:ForgeFit.MAUI.Views.Workout"
+    xmlns:profile="clr-namespace:ForgeFit.MAUI.Views.Profile"
     FlyoutBehavior="Disabled"
     Title="ForgeFit"
     NavBarVisibilityAnimationEnabled="True"
@@ -35,7 +35,7 @@
         <Tab Title="{maui:Translate ProfilePageTitle}"
              Icon="profile.svg">
             <ShellContent
-                ContentTemplate="{DataTemplate views:ProfilePageView}"
+                ContentTemplate="{DataTemplate profile:ProfilePageView}"
                 Route="ProfilePageView" />
         </Tab>
     </TabBar>

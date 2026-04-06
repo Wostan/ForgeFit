@@ -7,7 +7,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:workout="using:ForgeFit.MAUI.Views.Controls.Workout"
-             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
+             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Workout.ExerciseSearchTemplates"
              xmlns:exerciseSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
@@ -17,10 +17,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <toolkit:BoolToObjectConverter x:Key="StateIconConverter"
-                                           TrueObject=""    
-                                           FalseObject="add.svg" />
-            <helpers:TextToTitleCaseConverter x:Key="TitleCaseConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -86,128 +82,7 @@
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
 
-            <CollectionView ItemsSource="{Binding SearchVM.SearchResults}"
-                            RemainingItemsThreshold="5"
-                            RemainingItemsThresholdReachedCommand="{Binding SearchVM.LoadMoreCommand}"
-                            Opacity="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
-
-                <CollectionView.EmptyView>
-                    <VerticalStackLayout Spacing="10"
-                                         VerticalOptions="Center"
-                                         HorizontalOptions="Center"
-                                         Opacity="0.5"
-                                         IsVisible="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
-                        <Image Source="search.svg"
-                               WidthRequest="100"
-                               HeightRequest="100">
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
-                            </Image.Behaviors>
-                        </Image>
-                        <Label Style="{StaticResource LabelBody}"
-                               Text="{maui:Translate Search_Empty}"
-                               HorizontalOptions="Center" />
-                    </VerticalStackLayout>
-                </CollectionView.EmptyView>
-
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                </CollectionView.ItemsLayout>
-
-                <CollectionView.Header>
-                    <BoxView HeightRequest="100" BackgroundColor="Transparent" />
-                </CollectionView.Header>
-
-                <CollectionView.Footer>
-                    <BoxView HeightRequest="80" BackgroundColor="Transparent" />
-                </CollectionView.Footer>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="exerciseSearch:ExerciseSearchItemViewModel">
-                        <Border Style="{StaticResource CardStyle}"
-                                Padding="0" Margin="16,0"
-                                Shadow="{x:Null}">
-
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SearchVM.OpenExerciseDetailsCommand}"
-                                    CommandParameter="{Binding .}" />
-                            </Border.GestureRecognizers>
-
-                            <Grid ColumnDefinitions="Auto, *, 50"
-                                  RowDefinitions="Auto"
-                                  Padding="12">
-
-                                <Border Grid.Column="0"
-                                        Style="{StaticResource CardStyle}"
-                                        Padding="0"
-                                        WidthRequest="60"
-                                        HeightRequest="60"
-                                        Margin="0,0,12,0">
-                                    <Grid>
-                                        <Image Source="workout.svg"
-                                               WidthRequest="24"
-                                               HeightRequest="24">
-                                            <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior
-                                                    TintColor="{StaticResource TextSecondary}" />
-                                            </Image.Behaviors>
-                                        </Image>
-
-                                        <Image Source="{Binding GifUrl}"
-                                               Aspect="AspectFill"
-                                               IsAnimationPlaying="True" />
-                                    </Grid>
-                                </Border>
-
-                                <VerticalStackLayout Grid.Column="1"
-                                                     VerticalOptions="Center">
-
-                                    <Label Text="{Binding Name, Converter={StaticResource TitleCaseConverter}}"
-                                           Style="{StaticResource LabelBody}"
-                                           TextColor="{StaticResource TextPrimary}"
-                                           FontSize="14"
-                                           LineBreakMode="TailTruncation"
-                                           LineHeight="1"
-                                           MaxLines="2" />
-
-                                    <Label Text="{Binding TargetMusclesDisplay}"
-                                           Style="{StaticResource LabelBody}"
-                                           FontSize="12"
-                                           TextColor="{StaticResource TextSecondary}"
-                                           LineBreakMode="TailTruncation" />
-                                </VerticalStackLayout>
-
-                                <Grid Grid.Column="2"
-                                      WidthRequest="50"
-                                      HeightRequest="50"
-                                      VerticalOptions="Center">
-
-                                    <ImageButton
-                                        Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SearchVM.ToggleExerciseCommand}"
-                                        CommandParameter="{Binding .}"
-                                        IsVisible="{Binding IsBusy, Converter={toolkit:InvertedBoolConverter}}"
-                                        Source="{Binding IsBusy, Converter={StaticResource StateIconConverter}}"
-                                        Shadow="{StaticResource WorkoutGlow}"
-                                        Aspect="Center">
-                                        <ImageButton.Behaviors>
-                                            <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
-                                        </ImageButton.Behaviors>
-                                    </ImageButton>
-
-                                    <ActivityIndicator IsRunning="{Binding IsBusy}"
-                                                       IsVisible="{Binding IsBusy}"
-                                                       Color="{StaticResource WorkoutColor}"
-                                                       HeightRequest="24"
-                                                       WidthRequest="24"
-                                                       HorizontalOptions="Center"
-                                                       VerticalOptions="Center" />
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <templates:ExerciseSearchResultsView />
 
             <ActivityIndicator IsRunning="{Binding SearchVM.IsLoading}"
                                IsVisible="{Binding SearchVM.IsLoading}"
@@ -217,26 +92,7 @@
                                WidthRequest="50"
                                ZIndex="5" />
 
-            <Border Style="{StaticResource CardStyle}"
-                    Margin="16"
-                    VerticalOptions="End"
-                    Padding="0">
-                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="-10">
-                    <SearchBar Grid.Column="0"
-                               Placeholder="{maui:Translate Search_Placeholder_Exercise}"
-                               ReturnType="Search"
-                               Text="{Binding SearchVM.SearchText}"
-                               SearchIconColor="{StaticResource TextPrimary}" />
-                    <Button Grid.Column="1"
-                            Style="{StaticResource TextButton}"
-                            ImageSource="filter.svg"
-                            Command="{Binding FiltersVM.ToggleFiltersCommand}">
-                        <Button.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
-                        </Button.Behaviors>
-                    </Button>
-                </Grid>
-            </Border>
+            <templates:ExerciseSearchBarView />
 
             <workout:ExerciseFilters ZIndex="11"
                                      IsVisible="{Binding FiltersVM.IsFiltersVisible}"

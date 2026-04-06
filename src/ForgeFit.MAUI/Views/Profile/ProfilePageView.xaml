@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:profile="using:ForgeFit.MAUI.Views.Controls.Profile"
+             xmlns:templates="using:ForgeFit.MAUI.Views.Profile.ProfilePageTemplates"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
+             behaviors:PageAnimationBehavior.AnimationType="SlideUp"
+             x:DataType="main:ProfilePageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Profile.ProfilePageView">
+    <ContentPage.Content>
+        <Grid>
+            <controls:NavigationHeader ZIndex="11" ShowBackButton="False" Title="{maui:Translate ProfilePageTitle}" />
+
+            <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                         Command="{Binding RefreshCommand}">
+                <ScrollView>
+                    <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
+                        
+                        <templates:UserProfileCardView />
+
+                        <templates:ProfileBodyGoalCardView />
+
+                        <templates:ProfileNutritionGoalCardView />
+
+                        <templates:ProfileWorkoutGoalCardView />
+
+                        <templates:ProfileAccountSectionView />
+
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+
+            <profile:EditProfilePopup BindingContext="{Binding UserProfileVM}">
+                <profile:EditProfilePopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditProfilePopupVisible}" />
+                </profile:EditProfilePopup.Behaviors>
+            </profile:EditProfilePopup>
+
+            <profile:EditBodyGoalPopup BindingContext="{Binding BodyGoalVM}">
+                <profile:EditBodyGoalPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditBodyGoalPopupVisible}" />
+                </profile:EditBodyGoalPopup.Behaviors>
+            </profile:EditBodyGoalPopup>
+
+            <profile:EditNutritionGoalPopup BindingContext="{Binding NutritionGoalVM}">
+                <profile:EditNutritionGoalPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditNutritionGoalPopupVisible}" />
+                </profile:EditNutritionGoalPopup.Behaviors>
+            </profile:EditNutritionGoalPopup>
+
+            <profile:EditWorkoutGoalPopup BindingContext="{Binding WorkoutGoalVM}">
+                <profile:EditWorkoutGoalPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsEditWorkoutGoalPopupVisible}" />
+                </profile:EditWorkoutGoalPopup.Behaviors>
+            </profile:EditWorkoutGoalPopup>
+
+            <profile:ChangePasswordPopup BindingContext="{Binding PasswordChangeVM}">
+                <profile:ChangePasswordPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsChangePasswordPopupVisible}" />
+                </profile:ChangePasswordPopup.Behaviors>
+            </profile:ChangePasswordPopup>
+
+            <controls:ConfirmationPopup BindingContext="{Binding ConfirmationVM}">
+                <controls:ConfirmationPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
+                </controls:ConfirmationPopup.Behaviors>
+            </controls:ConfirmationPopup>
+
+            <Grid IsVisible="{Binding IsLoading}"
+                  ZIndex="99"
+                  BackgroundColor="#90000000"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Fill"
+                  InputTransparent="False">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   HeightRequest="60"
+                                   WidthRequest="60"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

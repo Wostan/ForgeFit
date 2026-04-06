@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:activeSession="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ActiveSession"
+             xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             x:Name="ThisView"
+             x:Class="ForgeFit.MAUI.Views.Workout.ActiveWorkoutTemplates.ActiveSetRowView"
+             x:DataType="activeSession:ActiveSetItem">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Color x:Key="SuccessSurface">#0C2517</Color>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <SwipeView>
+        <SwipeView.RightItems>
+            <SwipeItems>
+                <SwipeItemView>
+                    <Grid BackgroundColor="{StaticResource DangerColor}"
+                          WidthRequest="60"
+                          VerticalOptions="Fill">
+
+                        <Image Source="delete.svg"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding DeleteCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </SwipeItemView>
+            </SwipeItems>
+        </SwipeView.RightItems>
+
+        <Grid ColumnDefinitions="40, *, 0.75*, 0.75*, 40"
+              ColumnSpacing="8"
+              Padding="20,4"
+              BackgroundColor="{Binding IsCompleted, 
+              Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource SuccessSurface},
+              FalseObject={StaticResource Surface}}}">
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource InputWrapper}">
+                <Label Text="{Binding Order}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{Binding IsCompleted, 
+                       Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource SuccessColor},
+                       FalseObject={StaticResource TextSecondary}}}"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource InputWrapper}">
+                <Entry x:Name="RestEntry"
+                       FontSize="16"
+                       HorizontalTextAlignment="Center"
+                       Keyboard="Numeric"
+                       Placeholder="mm:ss"
+                       PlaceholderColor="{StaticResource TextDisabled}"
+                       TextColor="{StaticResource TextPrimary}">
+                    <Entry.Behaviors>
+                        <behaviors:RestTimeInputBehavior
+                            BindingContext="{Binding Source={x:Reference ThisView}, Path=BindingContext}"
+                            Time="{Binding RestTime}" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Border>
+
+            <Border Grid.Column="2"
+                    Style="{StaticResource InputWrapper}">
+                <Entry Text="{Binding Weight}"
+                       FontSize="16"
+                       Keyboard="Numeric"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{StaticResource TextPrimary}">
+                    <Entry.Behaviors>
+                        <behaviors:NumericClampBehavior
+                            MaxValue="1500"
+                            MinValue="0"
+                            Decimals="2" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Border>
+
+            <Border Grid.Column="3"
+                    Style="{StaticResource InputWrapper}">
+                <Entry Text="{Binding Reps}"
+                       FontSize="16"
+                       Keyboard="Numeric"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{StaticResource TextPrimary}">
+                    <Entry.Behaviors>
+                        <behaviors:NumericClampBehavior
+                            MaxValue="100"
+                            MinValue="1"
+                            Decimals="0" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Border>
+
+            <Image Grid.Column="4"
+                   x:Name="CheckImage"
+                   Source="check.svg"
+                   HeightRequest="24"
+                   WidthRequest="24"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding ToggleCompleteCommand}" />
+                </Image.GestureRecognizers>
+
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior
+                        BindingContext="{Binding Source={x:Reference CheckImage}, Path=BindingContext}"
+                        TintColor="{Binding IsCompleted, Converter={toolkit:BoolToObjectConverter TrueObject={StaticResource SuccessColor}, FalseObject={StaticResource TextSecondary}}}" />
+                </Image.Behaviors>
+            </Image>
+
+        </Grid>
+    </SwipeView>
+
+</ContentView>

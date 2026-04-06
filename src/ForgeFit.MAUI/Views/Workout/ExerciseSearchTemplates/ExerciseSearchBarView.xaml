@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:exerciseSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch"
+             x:DataType="exerciseSearch:ExerciseSearchPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Workout.ExerciseSearchTemplates.ExerciseSearchBarView"
+             x:Name="ThisView">
+
+    <Border Style="{StaticResource CardStyle}"
+            Margin="16"
+            VerticalOptions="End"
+            Padding="0">
+        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="-10">
+            <SearchBar Grid.Column="0"
+                       Placeholder="{maui:Translate Search_Placeholder_Exercise}"
+                       ReturnType="Search"
+                       Text="{Binding SearchVM.SearchText}"
+                       SearchIconColor="{StaticResource TextPrimary}" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="filter.svg"
+                    Command="{Binding FiltersVM.ToggleFiltersCommand}">
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
+                </Button.Behaviors>
+            </Button>
+        </Grid>
+    </Border>
+
+</ContentView>

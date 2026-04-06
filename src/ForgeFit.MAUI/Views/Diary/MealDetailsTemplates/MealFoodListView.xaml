@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:meals="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Meals"
+             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.MealDetailsTemplates"
              x:DataType="meals:MealDetailsPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsTemplates.MealFoodListView"
              x:Name="ThisView">
@@ -55,7 +56,6 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FoodItemDto">
-
                             <SwipeView>
                                 <SwipeView.RightItems>
                                     <SwipeItems>
@@ -101,72 +101,7 @@
                                     </SwipeItems>
                                 </SwipeView.RightItems>
 
-                                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto"
-                                      BackgroundColor="{StaticResource Surface}" Padding="16,0">
-
-                                    <VerticalStackLayout Grid.Column="0" Spacing="-4">
-                                        <Label Text="{Binding Label}"
-                                               Style="{StaticResource LabelBody}"
-                                               FontSize="14"
-                                               LineBreakMode="TailTruncation"
-                                               TextColor="{StaticResource TextPrimary}" />
-
-                                        <Label Style="{StaticResource LabelBody}">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding Amount}"
-                                                          Style="{StaticResource LabelBody}"
-                                                          FontSize="14" />
-                                                    <Span Text=" " />
-                                                    <Span Text="{Binding ServingUnit}"
-                                                          Style="{StaticResource LabelBody}"
-                                                          FontSize="12" />
-                                                    <Span Text="  •  "
-                                                          Style="{StaticResource LabelBody}" />
-
-                                                    <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
-                                                          Style="{StaticResource LabelBody}"
-                                                          TextColor="{StaticResource CarbsColor}"
-                                                          FontSize="14" />
-                                                    <Span Text=" / "
-                                                          Style="{StaticResource LabelBody}"
-                                                          FontSize="12" />
-                                                    <Span
-                                                        Text="{Binding Protein, StringFormat='{0:F0}'}"
-                                                        Style="{StaticResource LabelBody}"
-                                                        TextColor="{StaticResource ProteinColor}"
-                                                        FontSize="14" />
-                                                    <Span Text=" / "
-                                                          Style="{StaticResource LabelBody}"
-                                                          FontSize="12" />
-                                                    <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
-                                                          Style="{StaticResource LabelBody}"
-                                                          TextColor="{StaticResource FatColor}"
-                                                          FontSize="14" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </VerticalStackLayout>
-
-                                    <Label Grid.Column="1" Grid.RowSpan="2"
-                                           Style="{StaticResource LabelBody}"
-                                           VerticalOptions="Center">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
-                                                      Style="{StaticResource LabelBody}"
-                                                      TextColor="{StaticResource TextPrimary}"
-                                                      FontSize="14" />
-                                                <Span Text=" "
-                                                      Style="{StaticResource LabelBody}"
-                                                      FontSize="12" />
-                                                <Span Text="{maui:Translate Nutrient_Kcal}"
-                                                      Style="{StaticResource LabelBody}"
-                                                      FontSize="12" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                </Grid>
+                                <templates:MealFoodItemRowView />
                             </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

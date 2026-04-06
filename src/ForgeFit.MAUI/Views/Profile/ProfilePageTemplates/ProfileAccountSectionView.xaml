@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
+             x:Class="ForgeFit.MAUI.Views.Profile.ProfilePageTemplates.ProfileAccountSectionView"
+             x:DataType="main:ProfilePageViewModel"
+             x:Name="ThisView">
+
+    <VerticalStackLayout Spacing="4">
+        <Label Style="{StaticResource LabelBody}"
+               Text="{maui:Translate Profile_Account}"
+               TextColor="{StaticResource TextSecondary}" />
+
+        <Border Style="{StaticResource CardStyle}" Padding="0">
+            <Grid RowDefinitions="*, *" RowSpacing="10" Padding="20">
+                <Button Grid.Row="0"
+                        Style="{StaticResource SecondaryButton}"
+                        Text="{maui:Translate Action_ChangePassword}"
+                        Command="{Binding PasswordChangeVM.OpenChangePasswordCommand}" />
+                <Button Grid.Row="1"
+                        Text="{maui:Translate Action_Logout}"
+                        Style="{StaticResource SecondaryButton}"
+                        TextColor="{StaticResource DangerColor}"
+                        Command="{Binding LogoutCommand}" />
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+
+</ContentView>
