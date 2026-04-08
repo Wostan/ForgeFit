@@ -1,7 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ForgeFit.MAUI.Models.DTOs.Food;
-using ForgeFit.MAUI.Models.DTOs.Goal;
-using ForgeFit.MAUI.Models.Enums.FoodEnums;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Meals;
 
@@ -26,20 +24,12 @@ public partial class MealMacroStatsViewModel : ObservableObject
     [ObservableProperty] private double _totalFat;
     [ObservableProperty] private double _totalProtein;
 
-    public void CalculateTargets(NutritionGoalResponse dailyGoal, DayTime mealType)
+    public void CalculateTargets(double targetCalories)
     {
-        var ratio = mealType switch
-        {
-            DayTime.Breakfast => 0.25,
-            DayTime.Lunch => 0.35,
-            DayTime.Dinner => 0.25,
-            _ => 0.15
-        };
-
-        MealTargetCalories = dailyGoal.Calories * ratio;
-        MealTargetCarbs = dailyGoal.Carbs * ratio;
-        MealTargetProtein = dailyGoal.Protein * ratio;
-        MealTargetFat = dailyGoal.Fat * ratio;
+        MealTargetCalories = targetCalories;
+        MealTargetCarbs = targetCalories * 0.5 / 4;
+        MealTargetProtein = targetCalories * 0.2 / 4;
+        MealTargetFat = targetCalories * 0.3 / 9;
 
         MealTargetCaloriesDisplay = MealTargetCalories.ToString("F0");
         MealTargetCarbsDisplay = MealTargetCarbs.ToString("F0");

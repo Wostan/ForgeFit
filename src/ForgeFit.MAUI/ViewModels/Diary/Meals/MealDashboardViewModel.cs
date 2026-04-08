@@ -75,10 +75,14 @@ public partial class MealDashboardViewModel : BaseViewModel
             _ => Snack
         };
 
-        var route = $"{nameof(MealDetailsPageView)}?Date={_selectedDate:yyyy-MM-dd}&MealType={mealType}";
+        var route = $"{nameof(MealDetailsPageView)}?" +
+                    $"Date={_selectedDate:yyyy-MM-dd}&" +
+                    $"MealType={mealType}&" +
+                    $"TargetCalories={item.TargetCalories.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
 
-        if (item.EntryId != null) route += $"&EntryId={item.EntryId}";
-
+        if (item.EntryId != null) 
+            route += $"&EntryId={item.EntryId}";
+        
         await Shell.Current.GoToAsync(route);
     }
 }

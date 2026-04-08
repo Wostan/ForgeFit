@@ -17,7 +17,6 @@ public partial class DiaryPageViewModel : BaseViewModel
 {
     private readonly IAlertService _alertService;
     private readonly IDiaryService _diaryService;
-    private readonly IGoalService _goalService;
     private readonly ILocalizationResourceManager _localizationManager;
     private CancellationTokenSource? _cts;
     [ObservableProperty] private string _dateTitle = string.Empty;
@@ -26,6 +25,11 @@ public partial class DiaryPageViewModel : BaseViewModel
 
     [ObservableProperty] private bool _isRefreshing;
     [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
+
+    private bool _isFoodDirty = true;
+    private bool _isWaterDirty = true;
+    private bool _isGoalsDirty = true;
+    private bool _isWeightDirty = true;
 
     public DiaryPageViewModel(
         IDiaryService diaryService,
@@ -36,7 +40,6 @@ public partial class DiaryPageViewModel : BaseViewModel
         ILocalizationResourceManager localizationManager)
     {
         _diaryService = diaryService;
-        _goalService = goalService;
         _alertService = alertService;
         _localizationManager = localizationManager;
 
@@ -52,9 +55,25 @@ public partial class DiaryPageViewModel : BaseViewModel
 
         UpdateDateTitle();
 
-        WeakReferenceMessenger.Default.Register<DiaryPageViewModel, DiaryUpdatedMessage>(
+        WeakReferenceMessenger.Default.Register<DiaryPageViewModel, FoodDataChangedMessage>(
             this,
-            (r, _) => { r.RefreshCommand.ExecuteAsync(null); }
+            (r, _) => { r._isFoodDirty = true; }
+        );
+
+        WeakReferenceMessenger.Default.Register<DiaryPageViewModel, NutritionGoalChangedMessage>(
+            this,
+            (r, _) => { r._isGoalsDirty = true; }
+        );
+
+        WeakReferenceMessenger.Default.Register<DiaryPageViewModel, WeightChangedMessage>(
+            this,
+            (r, msg) =>
+            {
+                if (msg.Source != nameof(WeightManagementViewModel))
+                {
+                    r._isWeightDirty = true;
+                }
+            }
         );
     }
 
@@ -73,7 +92,11 @@ public partial class DiaryPageViewModel : BaseViewModel
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
-        _ = LoadAsync(_cts.Token);
+        _isFoodDirty = true;
+        _isWaterDirty = true;
+        _isGoalsDirty = true;
+        _isWeightDirty = true;
+        _ = CheckAndRefreshAsync();
     }
 
     [RelayCommand]
@@ -81,10 +104,101 @@ public partial class DiaryPageViewModel : BaseViewModel
     {
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
-        await LoadAsync(_cts.Token);
+        _isFoodDirty = true;
+        _isWaterDirty = true;
+        _isGoalsDirty = true;
+        _isWeightDirty = true;
+        await CheckAndRefreshAsync();
     }
 
-    private async Task LoadAsync(CancellationToken token = default)
+    private async Task LoadFoodAsync(CancellationToken token)
+    {
+        try
+        {
+            var foodResult = await _diaryService.GetEntriesByDateAsync(SelectedDate, token);
+            if (token.IsCancellationRequested) return;
+
+            if (foodResult is { Success: true, Data: not null })
+            {
+                var entries = foodResult.Data;
+                NutritionVM.UpdateCurrentNutrition(entries);
+                MealVM.UpdateMealItems(entries, NutritionVM.TargetCalories);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    private async Task LoadWaterAsync(CancellationToken token)
+    {
+        try
+        {
+            await WaterVM.LoadWaterEntriesAsync(SelectedDate, token);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    private async Task LoadGoalsAsync(CancellationToken token)
+    {
+        try
+        {
+            await NutritionVM.LoadNutritionGoalsAsync(token);
+            if (token.IsCancellationRequested) return;
+
+            WaterVM.SetWaterGoal(NutritionVM.WaterGoalMl);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    private async Task LoadWeightAsync(CancellationToken token)
+    {
+        try
+        {
+            await WeightVM.LoadWeightDataAsync(token);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    public async Task CheckAndRefreshAsync()
     {
         if (!_isInitialized)
         {
@@ -94,24 +208,33 @@ public partial class DiaryPageViewModel : BaseViewModel
 
         try
         {
-            var nutritionGoalTask = NutritionVM.LoadNutritionGoalsAsync(token);
-            var foodTask = _diaryService.GetEntriesByDateAsync(SelectedDate, token);
-            var waterTask = WaterVM.LoadWaterEntriesAsync(SelectedDate, token);
-            var weightTask = WeightVM.LoadWeightDataAsync(token);
-
-            await Task.WhenAll(nutritionGoalTask, foodTask, waterTask, weightTask);
-            if (token.IsCancellationRequested) return;
-
-            var foodResult = await foodTask;
-            if (foodResult is { Success: true, Data: not null })
+            if (_isGoalsDirty)
             {
-                var entries = foodResult.Data;
-                NutritionVM.UpdateCurrentNutrition(entries);
-                MealVM.UpdateMealItems(entries, NutritionVM.TargetCalories);
+                await LoadGoalsAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isGoalsDirty = false;
             }
 
-            var waterGoal = await _goalService.GetNutritionGoal(token);
-            if (waterGoal is { Success: true, Data: not null }) WaterVM.SetWaterGoal(waterGoal.Data.WaterGoalMl);
+            if (_isFoodDirty)
+            {
+                await LoadFoodAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isFoodDirty = false;
+            }
+
+            if (_isWaterDirty)
+            {
+                await LoadWaterAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isWaterDirty = false;
+            }
+
+            if (_isWeightDirty)
+            {
+                await LoadWeightAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isWeightDirty = false;
+            }
 
             _isInitialized = true;
             Error = null;
@@ -121,10 +244,11 @@ public partial class DiaryPageViewModel : BaseViewModel
         }
         catch (Exception)
         {
-            if (token.IsCancellationRequested) return;
-
-            var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
-            HandleError(genericError);
+            if (!(_cts?.Token.IsCancellationRequested ?? false))
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
         }
         finally
         {
@@ -176,9 +300,14 @@ public partial class DiaryPageViewModel : BaseViewModel
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
+        _isFoodDirty = true;
+        _isWaterDirty = true;
+        _isGoalsDirty = true;
+        _isWeightDirty = true;
+
         try
         {
-            await LoadAsync(_cts.Token);
+            await CheckAndRefreshAsync();
         }
         finally
         {

@@ -41,6 +41,8 @@ public partial class NutritionTrackingViewModel : BaseViewModel
 
     [ObservableProperty] private string? _targetProteinDisplay;
 
+    [ObservableProperty] private int _waterGoalMl;
+
     public NutritionTrackingViewModel(
         IGoalService goalService)
     {
@@ -72,6 +74,7 @@ public partial class NutritionTrackingViewModel : BaseViewModel
                 TargetCarbs = goal.Carbs;
                 TargetProtein = goal.Protein;
                 TargetFat = goal.Fat;
+                WaterGoalMl = goal.WaterGoalMl;
 
                 TargetCaloriesDisplay = TargetCalories.ToString("F0");
                 TargetCarbsDisplay = TargetCarbs.ToString("F0");

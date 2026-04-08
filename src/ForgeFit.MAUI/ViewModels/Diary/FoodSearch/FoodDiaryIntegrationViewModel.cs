@@ -144,7 +144,7 @@ public class FoodDiaryIntegrationViewModel(
                 await diaryService.UpdateEntryAsync(existingEntry.Id, updateRequest);
             }
 
-            WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
+            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
             itemVm.IsAdded = false;
             ExistingProductIds.Remove(itemVm.Data.ExternalId);
         }
@@ -175,7 +175,7 @@ public class FoodDiaryIntegrationViewModel(
                 _entryId = createResponse.Data.Id;
         }
 
-        WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
+        WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
     }
 
     public void ResetState()

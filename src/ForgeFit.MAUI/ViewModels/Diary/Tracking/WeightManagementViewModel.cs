@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -21,6 +23,7 @@ public partial class WeightManagementViewModel : BaseViewModel
     private double _currentWeight;
 
     [ObservableProperty] private string _currentWeightInput = string.Empty;
+    private bool _suppressCurrentWeightInputChanged;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(WeightProgress))]
@@ -78,8 +81,20 @@ public partial class WeightManagementViewModel : BaseViewModel
                     CurrentWeight = 80.0;
                 }
 
-                if (string.IsNullOrWhiteSpace(CurrentWeightInput))
-                    CurrentWeightInput = CurrentWeight.ToString("F1");
+                var weightText = CurrentWeight.ToString("F1");
+
+                if (!string.Equals(CurrentWeightInput, weightText, StringComparison.Ordinal))
+                {
+                    _suppressCurrentWeightInputChanged = true;
+                    try
+                    {
+                        CurrentWeightInput = weightText;
+                    }
+                    finally
+                    {
+                        _suppressCurrentWeightInputChanged = false;
+                    }
+                }
             }
         }
         catch (Exception)
@@ -135,6 +150,19 @@ public partial class WeightManagementViewModel : BaseViewModel
             }
 
             _userProfile = updatedProfile;
+            CurrentWeight = weight;
+
+            _suppressCurrentWeightInputChanged = true;
+            try
+            {
+                CurrentWeightInput = weight.ToString("F1");
+            }
+            finally
+            {
+                _suppressCurrentWeightInputChanged = false;
+            }
+
+            WeakReferenceMessenger.Default.Send(new WeightChangedMessage(nameof(WeightManagementViewModel)));
         }
         catch (OperationCanceledException)
         {
@@ -149,7 +177,16 @@ public partial class WeightManagementViewModel : BaseViewModel
 
     partial void OnCurrentWeightInputChanged(string value)
     {
-        if (!double.TryParse(value, out var weight)) return;
+        if (_suppressCurrentWeightInputChanged)
+            return;
+
+        if (!double.TryParse(value, out var weight))
+            return;
+
+        weight = Math.Round(weight, 1);
+
+        if (Math.Abs(Math.Round(CurrentWeight, 1) - weight) < 0.01)
+            return;
 
         CurrentWeight = weight;
         _ = SaveWeight(weight);

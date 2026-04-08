@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -97,6 +99,7 @@ public partial class NutritionGoalViewModel(
                 UpdateState(result.Data);
                 await alertService.ShowToastAsync(localizationManager["Success_NutritionUpdated"]);
                 OnGoalUpdated?.Invoke();
+                WeakReferenceMessenger.Default.Send(new NutritionGoalChangedMessage(nameof(NutritionGoalViewModel)));
             }
             else
             {

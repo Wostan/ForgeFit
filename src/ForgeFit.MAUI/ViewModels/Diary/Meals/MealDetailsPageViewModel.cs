@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -19,7 +20,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private readonly IAlertService _alertService;
     private readonly IDiaryService _diaryService;
     private readonly IFoodService _foodService;
-    private readonly IGoalService _goalService;
     private readonly ILocalizationResourceManager _localizationManager;
 
     private CancellationTokenSource? _cts;
@@ -29,21 +29,20 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private DateTime _date;
     private FoodItemDto? _editingItem;
     private Guid? _entryId;
+    private double _targetCalories;
+    
     [ObservableProperty] private string _mealEmoji = string.Empty;
-
     [ObservableProperty] private string _mealTitle = string.Empty;
     private DayTime _mealType;
 
     public MealDetailsPageViewModel(
         IDiaryService diaryService,
         IFoodService foodService,
-        IGoalService goalService,
         IAlertService alertService,
         ILocalizationResourceManager localizationManager)
     {
         _diaryService = diaryService;
         _foodService = foodService;
-        _goalService = goalService;
         _alertService = alertService;
         _localizationManager = localizationManager;
 
@@ -51,11 +50,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         MacrosVM = new MealMacroStatsViewModel();
 
         SetupFoodDetailsCallbacks();
-
-        WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, DiaryUpdatedMessage>(
-            this,
-            (r, m) => { _ = r.LoadDataAsync(); }
-        );
     }
 
     public ObservableCollection<FoodItemDto> FoodItems { get; } = [];
@@ -65,18 +59,22 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        ResetState();
-
         if (query.TryGetValue("Date", out var dateObj) &&
             DateTime.TryParse(dateObj.ToString(), out var date)) _date = date;
 
-        if (query.TryGetValue("MealType", out var typeObj) && Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
+        if (query.TryGetValue("MealType", out var typeObj) &&
+            Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
         {
             _mealType = type;
             SetupMealInfo(type);
         }
 
-        if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id)) _entryId = id;
+        if (query.TryGetValue("EntryId", out var idObj) &&
+            Guid.TryParse(idObj.ToString(), out var id)) _entryId = id;
+        
+        if (query.TryGetValue("TargetCalories", out var tc) &&
+            double.TryParse(tc.ToString(), NumberStyles.Float, 
+                CultureInfo.InvariantCulture, out var calories)) _targetCalories = calories;
 
         LoadDataCommand.Execute(null);
     }
@@ -99,7 +97,10 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 var response = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
 
                 if (response is { Success: true, Data: not null })
+                {
+                    WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
                     return;
+                }
 
                 var errorMsg = new LocalizedString(() => response.Message);
                 await _alertService.ShowToastAsync(errorMsg.Localized);
@@ -119,20 +120,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 MacrosVM.CalculateTotals(FoodItems);
             }
         };
-    }
-
-    private void ResetState()
-    {
-        _cts?.Cancel();
-
-        FoodItems.Clear();
-        _currentEntry = null;
-        _entryId = null;
-        _editingItem = null;
-
-        MacrosVM.Reset();
-
-        IsLoading = false;
     }
 
     private void SetupMealInfo(DayTime type)
@@ -166,16 +153,14 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
         try
         {
-            var goalTask = _goalService.GetNutritionGoal(token);
             var entryTask = _entryId.HasValue
                 ? _diaryService.GetEntryAsync(_entryId.Value, token)
                 : Task.FromResult(new ServiceResponse<FoodEntryDto?> { Success = true, Data = null });
 
-            await Task.WhenAll(goalTask, entryTask);
+            await entryTask;
             if (token.IsCancellationRequested) return;
 
-            if (goalTask.Result is { Success: true, Data: not null })
-                MacrosVM.CalculateTargets(goalTask.Result.Data, _mealType);
+            MacrosVM.CalculateTargets(_targetCalories);
 
             var entryResponse = entryTask.Result;
             if (!_entryId.HasValue)
@@ -246,6 +231,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 _entryId = null;
                 _currentEntry = null;
                 MacrosVM.CalculateTotals(FoodItems);
+                WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
                 return;
             }
 
@@ -253,7 +239,10 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             var updateResult = await _diaryService.UpdateEntryAsync(_entryId.Value, request);
 
             if (updateResult.Success)
+            {
+                WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
                 return;
+            }
 
             if (deletedIndex >= 0)
                 FoodItems.Insert(deletedIndex, item);

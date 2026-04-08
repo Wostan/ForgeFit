@@ -19,7 +19,27 @@ public partial class WorkoutStatsViewModel(
         ? (double)CompletedWorkouts / TargetWorkouts
         : 0;
 
-    public async Task LoadStatsAsync(CancellationToken token = default)
+    public async Task LoadGoalAsync(CancellationToken token = default)
+    {
+        try
+        {
+            var goalResult = await goalService.GetWorkoutGoal(token);
+            if (token.IsCancellationRequested) return;
+
+            if (goalResult is { Success: true, Data: not null })
+                TargetWorkouts = goalResult.Data.WorkoutsPerWeek;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+                throw;
+        }
+    }
+
+    public async Task LoadEntriesAsync(CancellationToken token = default)
     {
         try
         {
@@ -28,18 +48,11 @@ public partial class WorkoutStatsViewModel(
             var monday = today.AddDays(-daysSinceMonday);
             var nextMonday = monday.AddDays(7);
 
-            var goalTask = goalService.GetWorkoutGoal(token);
-            var statsTask = workoutTrackingService.GetEntriesByDateRangeAsync(monday, nextMonday, token);
-
-            await Task.WhenAll(goalTask, statsTask);
-
+            var statsResult = await workoutTrackingService.GetEntriesByDateRangeAsync(monday, nextMonday, token);
             if (token.IsCancellationRequested) return;
 
-            if (goalTask.Result is { Success: true, Data: not null })
-                TargetWorkouts = goalTask.Result.Data.WorkoutsPerWeek;
-
-            if (statsTask.Result is { Success: true, Data: not null })
-                CompletedWorkouts = statsTask.Result.Data.Count;
+            if (statsResult is { Success: true, Data: not null })
+                CompletedWorkouts = statsResult.Data.Count;
         }
         catch (OperationCanceledException)
         {

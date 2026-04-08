@@ -26,6 +26,11 @@ public partial class ProfilePageViewModel : BaseViewModel
     private BodyGoalResponse? _currentBodyGoal;
     [ObservableProperty] private bool _isRefreshing;
 
+    private bool _isProfileDirty = true;
+    private bool _isBodyGoalDirty = true;
+    private bool _isNutritionGoalDirty = true;
+    private bool _isWorkoutGoalDirty = true;
+
     public ProfilePageViewModel(
         IUserService userService,
         IGoalService goalService,
@@ -57,10 +62,16 @@ public partial class ProfilePageViewModel : BaseViewModel
         UserProfileVM.OnProfileUpdated += OnProfileUpdated;
 
         BodyGoalVM.OnGoalUpdated += OnBodyGoalUpdated;
-        NutritionGoalVM.OnGoalUpdated += OnManualGoalUpdated;
-        WorkoutGoalVM.OnGoalUpdated += OnManualGoalUpdated;
 
-        LoadDataCommand.Execute(null);
+        WeakReferenceMessenger.Default.Register<ProfilePageViewModel, WeightChangedMessage>(
+            this,
+            (r, m) =>
+            {
+                if (m.Source is nameof(UserProfileViewModel) or nameof(ProfilePageViewModel)) return;
+                r._isProfileDirty = true;
+                r._isBodyGoalDirty = true;
+            }
+        );
     }
 
     public UserProfileViewModel UserProfileVM { get; }
@@ -71,12 +82,142 @@ public partial class ProfilePageViewModel : BaseViewModel
     public ConfirmationViewModel ConfirmationVM { get; }
 
     [RelayCommand]
-    private async Task LoadDataAsync()
+    private async Task Initialize()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        _isProfileDirty = true;
+        _isBodyGoalDirty = true;
+        _isNutritionGoalDirty = true;
+        _isWorkoutGoalDirty = true;
+        await CheckAndRefreshAsync();
+    }
+
+    private async Task LoadProfileAsync(CancellationToken token)
+    {
+        try
+        {
+            var result = await _userService.GetProfileAsync(token);
+            if (token.IsCancellationRequested) return;
+
+            if (result is { Success: true, Data: not null })
+            {
+                UserProfileVM.UpdateState(result.Data);
+                BodyGoalVM.SetUserProfile(result.Data);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+        }
+    }
+
+    private async Task LoadBodyGoalAsync(CancellationToken token)
+    {
+        try
+        {
+            var result = await _goalService.GetBodyGoal(token);
+            if (token.IsCancellationRequested) return;
+
+            if (result is { Success: true, Data: not null })
+            {
+                _currentBodyGoal = result.Data;
+                BodyGoalVM.UpdateState(result.Data);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+        }
+    }
+
+    private async Task LoadNutritionGoalAsync(CancellationToken token)
+    {
+        try
+        {
+            var result = await _goalService.GetNutritionGoal(token);
+            if (token.IsCancellationRequested) return;
+
+            if (result is { Success: true, Data: not null })
+            {
+                NutritionGoalVM.UpdateState(result.Data);
+                NutritionGoalVM.SetCurrentGoal(result.Data);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+        }
+    }
+
+    private async Task LoadWorkoutGoalAsync(CancellationToken token)
+    {
+        try
+        {
+            var result = await _goalService.GetWorkoutGoal(token);
+            if (token.IsCancellationRequested) return;
+
+            if (result is { Success: true, Data: not null })
+                WorkoutGoalVM.UpdateState(result.Data);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
+        }
+    }
+
+    public async Task CheckAndRefreshAsync()
     {
         IsLoading = true;
         try
         {
-            await FetchDataInternal();
+            if (_isProfileDirty)
+            {
+                await LoadProfileAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isProfileDirty = false;
+            }
+
+            if (_isBodyGoalDirty)
+            {
+                await LoadBodyGoalAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isBodyGoalDirty = false;
+            }
+
+            if (_isNutritionGoalDirty)
+            {
+                await LoadNutritionGoalAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isNutritionGoalDirty = false;
+            }
+
+            if (_isWorkoutGoalDirty)
+            {
+                await LoadWorkoutGoalAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isWorkoutGoalDirty = false;
+            }
+        }
+        catch (OperationCanceledException)
+        {
         }
         finally
         {
@@ -90,60 +231,20 @@ public partial class ProfilePageViewModel : BaseViewModel
         IsRefreshing = true;
         try
         {
-            await FetchDataInternal();
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = new CancellationTokenSource();
+
+            _isProfileDirty = true;
+            _isBodyGoalDirty = true;
+            _isNutritionGoalDirty = true;
+            _isWorkoutGoalDirty = true;
+
+            await CheckAndRefreshAsync();
         }
         finally
         {
             IsRefreshing = false;
-        }
-    }
-
-    private async Task FetchDataInternal()
-    {
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
-
-        try
-        {
-            var profileTask = _userService.GetProfileAsync(token);
-            var bodyGoalTask = _goalService.GetBodyGoal(token);
-            var nutritionGoalTask = _goalService.GetNutritionGoal(token);
-            var workoutGoalTask = _goalService.GetWorkoutGoal(token);
-
-            await Task.WhenAll(profileTask, bodyGoalTask, nutritionGoalTask, workoutGoalTask);
-
-            if (token.IsCancellationRequested) return;
-
-            if (profileTask.Result is { Success: true, Data: not null })
-            {
-                UserProfileVM.UpdateState(profileTask.Result.Data);
-                BodyGoalVM.SetUserProfile(profileTask.Result.Data);
-            }
-
-            if (bodyGoalTask.Result is { Success: true, Data: not null })
-            {
-                _currentBodyGoal = bodyGoalTask.Result.Data;
-                BodyGoalVM.UpdateState(bodyGoalTask.Result.Data);
-            }
-
-            if (nutritionGoalTask.Result is { Success: true, Data: not null })
-            {
-                NutritionGoalVM.UpdateState(nutritionGoalTask.Result.Data);
-                NutritionGoalVM.SetCurrentGoal(nutritionGoalTask.Result.Data);
-            }
-
-            if (workoutGoalTask.Result is { Success: true, Data: not null })
-                WorkoutGoalVM.UpdateState(workoutGoalTask.Result.Data);
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (Exception)
-        {
-            if (!token.IsCancellationRequested)
-                await _alertService.ShowToastAsync(_localizationManager["UnexpectedErrorMessage"]);
         }
     }
 
@@ -194,11 +295,6 @@ public partial class ProfilePageViewModel : BaseViewModel
         MainThread.BeginInvokeOnMainThread(async void () => await ExecuteUpdatePlanAsync());
     }
 
-    private void OnManualGoalUpdated()
-    {
-        MainThread.BeginInvokeOnMainThread(() => { WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage()); });
-    }
-
     [RelayCommand]
     private void UpdatePlan()
     {
@@ -233,7 +329,9 @@ public partial class ProfilePageViewModel : BaseViewModel
                 BodyGoalVM.UpdateState(getPlanResult.Data.BodyGoal);
                 NutritionGoalVM.UpdateState(getPlanResult.Data.NutritionGoal);
                 WorkoutGoalVM.UpdateState(getPlanResult.Data.WorkoutGoal);
-                WeakReferenceMessenger.Default.Send(new DiaryUpdatedMessage());
+                WeakReferenceMessenger.Default.Send(new NutritionGoalChangedMessage(nameof(ProfilePageViewModel)));
+                WeakReferenceMessenger.Default.Send(new WorkoutGoalChangedMessage(nameof(ProfilePageViewModel)));
+                WeakReferenceMessenger.Default.Send(new WeightChangedMessage(nameof(ProfilePageViewModel)));
             }
             else
             {

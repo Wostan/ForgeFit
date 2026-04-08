@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.Enums.WorkoutEnums;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -100,6 +102,7 @@ public partial class WorkoutGoalViewModel(
                 UpdateState(result.Data);
                 await alertService.ShowToastAsync(localizationManager["Success_WorkoutUpdated"]);
                 OnGoalUpdated?.Invoke();
+                WeakReferenceMessenger.Default.Send(new WorkoutGoalChangedMessage(nameof(WorkoutGoalViewModel)));
             }
             else
             {

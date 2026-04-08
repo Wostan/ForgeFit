@@ -68,14 +68,12 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
         Error = null;
         try
         {
-            var success = await ProgramVM.LoadProgramAsync(ProgramVM.ProgramId);
-            if (!success) return;
-
-            var result = await _workoutProgramService.GetProgramAsync(ProgramVM.ProgramId);
-            if (result is { Success: true, Data: not null })
-                ExerciseVM.InitializeExercises(result.Data.WorkoutExercisePlans);
-
-            _isInitialized = true;
+            var program = await ProgramVM.LoadProgramAsync(ProgramVM.ProgramId);
+            if (program != null)
+            {
+                ExerciseVM.InitializeExercises(program.WorkoutExercisePlans);
+                _isInitialized = true;
+            }
         }
         catch (Exception)
         {
@@ -136,7 +134,7 @@ public partial class WorkoutProgramEditorPageViewModel : BaseViewModel, IQueryAt
 
         if (success)
         {
-            WeakReferenceMessenger.Default.Send(new WorkoutDataUpdatedMessage());
+            WeakReferenceMessenger.Default.Send(new WorkoutProgramChangedMessage());
             await Shell.Current.GoToAsync("..");
         }
     }

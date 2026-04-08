@@ -16,7 +16,7 @@ public partial class ProgramManagerViewModel(
     [ObservableProperty] private Guid _programId;
     [ObservableProperty] private string _programName = string.Empty;
 
-    public async Task<bool> LoadProgramAsync(Guid programId)
+    public async Task<WorkoutProgramResponse?> LoadProgramAsync(Guid programId)
     {
         ProgramId = programId;
 
@@ -26,17 +26,17 @@ public partial class ProgramManagerViewModel(
             if (!result.Success || result.Data == null)
             {
                 HandleError(new LocalizedString(() => result.Message));
-                return false;
+                return null;
             }
 
             ProgramName = result.Data.Name;
             ProgramDescription = result.Data.Description;
-            return true;
+            return result.Data;
         }
         catch (Exception)
         {
             HandleError(new LocalizedString(() => localizationManager["UnexpectedErrorMessage"]));
-            return false;
+            return null;
         }
     }
 

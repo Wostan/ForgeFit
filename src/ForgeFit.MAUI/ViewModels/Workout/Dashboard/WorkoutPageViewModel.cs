@@ -19,6 +19,10 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
     [ObservableProperty] private bool _isRefreshing;
 
+    private bool _isWorkoutGoalDirty = true;
+    private bool _isWorkoutEntriesDirty = true;
+    private bool _isProgramsDirty = true;
+
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,
         IWorkoutProgramService workoutProgramService,
@@ -33,12 +37,17 @@ public partial class WorkoutPageViewModel : BaseViewModel
         ProgramManagerVM = new WorkoutProgramManagerViewModel(workoutProgramService, alertService, localizationManager);
         PopupVM = new PopupManagerViewModel(localizationManager);
 
-        WeakReferenceMessenger.Default.Register<WorkoutPageViewModel, WorkoutDataUpdatedMessage>(
+        SetLoadingState();
+
+        WeakReferenceMessenger.Default.Register<WorkoutPageViewModel, WorkoutGoalChangedMessage>(
             this,
-            (r, _) => { r.RefreshCommand.Execute(null); }
+            (r, _) => { r._isWorkoutGoalDirty = true; }
         );
 
-        SetLoadingState();
+        WeakReferenceMessenger.Default.Register<WorkoutPageViewModel, WorkoutProgramChangedMessage>(
+            this,
+            (r, _) => { r._isProgramsDirty = true; }
+        );
     }
 
     public WorkoutStatsViewModel StatsVM { get; }
@@ -50,10 +59,70 @@ public partial class WorkoutPageViewModel : BaseViewModel
     {
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
-        await LoadAsync(_cts.Token);
+        _isWorkoutGoalDirty = true;
+        _isWorkoutEntriesDirty = true;
+        _isProgramsDirty = true;
+        await CheckAndRefreshAsync();
     }
 
-    private async Task LoadAsync(CancellationToken token = default)
+    private async Task LoadWorkoutGoalAsync(CancellationToken token)
+    {
+        try
+        {
+            await StatsVM.LoadGoalAsync(token);
+        }
+        catch (TaskCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    private async Task LoadWorkoutEntriesAsync(CancellationToken token)
+    {
+        try
+        {
+            await StatsVM.LoadEntriesAsync(token);
+        }
+        catch (TaskCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    private async Task LoadProgramsAsync(CancellationToken token)
+    {
+        try
+        {
+            await ProgramManagerVM.LoadProgramsAsync(token);
+        }
+        catch (TaskCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            if (!token.IsCancellationRequested)
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
+        }
+    }
+
+    public async Task CheckAndRefreshAsync()
     {
         if (!_isInitialized)
         {
@@ -63,12 +132,26 @@ public partial class WorkoutPageViewModel : BaseViewModel
 
         try
         {
-            var statsTask = StatsVM.LoadStatsAsync(token);
-            var programsTask = ProgramManagerVM.LoadProgramsAsync(token);
+            if (_isWorkoutGoalDirty)
+            {
+                await LoadWorkoutGoalAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isWorkoutGoalDirty = false;
+            }
 
-            await Task.WhenAll(statsTask, programsTask);
+            if (_isWorkoutEntriesDirty)
+            {
+                await LoadWorkoutEntriesAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isWorkoutEntriesDirty = false;
+            }
 
-            if (token.IsCancellationRequested) return;
+            if (_isProgramsDirty)
+            {
+                await LoadProgramsAsync(_cts?.Token ?? CancellationToken.None);
+                if (_cts?.Token.IsCancellationRequested ?? false) return;
+                _isProgramsDirty = false;
+            }
 
             _isInitialized = true;
             Error = null;
@@ -78,9 +161,11 @@ public partial class WorkoutPageViewModel : BaseViewModel
         }
         catch (Exception)
         {
-            if (token.IsCancellationRequested) return;
-            var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
-            HandleError(genericError);
+            if (!(_cts?.Token.IsCancellationRequested ?? false))
+            {
+                var genericError = new LocalizedString(() => _localizationManager["UnexpectedErrorMessage"]);
+                HandleError(genericError);
+            }
         }
         finally
         {
@@ -100,9 +185,13 @@ public partial class WorkoutPageViewModel : BaseViewModel
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
+        _isWorkoutGoalDirty = true;
+        _isWorkoutEntriesDirty = true;
+        _isProgramsDirty = true;
+
         try
         {
-            await LoadAsync(_cts.Token);
+            await CheckAndRefreshAsync();
         }
         finally
         {

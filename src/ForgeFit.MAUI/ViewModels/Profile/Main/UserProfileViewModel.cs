@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -145,6 +147,7 @@ public partial class UserProfileViewModel(
                 UpdateState(result.Data);
                 await alertService.ShowToastAsync(localizationManager["Success_ProfileUpdated"]);
                 OnProfileUpdated?.Invoke(result.Data);
+                WeakReferenceMessenger.Default.Send(new WeightChangedMessage(nameof(UserProfileViewModel)));
             }
             else
             {

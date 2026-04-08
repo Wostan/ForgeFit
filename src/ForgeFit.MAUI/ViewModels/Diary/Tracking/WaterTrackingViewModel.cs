@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.DrinkTracking;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -96,6 +98,7 @@ public partial class WaterTrackingViewModel : BaseViewModel
         {
             var index = WaterEntries.IndexOf(tempEntry);
             if (index != -1) WaterEntries[index] = result.Data;
+            WeakReferenceMessenger.Default.Send(new WaterDataChangedMessage());
         }
         else
         {
@@ -132,6 +135,10 @@ public partial class WaterTrackingViewModel : BaseViewModel
 
             var errorMsg = new LocalizedString(() => result.Message);
             await _alertService.ShowToastAsync(errorMsg.Localized);
+        }
+        else
+        {
+            WeakReferenceMessenger.Default.Send(new WaterDataChangedMessage());
         }
     }
 
