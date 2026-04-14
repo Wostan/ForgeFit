@@ -1,10 +1,11 @@
 ﻿using System.Globalization;
+using ForgeFit.MAUI.Constants;
 
 namespace ForgeFit.MAUI.Behaviors;
 
 public class RestTimeInputBehavior : Behavior<Entry>
 {
-    private static readonly TimeSpan MaxTime = TimeSpan.FromMinutes(10);
+    private static readonly TimeSpan MaxTime = TimeSpan.FromMinutes(AppConstants.ValidationLimits.MaxRestTimeMinutes);
 
     public static readonly BindableProperty TimeProperty =
         BindableProperty.Create(nameof(Time),
