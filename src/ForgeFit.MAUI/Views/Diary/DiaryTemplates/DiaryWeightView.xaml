@@ -6,6 +6,7 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:DataType="main:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryWeightView">
     <ContentView.Resources>
@@ -16,7 +17,7 @@
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="Keyboard" Value="Numeric" />
             <Setter Property="ReturnType" Value="Done" />
-            <Setter Property="MaxLength" Value="5" />
+            <Setter Property="MaxLength" Value="{x:Static xaml:AppConstantsXaml.WeightEntryMaxLength}" />
             <Setter Property="Margin" Value="0, 0, 0, -8" />
             <Setter Property="TextColor" Value="{StaticResource TextPrimaryDark}" />
             <Setter Property="behaviors:EntryAnimationBehavior.IsAnimated" Value="False" />

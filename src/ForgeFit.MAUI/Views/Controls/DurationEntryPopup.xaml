@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Controls.DurationEntryPopup"
              x:Name="ThisPopup"
              BackgroundColor="#90000000"
@@ -40,11 +41,11 @@
                            Placeholder="0"
                            FontSize="18"
                            Keyboard="Numeric"
-                           MaxLength="1"
+                           MaxLength="{x:Static xaml:AppConstantsXaml.HoursEntryMaxLength}"
                            HorizontalTextAlignment="Center"
                            TextChanged="OnTimePartsChanged">
                         <Entry.Behaviors>
-                            <behaviors:NumericClampBehavior MaxValue="5" MinValue="0" Decimals="0" />
+                            <behaviors:NumericClampBehavior MaxValue="{x:Static xaml:AppConstantsXaml.MaxWorkoutDurationHours}" MinValue="0" Decimals="0" />
                         </Entry.Behaviors>
                     </Entry>
                 </Border>
@@ -60,7 +61,7 @@
                            Placeholder="00"
                            FontSize="18"
                            Keyboard="Numeric"
-                           MaxLength="2"
+                           MaxLength="{x:Static xaml:AppConstantsXaml.MinutesEntryMaxLength}"
                            HorizontalTextAlignment="Start"
                            TextColor="{StaticResource TextPrimary}"
                            TextChanged="OnTimePartsChanged">

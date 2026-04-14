@@ -8,6 +8,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:templates="using:ForgeFit.MAUI.Views.Workout.ProgramEditorTemplates"
              xmlns:programEditor="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ProgramEditor"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Workout.WorkoutProgramEditorPageView"
              x:DataType="programEditor:WorkoutProgramEditorPageViewModel"
              Shell.NavBarIsVisible="False"
@@ -50,7 +51,7 @@
                         <Border Style="{StaticResource InputWrapper}" HeightRequest="100">
                             <Editor Text="{Binding ProgramVM.ProgramDescription}"
                                     Placeholder="{maui:Translate Placeholder_EnterDescription}"
-                                    MaxLength="300"
+                                    MaxLength="{x:Static xaml:AppConstantsXaml.MaxWorkoutProgramDescriptionLength}"
                                     HeightRequest="100" />
                         </Border>
                     </VerticalStackLayout>

@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
              xmlns:programEditor="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ProgramEditor"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Workout.ProgramEditorTemplates.ProgramEditorSetRowView"
              x:DataType="programEditor:EditorSetItem"
              x:Name="ThisView">
@@ -69,7 +70,7 @@
                        TextColor="{StaticResource TextPrimary}">
                     <Entry.Behaviors>
                         <behaviors:NumericClampBehavior
-                            MaxValue="1500"
+                            MaxValue="{x:Static xaml:AppConstantsXaml.MaxWorkoutWeightKg}"
                             MinValue="0"
                             Decimals="2" />
                     </Entry.Behaviors>
@@ -85,7 +86,7 @@
                        TextColor="{StaticResource TextPrimary}">
                     <Entry.Behaviors>
                         <behaviors:NumericClampBehavior
-                            MaxValue="100"
+                            MaxValue="{x:Static xaml:AppConstantsXaml.MaxRepsPerSet}"
                             MinValue="1"
                             Decimals="0" />
                     </Entry.Behaviors>

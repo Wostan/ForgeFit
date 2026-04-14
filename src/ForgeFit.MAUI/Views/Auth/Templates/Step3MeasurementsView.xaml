@@ -5,6 +5,7 @@
              xmlns:maui="using:LocalizationResourceManager.Maui"
              xmlns:views="using:ForgeFit.MAUI.Views.Auth"
              xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
+             xmlns:constants="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step3MeasurementsView">
 
     <Grid RowDefinitions="Auto, *, Auto"
@@ -51,13 +52,13 @@
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="100"
-                            Maximum="250"
+                    <Slider Minimum="{x:Static constants:AppConstantsXaml.MinHeightCm}"
+                            Maximum="{x:Static constants:AppConstantsXaml.MaxHeightCm}"
                             Value="{Binding MeasurementsVM.Height}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
-                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="100" />
-                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="250" />
+                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MinHeightCmStr}" />
+                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MaxHeightCmStr}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
@@ -85,13 +86,13 @@
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="30"
-                            Maximum="300"
+                    <Slider Minimum="{x:Static constants:AppConstantsXaml.MinWeightKg}"
+                            Maximum="{x:Static constants:AppConstantsXaml.MaxWeightKg}"
                             Value="{Binding MeasurementsVM.Weight}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
-                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="30" />
-                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="300" />
+                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MinWeightKgStr}" />
+                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MaxWeightKgStr}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>

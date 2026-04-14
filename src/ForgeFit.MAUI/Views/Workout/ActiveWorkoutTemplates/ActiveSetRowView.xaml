@@ -5,6 +5,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:activeSession="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ActiveSession"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Name="ThisView"
              x:Class="ForgeFit.MAUI.Views.Workout.ActiveWorkoutTemplates.ActiveSetRowView"
              x:DataType="activeSession:ActiveSetItem">
@@ -81,7 +82,7 @@
                        TextColor="{StaticResource TextPrimary}">
                     <Entry.Behaviors>
                         <behaviors:NumericClampBehavior
-                            MaxValue="1500"
+                            MaxValue="{x:Static xaml:AppConstantsXaml.MaxWorkoutWeightKg}"
                             MinValue="0"
                             Decimals="2" />
                     </Entry.Behaviors>
@@ -97,7 +98,7 @@
                        TextColor="{StaticResource TextPrimary}">
                     <Entry.Behaviors>
                         <behaviors:NumericClampBehavior
-                            MaxValue="100"
+                            MaxValue="{x:Static xaml:AppConstantsXaml.MaxRepsPerSet}"
                             MinValue="1"
                             Decimals="0" />
                     </Entry.Behaviors>

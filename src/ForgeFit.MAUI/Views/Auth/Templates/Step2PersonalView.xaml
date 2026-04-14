@@ -8,6 +8,7 @@
              xmlns:views="using:ForgeFit.MAUI.Views.Auth"
              xmlns:enums="using:ForgeFit.MAUI.Models.Enums.ProfileEnums"
              xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step2PersonalView">
 
     <Grid RowDefinitions="Auto, *, Auto"
@@ -35,7 +36,7 @@
                Placeholder="{maui:Translate Reg_UsernamePlaceholder}"
                behaviors:EntryAnimationBehavior.IsError="{Binding PersonalVM.IsUsernameError}"
                FontSize="36"
-               MaxLength="20"
+               MaxLength="{x:Static xaml:AppConstantsXaml.MaxUsernameLength}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                ReturnType="Next">

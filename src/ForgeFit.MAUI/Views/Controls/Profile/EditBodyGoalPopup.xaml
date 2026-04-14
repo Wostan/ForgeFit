@@ -5,6 +5,7 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:sys="using:System"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Controls.Profile.EditBodyGoalPopup"
              BackgroundColor="#90000000">
 
@@ -35,7 +36,7 @@
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}">
                     <Entry Text="{Binding EditBodyGoalTitle}"
-                           MaxLength="20"
+                           MaxLength="{x:Static xaml:AppConstantsXaml.MaxTitleLength}"
                            Placeholder="{maui:Translate Goal_TitlePlaceholder}" />
                 </Border>
             </VerticalStackLayout>
@@ -64,7 +65,7 @@
                 <Border Style="{StaticResource InputWrapper}" HeightRequest="80">
                     <Editor Text="{Binding EditBodyGoalDescription}"
                             Placeholder="{maui:Translate Goal_DescriptionPlaceholder}"
-                            MaxLength="200"
+                            MaxLength="{x:Static xaml:AppConstantsXaml.MaxDescriptionLength}"
                             AutoSize="TextChanges" />
                 </Border>
             </VerticalStackLayout>
