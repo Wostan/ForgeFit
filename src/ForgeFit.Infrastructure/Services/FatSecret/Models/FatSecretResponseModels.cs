@@ -61,13 +61,13 @@ internal record FatSecretDetailedFood(
     [property: JsonPropertyName("brand_name")]
     string? BrandName,
     [property: JsonPropertyName("servings")]
-    FatSecretServingsContainer Servings
+    FatSecretServingsContainer? Servings
 );
 
 internal record FatSecretServingsContainer(
     [property: JsonPropertyName("serving")]
     [property: JsonConverter(typeof(SingleOrArrayConverter<FatSecretServing>))]
-    List<FatSecretServing> Serving
+    List<FatSecretServing>? Serving
 );
 
 internal record FatSecretServing(

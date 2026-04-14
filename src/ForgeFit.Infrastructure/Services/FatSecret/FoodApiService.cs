@@ -89,6 +89,11 @@ public class FoodApiService(
 
     public async Task<List<FoodProductResponse>> RecognizeByPhotoAsync(string imageBase64)
     {
+        if (imageBase64.Contains(','))
+        {
+            imageBase64 = imageBase64.Split(',')[1];
+        }
+        
         if (imageBase64.Length > 999_982)
             throw new BadRequestException("Image is too large. Limit is ~1MB characters.");
 
@@ -127,7 +132,7 @@ public class FoodApiService(
             {
                 if (f == null) continue;
 
-                var servings = f.Servings.Serving.Select(s => new FoodServingDto(
+                var servings = f.Servings?.Serving?.Select(s => new FoodServingDto(
                     s.ServingId,
                     ParseFatSecretDouble(s.MetricServingAmount),
                     s.MetricServingUnit,
@@ -139,7 +144,7 @@ public class FoodApiService(
                     ParseFatSecretDouble(s.Sugar),
                     ParseFatSecretDouble(s.SaturatedFat),
                     ParseFatSecretDouble(s.Sodium)
-                )).ToList();
+                )).ToList() ?? [];
 
                 resultList.Add(new FoodProductResponse(
                     f.FoodId,
