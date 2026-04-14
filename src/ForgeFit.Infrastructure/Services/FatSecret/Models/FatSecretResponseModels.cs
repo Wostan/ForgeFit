@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using ForgeFit.Infrastructure.Services.FatSecret.Converters;
 
 namespace ForgeFit.Infrastructure.Services.FatSecret.Models;
@@ -83,5 +83,14 @@ internal record FatSecretServing(
     string Carbohydrate,
     [property: JsonPropertyName("protein")]
     string Protein,
-    [property: JsonPropertyName("fat")] string Fat
+    [property: JsonPropertyName("fat")]
+    string Fat,
+    [property: JsonPropertyName("fiber")]
+    string Fiber,
+    [property: JsonPropertyName("sugar")]
+    string Sugar,
+    [property: JsonPropertyName("saturated_fat")]
+    string SaturatedFat,
+    [property: JsonPropertyName("sodium")]
+    string Sodium
 );

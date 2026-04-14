@@ -155,6 +155,10 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
                 item.Carbs,
                 item.Protein,
                 item.Fat,
+                item.Fiber,
+                item.Sugar,
+                item.SaturatedFat,
+                item.Sodium,
                 servingString
             );
 
@@ -230,6 +234,8 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
                     p.ExternalId, p.Label, p.BrandName,
                     baseServing?.Calories ?? 0, baseServing?.Carbs ?? 0,
                     baseServing?.Protein ?? 0, baseServing?.Fat ?? 0,
+                    baseServing?.Fiber ?? 0, baseServing?.Sugar ?? 0,
+                    baseServing?.SaturatedFat ?? 0, baseServing?.Sodium ?? 0,
                     $"{baseServing?.MetricAmount} {baseServing?.MetricUnit}")
                 );
 

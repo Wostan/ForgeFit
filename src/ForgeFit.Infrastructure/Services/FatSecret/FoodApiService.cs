@@ -22,7 +22,7 @@ public class FoodApiService(
     {
         var parameters = new Dictionary<string, string>
         {
-            { "method", "foods.search.v4" },
+            { "method", "foods.search.v5" },
             { "search_expression", query },
             { "page_number", (pageNumber - 1).ToString() },
             { "max_results", pageSize.ToString() },
@@ -50,6 +50,10 @@ public class FoodApiService(
                 ParseFatSecretDouble(serving?.Carbohydrate),
                 ParseFatSecretDouble(serving?.Protein),
                 ParseFatSecretDouble(serving?.Fat),
+                ParseFatSecretDouble(serving?.Fiber),
+                ParseFatSecretDouble(serving?.Sugar),
+                ParseFatSecretDouble(serving?.SaturatedFat),
+                ParseFatSecretDouble(serving?.Sodium),
                 $"{amount:0.##} {unit}"
             );
         }).ToList();
@@ -130,7 +134,11 @@ public class FoodApiService(
                     ParseFatSecretDouble(s.Calories),
                     ParseFatSecretDouble(s.Carbohydrate),
                     ParseFatSecretDouble(s.Protein),
-                    ParseFatSecretDouble(s.Fat)
+                    ParseFatSecretDouble(s.Fat),
+                    ParseFatSecretDouble(s.Fiber),
+                    ParseFatSecretDouble(s.Sugar),
+                    ParseFatSecretDouble(s.SaturatedFat),
+                    ParseFatSecretDouble(s.Sodium)
                 )).ToList();
 
                 resultList.Add(new FoodProductResponse(
@@ -201,7 +209,11 @@ public class FoodApiService(
             ParseFatSecretDouble(s.Calories),
             ParseFatSecretDouble(s.Carbohydrate),
             ParseFatSecretDouble(s.Protein),
-            ParseFatSecretDouble(s.Fat)
+            ParseFatSecretDouble(s.Fat),
+            ParseFatSecretDouble(s.Fiber),
+            ParseFatSecretDouble(s.Sugar),
+            ParseFatSecretDouble(s.SaturatedFat),
+            ParseFatSecretDouble(s.Sodium)
         )).ToList();
 
         return new FoodProductResponse(

@@ -60,6 +60,8 @@ public partial class FoodDetailsViewModel(
                 product.ExternalId, product.Label,
                 serving.Calories * ratio, serving.Carbs * ratio,
                 serving.Protein * ratio, serving.Fat * ratio,
+                serving.Fiber * ratio, serving.Sugar * ratio,
+                serving.SaturatedFat * ratio, serving.Sodium * ratio,
                 serving.MetricUnit, amount
             );
             await SaveFoodCallback(newItem);

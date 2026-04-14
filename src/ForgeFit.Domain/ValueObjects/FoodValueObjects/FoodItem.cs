@@ -14,16 +14,20 @@ public class FoodItem : ValueObject
         double carbs,
         double protein,
         double fat,
+        double fiber,
+        double sugar,
+        double saturatedFat,
+        double sodium,
         string servingUnit,
         double amount
     )
     {
         SetExternalId(externalId);
         SetLabel(label);
-        SetBfc(calories, carbs, protein, fat);
+        SetNutrients(calories, carbs, protein, fat, fiber, sugar, saturatedFat, sodium);
         SetServingInfo(servingUnit, amount);
     }
-    
+
     private FoodItem() { }
     #endregion
 
@@ -34,6 +38,10 @@ public class FoodItem : ValueObject
     public double Carbs { get; private set; }
     public double Protein { get; private set; }
     public double Fat { get; private set; }
+    public double Fiber { get; private set; }
+    public double Sugar { get; private set; }
+    public double SaturatedFat { get; private set; }
+    public double Sodium { get; private set; }
     public string ServingUnit { get; private set; }
     public double Amount { get; private set; }
     #endregion
@@ -59,15 +67,28 @@ public class FoodItem : ValueObject
         Label = label;
     }
 
-    private void SetBfc(double calories, double carbs, double protein, double fat)
+    private void SetNutrients(
+        double calories,
+        double carbs,
+        double protein,
+        double fat,
+        double fiber,
+        double sugar,
+        double saturatedFat,
+        double sodium)
     {
-        if (calories < 0 || carbs < 0 || protein < 0 || fat < 0)
+        if (calories < 0 || carbs < 0 || protein < 0 || fat < 0 ||
+            fiber < 0 || sugar < 0 || saturatedFat < 0 || sodium < 0)
             throw new DomainValidationException("Nutrients cannot be negative");
 
         Calories = calories;
         Carbs = carbs;
         Protein = protein;
         Fat = fat;
+        Fiber = fiber;
+        Sugar = sugar;
+        SaturatedFat = saturatedFat;
+        Sodium = sodium;
     }
 
     private void SetServingInfo(string servingUnit, double amount)
@@ -86,6 +107,15 @@ public class FoodItem : ValueObject
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return ExternalId;
+        yield return Label;
+        yield return Calories;
+        yield return Carbs;
+        yield return Protein;
+        yield return Fat;
+        yield return Fiber;
+        yield return Sugar;
+        yield return SaturatedFat;
+        yield return Sodium;
         yield return ServingUnit;
         yield return Amount;
     }

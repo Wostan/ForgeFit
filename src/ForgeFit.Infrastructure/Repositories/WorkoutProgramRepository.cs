@@ -70,4 +70,9 @@ public class WorkoutProgramRepository(AppDbContext context) : IWorkoutProgramRep
     {
         await context.WorkoutExercisePlans.AddAsync(plan);
     }
+
+    public async Task<int> CountByUserIdAsync(Guid userId)
+    {
+        return await context.WorkoutPrograms.CountAsync(wp => wp.UserId == userId);
+    }
 }

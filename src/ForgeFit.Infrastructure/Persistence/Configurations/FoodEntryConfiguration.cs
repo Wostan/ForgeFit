@@ -16,6 +16,10 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
             tableBuilder.HasCheckConstraint("CK_FoodEntries_CarbsCheck", "Carbs >= 0");
             tableBuilder.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein >= 0");
             tableBuilder.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_FiberCheck", "Fiber >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_SugarCheck", "Sugar >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_SaturatedFatCheck", "SaturatedFat >= 0");
+            tableBuilder.HasCheckConstraint("CK_FoodEntries_SodiumCheck", "Sodium >= 0");
             tableBuilder.HasCheckConstraint("CK_FoodEntries_DayTimeCheck", $"DayTime IN ({string.Join(", ", Enum.GetValues<DayTime>().Cast<int>())})");
         });
 
@@ -54,6 +58,22 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
             nutrition.Property(n => n.Fat)
                 .IsRequired()
                 .HasColumnName("Fat");
+
+            nutrition.Property(n => n.Fiber)
+                .IsRequired()
+                .HasColumnName("Fiber");
+
+            nutrition.Property(n => n.Sugar)
+                .IsRequired()
+                .HasColumnName("Sugar");
+
+            nutrition.Property(n => n.SaturatedFat)
+                .IsRequired()
+                .HasColumnName("SaturatedFat");
+
+            nutrition.Property(n => n.Sodium)
+                .IsRequired()
+                .HasColumnName("Sodium");
         });
 
         builder.OwnsMany(fe => fe.FoodItems, item =>
@@ -64,7 +84,11 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
                 tableBuilder.HasCheckConstraint("CK_FoodItems_CarbsCheck", "Carbs >= 0");
                 tableBuilder.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein >= 0");
                 tableBuilder.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat >= 0");
-                tableBuilder.HasCheckConstraint("CK_FoodItems_AmountCheck", 
+                tableBuilder.HasCheckConstraint("CK_FoodItems_FiberCheck", "Fiber >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_SugarCheck", "Sugar >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_SaturatedFatCheck", "SaturatedFat >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_SodiumCheck", "Sodium >= 0");
+                tableBuilder.HasCheckConstraint("CK_FoodItems_AmountCheck",
                     $"Amount >= {DomainConstants.ValidationLimits.MinFoodAmount} AND Amount <= {DomainConstants.ValidationLimits.MaxFoodAmount}");
             });
 
@@ -89,6 +113,18 @@ public class FoodEntryConfiguration : IEntityTypeConfiguration<FoodEntry>
                 .IsRequired();
 
             item.Property(i => i.Fat)
+                .IsRequired();
+
+            item.Property(i => i.Fiber)
+                .IsRequired();
+
+            item.Property(i => i.Sugar)
+                .IsRequired();
+
+            item.Property(i => i.SaturatedFat)
+                .IsRequired();
+
+            item.Property(i => i.Sodium)
                 .IsRequired();
 
             item.Property(i => i.ServingUnit)
