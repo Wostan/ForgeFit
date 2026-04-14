@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
@@ -89,7 +90,7 @@ public class FoodDiaryIntegrationViewModel(
             if (targetServing == null)
             {
                 targetServing = product.Servings.FirstOrDefault();
-                amount = targetServing?.MetricAmount ?? 100;
+                amount = targetServing?.MetricAmount ?? AppConstants.FoodDefaults.DefaultServingAmount;
             }
 
             var unit = targetServing?.MetricUnit ?? "g";

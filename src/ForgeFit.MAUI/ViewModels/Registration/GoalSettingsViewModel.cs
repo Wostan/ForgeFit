@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -16,11 +17,11 @@ public partial class GoalSettingsViewModel : BaseViewModel
     private double _currentHeight;
     private double _currentWeight;
     [ObservableProperty] private string _daysLeftText = string.Empty;
-    [ObservableProperty] private DateTime _goalDueDate = DateTime.Today.AddMonths(3);
+    [ObservableProperty] private DateTime _goalDueDate = DateTime.Today.AddMonths(AppConstants.GoalValidation.DefaultGoalMonthsAhead);
     [ObservableProperty] private bool _isDeadlineActive = true;
     [ObservableProperty] private bool _isNoDeadline;
-    [ObservableProperty] private double _maxTargetWeight = 300;
-    [ObservableProperty] private double _minTargetWeight = 30;
+    [ObservableProperty] private double _maxTargetWeight = AppConstants.ValidationLimits.MaxWeightKg;
+    [ObservableProperty] private double _minTargetWeight = AppConstants.ValidationLimits.MinWeightKg;
 
     [ObservableProperty] private double _targetWeight;
 
@@ -38,7 +39,7 @@ public partial class GoalSettingsViewModel : BaseViewModel
         RecalculateDaysLeft();
     }
 
-    public DateTime MinGoalDate => DateTime.Today.AddDays(7);
+    public DateTime MinGoalDate => DateTime.Today.AddDays(AppConstants.GoalValidation.MinDaysToDeadline);
 
     public void SetCurrentMeasurements(double height, double weight)
     {
@@ -88,8 +89,8 @@ public partial class GoalSettingsViewModel : BaseViewModel
         var heightM = _currentHeight / 100.0;
         var heightSq = heightM * heightM;
 
-        MinTargetWeight = Math.Ceiling(18.5 * heightSq);
-        MaxTargetWeight = Math.Floor(30.0 * heightSq);
+        MinTargetWeight = Math.Ceiling(AppConstants.BmiThresholds.UnderweightMax * heightSq);
+        MaxTargetWeight = Math.Floor(AppConstants.BmiThresholds.OverweightMax * heightSq);
 
         if (TargetWeight < MinTargetWeight || TargetWeight > MaxTargetWeight || TargetWeight == 0)
         {

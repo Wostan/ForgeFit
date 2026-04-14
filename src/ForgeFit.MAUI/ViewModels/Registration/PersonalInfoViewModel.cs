@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
@@ -14,8 +15,8 @@ public partial class PersonalInfoViewModel(ILocalizationResourceManager localiza
 
     [ObservableProperty] private LocalizedString? _validationError;
 
-    public DateTime MaxDate => DateTime.Today.AddYears(-13);
-    public DateTime MinDate => DateTime.Today.AddYears(-100);
+    public DateTime MaxDate => DateTime.Today.AddYears(-AppConstants.ValidationLimits.MinAgeYears);
+    public DateTime MinDate => DateTime.Today.AddYears(-AppConstants.ValidationLimits.MaxAgeYears);
 
     public bool ValidateStep()
     {
@@ -26,14 +27,14 @@ public partial class PersonalInfoViewModel(ILocalizationResourceManager localiza
             return false;
         }
 
-        if (Username.Length > 20)
+        if (Username.Length > AppConstants.ValidationLimits.MaxUsernameLength)
         {
             IsUsernameError = true;
             ValidationError = new LocalizedString(() => localizationManager["Error_UsernameTooLong"]);
             return false;
         }
 
-        var minAgeDate = DateTime.Today.AddYears(-13);
+        var minAgeDate = DateTime.Today.AddYears(-AppConstants.ValidationLimits.MinAgeYears);
         if (BirthDate > minAgeDate)
         {
             ValidationError = new LocalizedString(() => localizationManager["Error_InvalidAge"]);

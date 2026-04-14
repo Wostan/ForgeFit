@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -68,7 +69,7 @@ public partial class NutritionGoalViewModel(
             return;
         }
 
-        if (cal is < 500 or > 10000)
+        if (cal is < AppConstants.ValidationLimits.MinDailyCalories or > AppConstants.ValidationLimits.MaxDailyCalories)
         {
             await alertService.ShowToastAsync(localizationManager["Error_CaloriesRange"]);
             return;
@@ -80,7 +81,7 @@ public partial class NutritionGoalViewModel(
             return;
         }
 
-        if (water is < 1000 or > 10000)
+        if (water is < AppConstants.ValidationLimits.MinWaterIntakeMl or > AppConstants.ValidationLimits.MaxWaterIntakeMl)
         {
             await alertService.ShowToastAsync(localizationManager["Error_WaterRange"]);
             return;

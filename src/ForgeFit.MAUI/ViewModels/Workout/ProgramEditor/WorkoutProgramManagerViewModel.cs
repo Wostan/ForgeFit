@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -53,7 +54,7 @@ public partial class WorkoutProgramManagerViewModel(
     {
         if (string.IsNullOrWhiteSpace(programName)) return;
 
-        if (programName.Length > 50)
+        if (programName.Length > AppConstants.ValidationLimits.MaxWorkoutProgramNameLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_ProgramNameTooLong"]);
             return;

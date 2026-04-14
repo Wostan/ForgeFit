@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.DrinkTracking;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -145,7 +146,7 @@ public partial class WaterTrackingViewModel : BaseViewModel
     [RelayCommand]
     private void OpenWaterInput()
     {
-        WaterInputValue = "250";
+        WaterInputValue = AppConstants.DefaultValues.DefaultWaterAmountMl.ToString();
         IsWaterInputVisible = true;
     }
 
@@ -167,7 +168,7 @@ public partial class WaterTrackingViewModel : BaseViewModel
 
     private bool CanSaveCustomWater()
     {
-        return int.TryParse((string?)WaterInputValue, out var amount) && amount is > 50 and < 2000;
+        return int.TryParse((string?)WaterInputValue, out var amount) && amount is > AppConstants.ValidationLimits.MinDrinkVolumeMl and < AppConstants.ValidationLimits.MaxDrinkVolumeMl;
     }
 
     public void ResetWater()

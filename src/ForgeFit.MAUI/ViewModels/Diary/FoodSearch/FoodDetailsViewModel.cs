@@ -1,6 +1,7 @@
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
 
@@ -78,7 +79,7 @@ public partial class FoodDetailsViewModel(
         var normalizedInput = InputAmount.Replace(',', '.');
         return double.TryParse((string?)normalizedInput, NumberStyles.Any, CultureInfo.InvariantCulture,
                    out var amount) &&
-               amount is > 0 and <= 5000;
+               amount is > 0 and <= AppConstants.ValidationLimits.MaxFoodAmount;
     }
 
     partial void OnInputAmountChanged(string? value)

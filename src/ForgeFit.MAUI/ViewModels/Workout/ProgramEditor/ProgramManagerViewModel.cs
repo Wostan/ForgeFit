@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -48,19 +49,19 @@ public partial class ProgramManagerViewModel(
             return false;
         }
 
-        if (ProgramName.Length > 50)
+        if (ProgramName.Length > AppConstants.ValidationLimits.MaxWorkoutProgramNameLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_ProgramNameTooLong"]);
             return false;
         }
 
-        if (ProgramDescription?.Length > 300)
+        if (ProgramDescription?.Length > AppConstants.ValidationLimits.MaxWorkoutProgramDescriptionLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_ProgramDescriptionTooLong"]);
             return false;
         }
 
-        if (exercisePlans.Count > 50)
+        if (exercisePlans.Count > AppConstants.ValidationLimits.MaxExercisesPerProgram)
         {
             await alertService.ShowToastAsync(localizationManager["Error_TooManyExercises"]);
             return false;
@@ -96,7 +97,7 @@ public partial class ProgramManagerViewModel(
     public async Task<bool> ValidateProgramNameAsync(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) return false;
-        if (name.Length <= 50) return true;
+        if (name.Length <= AppConstants.ValidationLimits.MaxWorkoutProgramNameLength) return true;
 
         await alertService.ShowToastAsync(localizationManager["Error_ProgramNameTooLong"]);
         return false;

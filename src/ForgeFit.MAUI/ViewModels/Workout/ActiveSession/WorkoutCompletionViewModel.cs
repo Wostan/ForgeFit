@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Services.Interfaces;
 using LocalizationResourceManager.Maui;
@@ -31,7 +32,7 @@ public partial class WorkoutCompletionViewModel(
 
         var totalMinutes = timerVM.TotalWorkoutDuration.TotalMinutes;
 
-        return totalMinutes is >= 10 and <= 300;
+        return totalMinutes is >= AppConstants.ValidationLimits.MinWorkoutDurationMinutes and <= AppConstants.ValidationLimits.MaxWorkoutDurationHours * AppConstants.Time.MinutesPerHour;
     }
 
     public async Task<bool> FinishWorkout(
@@ -106,9 +107,9 @@ public partial class WorkoutCompletionViewModel(
     {
         var minutes = duration.TotalMinutes;
 
-        if (minutes is < 10 or > 300)
+        if (minutes is < AppConstants.ValidationLimits.MinWorkoutDurationMinutes or > AppConstants.ValidationLimits.MaxWorkoutDurationHours * AppConstants.Time.MinutesPerHour)
         {
-            var errorKey = minutes < 10 ? "Error_DurationTooShort" : "Error_DurationTooLong";
+            var errorKey = minutes < AppConstants.ValidationLimits.MinWorkoutDurationMinutes ? "Error_DurationTooShort" : "Error_DurationTooLong";
             await alertService.ShowToastAsync(localizationManager[errorKey]);
             return false;
         }

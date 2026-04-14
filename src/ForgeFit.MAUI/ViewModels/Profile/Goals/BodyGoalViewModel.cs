@@ -1,6 +1,7 @@
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Models.Enums.GoalEnums;
@@ -98,13 +99,13 @@ public partial class BodyGoalViewModel(
             return;
         }
 
-        if (EditBodyGoalTitle.Length > 20)
+        if (EditBodyGoalTitle.Length > AppConstants.ValidationLimits.MaxTitleLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_TitleTooLong"]);
             return;
         }
 
-        if (!string.IsNullOrEmpty(EditBodyGoalDescription) && EditBodyGoalDescription.Length > 200)
+        if (!string.IsNullOrEmpty(EditBodyGoalDescription) && EditBodyGoalDescription.Length > AppConstants.ValidationLimits.MaxDescriptionLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_DescriptionTooLong"]);
             return;
@@ -112,8 +113,8 @@ public partial class BodyGoalViewModel(
 
         var wUnit = _currentBodyGoal?.WeightUnit ?? WeightUnit.Kg;
         var isWeightValid = wUnit == WeightUnit.Kg
-            ? targetWeight is >= 30 and <= 300
-            : targetWeight is >= 66 and <= 660;
+            ? targetWeight is >= AppConstants.ValidationLimits.MinWeightKg and <= AppConstants.ValidationLimits.MaxWeightKg
+            : targetWeight is >= AppConstants.ValidationLimits.MinWeightLbs and <= AppConstants.ValidationLimits.MaxWeightLbs;
 
         if (!isWeightValid)
         {

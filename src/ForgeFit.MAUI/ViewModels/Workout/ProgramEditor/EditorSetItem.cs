@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 
@@ -34,12 +35,12 @@ public partial class EditorSetItem : ObservableObject
 
     partial void OnRepsChanged(int value)
     {
-        Reps = Math.Clamp(value, 0, 100);
+        Reps = Math.Clamp(value, 0, AppConstants.ValidationLimits.MaxRepsPerSet);
     }
 
     partial void OnWeightChanged(double value)
     {
-        Weight = Math.Clamp(value, 0, 1500);
+        Weight = Math.Clamp(value, 0, AppConstants.ValidationLimits.MaxWorkoutWeightKg);
     }
 
     public WorkoutSetDto ToDto()

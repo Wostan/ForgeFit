@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -78,7 +79,7 @@ public partial class WeightManagementViewModel : BaseViewModel
                 }
                 else
                 {
-                    CurrentWeight = 80.0;
+                    CurrentWeight = AppConstants.DefaultValues.DefaultWeightKg;
                 }
 
                 var weightText = CurrentWeight.ToString("F1");
@@ -107,7 +108,7 @@ public partial class WeightManagementViewModel : BaseViewModel
     private void IncreaseWeight()
     {
         CurrentWeightInput = double.TryParse((string?)CurrentWeightInput, out var weight)
-            ? (weight + 0.1).ToString("F1")
+            ? (weight + AppConstants.DefaultValues.DefaultWeightChangeStep).ToString("F1")
             : TargetWeight.ToString("F1");
     }
 
@@ -115,7 +116,7 @@ public partial class WeightManagementViewModel : BaseViewModel
     private void DecreaseWeight()
     {
         CurrentWeightInput = double.TryParse((string?)CurrentWeightInput, out var weight)
-            ? Math.Max(0, weight - 0.1).ToString("F1")
+            ? Math.Max(0, weight - AppConstants.DefaultValues.DefaultWeightChangeStep).ToString("F1")
             : TargetWeight.ToString("F1");
     }
 
@@ -127,7 +128,7 @@ public partial class WeightManagementViewModel : BaseViewModel
 
         try
         {
-            await Task.Delay(800, token);
+            await Task.Delay(AppConstants.SearchConfig.DebounceDelayMs, token);
             if (token.IsCancellationRequested) return;
 
             if (_userProfile == null)
@@ -183,9 +184,9 @@ public partial class WeightManagementViewModel : BaseViewModel
         if (!double.TryParse(value, out var weight))
             return;
 
-        weight = Math.Round(weight, 1);
+        weight = Math.Round(weight, AppConstants.FormattingPrecision.WeightDecimalPlaces);
 
-        if (Math.Abs(Math.Round(CurrentWeight, 1) - weight) < 0.01)
+        if (Math.Abs(Math.Round(CurrentWeight, AppConstants.FormattingPrecision.WeightDecimalPlaces) - weight) < AppConstants.FormattingPrecision.DoubleComparisonEpsilon)
             return;
 
         CurrentWeight = weight;

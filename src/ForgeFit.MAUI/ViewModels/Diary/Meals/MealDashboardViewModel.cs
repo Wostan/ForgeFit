@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -47,10 +48,10 @@ public partial class MealDashboardViewModel : BaseViewModel
 
         var ratio = item.Type switch
         {
-            DayTime.Breakfast => 0.25,
-            DayTime.Lunch => 0.35,
-            DayTime.Dinner => 0.25,
-            _ => 0.15
+            DayTime.Breakfast => AppConstants.MealRatios.Breakfast,
+            DayTime.Lunch => AppConstants.MealRatios.Lunch,
+            DayTime.Dinner => AppConstants.MealRatios.Dinner,
+            _ => AppConstants.MealRatios.Snack
         };
 
         item.TargetCalories = targetCalories * ratio;

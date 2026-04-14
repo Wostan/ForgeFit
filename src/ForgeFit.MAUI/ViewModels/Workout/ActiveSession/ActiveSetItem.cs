@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 
@@ -45,7 +46,7 @@ public partial class ActiveSetItem : ObservableObject
         Reps = value switch
         {
             < 0 => 0,
-            > 100 => 100,
+            > AppConstants.ValidationLimits.MaxRepsPerSet => AppConstants.ValidationLimits.MaxRepsPerSet,
             _ => Reps
         };
     }
@@ -55,14 +56,15 @@ public partial class ActiveSetItem : ObservableObject
         Weight = value switch
         {
             < 0 => 0,
-            > 1500 => 1500,
+            > AppConstants.ValidationLimits.MaxWorkoutWeightKg => AppConstants.ValidationLimits.MaxWorkoutWeightKg,
             _ => Weight
         };
     }
 
     partial void OnRestTimeChanged(TimeSpan value)
     {
-        if (value.TotalMinutes >= 10) RestTime = TimeSpan.FromMinutes(9).Add(TimeSpan.FromSeconds(59));
+        if (value.TotalMinutes >= AppConstants.ValidationLimits.MaxRestTimeMinutes) 
+            RestTime = TimeSpan.FromMinutes(AppConstants.ValidationLimits.MaxRestTimeMinutes - 1).Add(TimeSpan.FromSeconds(59));
     }
 
     partial void OnIsCompletedChanged(bool value)

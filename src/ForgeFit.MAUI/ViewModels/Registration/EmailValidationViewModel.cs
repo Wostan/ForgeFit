@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
@@ -57,7 +58,7 @@ public partial class EmailValidationViewModel(
 
         try
         {
-            await Task.Delay(800, token);
+            await Task.Delay(AppConstants.SearchConfig.DebounceDelayMs, token);
 
             var result = await authService.CheckEmailAsync(Email);
 
@@ -132,7 +133,7 @@ public partial class EmailValidationViewModel(
             return false;
         }
 
-        if (Password.Length < 6)
+        if (Password.Length < AppConstants.ValidationLimits.MinPasswordLength)
         {
             IsPasswordError = true;
             ValidationError = new LocalizedString(() => localizationManager["Error_PasswordTooShort"]);

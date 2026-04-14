@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Food;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Meals;
@@ -27,9 +28,9 @@ public partial class MealMacroStatsViewModel : ObservableObject
     public void CalculateTargets(double targetCalories)
     {
         MealTargetCalories = targetCalories;
-        MealTargetCarbs = targetCalories * 0.5 / 4;
-        MealTargetProtein = targetCalories * 0.2 / 4;
-        MealTargetFat = targetCalories * 0.3 / 9;
+        MealTargetCarbs = targetCalories * AppConstants.MacroRatios.Carbs / AppConstants.CaloriePerGram.Carbs;
+        MealTargetProtein = targetCalories * AppConstants.MacroRatios.Protein / AppConstants.CaloriePerGram.Protein;
+        MealTargetFat = targetCalories * AppConstants.MacroRatios.Fat / AppConstants.CaloriePerGram.Fat;
 
         MealTargetCaloriesDisplay = MealTargetCalories.ToString("F0");
         MealTargetCarbsDisplay = MealTargetCarbs.ToString("F0");

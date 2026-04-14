@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -40,7 +41,7 @@ public partial class PasswordChangeViewModel(
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(NewPasswordInput) || NewPasswordInput.Length < 6)
+        if (string.IsNullOrWhiteSpace(NewPasswordInput) || NewPasswordInput.Length < AppConstants.ValidationLimits.MinPasswordLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_PasswordTooShort"]);
             return;

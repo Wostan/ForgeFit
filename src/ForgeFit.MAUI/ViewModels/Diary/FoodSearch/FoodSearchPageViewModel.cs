@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
@@ -115,7 +116,7 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
             return;
         }
 
-        if (result.Data.Count < 20) SearchVM.SetCanLoadMore(false);
+        if (result.Data.Count < AppConstants.SearchConfig.DefaultPageSize) SearchVM.SetCanLoadMore(false);
 
         foreach (var item in result.Data)
         {
@@ -127,7 +128,7 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
 
     private async Task LoadRecentAsync(CancellationToken token = default)
     {
-        var from = DateTime.Now.AddDays(-7);
+        var from = DateTime.Now.AddDays(-AppConstants.FoodDefaults.RecentItemsLookupDays);
         var to = DateTime.Now;
 
         var result = await _diaryService.GetEntriesByDateRangeAsync(from, to, token);
@@ -140,7 +141,7 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
             .Reverse()
             .GroupBy(x => x.ExternalId)
             .Select(g => g.First())
-            .Take(20)
+            .Take(AppConstants.SearchConfig.DefaultPageSize)
             .ToList();
 
         foreach (var item in recentItems)
@@ -174,7 +175,7 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
             return;
         }
 
-        if (result.Data.Count < 20) SearchVM.SetCanLoadMore(false);
+        if (result.Data.Count < AppConstants.SearchConfig.DefaultPageSize) SearchVM.SetCanLoadMore(false);
 
         foreach (var item in result.Data)
         {

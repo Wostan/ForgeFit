@@ -3,6 +3,7 @@ using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Goal;
 using ForgeFit.MAUI.Models.Enums.WorkoutEnums;
@@ -77,13 +78,13 @@ public partial class WorkoutGoalViewModel(
             return;
         }
 
-        if (freq is < 1 or > 7)
+        if (freq is < AppConstants.ValidationLimits.MinWorkoutsPerWeek or > AppConstants.ValidationLimits.MaxWorkoutsPerWeek)
         {
             await alertService.ShowToastAsync(localizationManager["Error_WorkoutFrequency"]);
             return;
         }
 
-        if (duration is < 5 or > 300)
+        if (duration is < AppConstants.ValidationLimits.MinWorkoutDurationMinutes or > AppConstants.ValidationLimits.MaxWorkoutDurationHours * AppConstants.Time.MinutesPerHour)
         {
             await alertService.ShowToastAsync(localizationManager["Error_WorkoutDuration"]);
             return;

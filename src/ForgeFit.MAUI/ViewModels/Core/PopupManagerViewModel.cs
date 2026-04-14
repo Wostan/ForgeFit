@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Core;
@@ -39,8 +40,8 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
 
         EntryPopupDuration = currentDuration;
 
-        if (EntryPopupDuration.TotalMinutes < 10)
-            EntryPopupDuration = TimeSpan.FromMinutes(10);
+        if (EntryPopupDuration.TotalMinutes < AppConstants.ValidationLimits.MinWorkoutDurationMinutes)
+            EntryPopupDuration = TimeSpan.FromMinutes(AppConstants.ValidationLimits.MinWorkoutDurationMinutes);
 
         IsEntryPopupVisible = true;
     }
@@ -70,10 +71,10 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
 
         switch (minutes)
         {
-            case < 10:
+            case < AppConstants.ValidationLimits.MinWorkoutDurationMinutes:
                 DurationValidationError?.Invoke("Error_DurationTooShort");
                 return;
-            case > 300:
+            case > AppConstants.ValidationLimits.MaxWorkoutDurationHours * AppConstants.Time.MinutesPerHour:
                 DurationValidationError?.Invoke("Error_DurationTooLong");
                 return;
         }

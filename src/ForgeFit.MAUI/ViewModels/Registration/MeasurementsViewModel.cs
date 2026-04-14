@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
 using LocalizationResourceManager.Maui;
@@ -14,10 +15,10 @@ public partial class MeasurementsViewModel : BaseViewModel
     [ObservableProperty] private LocalizedString? _bmiDescription;
     [ObservableProperty] private double _bmiValue;
 
-    [ObservableProperty] private double _height = 175;
+    [ObservableProperty] private double _height = AppConstants.DefaultValues.DefaultHeightCm;
 
     [ObservableProperty] private LocalizedString? _validationError;
-    [ObservableProperty] private double _weight = 75;
+    [ObservableProperty] private double _weight = AppConstants.DefaultValues.DefaultWeightKg;
 
     public MeasurementsViewModel(IBmiService bmiService, ILocalizationResourceManager localizationManager)
     {
@@ -54,17 +55,17 @@ public partial class MeasurementsViewModel : BaseViewModel
 
         switch (bmi)
         {
-            case < 18.5:
+            case < AppConstants.BmiThresholds.UnderweightMax:
                 BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Underweight"]);
                 BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Underweight"]);
                 BmiColor = (Color)Application.Current?.Resources["BmiUnderweight"]!;
                 break;
-            case >= 18.5 and < 25:
+            case >= AppConstants.BmiThresholds.UnderweightMax and < AppConstants.BmiThresholds.NormalMax:
                 BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Normal"]);
                 BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Normal"]);
                 BmiColor = (Color)Application.Current?.Resources["BmiNormal"]!;
                 break;
-            case >= 25 and < 30:
+            case >= AppConstants.BmiThresholds.NormalMax and < AppConstants.BmiThresholds.OverweightMax:
                 BmiCategoryText = new LocalizedString(() => _localizationManager["BMI_Overweight"]);
                 BmiDescription = new LocalizedString(() => _localizationManager["BMI_Desc_Overweight"]);
                 BmiColor = (Color)Application.Current?.Resources["BmiOverweight"]!;

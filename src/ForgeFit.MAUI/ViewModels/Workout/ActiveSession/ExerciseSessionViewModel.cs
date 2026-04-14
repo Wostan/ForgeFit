@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Workout;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
@@ -55,7 +56,7 @@ public partial class ExerciseSessionViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            var defaultSet = new WorkoutSetDto(Guid.NewGuid(), 1, 10, TimeSpan.FromMinutes(1.5), 0, WeightUnit.Kg);
+            var defaultSet = new WorkoutSetDto(Guid.NewGuid(), 1, AppConstants.DefaultValues.DefaultReps, TimeSpan.FromMinutes(AppConstants.Time.DefaultRestTimeMinutes), 0, WeightUnit.Kg);
 
             var tempPlanDto = new WorkoutExercisePlanDto(Guid.NewGuid(), _programId, exerciseDto, [defaultSet]);
 
@@ -73,7 +74,7 @@ public partial class ExerciseSessionViewModel : ObservableObject
     [RelayCommand]
     private void AddSet(ActiveExerciseItem exercise)
     {
-        if (exercise.Sets.Count >= 20)
+        if (exercise.Sets.Count >= AppConstants.ValidationLimits.MaxSetsPerExercise)
         {
             _alertService.ShowToastAsync(_localizationManager["Error_MaxSetsReached"]);
             return;
@@ -85,8 +86,8 @@ public partial class ExerciseSessionViewModel : ObservableObject
         var newSet = new ActiveSetItem(new WorkoutSetDto(
                 Guid.NewGuid(),
                 newOrder,
-                lastSet?.Reps ?? 10,
-                lastSet?.RestTime ?? TimeSpan.FromMinutes(1.5),
+                lastSet?.Reps ?? AppConstants.DefaultValues.DefaultReps,
+                lastSet?.RestTime ?? TimeSpan.FromMinutes(AppConstants.Time.DefaultRestTimeMinutes),
                 lastSet?.Weight ?? 0,
                 lastSet?.WeightUnit ?? WeightUnit.Kg),
             _onSetCompleted,

@@ -3,6 +3,7 @@ using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.User;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
@@ -88,7 +89,7 @@ public partial class UserProfileViewModel(
             return;
         }
 
-        if (EditUsername.Length > 20)
+        if (EditUsername.Length > AppConstants.ValidationLimits.MaxUsernameLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_UsernameTooLong"]);
             return;
@@ -96,7 +97,7 @@ public partial class UserProfileViewModel(
 
         var age = DateTime.Today.Year - EditBirthDate.Year;
         if (EditBirthDate.Date > DateTime.Today.AddYears(-age)) age--;
-        if (age is < 13 or > 100)
+        if (age is < AppConstants.ValidationLimits.MinAgeYears or > AppConstants.ValidationLimits.MaxAgeYears)
         {
             await alertService.ShowToastAsync(localizationManager["Error_InvalidAge"]);
             return;
@@ -104,8 +105,8 @@ public partial class UserProfileViewModel(
 
         var wUnit = _currentUserProfile?.WeightUnit ?? WeightUnit.Kg;
         var isWeightValid = wUnit == WeightUnit.Kg
-            ? weight is >= 30 and <= 300
-            : weight is >= 66 and <= 660;
+            ? weight is >= AppConstants.ValidationLimits.MinWeightKg and <= AppConstants.ValidationLimits.MaxWeightKg
+            : weight is >= AppConstants.ValidationLimits.MinWeightLbs and <= AppConstants.ValidationLimits.MaxWeightLbs;
 
         if (!isWeightValid)
         {
@@ -115,8 +116,8 @@ public partial class UserProfileViewModel(
 
         var hUnit = _currentUserProfile?.HeightUnit ?? HeightUnit.Cm;
         var isHeightValid = hUnit == HeightUnit.Cm
-            ? height is >= 100 and <= 250
-            : height is >= 40 and <= 98;
+            ? height is >= AppConstants.ValidationLimits.MinHeightCm and <= AppConstants.ValidationLimits.MaxHeightCm
+            : height is >= AppConstants.ValidationLimits.MinHeightInches and <= AppConstants.ValidationLimits.MaxHeightInches;
 
         if (!isHeightValid)
         {

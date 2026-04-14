@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ForgeFit.MAUI.Constants;
 
 namespace ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch;
 
@@ -33,7 +34,7 @@ public partial class ExerciseSearchViewModel : ObservableObject
         {
             try
             {
-                await Task.Delay(800, token);
+                await Task.Delay(AppConstants.SearchConfig.DebounceDelayMs, token);
                 if (token.IsCancellationRequested) return;
 
                 MainThread.BeginInvokeOnMainThread(async void () => await PerformSearchAsync(value, token));
