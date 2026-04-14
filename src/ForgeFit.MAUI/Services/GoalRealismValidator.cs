@@ -1,4 +1,5 @@
-﻿using ForgeFit.MAUI.Models.Enums.GoalEnums;
+﻿using ForgeFit.MAUI.Constants;
+using ForgeFit.MAUI.Models.Enums.GoalEnums;
 using ForgeFit.MAUI.Models.Enums.ProfileEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using LocalizationResourceManager.Maui;
@@ -18,19 +19,19 @@ public class GoalRealismValidator(
         GoalType type,
         WeightUnit unit)
     {
-        var currentKg = unit == WeightUnit.Kg ? currentWeight : currentWeight * 0.453592;
-        var targetKg = unit == WeightUnit.Kg ? targetWeight : targetWeight * 0.453592;
+        var currentKg = unit == WeightUnit.Kg ? currentWeight : currentWeight * AppConstants.ConversionFactors.LbsToKg;
+        var targetKg = unit == WeightUnit.Kg ? targetWeight : targetWeight * AppConstants.ConversionFactors.LbsToKg;
 
         var targetBmi = bmiService.CalculateBmi(targetKg, heightCm);
 
         switch (type)
         {
-            case GoalType.FatLoss when targetBmi is > 0 and < 18.5:
+            case GoalType.FatLoss when targetBmi is > 0 and < AppConstants.BmiThresholds.UnderweightMax:
                 return (false, localizationManager["Error_TargetWeightTooLow"]);
             case GoalType.MuscleGain:
             case GoalType.WeightGain:
             {
-                if (targetBmi > 30.0)
+                if (targetBmi > AppConstants.BmiThresholds.OverweightMax)
                     return (false, localizationManager["Error_TargetWeightTooHigh"]);
                 break;
             }
@@ -41,7 +42,7 @@ public class GoalRealismValidator(
 
         var days = (dueDate.Value - DateTime.UtcNow).TotalDays;
 
-        if (days < 7) return (false, localizationManager["Error_DeadlineTooClose"]);
+        if (days < AppConstants.GoalValidation.MinDaysToDeadline) return (false, localizationManager["Error_DeadlineTooClose"]);
 
         var weeks = days / 7.0;
 
@@ -49,16 +50,16 @@ public class GoalRealismValidator(
 
         switch (type)
         {
-            case GoalType.FatLoss when ratePerWeek > 1.3:
+            case GoalType.FatLoss when ratePerWeek > AppConstants.GoalValidation.MaxFatLossKgPerWeek:
                 var msgFat = string.Format(localizationManager["Error_FatLossUnsafe"], ratePerWeek.ToString("F1"));
                 return (false, msgFat);
 
-            case GoalType.MuscleGain when ratePerWeek > 0.6:
+            case GoalType.MuscleGain when ratePerWeek > AppConstants.GoalValidation.MaxMuscleGainKgPerWeek:
                 var msgMuscle = string.Format(localizationManager["Error_MuscleGainUnrealistic"],
                     ratePerWeek.ToString("F1"));
                 return (false, msgMuscle);
 
-            case GoalType.WeightGain when ratePerWeek > 1.5:
+            case GoalType.WeightGain when ratePerWeek > AppConstants.GoalValidation.MaxWeightGainKgPerWeek:
                 var msgGain = string.Format(localizationManager["Error_WeightGainUnrealistic"],
                     ratePerWeek.ToString("F1"));
                 return (false, msgGain);
