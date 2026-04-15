@@ -48,11 +48,11 @@
                         <Label Text="{maui:Translate Workout_Description}"
                                Style="{StaticResource LabelH2}" />
 
-                        <Border Style="{StaticResource InputWrapper}" HeightRequest="100">
+                        <Border Style="{StaticResource InputWrapper}" MaximumHeightRequest="100">
                             <Editor Text="{Binding ProgramVM.ProgramDescription}"
                                     Placeholder="{maui:Translate Placeholder_EnterDescription}"
                                     MaxLength="{x:Static xaml:AppConstantsXaml.MaxWorkoutProgramDescriptionLength}"
-                                    HeightRequest="100" />
+                                    MaximumHeightRequest="100" />
                         </Border>
                     </VerticalStackLayout>
 

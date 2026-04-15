@@ -55,15 +55,15 @@
                 <Grid ColumnDefinitions="40, *, 0.75*, 0.75*" ColumnSpacing="8"
                       Padding="20,0">
                     <Label Grid.Column="0" Text="#" Style="{StaticResource LabelBody}"
-                           FontSize="12" HorizontalTextAlignment="Center" />
+                           FontSize="Small" HorizontalTextAlignment="Center" />
                     <Label Grid.Column="1" Text="{maui:Translate Workout_Rest}"
-                           Style="{StaticResource LabelBody}" FontSize="12"
+                           Style="{StaticResource LabelBody}" FontSize="Small"
                            HorizontalTextAlignment="Center" />
                     <Label Grid.Column="2" Text="{maui:Translate Workout_Kg}"
-                           Style="{StaticResource LabelBody}" FontSize="12"
+                           Style="{StaticResource LabelBody}" FontSize="Small"
                            HorizontalTextAlignment="Center" />
                     <Label Grid.Column="3" Text="{maui:Translate Workout_Reps}"
-                           Style="{StaticResource LabelBody}" FontSize="12"
+                           Style="{StaticResource LabelBody}" FontSize="Small"
                            HorizontalTextAlignment="Center" />
                 </Grid>
 

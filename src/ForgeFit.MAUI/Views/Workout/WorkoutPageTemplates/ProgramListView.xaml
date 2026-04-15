@@ -24,7 +24,7 @@
                             <SwipeItems>
                                 <SwipeItemView>
                                     <Border BackgroundColor="{StaticResource DangerColor}"
-                                            WidthRequest="90"
+                                            MaximumWidthRequest="90"
                                             Padding="10,0,0,0"
                                             VerticalOptions="Fill"
                                             Stroke="Transparent">

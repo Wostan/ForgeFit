@@ -20,8 +20,9 @@
                                  Opacity="0.5"
                                  IsVisible="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
                 <Image Source="search.svg"
-                       WidthRequest="100"
-                       HeightRequest="100">
+                       MaximumWidthRequest="100"
+                       MaximumHeightRequest="100"
+                       Aspect="AspectFit">
                     <Image.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
                     </Image.Behaviors>
@@ -37,11 +38,11 @@
         </CollectionView.ItemsLayout>
 
         <CollectionView.Header>
-            <BoxView HeightRequest="100" BackgroundColor="Transparent" />
+            <BoxView MaximumHeightRequest="100" BackgroundColor="Transparent" />
         </CollectionView.Header>
 
         <CollectionView.Footer>
-            <BoxView HeightRequest="80" BackgroundColor="Transparent" />
+            <BoxView MaximumHeightRequest="80" BackgroundColor="Transparent" />
         </CollectionView.Footer>
 
         <CollectionView.ItemTemplate>

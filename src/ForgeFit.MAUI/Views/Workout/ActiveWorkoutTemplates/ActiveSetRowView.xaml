@@ -21,7 +21,7 @@
             <SwipeItems>
                 <SwipeItemView>
                     <Grid BackgroundColor="{StaticResource DangerColor}"
-                          WidthRequest="60"
+                          MaximumWidthRequest="60"
                           VerticalOptions="Fill">
 
                         <Image Source="delete.svg"
@@ -59,7 +59,7 @@
             <Border Grid.Column="1"
                     Style="{StaticResource InputWrapper}">
                 <Entry x:Name="RestEntry"
-                       FontSize="16"
+                       FontSize="Medium"
                        HorizontalTextAlignment="Center"
                        Keyboard="Numeric"
                        Placeholder="mm:ss"
@@ -76,7 +76,7 @@
             <Border Grid.Column="2"
                     Style="{StaticResource InputWrapper}">
                 <Entry Text="{Binding Weight}"
-                       FontSize="16"
+                       FontSize="Medium"
                        Keyboard="Numeric"
                        HorizontalTextAlignment="Center"
                        TextColor="{StaticResource TextPrimary}">
@@ -92,7 +92,7 @@
             <Border Grid.Column="3"
                     Style="{StaticResource InputWrapper}">
                 <Entry Text="{Binding Reps}"
-                       FontSize="16"
+                       FontSize="Medium"
                        Keyboard="Numeric"
                        HorizontalTextAlignment="Center"
                        TextColor="{StaticResource TextPrimary}">

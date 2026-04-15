@@ -42,8 +42,9 @@
                     Margin="0,0,12,0">
                 <Grid>
                     <Image Source="workout.svg"
-                           WidthRequest="24"
-                           HeightRequest="24">
+                           MaximumWidthRequest="24"
+                           MaximumHeightRequest="24"
+                           Aspect="AspectFit">
                         <Image.Behaviors>
                             <toolkit:IconTintColorBehavior
                                 TintColor="{StaticResource TextSecondary}" />
@@ -62,21 +63,21 @@
                 <Label Text="{Binding Name, Converter={StaticResource TitleCaseConverter}}"
                        Style="{StaticResource LabelBody}"
                        TextColor="{StaticResource TextPrimary}"
-                       FontSize="14"
+                       FontSize="Medium"
                        LineBreakMode="TailTruncation"
                        LineHeight="1"
                        MaxLines="2" />
 
                 <Label Text="{Binding TargetMusclesDisplay}"
                        Style="{StaticResource LabelBody}"
-                       FontSize="12"
+                       FontSize="Small"
                        TextColor="{StaticResource TextSecondary}"
                        LineBreakMode="TailTruncation" />
             </VerticalStackLayout>
 
             <Grid Grid.Column="2"
-                  WidthRequest="50"
-                  HeightRequest="50"
+                  MaximumWidthRequest="50"
+                  MaximumHeightRequest="50"
                   VerticalOptions="Center">
 
                 <ImageButton
@@ -94,8 +95,8 @@
                 <ActivityIndicator IsRunning="{Binding IsBusy}"
                                    IsVisible="{Binding IsBusy}"
                                    Color="{StaticResource WorkoutColor}"
-                                   HeightRequest="24"
-                                   WidthRequest="24"
+                                   MaximumHeightRequest="24"
+                                   MaximumWidthRequest="24"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
             </Grid>

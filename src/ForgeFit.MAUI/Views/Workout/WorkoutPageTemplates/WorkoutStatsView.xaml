@@ -32,7 +32,7 @@
                         </Label.FormattedText>
                     </Label>
 
-                    <Label Text="🏋️‍♀️" FontSize="24"
+                    <Label Text="🏋️‍♀️" FontSize="Large"
                            VerticalOptions="Center" HorizontalOptions="End"
                            Shadow="{StaticResource WorkoutGlow}" />
                 </Grid>

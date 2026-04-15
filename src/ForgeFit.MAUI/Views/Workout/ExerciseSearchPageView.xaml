@@ -88,8 +88,8 @@
                                IsVisible="{Binding SearchVM.IsLoading}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"
-                               HeightRequest="50"
-                               WidthRequest="50"
+                               MaximumHeightRequest="50"
+                               MaximumWidthRequest="50"
                                ZIndex="5" />
 
             <templates:ExerciseSearchBarView />

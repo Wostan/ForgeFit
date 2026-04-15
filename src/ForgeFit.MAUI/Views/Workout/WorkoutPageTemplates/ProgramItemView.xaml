@@ -49,7 +49,7 @@
             <Label Grid.Row="1" Grid.ColumnSpan="2"
                    Text="{Binding Program.Description}"
                    Style="{StaticResource LabelBody}"
-                   FontSize="13"
+                   FontSize="Small"
                    MaxLines="3"
                    Margin="0,5"
                    LineBreakMode="WordWrap"
@@ -83,11 +83,11 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Style="{StaticResource LabelBody}"
-                                                  Text="{Binding WorkoutSets.Count}" FontSize="12" />
+                                                  Text="{Binding WorkoutSets.Count}" FontSize="Small" />
                                             <Span Style="{StaticResource LabelBody}" Text=" "
-                                                  FontSize="12" />
+                                                  FontSize="Small" />
                                             <Span Style="{StaticResource LabelBody}"
-                                                  Text="{maui:Translate Workout_Sets}" FontSize="12" />
+                                                  Text="{maui:Translate Workout_Sets}" FontSize="Small" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -101,11 +101,11 @@
                    IsVisible="{Binding HasMore}">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Style="{StaticResource LabelBody}" FontSize="12" Text="+ " />
-                        <Span Style="{StaticResource LabelBody}" FontSize="12"
+                        <Span Style="{StaticResource LabelBody}" FontSize="Small" Text="+ " />
+                        <Span Style="{StaticResource LabelBody}" FontSize="Small"
                               Text="{Binding RemainingCount}" />
-                        <Span Style="{StaticResource LabelBody}" FontSize="12" Text=" " />
-                        <Span Style="{StaticResource LabelBody}" FontSize="12"
+                        <Span Style="{StaticResource LabelBody}" FontSize="Small" Text=" " />
+                        <Span Style="{StaticResource LabelBody}" FontSize="Small"
                               Text="{maui:Translate Workout_More}" />
                     </FormattedString>
                 </Label.FormattedText>
@@ -117,7 +117,7 @@
                     BorderColor="{StaticResource WorkoutColor}"
                     Padding="8,4"
                     CornerRadius="8"
-                    FontSize="14"
+                    FontSize="Medium"
                     HorizontalOptions="End"
                     VerticalOptions="End"
                     MinimumHeightRequest="-1"
