@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -29,7 +29,7 @@
             <VerticalStackLayout>
                 <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Nutrient_Calories}"
-                       FontSize="12"
+                       FontSize="Small"
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}">
                     <Entry Text="{Binding EditCalories}"
@@ -47,7 +47,7 @@
                 <VerticalStackLayout Grid.Column="0">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Nutrient_Carbs}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}" Padding="5,0">
@@ -64,7 +64,7 @@
                 <VerticalStackLayout Grid.Column="1">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Nutrient_Protein}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}" Padding="5,0">
@@ -81,7 +81,7 @@
                 <VerticalStackLayout Grid.Column="2">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Nutrient_Fat}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}" Padding="5,0">
@@ -100,7 +100,7 @@
             <VerticalStackLayout>
                 <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Nutrient_Water}"
-                       FontSize="12"
+                       FontSize="Small"
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}">
                     <Entry Text="{Binding EditWater}"
