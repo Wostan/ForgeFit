@@ -13,7 +13,7 @@
         <Style x:Key="WeightEntryStyle" TargetType="Entry">
             <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="FontSize" Value="34" />
+            <Setter Property="FontSize" Value="Title" />
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="Keyboard" Value="Numeric" />
             <Setter Property="ReturnType" Value="Done" />

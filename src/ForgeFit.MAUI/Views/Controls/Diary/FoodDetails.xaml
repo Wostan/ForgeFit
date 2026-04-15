@@ -65,7 +65,7 @@
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Kcal}"
                            Style="{StaticResource LabelBody}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
@@ -80,7 +80,7 @@
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Carbs}"
                            Style="{StaticResource LabelBody}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
@@ -95,7 +95,7 @@
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Protein}"
                            Style="{StaticResource LabelBody}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
@@ -110,7 +110,7 @@
                            HorizontalOptions="Center" />
                     <Label Text="{maui:Translate Nutrient_Fat}"
                            Style="{StaticResource LabelBody}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextTransform="Uppercase"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>

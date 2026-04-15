@@ -22,8 +22,9 @@
                                          Opacity="0.5"
                                          IsVisible="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
                         <Image Source="search.svg"
-                               WidthRequest="100"
-                               HeightRequest="100">
+                               MaximumWidthRequest="100"
+                               MaximumHeightRequest="100"
+                               Aspect="AspectFit">
                             <Image.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
                             </Image.Behaviors>
@@ -57,8 +58,8 @@
                                IsVisible="{Binding SearchVM.IsLoading}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"
-                               HeightRequest="50"
-                               WidthRequest="50"
+                               MaximumHeightRequest="50"
+                               MaximumWidthRequest="50"
                                ZIndex="5" />
         </Grid>
     </ContentView.Content>

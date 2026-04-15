@@ -61,7 +61,7 @@
                                     <SwipeItems>
                                         <SwipeItemView>
                                             <Grid ColumnDefinitions="*,*"
-                                                  WidthRequest="120"
+                                                  MaximumWidthRequest="120"
                                                   VerticalOptions="Fill">
 
                                                 <Grid Grid.Column="0"

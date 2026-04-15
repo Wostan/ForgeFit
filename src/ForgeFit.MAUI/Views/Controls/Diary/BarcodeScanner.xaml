@@ -23,7 +23,7 @@
             Margin="20"
             StrokeThickness="3">
 
-        <Grid RowDefinitions="Auto, 175" BackgroundColor="{StaticResource Surface}">
+        <Grid RowDefinitions="Auto, Auto" BackgroundColor="{StaticResource Surface}">
 
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer />
@@ -52,8 +52,9 @@
                    Source="frame.svg"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
-                   WidthRequest="200"
-                   HeightRequest="200"
+                   MaximumWidthRequest="200"
+                   MaximumHeightRequest="200"
+                   Aspect="AspectFit"
                    Opacity="0.75"
                    InputTransparent="True">
                 <Image.Behaviors>
@@ -65,8 +66,9 @@
                    Source="barcode.svg"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
-                   WidthRequest="120"
-                   HeightRequest="120"
+                   MaximumWidthRequest="120"
+                   MaximumHeightRequest="120"
+                   Aspect="AspectFit"
                    Opacity="0.5"
                    InputTransparent="True">
                 <Image.Behaviors>

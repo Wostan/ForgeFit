@@ -39,7 +39,7 @@
                 <Label Text="{Binding Label}"
                        Style="{StaticResource LabelBody}"
                        TextColor="{StaticResource TextPrimary}"
-                       FontSize="14"
+                       FontSize="Medium"
                        LineBreakMode="TailTruncation"
                        HorizontalOptions="Start"
                        Margin="0,-5,0,0"
@@ -52,7 +52,7 @@
                     <Label Text="{Binding BrandName}"
                            Style="{StaticResource LabelBody}"
                            VerticalOptions="End"
-                           FontSize="12"
+                           FontSize="Small"
                            FlexLayout.Shrink="1"
                            LineBreakMode="TailTruncation"
                            IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
@@ -69,7 +69,7 @@
                             <FormattedString>
                                 <Span Text="{Binding ServingUnit}"
                                       Style="{StaticResource LabelBody}"
-                                      FontSize="12" />
+                                      FontSize="Small" />
 
                                 <Span Text=" • "
                                       Style="{StaticResource LabelBody}" />
@@ -77,21 +77,21 @@
                                 <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
                                       Style="{StaticResource LabelBody}"
                                       TextColor="{StaticResource CarbsColor}"
-                                      FontSize="12" />
+                                      FontSize="Small" />
                                 <Span Text=" / "
                                       Style="{StaticResource LabelBody}"
-                                      FontSize="10" />
+                                      FontSize="Caption" />
                                 <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
                                       Style="{StaticResource LabelBody}"
                                       TextColor="{StaticResource ProteinColor}"
-                                      FontSize="12" />
+                                      FontSize="Small" />
                                 <Span Text=" / "
                                       Style="{StaticResource LabelBody}"
-                                      FontSize="10" />
+                                      FontSize="Caption" />
                                 <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
                                       Style="{StaticResource LabelBody}"
                                       TextColor="{StaticResource FatColor}"
-                                      FontSize="12" />
+                                      FontSize="Small" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -106,21 +106,21 @@
                         <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
                               Style="{StaticResource LabelBody}"
                               TextColor="{StaticResource TextPrimary}"
-                              FontSize="16" />
+                              FontSize="Medium" />
                         <Span Text=" "
                               Style="{StaticResource LabelBody}"
-                              FontSize="12" />
+                              FontSize="Small" />
                         <Span Text="{maui:Translate Nutrient_Kcal}"
                               Style="{StaticResource LabelBody}"
-                              FontSize="12"
+                              FontSize="Small"
                               TextColor="{StaticResource TextSecondary}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
 
             <Grid Grid.Column="2"
-                  WidthRequest="50"
-                  HeightRequest="50">
+                  MaximumWidthRequest="50"
+                  MaximumHeightRequest="50">
 
                 <ImageButton
                     Command="{Binding Source={RelativeSource AncestorType={x:Type templates:FoodSearchResultsView}}, Path=BindingContext.SearchVM.ToggleItemCommand}"
@@ -137,8 +137,8 @@
                 <ActivityIndicator IsRunning="{Binding IsAdding}"
                                    IsVisible="{Binding IsAdding}"
                                    Color="{StaticResource Primary}"
-                                   HeightRequest="24"
-                                   WidthRequest="24"
+                                   MaximumHeightRequest="24"
+                                   MaximumWidthRequest="24"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
             </Grid>

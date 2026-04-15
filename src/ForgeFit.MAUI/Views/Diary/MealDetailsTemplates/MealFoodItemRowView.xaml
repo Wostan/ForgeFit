@@ -13,7 +13,7 @@
         <VerticalStackLayout Grid.Column="0" Spacing="-4">
             <Label Text="{Binding Label}"
                    Style="{StaticResource LabelBody}"
-                   FontSize="14"
+                   FontSize="Medium"
                    LineBreakMode="TailTruncation"
                    TextColor="{StaticResource TextPrimary}" />
 
@@ -22,33 +22,33 @@
                     <FormattedString>
                         <Span Text="{Binding Amount}"
                               Style="{StaticResource LabelBody}"
-                              FontSize="14" />
+                              FontSize="Medium" />
                         <Span Text=" " />
                         <Span Text="{Binding ServingUnit}"
                               Style="{StaticResource LabelBody}"
-                              FontSize="12" />
+                              FontSize="Small" />
                         <Span Text="  •  "
                               Style="{StaticResource LabelBody}" />
 
                         <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
                               Style="{StaticResource LabelBody}"
                               TextColor="{StaticResource CarbsColor}"
-                              FontSize="14" />
+                              FontSize="Medium" />
                         <Span Text=" / "
                               Style="{StaticResource LabelBody}"
-                              FontSize="12" />
+                              FontSize="Small" />
                         <Span
                             Text="{Binding Protein, StringFormat='{0:F0}'}"
                             Style="{StaticResource LabelBody}"
                             TextColor="{StaticResource ProteinColor}"
-                            FontSize="14" />
+                            FontSize="Medium" />
                         <Span Text=" / "
                               Style="{StaticResource LabelBody}"
-                              FontSize="12" />
+                              FontSize="Small" />
                         <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
                               Style="{StaticResource LabelBody}"
                               TextColor="{StaticResource FatColor}"
-                              FontSize="14" />
+                              FontSize="Medium" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -62,13 +62,13 @@
                     <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
                           Style="{StaticResource LabelBody}"
                           TextColor="{StaticResource TextPrimary}"
-                          FontSize="14" />
+                          FontSize="Medium" />
                     <Span Text=" "
                           Style="{StaticResource LabelBody}"
-                          FontSize="12" />
+                          FontSize="Small" />
                     <Span Text="{maui:Translate Nutrient_Kcal}"
                           Style="{StaticResource LabelBody}"
-                          FontSize="12" />
+                          FontSize="Small" />
                 </FormattedString>
             </Label.FormattedText>
         </Label>

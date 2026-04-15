@@ -24,7 +24,7 @@
 
                 <Grid Grid.Row="0" Grid.Column="0">
                     <controls:ViewBox Stretch="Uniform">
-                        <Grid WidthRequest="100" HeightRequest="100">
+                        <Grid MaximumWidthRequest="100" MaximumHeightRequest="100">
 
                             <progressRing:ProgressRing Progress="{Binding NutritionVM.CarbsProgress}"
                                                        WidthRequest="100"
@@ -37,19 +37,19 @@
                                                  Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Carbs}"
                                        Style="{StaticResource LabelBody}"
-                                       FontSize="10"
+                                       FontSize="Caption"
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
                                 <Label Text="{Binding NutritionVM.CurrentCarbs, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
-                                       FontSize="18"
+                                       FontSize="Medium"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
                                 <Label Text="{Binding NutritionVM.TargetCarbsDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
-                                       FontSize="12"
+                                       FontSize="Small"
                                        HorizontalOptions="Center" />
                             </VerticalStackLayout>
                         </Grid>
@@ -58,7 +58,7 @@
 
                 <Grid Grid.Row="0" Grid.Column="1">
                     <controls:ViewBox>
-                        <Grid WidthRequest="100" HeightRequest="100">
+                        <Grid MaximumWidthRequest="100" MaximumHeightRequest="100">
                             <progressRing:ProgressRing Progress="{Binding NutritionVM.ProteinProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
@@ -70,19 +70,19 @@
                                                  Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Protein}"
                                        Style="{StaticResource LabelBody}"
-                                       FontSize="10"
+                                       FontSize="Caption"
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
                                 <Label Text="{Binding NutritionVM.CurrentProtein, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
-                                       FontSize="18"
+                                       FontSize="Medium"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
                                 <Label Text="{Binding NutritionVM.TargetProteinDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
-                                       FontSize="12"
+                                       FontSize="Small"
                                        HorizontalOptions="Center" />
                             </VerticalStackLayout>
                         </Grid>
@@ -91,7 +91,7 @@
 
                 <Grid Grid.Row="0" Grid.Column="2">
                     <controls:ViewBox>
-                        <Grid WidthRequest="100" HeightRequest="100">
+                        <Grid MaximumWidthRequest="100" MaximumHeightRequest="100">
                             <progressRing:ProgressRing Progress="{Binding NutritionVM.FatProgress}"
                                                        WidthRequest="100"
                                                        HeightRequest="100"
@@ -103,19 +103,19 @@
                                                  Spacing="-4">
                                 <Label Text="{maui:Translate Nutrient_Fat}"
                                        Style="{StaticResource LabelBody}"
-                                       FontSize="10"
+                                       FontSize="Caption"
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
                                 <Label Text="{Binding NutritionVM.CurrentFat, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelH2}"
-                                       FontSize="18"
+                                       FontSize="Medium"
                                        Margin="0"
                                        HorizontalOptions="Center" />
 
                                 <Label Text="{Binding NutritionVM.TargetFatDisplay, StringFormat='{0:F0} g'}"
                                        Style="{StaticResource LabelBody}"
-                                       FontSize="12"
+                                       FontSize="Small"
                                        HorizontalOptions="Center" />
                             </VerticalStackLayout>
                         </Grid>
@@ -137,13 +137,13 @@
                                           Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding NutritionVM.TargetCaloriesDisplay, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Nutrient_Kcal}"
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -174,13 +174,13 @@
                                           Style="{StaticResource LabelBody}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding WaterVM.TargetWaterDisplay}"
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                     <Span Text=" "
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Hydration_Ml}"
-                                          Style="{StaticResource LabelBody}" FontSize="14" />
+                                          Style="{StaticResource LabelBody}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

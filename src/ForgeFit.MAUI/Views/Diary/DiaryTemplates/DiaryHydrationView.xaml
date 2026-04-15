@@ -36,7 +36,7 @@
                             </Label.FormattedText>
                         </Label>
 
-                        <Label Text="💧" FontSize="24"
+                        <Label Text="💧" FontSize="Subtitle"
                                VerticalOptions="Center" HorizontalOptions="End"
                                Shadow="{StaticResource WaterGlow}" />
                     </Grid>
@@ -54,7 +54,7 @@
                 </VerticalStackLayout>
 
                 <Border Grid.Row="1" Style="{StaticResource CardStyle}"
-                        HeightRequest="150"
+                        MaximumHeightRequest="150"
                         Padding="0">
                     <CollectionView ItemsSource="{Binding WaterVM.WaterEntries}">
                         <CollectionView.EmptyView>
@@ -70,7 +70,6 @@
                                     <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
                                            Style="{StaticResource LabelBody}"
                                            Margin="10,0"
-                                           FontSize="14"
                                            VerticalOptions="Center" />
 
                                     <Image Grid.Column="1" Source="water.svg" VerticalOptions="Center">
