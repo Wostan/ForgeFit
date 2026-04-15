@@ -38,7 +38,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource Primary}"
                                    Shadow="{StaticResource PrimaryGlow}"
                                    Margin="0"
@@ -57,7 +57,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalVolumeMl}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource WaterColor}"
                                    Shadow="{StaticResource WaterGlow}"
                                    Margin="0"
@@ -78,7 +78,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalCarbs}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource CarbsColor}"
                                    Shadow="{StaticResource CarbsGlow}"
                                    Margin="0"
@@ -97,7 +97,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalProtein}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource ProteinColor}"
                                    Shadow="{StaticResource ProteinGlow}"
                                    Margin="0"
@@ -116,7 +116,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalFat}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource FatColor}"
                                    Shadow="{StaticResource FatGlow}"
                                    Margin="0"

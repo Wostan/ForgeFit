@@ -71,7 +71,7 @@
                     <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                         <Label Grid.Row="0"
                                Text="{Binding BodyGoalVM.BodyGoalEmoji}"
-                               FontSize="32"
+                               FontSize="Large"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />
 
@@ -92,7 +92,7 @@
                     <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                         <Label Grid.Row="0"
                                Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
-                               FontSize="32"
+                               FontSize="Large"
                                Margin="0"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />
@@ -111,7 +111,7 @@
                     <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                         <Label Grid.Row="0"
                                Text="{Binding BodyGoalVM.BodyGoalWeight}"
-                               FontSize="32"
+                               FontSize="Large"
                                Margin="0"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />

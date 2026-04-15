@@ -39,7 +39,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding WorkoutGoalVM.WorkoutGoalPerWeek}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource WorkoutColor}"
                                    Shadow="{StaticResource WorkoutGlow}"
                                    Margin="0"
@@ -61,7 +61,7 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding WorkoutGoalVM.WorkoutGoalDurationMinutes}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource WorkoutColor}"
                                    Shadow="{StaticResource WorkoutGlow}"
                                    Margin="0"
@@ -87,7 +87,7 @@
                         <controls:ViewBox Grid.Row="0" Stretch="Uniform" HorizontalOptions="Center"
                                           VerticalOptions="Center">
                             <Label Text="{Binding WorkoutGoalVM.WorkoutGoalType}"
-                                   FontSize="32"
+                                   FontSize="Large"
                                    TextColor="{StaticResource WorkoutColor}"
                                    Shadow="{StaticResource WorkoutGlow}"
                                    FontAttributes="Bold"

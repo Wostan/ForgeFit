@@ -77,8 +77,8 @@
                   VerticalOptions="Fill"
                   InputTransparent="False">
                 <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                   HeightRequest="60"
-                                   WidthRequest="60"
+                                   MaximumHeightRequest="60"
+                                   MaximumWidthRequest="60"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
             </Grid>
