@@ -57,7 +57,7 @@
         <Grid ColumnDefinitions="Auto, *"
               ColumnSpacing="15"
               VerticalOptions="End"
-              Margin="20"
+              Padding="20"
               behaviors:GridSlideBehavior.IsVisibleAnimated="{Binding NavigationVM.IsMainNavigationVisible}">
 
             <Button Grid.Column="0"
@@ -73,7 +73,7 @@
                     Command="{Binding NextStepCommand}" />
         </Grid>
 
-        <ProgressBar HeightRequest="4"
+        <ProgressBar MinimumHeightRequest="4"
                      VerticalOptions="End"
                      IsVisible="{Binding NavigationVM.CurrentPosition, Converter={toolkit:IntToBoolConverter}}">
             <ProgressBar.Behaviors>

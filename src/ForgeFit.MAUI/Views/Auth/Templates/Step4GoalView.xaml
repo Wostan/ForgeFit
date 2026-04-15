@@ -12,16 +12,20 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <Grid RowDefinitions="Auto, *, Auto"
-          Padding="30,50,30,130"
           x:DataType="registration:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
+        <Grid.Padding>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="30,70,30,150" />
+                <On Platform="Android" Value="30,50,30,130" />
+            </OnPlatform>
+        </Grid.Padding>
 
         <VerticalStackLayout Grid.Row="0"
                              Spacing="20"
                              Margin="0, 50, 0, 0">
             <Label Text="{maui:Translate Reg_Title_Goal}"
                    Style="{StaticResource LabelH1}"
-                   FontSize="32"
                    HorizontalTextAlignment="Center" />
 
             <Label Text="{maui:Translate Reg_GoalDisclaimer}"
@@ -45,12 +49,10 @@
                                 <FormattedString>
                                     <Span Text="{Binding GoalVM.TargetWeight, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
-                                          Style="{StaticResource LabelH1}"
-                                          FontSize="36" />
+                                          Style="{StaticResource LabelH1}" />
                                     <Span Text=" " Style="{StaticResource LabelH1}" />
                                     <Span Text="{maui:Translate Weight_Kg}"
-                                          Style="{StaticResource LabelBody}"
-                                          FontSize="20" />
+                                          Style="{StaticResource LabelBody}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -87,7 +89,7 @@
                                    Text="{Binding GoalVM.DaysLeftText}"
                                    Style="{StaticResource LabelBody}"
                                    TextColor="{StaticResource Primary}"
-                                   FontSize="12"
+                                   FontSize="Caption"
                                    VerticalOptions="Center"
                                    HorizontalOptions="End" />
                         </Grid>
@@ -96,7 +98,7 @@
                                     Date="{Binding GoalVM.GoalDueDate}"
                                     MinimumDate="{Binding GoalVM.MinGoalDate}"
                                     Format="dd MMM yyyy"
-                                    FontSize="42"
+                                    FontSize="Title"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center" />
                     </Grid>

@@ -12,17 +12,21 @@
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step2PersonalView">
 
     <Grid RowDefinitions="Auto, *, Auto"
-          Padding="30,50,30,150"
           x:Name="RootGrid"
           x:DataType="registration:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
+        <Grid.Padding>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="30,70,30,170" />
+                <On Platform="Android" Value="30,50,30,150" />
+            </OnPlatform>
+        </Grid.Padding>
 
         <VerticalStackLayout Grid.Row="0"
                              Spacing="20"
                              Margin="0, 80, 0, 0">
             <Label Text="{maui:Translate Reg_Title_Personal}"
                    Style="{StaticResource LabelH1}"
-                   FontSize="32"
                    HorizontalTextAlignment="Center" />
 
             <Label Text="{maui:Translate Reg_Subtitle_Personal}"
@@ -35,7 +39,7 @@
                Text="{Binding PersonalVM.Username}"
                Placeholder="{maui:Translate Reg_UsernamePlaceholder}"
                behaviors:EntryAnimationBehavior.IsError="{Binding PersonalVM.IsUsernameError}"
-               FontSize="36"
+               FontSize="Large"
                MaxLength="{x:Static xaml:AppConstantsXaml.MaxUsernameLength}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
@@ -65,7 +69,6 @@
                         <RadioButton Grid.Column="0"
                                      GroupName="GenderGroup"
                                      Content="{maui:Translate Gender_Male}"
-                                     FontSize="16"
                                      FontAttributes="Bold"
                                      Value="{x:Static enums:Gender.Male}"
                                      Margin="15,0,0,0" />
@@ -73,7 +76,6 @@
                         <RadioButton Grid.Column="1"
                                      GroupName="GenderGroup"
                                      Content="{maui:Translate Gender_Female}"
-                                     FontSize="16"
                                      FontAttributes="Bold"
                                      Value="{x:Static enums:Gender.Female}"
                                      Margin="15,0,0,0" />
