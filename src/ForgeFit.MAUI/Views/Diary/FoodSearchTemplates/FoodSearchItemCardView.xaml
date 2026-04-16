@@ -30,77 +30,43 @@
 
         <Grid ColumnDefinitions="*, Auto, 50"
               RowDefinitions="Auto, Auto"
-              Padding="16, 0, 0, 0">
+              RowSpacing="-4"
+              Padding="16, 8, 0, 8">
+            
+            <Label Grid.Column="0" Grid.Row="0"
+                   Text="{Binding Label}"
+                   Style="{StaticResource LabelH2}"
+                   Margin="0,0,16,0"
+                   LineBreakMode="TailTruncation"
+                   HorizontalOptions="Start"
+                   Shadow="{StaticResource TextShadow}" />
 
-            <VerticalStackLayout Grid.Column="0"
-                                 VerticalOptions="Center"
-                                 Margin="0,0,16,0">
+            <FlexLayout Grid.Column="0" Grid.Row="1"
+                        Margin="0,0,16,0"
+                        Wrap="NoWrap"
+                        AlignItems="Center"
+                        JustifyContent="Start">
 
-                <Label Text="{Binding Label}"
+                <Label Text="{Binding BrandName}"
                        Style="{StaticResource LabelBody}"
-                       TextColor="{StaticResource TextPrimary}"
-                       FontSize="Medium"
+                       VerticalOptions="End"
+                       FlexLayout.Shrink="1"
                        LineBreakMode="TailTruncation"
-                       HorizontalOptions="Start"
-                       Margin="0,-5,0,0"
-                       Shadow="{StaticResource TextShadow}" />
+                       IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
 
-                <FlexLayout Wrap="NoWrap"
-                            AlignItems="Center"
-                            JustifyContent="Start">
+                <Label Text=" • "
+                       Style="{StaticResource LabelBody}"
+                       FlexLayout.Shrink="0"
+                       IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
 
-                    <Label Text="{Binding BrandName}"
-                           Style="{StaticResource LabelBody}"
-                           VerticalOptions="End"
-                           FontSize="Small"
-                           FlexLayout.Shrink="1"
-                           LineBreakMode="TailTruncation"
-                           IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
-
-                    <Label Text=" • "
-                           Style="{StaticResource LabelBody}"
-                           FlexLayout.Shrink="0"
-                           IsVisible="{Binding BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
-
-                    <Label Style="{StaticResource LabelBody}"
-                           LineBreakMode="NoWrap"
-                           FlexLayout.Shrink="0">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="{Binding ServingUnit}"
-                                      Style="{StaticResource LabelBody}"
-                                      FontSize="Small" />
-
-                                <Span Text=" • "
-                                      Style="{StaticResource LabelBody}" />
-
-                                <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
-                                      Style="{StaticResource LabelBody}"
-                                      TextColor="{StaticResource CarbsColor}"
-                                      FontSize="Small" />
-                                <Span Text=" / "
-                                      Style="{StaticResource LabelBody}"
-                                      FontSize="Caption" />
-                                <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
-                                      Style="{StaticResource LabelBody}"
-                                      TextColor="{StaticResource ProteinColor}"
-                                      FontSize="Small" />
-                                <Span Text=" / "
-                                      Style="{StaticResource LabelBody}"
-                                      FontSize="Caption" />
-                                <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
-                                      Style="{StaticResource LabelBody}"
-                                      TextColor="{StaticResource FatColor}"
-                                      FontSize="Small" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                </FlexLayout>
-            </VerticalStackLayout>
-
-            <Label Grid.Column="1" Grid.RowSpan="2"
-                   VerticalOptions="Center"
-                   HorizontalTextAlignment="End">
+                <Label Style="{StaticResource LabelBody}"
+                       Text="{Binding ServingUnit}"
+                       LineBreakMode="NoWrap"
+                       FlexLayout.Shrink="0">
+                </Label>
+            </FlexLayout>
+            
+            <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
@@ -117,8 +83,33 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+                
+            <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center">
+                 <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
+                              Style="{StaticResource LabelBody}"
+                              TextColor="{StaticResource CarbsColor}"
+                              FontSize="Small" />
+                        <Span Text=" / "
+                              Style="{StaticResource LabelBody}"
+                              FontSize="Caption" />
+                        <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
+                              Style="{StaticResource LabelBody}"
+                              TextColor="{StaticResource ProteinColor}"
+                              FontSize="Small" />
+                        <Span Text=" / "
+                              Style="{StaticResource LabelBody}"
+                              FontSize="Caption" />
+                        <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
+                              Style="{StaticResource LabelBody}"
+                              TextColor="{StaticResource FatColor}"
+                              FontSize="Small" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
 
-            <Grid Grid.Column="2"
+            <Grid Grid.Column="2" Grid.RowSpan="2"
                   MaximumWidthRequest="50"
                   MaximumHeightRequest="50">
 
