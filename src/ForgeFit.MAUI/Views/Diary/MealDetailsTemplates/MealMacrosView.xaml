@@ -10,7 +10,7 @@
     <VerticalStackLayout Spacing="20">
 
         <Label Text="{Binding MealEmoji}"
-               FontSize="Header"
+               FontSize="60"
                HorizontalOptions="Center" />
 
         <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
@@ -20,6 +20,8 @@
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
                        FontSize="Small"
+                       MaximumWidthRequest="100"
+                       LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 
@@ -65,6 +67,8 @@
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
                        FontSize="Small"
+                       MaximumWidthRequest="100"
+                       LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 
@@ -97,6 +101,8 @@
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
                        FontSize="Small"
+                       MaximumWidthRequest="100"
+                       LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 
@@ -129,6 +135,8 @@
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
                        FontSize="Small"
+                       MaximumWidthRequest="100"
+                       LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 

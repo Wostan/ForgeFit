@@ -12,7 +12,7 @@
     <Grid RowDefinitions="Auto, *">
 
         <Label Grid.Row="0"
-               Style="{StaticResource LabelBody}"
+               Style="{StaticResource LabelH2}"
                Text="{maui:Translate Details_FoodProducts}"
                TextColor="{StaticResource TextSecondary}" />
 
