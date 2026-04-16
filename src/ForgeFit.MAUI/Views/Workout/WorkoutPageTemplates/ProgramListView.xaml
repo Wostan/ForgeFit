@@ -12,7 +12,8 @@
 
     <VerticalStackLayout Spacing="6">
         <Label Text="{maui:Translate Workout_MyPrograms_Title}"
-               Style="{StaticResource LabelH2}" />
+               Style="{StaticResource LabelH1}"
+               TextColor="{StaticResource TextSecondary}"/>
 
         <VerticalStackLayout BindableLayout.ItemsSource="{Binding ProgramManagerVM.Programs}"
                              Spacing="8">
@@ -24,7 +25,7 @@
                             <SwipeItems>
                                 <SwipeItemView>
                                     <Border BackgroundColor="{StaticResource DangerColor}"
-                                            MaximumWidthRequest="90"
+                                            WidthRequest="90"
                                             Padding="10,0,0,0"
                                             VerticalOptions="Fill"
                                             Stroke="Transparent">

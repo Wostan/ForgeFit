@@ -30,7 +30,8 @@
 
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="{maui:Translate Workout_CreateProgram}"
-                                       Style="{StaticResource LabelH2}" />
+                                       Style="{StaticResource LabelH1}"
+                                       TextColor="{StaticResource TextSecondary}"/>
 
                                 <Button Text="{maui:Translate Workout_CreateProgram}"
                                         ImageSource="workout.svg"
