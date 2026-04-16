@@ -34,6 +34,21 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+        
+        Microsoft.Maui.Handlers.ButtonHandler.Mapper.AppendToMapping("AutoSizeText", (handler, view) =>
+        {
+#if ANDROID
+            AndroidX.Core.Widget.TextViewCompat.SetAutoSizeTextTypeWithDefaults(
+                handler.PlatformView, 
+                AndroidX.Core.Widget.TextViewCompat.AutoSizeTextTypeUniform);
+#elif IOS
+        if (handler.PlatformView.TitleLabel != null)
+        {
+            handler.PlatformView.TitleLabel.AdjustsFontSizeToFitWidth = true;
+            handler.PlatformView.TitleLabel.MinimumScaleFactor = 0.5f; 
+        }
+#endif
+        });
 
         return builder.Build();
     }
