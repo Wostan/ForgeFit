@@ -11,7 +11,7 @@
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryMealsView">
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBody}"
+        <Label Style="{StaticResource LabelH1}"
                Text="{maui:Translate Diary_Meals}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -27,13 +27,13 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Breakfast}"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding MealVM.Breakfast.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBody}"
+                                          Style="{StaticResource LabelH2}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" />
@@ -72,13 +72,13 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Lunch}"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding MealVM.Lunch.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBody}"
+                                          Style="{StaticResource LabelH2}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" />
@@ -117,13 +117,13 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Dinner}"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding MealVM.Dinner.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBody}"
+                                          Style="{StaticResource LabelH2}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" />
@@ -162,13 +162,13 @@
 
                     <VerticalStackLayout Grid.Column="1">
                         <Label Text="{maui:Translate Meal_Snack}"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label>
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding MealVM.Snack.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBody}"
+                                          Style="{StaticResource LabelH2}"
                                           TextColor="{StaticResource TextPrimary}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" />

@@ -13,7 +13,7 @@
         <Style x:Key="WeightEntryStyle" TargetType="Entry">
             <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="FontSize" Value="Title" />
+            <Setter Property="FontSize" Value="32" />
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="Keyboard" Value="Numeric" />
             <Setter Property="ReturnType" Value="Done" />
@@ -25,7 +25,7 @@
     </ContentView.Resources>
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBody}"
+        <Label Style="{StaticResource LabelH1}"
                Text="{maui:Translate Diary_Weight}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -41,8 +41,8 @@
                                 <FormattedString>
                                     <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}" />
                                     <Span Text=": " Style="{StaticResource LabelBody}" />
-                                    <Span Text="{Binding WeightVM.TargetWeightDisplay}" Style="{StaticResource LabelBody}"
-                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text="{Binding WeightVM.TargetWeightDisplay}" 
+                                          Style="{StaticResource LabelH2}" />
                                     <Span Text=" " Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}" />
                                 </FormattedString>
@@ -57,7 +57,7 @@
                                     <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}" />
                                     <Span Text=": " Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding WeightVM.WeightLeft, StringFormat='{0:F1}'}"
-                                          Style="{StaticResource LabelBody}"
+                                          Style="{StaticResource LabelH2}"
                                           TextColor="{StaticResource WeightColor}" />
                                     <Span Text=" " Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"

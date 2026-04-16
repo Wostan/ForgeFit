@@ -12,7 +12,7 @@
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryHydrationView">
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBody}"
+        <Label Style="{StaticResource LabelH1}"
                Text="{maui:Translate Diary_Hydration}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -59,7 +59,8 @@
                     <CollectionView ItemsSource="{Binding WaterVM.WaterEntries}">
                         <CollectionView.EmptyView>
                             <Label Text="{maui:Translate Hydration_Empty}"
-                                   Style="{StaticResource LabelBody}"
+                                   Style="{StaticResource LabelH2}"
+                                   TextColor="{StaticResource TextSecondary}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
                         </CollectionView.EmptyView>

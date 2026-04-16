@@ -11,7 +11,7 @@
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiarySummaryView">
     <VerticalStackLayout Spacing="4">
 
-        <Label Style="{StaticResource LabelBody}"
+        <Label Style="{StaticResource LabelH1}"
                Text="{maui:Translate Diary_Summary}"
                TextColor="{StaticResource TextSecondary}" />
 
@@ -38,6 +38,8 @@
                                 <Label Text="{maui:Translate Nutrient_Carbs}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="Caption"
+                                       MaximumWidthRequest="60"
+                                       LineBreakMode="TailTruncation"
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
@@ -71,6 +73,7 @@
                                 <Label Text="{maui:Translate Nutrient_Protein}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="Caption"
+                                       MaximumWidthRequest="60"
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
@@ -104,6 +107,7 @@
                                 <Label Text="{maui:Translate Nutrient_Fat}"
                                        Style="{StaticResource LabelBody}"
                                        FontSize="Caption"
+                                       MaximumWidthRequest="60"
                                        TextTransform="Uppercase"
                                        HorizontalOptions="Center" />
 
@@ -125,17 +129,17 @@
                 <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3">
                     <Grid ColumnDefinitions="*, Auto">
                         <Label Text="{maui:Translate Nutrient_Calories}"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
+                               TextColor="{StaticResource TextSecondary}"
                                TextTransform="Uppercase" />
 
-                        <Label Style="{StaticResource LabelBody}"
+                        <Label Style="{StaticResource LabelH2}"
                                VerticalOptions="Center"
                                HorizontalTextAlignment="End">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding NutritionVM.CurrentCalories, StringFormat='{0:F0}'}"
-                                          Style="{StaticResource LabelBody}"
-                                          TextColor="{StaticResource TextPrimary}" />
+                                          Style="{StaticResource LabelH2}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding NutritionVM.TargetCaloriesDisplay, StringFormat='{0:F0}'}"
@@ -162,7 +166,8 @@
                 <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="3">
                     <Grid ColumnDefinitions="*, Auto">
                         <Label Text="{maui:Translate Nutrient_Water}"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
+                               TextColor="{StaticResource TextSecondary}"
                                TextTransform="Uppercase" />
 
                         <Label Style="{StaticResource LabelBody}"
@@ -171,8 +176,7 @@
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding WaterVM.CurrentWater}"
-                                          Style="{StaticResource LabelBody}"
-                                          TextColor="{StaticResource TextPrimary}" />
+                                          Style="{StaticResource LabelH2}" />
                                     <Span Text=" / "
                                           Style="{StaticResource LabelBody}" />
                                     <Span Text="{Binding WaterVM.TargetWaterDisplay}"

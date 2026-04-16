@@ -291,7 +291,7 @@
     <Style TargetType="Label" x:Key="Headline">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="Large" />
+        <Setter Property="FontSize" Value="36" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="HorizontalTextAlignment" Value="Start" />
     </Style>
@@ -319,7 +319,7 @@
 
     <Style TargetType="Label" x:Key="LabelBody">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="Medium" />
+        <Setter Property="FontSize" Value="Small" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="LineHeight" Value="1.4" />
         <Setter Property="Shadow" Value="{x:Null}" />
