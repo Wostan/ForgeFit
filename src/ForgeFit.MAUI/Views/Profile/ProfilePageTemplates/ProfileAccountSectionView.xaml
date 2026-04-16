@@ -9,7 +9,7 @@
              x:Name="ThisView">
 
     <VerticalStackLayout Spacing="4">
-        <Label Style="{StaticResource LabelBody}"
+        <Label Style="{StaticResource LabelH2}"
                Text="{maui:Translate Profile_Account}"
                TextColor="{StaticResource TextSecondary}" />
 

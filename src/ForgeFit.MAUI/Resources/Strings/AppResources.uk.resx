@@ -196,7 +196,7 @@
         <value>Тренувань на тиждень</value>
     </data>
     <data name="Profile_UpdatePlan" xml:space="preserve">
-        <value>Оновити план</value>
+        <value>Оновити</value>
     </data>
     <data name="Profile_NutritionGoal" xml:space="preserve">
         <value>Мета по харчуванню</value>

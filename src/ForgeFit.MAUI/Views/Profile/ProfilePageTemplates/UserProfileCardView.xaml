@@ -9,8 +9,8 @@
              x:Name="ThisView">
 
     <Border Style="{StaticResource CardStyle}" Padding="0">
-        <Grid ColumnDefinitions="Auto,*" Padding="20" ColumnSpacing="20">
-            <Border StrokeShape="RoundRectangle 50" HeightRequest="50" WidthRequest="50">
+        <Grid ColumnDefinitions="Auto,*" Padding="16,12" ColumnSpacing="20">
+            <Border StrokeShape="RoundRectangle 50" HeightRequest="60" WidthRequest="60">
                 <Image Source="avatar.png"
                        VerticalOptions="Fill"
                        HorizontalOptions="Fill">

@@ -13,7 +13,7 @@
     <VerticalStackLayout Spacing="4">
         <Grid ColumnDefinitions="*,Auto,*">
             <Label Grid.Column="0"
-                   Style="{StaticResource LabelBody}"
+                   Style="{StaticResource LabelH2}"
                    Text="{maui:Translate Profile_MyGoals}"
                    TextColor="{StaticResource TextSecondary}" />
 
@@ -49,21 +49,24 @@
         <Border Style="{StaticResource CardStyle}" Padding="0">
             <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*" ColumnSpacing="10"
                   RowSpacing="10"
-                  Padding="20">
-                <Label Grid.Row="0" Grid.ColumnSpan="2"
-                       Style="{StaticResource LabelH2}"
-                       HorizontalOptions="Start"
-                       VerticalOptions="Center"
-                       LineBreakMode="TailTruncation"
-                       Text="{Binding BodyGoalVM.BodyGoalTitle}" />
+                  Padding="16, 12">
+                <Grid Grid.Row="0" Grid.ColumnSpan="3" ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Style="{StaticResource LabelH2}"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation"
+                           Margin="0,0,10,0"
+                           Text="{Binding BodyGoalVM.BodyGoalTitle}" />
 
-                <Label Grid.Row="0" Grid.Column="2"
-                       Style="{StaticResource LabelBody}"
-                       HorizontalOptions="End"
-                       VerticalOptions="Center"
-                       MaxLines="1"
-                       LineBreakMode="HeadTruncation"
-                       Text="{Binding BodyGoalVM.BodyGoalDueDate}" />
+                    <Label Grid.Column="1"
+                           Style="{StaticResource LabelBody}"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center"
+                           MaxLines="1"
+                           LineBreakMode="HeadTruncation"
+                           Text="{Binding BodyGoalVM.BodyGoalDueDate}" />
+                </Grid>
 
                 <Border Grid.Row="1" Grid.Column="0"
                         Style="{StaticResource CardStyle}" Padding="0"
@@ -71,13 +74,13 @@
                     <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                         <Label Grid.Row="0"
                                Text="{Binding BodyGoalVM.BodyGoalEmoji}"
-                               FontSize="Large"
+                               FontSize="32"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />
 
                         <controls:ViewBox Grid.Row="1" Stretch="Uniform" HorizontalOptions="Center"
                                           VerticalOptions="Start">
-                            <Label Style="{StaticResource LabelBody}"
+                            <Label Style="{StaticResource LabelH2}"
                                    Text="{Binding BodyGoalVM.BodyGoalType}"
                                    TextColor="{StaticResource TextSecondary}"
                                    MaxLines="1"
@@ -89,15 +92,15 @@
                 <Border Grid.Row="1" Grid.Column="1"
                         Style="{StaticResource CardStyle}" Padding="0"
                         HeightRequest="{Binding Width, Source={RelativeSource Self}}">
-                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center" RowSpacing="-10">
                         <Label Grid.Row="0"
                                Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
-                               FontSize="Large"
+                               FontSize="28"
                                Margin="0"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />
 
-                        <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                        <Label Grid.Row="1" Style="{StaticResource LabelH2}"
                                Text="{maui:Translate Nutrient_Kcal}"
                                TextColor="{StaticResource TextSecondary}"
                                MaxLines="1"
@@ -108,16 +111,16 @@
                 <Border Grid.Row="1" Grid.Column="2"
                         Style="{StaticResource CardStyle}" Padding="0"
                         HeightRequest="{Binding Width, Source={RelativeSource Self}}">
-                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center" RowSpacing="-10">
                         <Label Grid.Row="0"
                                Text="{Binding BodyGoalVM.BodyGoalWeight}"
-                               FontSize="Large"
+                               FontSize="28"
                                Margin="0"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />
 
                         <Label Grid.Row="1"
-                               Style="{StaticResource LabelBody}"
+                               Style="{StaticResource LabelH2}"
                                Text="{maui:Translate Diary_Weight}"
                                TextColor="{StaticResource TextSecondary}"
                                MaxLines="1"

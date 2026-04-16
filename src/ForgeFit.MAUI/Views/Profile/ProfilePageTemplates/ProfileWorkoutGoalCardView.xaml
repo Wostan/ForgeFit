@@ -11,10 +11,11 @@
              x:Name="ThisView">
 
     <VerticalStackLayout Spacing="4">
-        <Grid ColumnDefinitions="*,*">
+        <Grid ColumnDefinitions="*,Auto">
             <Label Grid.Column="0"
-                   Style="{StaticResource LabelBody}"
+                   Style="{StaticResource LabelH2}"
                    Text="{maui:Translate Profile_WorkoutGoal}"
+                   LineBreakMode="TailTruncation"
                    TextColor="{StaticResource TextSecondary}" />
 
             <Button Grid.Column="1"
@@ -39,10 +40,10 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding WorkoutGoalVM.WorkoutGoalPerWeek}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource WorkoutColor}"
                                    Shadow="{StaticResource WorkoutGlow}"
-                                   Margin="0"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center" />
 
@@ -51,8 +52,7 @@
                                 <Label Style="{StaticResource LabelBody}"
                                        Text="{maui:Translate Workout_Frequency}"
                                        TextColor="{StaticResource TextSecondary}"
-                                       MaxLines="1"
-                                       LineBreakMode="NoWrap"
+                                       LineBreakMode="TailTruncation"
                                        HorizontalTextAlignment="Center" />
                             </controls:ViewBox>
                         </Grid>
@@ -61,10 +61,10 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding WorkoutGoalVM.WorkoutGoalDurationMinutes}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource WorkoutColor}"
                                    Shadow="{StaticResource WorkoutGlow}"
-                                   Margin="0"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center" />
 
@@ -87,19 +87,17 @@
                         <controls:ViewBox Grid.Row="0" Stretch="Uniform" HorizontalOptions="Center"
                                           VerticalOptions="Center">
                             <Label Text="{Binding WorkoutGoalVM.WorkoutGoalType}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource WorkoutColor}"
                                    Shadow="{StaticResource WorkoutGlow}"
-                                   FontAttributes="Bold"
-                                   Margin="0"
                                    HorizontalTextAlignment="Center" />
                         </controls:ViewBox>
 
-                        <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                        <Label Grid.Row="1" 
+                               Style="{StaticResource LabelBody}"
                                Text="{maui:Translate Workout_Type}"
-                               TextColor="{StaticResource TextSecondary}"
-                               MaxLines="1"
-                               LineBreakMode="WordWrap"
+                               LineBreakMode="TailTruncation"
                                HorizontalTextAlignment="Center" />
                     </Grid>
                 </Border>

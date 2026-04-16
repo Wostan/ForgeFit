@@ -10,9 +10,10 @@
              x:Name="ThisView">
 
     <VerticalStackLayout Spacing="4">
-        <Grid ColumnDefinitions="*,*">
+        <Grid ColumnDefinitions="*,Auto">
             <Label Grid.Column="0"
-                   Style="{StaticResource LabelBody}"
+                   Style="{StaticResource LabelH2}"
+                   LineBreakMode="TailTruncation"
                    Text="{maui:Translate Profile_NutritionGoal}"
                    TextColor="{StaticResource TextSecondary}" />
 
@@ -32,13 +33,14 @@
         </Grid>
 
         <Border Style="{StaticResource CardStyle}" Padding="0">
-            <VerticalStackLayout Padding="20" Spacing="10">
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <VerticalStackLayout Padding="16, 12" Spacing="8">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                     <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource Primary}"
                                    Shadow="{StaticResource PrimaryGlow}"
                                    Margin="0"
@@ -49,7 +51,6 @@
                                    Text="{maui:Translate Nutrient_Kcal}"
                                    TextColor="{StaticResource TextSecondary}"
                                    MaxLines="1"
-                                   LineBreakMode="WordWrap"
                                    HorizontalTextAlignment="Center" />
                         </Grid>
                     </Border>
@@ -57,7 +58,8 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalVolumeMl}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource WaterColor}"
                                    Shadow="{StaticResource WaterGlow}"
                                    Margin="0"
@@ -68,17 +70,17 @@
                                    Text="{maui:Translate Hydration_Ml}"
                                    TextColor="{StaticResource TextSecondary}"
                                    MaxLines="1"
-                                   LineBreakMode="WordWrap"
                                    HorizontalTextAlignment="Center" />
                         </Grid>
                     </Border>
                 </Grid>
-                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
                     <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalCarbs}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource CarbsColor}"
                                    Shadow="{StaticResource CarbsGlow}"
                                    Margin="0"
@@ -89,7 +91,6 @@
                                    Text="{maui:Translate Nutrient_Carbs}"
                                    TextColor="{StaticResource TextSecondary}"
                                    MaxLines="1"
-                                   LineBreakMode="WordWrap"
                                    HorizontalTextAlignment="Center" />
                         </Grid>
                     </Border>
@@ -97,7 +98,8 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalProtein}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource ProteinColor}"
                                    Shadow="{StaticResource ProteinGlow}"
                                    Margin="0"
@@ -108,7 +110,6 @@
                                    Text="{maui:Translate Nutrient_Protein}"
                                    TextColor="{StaticResource TextSecondary}"
                                    MaxLines="1"
-                                   LineBreakMode="WordWrap"
                                    HorizontalTextAlignment="Center" />
                         </Grid>
                     </Border>
@@ -116,7 +117,8 @@
                         <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
                             <Label Grid.Row="0"
                                    Text="{Binding NutritionGoalVM.NutritionGoalFat}"
-                                   FontSize="Large"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
                                    TextColor="{StaticResource FatColor}"
                                    Shadow="{StaticResource FatGlow}"
                                    Margin="0"
@@ -127,7 +129,6 @@
                                    Text="{maui:Translate Nutrient_Fat}"
                                    TextColor="{StaticResource TextSecondary}"
                                    MaxLines="1"
-                                   LineBreakMode="WordWrap"
                                    HorizontalTextAlignment="Center" />
                         </Grid>
                     </Border>
