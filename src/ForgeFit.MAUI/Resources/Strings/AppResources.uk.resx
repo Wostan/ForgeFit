@@ -1,4 +1,4 @@
-﻿<root>
+<root>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -113,6 +113,18 @@
     </data>
     <data name="Nutrient_Water" xml:space="preserve">
         <value>Вода</value>
+    </data>
+    <data name="Nutrient_Fiber" xml:space="preserve">
+        <value>Клітковина</value>
+    </data>
+    <data name="Nutrient_Sugar" xml:space="preserve">
+        <value>Цукор</value>
+    </data>
+    <data name="Nutrient_SaturatedFat" xml:space="preserve">
+        <value>Нас. жири</value>
+    </data>
+    <data name="Nutrient_Sodium" xml:space="preserve">
+        <value>Натрій</value>
     </data>
     <data name="Meal_Breakfast" xml:space="preserve">
         <value>Сніданок</value>

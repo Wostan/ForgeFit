@@ -16,7 +16,7 @@
                TextColor="{StaticResource TextSecondary}" />
 
         <Border Style="{StaticResource CardStyle}" Padding="0">
-            <Grid RowDefinitions="Auto, *, *"
+            <Grid RowDefinitions="Auto, *, *, Auto"
                   ColumnDefinitions="*, *, *"
                   RowSpacing="10"
                   ColumnSpacing="10"
@@ -199,6 +199,150 @@
                         </ProgressBar.Behaviors>
                     </ProgressBar>
                 </VerticalStackLayout>
+
+                <Grid Grid.Row="3" Grid.ColumnSpan="3" ColumnDefinitions="*,*,*,*" ColumnSpacing="8" Padding="0,8,0,0">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label Text="{maui:Translate Nutrient_Fiber}"
+                               Style="{StaticResource LabelBody}"
+                               FontSize="Caption"
+                               LineBreakMode="TailTruncation"
+                               TextTransform="Uppercase"
+                               HorizontalOptions="Center" />
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.CurrentFiber, StringFormat='{0:F0} g'}"
+                               TextColor="{StaticResource TextPrimary}"
+                               HorizontalOptions="Center" />
+                        <ProgressBar x:Name="FiberBar" HeightRequest="2" ProgressColor="{StaticResource TextSecondary}">
+                            <ProgressBar.Behaviors>
+                                <toolkit:ProgressBarAnimationBehavior
+                                    BindingContext="{Binding BindingContext, Source={x:Reference FiberBar}}"
+                                    Progress="{Binding NutritionVM.FiberProgress}"
+                                    Length="250"
+                                    Easing="SinInOut" />
+                            </ProgressBar.Behaviors>
+                        </ProgressBar>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.TargetFiberDisplay, StringFormat='{0:F0} g'}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                        <Label Text="{maui:Translate Nutrient_Sugar}"
+                               Style="{StaticResource LabelBody}"
+                               FontSize="Caption"
+                               LineBreakMode="TailTruncation"
+                               TextTransform="Uppercase"
+                               HorizontalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSugarOverLimit}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource DangerColor}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.CurrentSugar, StringFormat='{0:F0} g'}"
+                               TextColor="{StaticResource TextPrimary}"
+                               HorizontalOptions="Center" />
+                        <ProgressBar x:Name="SugarBar" HeightRequest="2">
+                            <ProgressBar.Behaviors>
+                                <toolkit:ProgressBarAnimationBehavior
+                                    BindingContext="{Binding BindingContext, Source={x:Reference SugarBar}}"
+                                    Progress="{Binding NutritionVM.SugarProgress}"
+                                    Length="250"
+                                    Easing="SinInOut" />
+                            </ProgressBar.Behaviors>
+                            <ProgressBar.Triggers>
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSugarOverLimit}" Value="True">
+                                    <Setter Property="ProgressColor" Value="{StaticResource DangerColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSugarOverLimit}" Value="False">
+                                    <Setter Property="ProgressColor" Value="{StaticResource TextSecondary}" />
+                                </DataTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.TargetSugarDisplay, StringFormat='{0:F0} g'}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2" Spacing="2">
+                        <Label Text="{maui:Translate Nutrient_SaturatedFat}"
+                               Style="{StaticResource LabelBody}"
+                               FontSize="Caption"
+                               LineBreakMode="TailTruncation"
+                               TextTransform="Uppercase"
+                               HorizontalOptions="Center" />
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.CurrentSaturatedFat, StringFormat='{0:F0} g'}"
+                               TextColor="{StaticResource TextPrimary}"
+                               HorizontalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource DangerColor}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <ProgressBar x:Name="SaturatedFatBar" HeightRequest="2">
+                            <ProgressBar.Behaviors>
+                                <toolkit:ProgressBarAnimationBehavior
+                                    BindingContext="{Binding BindingContext, Source={x:Reference SaturatedFatBar}}"
+                                    Progress="{Binding NutritionVM.SaturatedFatProgress}"
+                                    Length="250"
+                                    Easing="SinInOut" />
+                            </ProgressBar.Behaviors>
+                            <ProgressBar.Triggers>
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="True">
+                                    <Setter Property="ProgressColor" Value="{StaticResource DangerColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="False">
+                                    <Setter Property="ProgressColor" Value="{StaticResource TextSecondary}" />
+                                </DataTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.TargetSaturatedFatDisplay, StringFormat='{0:F0} g'}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="3" Spacing="2">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Sodium}"
+                               FontSize="Caption"
+                               LineBreakMode="TailTruncation"
+                               TextTransform="Uppercase"
+                               HorizontalOptions="Center" />
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.CurrentSodium, StringFormat='{0:F0} mg'}"
+                               TextColor="{StaticResource TextPrimary}"
+                               HorizontalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSodiumOverLimit}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource DangerColor}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <ProgressBar x:Name="SodiumBar" HeightRequest="2">
+                            <ProgressBar.Behaviors>
+                                <toolkit:ProgressBarAnimationBehavior
+                                    BindingContext="{Binding BindingContext, Source={x:Reference SodiumBar}}"
+                                    Progress="{Binding NutritionVM.SodiumProgress}"
+                                    Length="250"
+                                    Easing="SinInOut" />
+                            </ProgressBar.Behaviors>
+                            <ProgressBar.Triggers>
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSodiumOverLimit}" Value="True">
+                                    <Setter Property="ProgressColor" Value="{StaticResource DangerColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSodiumOverLimit}" Value="False">
+                                    <Setter Property="ProgressColor" Value="{StaticResource TextSecondary}" />
+                                </DataTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{Binding NutritionVM.TargetSodiumDisplay, StringFormat='{0:F0} mg'}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
             </Grid>
         </Border>
     </VerticalStackLayout>

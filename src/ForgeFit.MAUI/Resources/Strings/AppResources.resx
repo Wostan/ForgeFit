@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -121,6 +121,18 @@
     </data>
     <data name="Nutrient_Water" xml:space="preserve">
         <value>Water</value>
+    </data>
+    <data name="Nutrient_Fiber" xml:space="preserve">
+        <value>Fiber</value>
+    </data>
+    <data name="Nutrient_Sugar" xml:space="preserve">
+        <value>Sugar</value>
+    </data>
+    <data name="Nutrient_SaturatedFat" xml:space="preserve">
+        <value>Sat. Fat</value>
+    </data>
+    <data name="Nutrient_Sodium" xml:space="preserve">
+        <value>Sodium</value>
     </data>
     <data name="Meal_Breakfast" xml:space="preserve">
         <value>Breakfast</value>

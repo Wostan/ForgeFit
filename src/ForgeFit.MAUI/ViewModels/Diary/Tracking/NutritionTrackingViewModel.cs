@@ -70,6 +70,14 @@ public partial class NutritionTrackingViewModel : BaseViewModel
     public double CarbsProgress => TargetCarbs > 0 ? CurrentCarbs / TargetCarbs : 0;
     public double ProteinProgress => TargetProtein > 0 ? CurrentProtein / TargetProtein : 0;
     public double FatProgress => TargetFat > 0 ? CurrentFat / TargetFat : 0;
+    public double FiberProgress => TargetFiber > 0 ? CurrentFiber / TargetFiber : 0;
+    public double SugarProgress => TargetSugar > 0 ? CurrentSugar / TargetSugar : 0;
+    public double SaturatedFatProgress => TargetSaturatedFat > 0 ? CurrentSaturatedFat / TargetSaturatedFat : 0;
+    public double SodiumProgress => TargetSodium > 0 ? CurrentSodium / TargetSodium : 0;
+
+    public bool IsSugarOverLimit => CurrentSugar > TargetSugar;
+    public bool IsSaturatedFatOverLimit => CurrentSaturatedFat > TargetSaturatedFat;
+    public bool IsSodiumOverLimit => CurrentSodium > TargetSodium;
 
     private void SetLoadingState()
     {
@@ -90,6 +98,14 @@ public partial class NutritionTrackingViewModel : BaseViewModel
         TargetSugarDisplay = TargetSugar.ToString("F1");
         TargetSaturatedFatDisplay = TargetSaturatedFat.ToString("F1");
         TargetSodiumDisplay = TargetSodium.ToString("F0");
+
+        OnPropertyChanged(nameof(FiberProgress));
+        OnPropertyChanged(nameof(SugarProgress));
+        OnPropertyChanged(nameof(SaturatedFatProgress));
+        OnPropertyChanged(nameof(SodiumProgress));
+        OnPropertyChanged(nameof(IsSugarOverLimit));
+        OnPropertyChanged(nameof(IsSaturatedFatOverLimit));
+        OnPropertyChanged(nameof(IsSodiumOverLimit));
     }
 
     public async Task LoadNutritionGoalsAsync(CancellationToken token = default)
@@ -137,6 +153,13 @@ public partial class NutritionTrackingViewModel : BaseViewModel
         OnPropertyChanged(nameof(CarbsProgress));
         OnPropertyChanged(nameof(ProteinProgress));
         OnPropertyChanged(nameof(FatProgress));
+        OnPropertyChanged(nameof(FiberProgress));
+        OnPropertyChanged(nameof(SugarProgress));
+        OnPropertyChanged(nameof(SaturatedFatProgress));
+        OnPropertyChanged(nameof(SodiumProgress));
+        OnPropertyChanged(nameof(IsSugarOverLimit));
+        OnPropertyChanged(nameof(IsSaturatedFatOverLimit));
+        OnPropertyChanged(nameof(IsSodiumOverLimit));
     }
 
     public void ResetNutrition()
@@ -154,5 +177,12 @@ public partial class NutritionTrackingViewModel : BaseViewModel
         OnPropertyChanged(nameof(CarbsProgress));
         OnPropertyChanged(nameof(ProteinProgress));
         OnPropertyChanged(nameof(FatProgress));
+        OnPropertyChanged(nameof(FiberProgress));
+        OnPropertyChanged(nameof(SugarProgress));
+        OnPropertyChanged(nameof(SaturatedFatProgress));
+        OnPropertyChanged(nameof(SodiumProgress));
+        OnPropertyChanged(nameof(IsSugarOverLimit));
+        OnPropertyChanged(nameof(IsSaturatedFatOverLimit));
+        OnPropertyChanged(nameof(IsSodiumOverLimit));
     }
 }
