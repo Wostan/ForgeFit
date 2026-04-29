@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
@@ -48,6 +49,16 @@ public partial class NutritionTrackingViewModel : BaseViewModel
 
     [ObservableProperty] private int _waterGoalMl;
 
+    [ObservableProperty] private double _targetFiber;
+    [ObservableProperty] private double _targetSugar;
+    [ObservableProperty] private double _targetSaturatedFat;
+    [ObservableProperty] private double _targetSodium;
+
+    [ObservableProperty] private string? _targetFiberDisplay;
+    [ObservableProperty] private string? _targetSugarDisplay;
+    [ObservableProperty] private string? _targetSaturatedFatDisplay;
+    [ObservableProperty] private string? _targetSodiumDisplay;
+
     public NutritionTrackingViewModel(
         IGoalService goalService)
     {
@@ -63,6 +74,22 @@ public partial class NutritionTrackingViewModel : BaseViewModel
     private void SetLoadingState()
     {
         TargetCaloriesDisplay = TargetCarbsDisplay = TargetProteinDisplay = TargetFatDisplay = "-";
+        TargetFiberDisplay = TargetSugarDisplay = TargetSaturatedFatDisplay = TargetSodiumDisplay = "-";
+    }
+
+    private void CalculateMicronutrientTargets()
+    {
+        if (TargetCalories <= 0) return;
+
+        TargetFiber = Math.Round(TargetCalories / 1000.0 * AppConstants.MicronutrientFactors.FiberGramsPer1000Kcal, 1);
+        TargetSugar = Math.Round(TargetCalories * AppConstants.MicronutrientFactors.SugarCalorieRatio / AppConstants.CaloriePerGram.Carbs, 1);
+        TargetSaturatedFat = Math.Round(TargetCalories * AppConstants.MicronutrientFactors.SaturatedFatCalorieRatio / AppConstants.CaloriePerGram.Fat, 1);
+        TargetSodium = AppConstants.MicronutrientFactors.SodiumLimitMg;
+
+        TargetFiberDisplay = TargetFiber.ToString("F1");
+        TargetSugarDisplay = TargetSugar.ToString("F1");
+        TargetSaturatedFatDisplay = TargetSaturatedFat.ToString("F1");
+        TargetSodiumDisplay = TargetSodium.ToString("F0");
     }
 
     public async Task LoadNutritionGoalsAsync(CancellationToken token = default)
@@ -85,6 +112,8 @@ public partial class NutritionTrackingViewModel : BaseViewModel
                 TargetCarbsDisplay = TargetCarbs.ToString("F0");
                 TargetProteinDisplay = TargetProtein.ToString("F0");
                 TargetFatDisplay = TargetFat.ToString("F0");
+
+                CalculateMicronutrientTargets();
             }
         }
         catch (Exception)
