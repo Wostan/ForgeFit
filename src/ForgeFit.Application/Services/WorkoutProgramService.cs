@@ -4,6 +4,7 @@ using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
@@ -22,6 +23,10 @@ public class WorkoutProgramService(
         WorkoutProgramRequest workoutProgramRequest)
     {
         if (!await userRepository.ExistsAsync(userId)) throw new NotFoundException("User not found");
+
+        var programCount = await workoutProgramRepository.CountByUserIdAsync(userId);
+        if (programCount >= DomainConstants.ValidationLimits.MaxWorkoutProgramsPerUser) 
+            throw new BadRequestException($"Cannot exceed {DomainConstants.ValidationLimits.MaxWorkoutProgramsPerUser} workout programs per user");
 
         var program = WorkoutProgram.Create(
             userId,

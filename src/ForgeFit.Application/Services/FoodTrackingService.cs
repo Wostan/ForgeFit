@@ -95,6 +95,10 @@ public class FoodTrackingService(
             dto.Carbs,
             dto.Protein,
             dto.Fat,
+            dto.Fiber,
+            dto.Sugar,
+            dto.SaturatedFat,
+            dto.Sodium,
             dto.ServingUnit,
             dto.Amount
         )).ToHashSet();

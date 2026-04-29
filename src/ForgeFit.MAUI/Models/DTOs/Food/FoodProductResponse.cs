@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.MAUI.Models.DTOs.Food;
+namespace ForgeFit.MAUI.Models.DTOs.Food;
 
 public record FoodProductResponse(
     string ExternalId,
@@ -14,5 +14,9 @@ public record FoodServingDto(
     double Calories,
     double Carbs,
     double Protein,
-    double Fat
+    double Fat,
+    double Fiber,
+    double Sugar,
+    double SaturatedFat,
+    double Sodium
 );

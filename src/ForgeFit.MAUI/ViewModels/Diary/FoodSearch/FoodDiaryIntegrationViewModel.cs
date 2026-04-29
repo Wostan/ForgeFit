@@ -104,6 +104,10 @@ public class FoodDiaryIntegrationViewModel(
                 (targetServing?.Carbs ?? itemVm.Carbs) * ratio,
                 (targetServing?.Protein ?? itemVm.Protein) * ratio,
                 (targetServing?.Fat ?? itemVm.Fat) * ratio,
+                (targetServing?.Fiber ?? 0) * ratio,
+                (targetServing?.Sugar ?? 0) * ratio,
+                (targetServing?.SaturatedFat ?? 0) * ratio,
+                (targetServing?.Sodium ?? 0) * ratio,
                 unit,
                 amount
             );

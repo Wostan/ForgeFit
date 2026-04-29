@@ -110,8 +110,16 @@ public class FoodEntry : Entity, ITimeFields
     {
         var totalNutrition = FoodItems.Aggregate(
             NutritionInfo.Zero,
-            (total, item) => total + new NutritionInfo(item.Calories, item.Carbs, item.Protein, item.Fat));
-        
+            (total, item) => total + new NutritionInfo(
+                item.Calories,
+                item.Carbs,
+                item.Protein,
+                item.Fat,
+                item.Fiber,
+                item.Sugar,
+                item.SaturatedFat,
+                item.Sodium));
+
         NutritionInfo = totalNutrition;
     }
     #endregion

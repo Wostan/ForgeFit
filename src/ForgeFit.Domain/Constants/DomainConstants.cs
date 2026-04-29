@@ -42,6 +42,7 @@ public static class DomainConstants
         public const int MaxExerciseGifUrlLength = 500;
         public const int MaxExerciseInstructionsLength = 2000;
         public const int MaxExercisesPerProgram = 50;
+        public const int MaxWorkoutProgramsPerUser = 20;
         public const int MaxSetsPerExercise = 20;
         public const int MaxRepsPerSet = 100;
         public const int MaxRestTimeMinutes = 10;
@@ -55,11 +56,14 @@ public static class DomainConstants
         
         // --- Food & Drinks ---
         public const int MaxFoodLabelLength = 100;
+        public const int MaxBarcodeLength = 100;
+        public const int MaxServingUnitLength = 20;
         public const double MinFoodAmount = 1;
         public const double MaxFoodAmount = 5000;
-        public const int MaxFoodItemsPerMeal = 20;
+        public const int MaxFoodItemsPerMeal = 50;
         public const int MinDrinkVolumeMl = 50;
         public const int MaxDrinkVolumeMl = 2000;
+        public const int MaxRecipesPerUser = 20;
         
         // --- System ---
         public const int MaxExternalIdLength = 100;

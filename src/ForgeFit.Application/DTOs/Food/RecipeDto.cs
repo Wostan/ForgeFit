@@ -1,12 +1,13 @@
-using ForgeFit.Domain.Enums.FoodEnums;
-
 namespace ForgeFit.Application.DTOs.Food;
 
-public record FoodEntryDto(
+public record RecipeDto(
     Guid Id,
-    DayTime DayTime,
-    DateTime Date,
-    List<FoodItemDto> FoodItems,
+    Guid UserId,
+    string Name,
+    string? Description,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt,
+    List<FoodItemDto> Ingredients,
     double TotalCalories,
     double TotalCarbs,
     double TotalProtein,

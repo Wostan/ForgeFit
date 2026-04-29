@@ -30,7 +30,8 @@ public class FatSecretTokenService(
 
         var values = new Dictionary<string, string>
         {
-            { "grant_type", "client_credentials" }
+            { "grant_type", "client_credentials" },
+            { "scope", _settings.Scope }
         };
         request.Content = new FormUrlEncodedContent(values);
 
