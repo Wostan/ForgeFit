@@ -5,77 +5,52 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:meals="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Meals"
+             xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
              x:DataType="meals:MealDetailsPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsTemplates.MealMacrosView">
     <VerticalStackLayout Spacing="20">
+        
+        <Grid RowDefinitions="Auto, Auto" RowSpacing="8">
+            <Label Text="{Binding MealEmoji}"
+                   FontSize="40"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            
+            <progressRing:ProgressRing Progress="{Binding MacrosVM.CaloriesProgress}"
+                                       WidthRequest="80"
+                                       HeightRequest="80"
+                                       Color="{StaticResource Primary}"
+                                       Shadow="{StaticResource PrimaryGlow}" />
+            
+            <Label Grid.Row="1" HorizontalOptions="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding MacrosVM.TotalCalories, StringFormat='{0:F0'}"
+                              Style="{StaticResource LabelH2}" />
+                        <Span Text=" / "
+                              Style="{StaticResource LabelBody}" />
+                        <Span Text="{Binding MacrosVM.MealTargetCaloriesDisplay, StringFormat='{0:F0'}"
+                              Style="{StaticResource LabelBody}" />
+                        <Span Text=" " 
+                              Style="{StaticResource LabelBody}" />
+                        <Span Text="{maui:Translate Nutrient_Kcal}"
+                              Style="{StaticResource LabelBody}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </Grid>
 
-        <Label Text="{Binding MealEmoji}"
-               FontSize="60"
-               HorizontalOptions="Center" />
-
-        <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
-
+        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="16">
             <VerticalStackLayout VerticalOptions="Center" Spacing="-4">
-                <Label Text="{maui:Translate Nutrient_Calories}"
-                       Style="{StaticResource LabelBody}"
-                       Margin="0, 0, 0, 5"
-                       FontSize="Small"
-                       MaximumWidthRequest="100"
-                       LineBreakMode="TailTruncation"
-                       TextTransform="Uppercase"
-                       HorizontalOptions="Center" />
-
-                <Label Margin="0" HorizontalOptions="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{Binding MacrosVM.TotalCalories, StringFormat='{0:F0}'}"
-                                  Style="{StaticResource LabelH2}" FontSize="Medium" />
-                            <Span Text=" " Style="{StaticResource LabelH2}" FontSize="Medium" />
-                            <Span Text="{maui:Translate Nutrient_Kcal}"
-                                  Style="{StaticResource LabelH2}" FontSize="Medium" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <ProgressBar x:Name="CaloriesBar"
-                             ProgressColor="{StaticResource Primary}"
-                             Shadow="{StaticResource CaloriesGlow}">
-                    <ProgressBar.Behaviors>
-                        <toolkit:ProgressBarAnimationBehavior
-                            BindingContext="{Binding BindingContext, Source={x:Reference CaloriesBar}}"
-                            Progress="{Binding MacrosVM.CaloriesProgress}"
-                            Length="250"
-                            Easing="SinInOut" />
-                    </ProgressBar.Behaviors>
-                </ProgressBar>
-
-                <Label HorizontalOptions="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{Binding MacrosVM.MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
-                                  Style="{StaticResource LabelBody}" FontSize="Small" />
-                            <Span Text=" " Style="{StaticResource LabelBody}" FontSize="Small" />
-                            <Span Text="{maui:Translate Nutrient_Kcal}"
-                                  Style="{StaticResource LabelBody}" FontSize="Small" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="-4">
                 <Label Text="{maui:Translate Nutrient_Carbs}"
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
-                       FontSize="Small"
-                       MaximumWidthRequest="100"
                        LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 
                 <Label Text="{Binding MacrosVM.TotalCarbs, StringFormat='{0:F0} g'}"
                        Style="{StaticResource LabelH2}"
-                       FontSize="Medium"
-                       Margin="0"
                        HorizontalOptions="Center" />
 
                 <ProgressBar x:Name="CarbsBar"
@@ -92,24 +67,19 @@
 
                 <Label Text="{Binding MacrosVM.MealTargetCarbsDisplay, StringFormat='{0:F0} g'}"
                        Style="{StaticResource LabelBody}"
-                       FontSize="Small"
                        HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="-4">
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="-4">
                 <Label Text="{maui:Translate Nutrient_Protein}"
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
-                       FontSize="Small"
-                       MaximumWidthRequest="100"
                        LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 
                 <Label Text="{Binding MacrosVM.TotalProtein, StringFormat='{0:F0} g'}"
                        Style="{StaticResource LabelH2}"
-                       FontSize="Medium"
-                       Margin="0"
                        HorizontalOptions="Center" />
 
                 <ProgressBar x:Name="ProteinBar"
@@ -126,24 +96,19 @@
 
                 <Label Text="{Binding MacrosVM.MealTargetProteinDisplay, StringFormat='{0:F0} g'}"
                        Style="{StaticResource LabelBody}"
-                       FontSize="Small"
                        HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" Spacing="-4">
+            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="-4">
                 <Label Text="{maui:Translate Nutrient_Fat}"
                        Style="{StaticResource LabelBody}"
                        Margin="0, 0, 0, 5"
-                       FontSize="Small"
-                       MaximumWidthRequest="100"
                        LineBreakMode="TailTruncation"
                        TextTransform="Uppercase"
                        HorizontalOptions="Center" />
 
                 <Label Text="{Binding MacrosVM.TotalFat, StringFormat='{0:F0} g'}"
                        Style="{StaticResource LabelH2}"
-                       FontSize="Medium"
-                       Margin="0"
                        HorizontalOptions="Center" />
 
                 <ProgressBar x:Name="FatBar"
@@ -160,7 +125,64 @@
 
                 <Label Text="{Binding MacrosVM.MealTargetFatDisplay, StringFormat='{0:F0} g'}"
                        Style="{StaticResource LabelBody}"
-                       FontSize="Small"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+        
+        <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="16">
+            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                <Label Text="{maui:Translate Nutrient_Fiber}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="Caption"
+                       LineBreakMode="TailTruncation"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalFiber, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label Text="{maui:Translate Nutrient_Sugar}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="Caption"
+                       LineBreakMode="TailTruncation"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalSugar, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                <Label Text="{maui:Translate Nutrient_SaturatedFat}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="Caption"
+                       LineBreakMode="TailTruncation"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalSaturatedFat, StringFormat='{0:F0} g'}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout Grid.Column="3" VerticalOptions="Center">
+                <Label Text="{maui:Translate Nutrient_Sodium}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="Caption"
+                       LineBreakMode="TailTruncation"
+                       TextTransform="Uppercase"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{Binding MacrosVM.TotalSodium, StringFormat='{0:F0} mg'}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextPrimary}"
                        HorizontalOptions="Center" />
             </VerticalStackLayout>
         </Grid>
