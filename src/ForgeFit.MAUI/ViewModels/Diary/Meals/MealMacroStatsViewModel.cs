@@ -24,6 +24,10 @@ public partial class MealMacroStatsViewModel : ObservableObject
     [ObservableProperty] private double _totalCarbs;
     [ObservableProperty] private double _totalFat;
     [ObservableProperty] private double _totalProtein;
+    [ObservableProperty] private double _totalFiber;
+    [ObservableProperty] private double _totalSugar;
+    [ObservableProperty] private double _totalSaturatedFat;
+    [ObservableProperty] private double _totalSodium;
 
     public void CalculateTargets(double targetCalories)
     {
@@ -46,6 +50,10 @@ public partial class MealMacroStatsViewModel : ObservableObject
         TotalCarbs = foodItemDtos.Sum(x => x.Carbs);
         TotalProtein = foodItemDtos.Sum(x => x.Protein);
         TotalFat = foodItemDtos.Sum(x => x.Fat);
+        TotalFiber = foodItemDtos.Sum(x => x.Fiber);
+        TotalSugar = foodItemDtos.Sum(x => x.Sugar);
+        TotalSaturatedFat = foodItemDtos.Sum(x => x.SaturatedFat);
+        TotalSodium = foodItemDtos.Sum(x => x.Sodium);
 
         CaloriesProgress = MealTargetCalories > 0 ? TotalCalories / MealTargetCalories : 0;
         CarbsProgress = MealTargetCarbs > 0 ? TotalCarbs / MealTargetCarbs : 0;
@@ -59,6 +67,10 @@ public partial class MealMacroStatsViewModel : ObservableObject
         TotalCarbs = 0;
         TotalProtein = 0;
         TotalFat = 0;
+        TotalFiber = 0;
+        TotalSugar = 0;
+        TotalSaturatedFat = 0;
+        TotalSodium = 0;
 
         CaloriesProgress = 0;
         CarbsProgress = 0;

@@ -21,6 +21,11 @@ public partial class NutritionTrackingViewModel : BaseViewModel
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
     private double _currentProtein;
 
+    [ObservableProperty] private double _currentFiber;
+    [ObservableProperty] private double _currentSugar;
+    [ObservableProperty] private double _currentSaturatedFat;
+    [ObservableProperty] private double _currentSodium;
+
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CaloriesProgress))]
     private double _targetCalories;
 
@@ -94,6 +99,10 @@ public partial class NutritionTrackingViewModel : BaseViewModel
         CurrentCarbs = entries.Sum(e => e.TotalCarbs);
         CurrentProtein = entries.Sum(e => e.TotalProtein);
         CurrentFat = entries.Sum(e => e.TotalFat);
+        CurrentFiber = entries.Sum(e => e.TotalFiber);
+        CurrentSugar = entries.Sum(e => e.TotalSugar);
+        CurrentSaturatedFat = entries.Sum(e => e.TotalSaturatedFat);
+        CurrentSodium = entries.Sum(e => e.TotalSodium);
 
         OnPropertyChanged(nameof(CaloriesProgress));
         OnPropertyChanged(nameof(CarbsProgress));
@@ -107,6 +116,10 @@ public partial class NutritionTrackingViewModel : BaseViewModel
         CurrentCarbs = 0;
         CurrentProtein = 0;
         CurrentFat = 0;
+        CurrentFiber = 0;
+        CurrentSugar = 0;
+        CurrentSaturatedFat = 0;
+        CurrentSodium = 0;
 
         OnPropertyChanged(nameof(CaloriesProgress));
         OnPropertyChanged(nameof(CarbsProgress));
