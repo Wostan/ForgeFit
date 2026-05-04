@@ -5,11 +5,12 @@ using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 using LocalizationResourceManager.Maui;
 
-namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
+namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
 
-public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
+public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly IAlertService _alertService;
     private readonly IDiaryService _diaryService;
@@ -17,11 +18,13 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
     private readonly ILocalizationResourceManager _localizationManager;
 
     private DateTime _date;
+    private DayTime _mealType;
+    private Guid? _entryId;
 
     [ObservableProperty] private string _mealTitle = string.Empty;
-    private DayTime _mealType;
+    [ObservableProperty] private int _currentTabIndex;
 
-    public FoodSearchPageViewModel(
+    public AddFoodPageViewModel(
         IFoodService foodService,
         IDiaryService diaryService,
         IAlertService alertService,
@@ -65,13 +68,13 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
             };
         }
 
-        Guid? entryId = null;
         if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id))
-            entryId = id;
+            _entryId = id;
 
-        DiaryVM.Initialize(_date, _mealType, entryId);
+        DiaryVM.Initialize(_date, _mealType, _entryId);
         await DiaryVM.RefreshExistingIdsAsync();
         await SearchVM.LoadRecentAsync();
+        IsLoading = false;
     }
 
     private void SetupCallbacks()
@@ -96,7 +99,25 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
         DetailsVM.ResetPopupState();
         ScannerVM.ResetState();
         DiaryVM.ResetState();
+        CurrentTabIndex = 0;
         IsLoading = false;
+    }
+
+    [RelayCommand]
+    private void ChangeTab(object parameter)
+    {
+        if (parameter is int i) CurrentTabIndex = i;
+        else if (parameter is string s && int.TryParse(s, out var idx)) CurrentTabIndex = idx;
+    }
+
+    [RelayCommand]
+    private void CreateProduct()
+    {
+    }
+
+    [RelayCommand]
+    private void CreateRecipe()
+    {
     }
 
     private async Task PerformSearchAsync(string query, CancellationToken token)
@@ -112,7 +133,6 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
                 var errorMsg = new LocalizedString(() => result.Message);
                 await _alertService.ShowToastAsync(errorMsg.Localized);
             }
-
             return;
         }
 
@@ -279,29 +299,8 @@ public partial class FoodSearchPageViewModel : BaseViewModel, IQueryAttributable
         }
 
         if (DiaryVM.EntryId.HasValue)
-            await Shell.Current.GoToAsync($"..?EntryId={Uri.EscapeDataString(DiaryVM.EntryId.Value.ToString())}",
-                false);
+            await Shell.Current.GoToAsync($"..?EntryId={Uri.EscapeDataString(DiaryVM.EntryId.Value.ToString())}", false);
         else
             await Shell.Current.GoToAsync("..", false);
     }
-}
-
-public partial class FoodSearchItemViewModel(FoodSearchResponse data) : ObservableObject
-{
-    [ObservableProperty] private bool _isAdded;
-
-    [ObservableProperty] private bool _isAdding;
-    public FoodSearchResponse Data { get; } = data;
-
-    public string Label => Data.Label;
-    public string BrandName => Data.BrandName ?? "";
-    public string ServingUnit => Data.Serving;
-    public double Calories => Data.Calories;
-    public double Carbs => Data.Carbs;
-    public double Protein => Data.Protein;
-    public double Fat => Data.Fat;
-    public double Fiber => Data.Fiber;
-    public double Sugar => Data.Sugar;
-    public double SaturatedFat => Data.SaturatedFat;
-    public double Sodium => Data.Sodium;
 }

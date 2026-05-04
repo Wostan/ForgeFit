@@ -1,11 +1,10 @@
-using ForgeFit.MAUI.ViewModels;
-using FoodSearchPageViewModel = ForgeFit.MAUI.ViewModels.Diary.FoodSearch.FoodSearchPageViewModel;
+using AddFoodPageViewModel = ForgeFit.MAUI.ViewModels.Diary.AddFood.AddFoodPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Diary;
 
-public partial class FoodSearchPageView : ContentPage
+public partial class AddFoodPageView : ContentPage
 {
-    public FoodSearchPageView(FoodSearchPageViewModel vm)
+    public AddFoodPageView(AddFoodPageViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;
@@ -13,7 +12,7 @@ public partial class FoodSearchPageView : ContentPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (BindingContext is not FoodSearchPageViewModel vm)
+        if (BindingContext is not AddFoodPageViewModel vm)
             return base.OnBackButtonPressed();
 
         if (vm.DetailsVM.IsFoodDetailsVisible || vm.ScannerVM.IsScannerVisible)

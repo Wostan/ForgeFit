@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
+             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.AddFoodTemplates"
+             behaviors:PageAnimationBehavior.AnimationType="Fade"
+             Shell.NavBarIsVisible="False"
+             x:DataType="addFood:AddFoodPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.AddFoodPageView"
+             x:Name="ThisPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid ZIndex="1">
+                
+                <CarouselView ZIndex="1"
+                              Position="{Binding CurrentTabIndex}"
+                              Loop="False"
+                              IsSwipeEnabled="True"
+                              IsScrollAnimated="True"
+                              HorizontalScrollBarVisibility="Never">
+                    <CarouselView.ItemsSource>
+                        <x:Array Type="{x:Type ContentView}">
+                            <templates:FoodSearchView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                            <templates:MyProductsView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                            <templates:RecipesView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                        </x:Array>
+                    </CarouselView.ItemsSource>
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type ContentView}">
+                            <ContentView Content="{Binding .}" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                
+                <VerticalStackLayout ZIndex="11" VerticalOptions="Start" Spacing="0">
+                    
+                    <controls:NavigationHeader BackCommand="{Binding BackCommand}">
+                        <controls:NavigationHeader.CustomTitleView>
+                            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="{maui:Translate Search_Header_Add}" Style="{StaticResource LabelH2}" />
+                                <Label Text=" " Style="{StaticResource LabelH2}" />
+                                <Label Text="{Binding BindingContext.MealTitle, Source={x:Reference ThisPage}}"
+                                       Style="{StaticResource LabelH2}" />
+                            </HorizontalStackLayout>
+                        </controls:NavigationHeader.CustomTitleView>
+                    </controls:NavigationHeader>
+
+                    <Border Style="{StaticResource CardStyle}" Padding="0" Margin="10,0">
+                        <Grid ColumnDefinitions="*, *, *"
+                              ColumnSpacing="8">
+                            <Button Grid.Column="0"
+                                    Text="{maui:Translate Tab_Search}"
+                                    Style="{StaticResource TextButton}"
+                                    Command="{Binding ChangeTabCommand}"
+                                    CommandParameter="0">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding CurrentTabIndex}"
+                                                 Value="0">
+                                        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                            <Button Grid.Column="1"
+                                    Text="{maui:Translate Tab_MyFood}"
+                                    Style="{StaticResource TextButton}"
+                                    Command="{Binding ChangeTabCommand}"
+                                    CommandParameter="1">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding CurrentTabIndex}"
+                                                 Value="1">
+                                        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                            <Button Grid.Column="2"
+                                    Text="{maui:Translate Tab_Recipes}"
+                                    Style="{StaticResource TextButton}"
+                                    Command="{Binding ChangeTabCommand}"
+                                    CommandParameter="2">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding CurrentTabIndex}"
+                                                 Value="2">
+                                        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <diary:BarcodeScanner ZIndex="13"
+                                  IsActive="{Binding ScannerVM.IsScannerVisible}" />
+
+            <diary:FoodDetails ZIndex="13" BindingContext="{Binding DetailsVM}">
+                <diary:FoodDetails.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.DetailsVM.IsFoodDetailsVisible, Source={x:Reference ThisPage}}" />
+                </diary:FoodDetails.Behaviors>
+            </diary:FoodDetails>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

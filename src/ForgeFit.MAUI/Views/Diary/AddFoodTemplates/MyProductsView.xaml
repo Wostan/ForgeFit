@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
+             x:DataType="addFood:AddFoodPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.AddFoodTemplates.MyProductsView">
+    <ContentView.Content>
+        <Grid RowDefinitions="*, Auto">
+            <CollectionView Grid.Row="0">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Spacing="10"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Opacity="0.5">
+                        <Image Source="search.svg"
+                               MaximumWidthRequest="100"
+                               MaximumHeightRequest="100"
+                               Aspect="AspectFit" />
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Search_Empty}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <Button Grid.Row="1"
+                    ImageSource="add_big.svg"
+                    Text="{maui:Translate Action_CreateProduct}"
+                    Margin="20"
+                    VerticalOptions="End"
+                    Command="{Binding CreateProductCommand}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

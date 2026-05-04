@@ -18,9 +18,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <Border Style="{StaticResource CardStyle}"
-            Padding="0" Margin="16,0"
-            Shadow="{x:Null}">
+    <Border StrokeThickness="0" Margin="16,0">
 
         <Border.GestureRecognizers>
             <TapGestureRecognizer
@@ -118,7 +116,6 @@
                     CommandParameter="{Binding .}"
                     IsVisible="{Binding IsAdding, Converter={toolkit:InvertedBoolConverter}}"
                     Source="{Binding IsAdded, Converter={StaticResource StateIconConverter}}"
-                    Shadow="{StaticResource PrimaryGlow}"
                     Aspect="Center">
                     <ImageButton.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />

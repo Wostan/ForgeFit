@@ -296,9 +296,9 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     }
 
     [RelayCommand]
-    private async Task GoToFoodSearch()
+    private async Task GoToAddFood()
     {
         await Shell.Current.GoToAsync(
-            $"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
+            $"{nameof(AddFoodPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
     }
 }

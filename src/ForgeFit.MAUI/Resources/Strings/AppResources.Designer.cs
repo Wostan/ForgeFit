@@ -243,6 +243,30 @@ namespace ForgeFit.MAUI.Resources.Strings {
             }
         }
         
+        internal static string Nutrient_Fiber {
+            get {
+                return ResourceManager.GetString("Nutrient_Fiber", resourceCulture);
+            }
+        }
+        
+        internal static string Nutrient_Sugar {
+            get {
+                return ResourceManager.GetString("Nutrient_Sugar", resourceCulture);
+            }
+        }
+        
+        internal static string Nutrient_SaturatedFat {
+            get {
+                return ResourceManager.GetString("Nutrient_SaturatedFat", resourceCulture);
+            }
+        }
+        
+        internal static string Nutrient_Sodium {
+            get {
+                return ResourceManager.GetString("Nutrient_Sodium", resourceCulture);
+            }
+        }
+        
         internal static string Meal_Breakfast {
             get {
                 return ResourceManager.GetString("Meal_Breakfast", resourceCulture);
@@ -1362,6 +1386,36 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Msg_DeleteProgramConfirm {
             get {
                 return ResourceManager.GetString("Msg_DeleteProgramConfirm", resourceCulture);
+            }
+        }
+        
+        internal static string Tab_Search {
+            get {
+                return ResourceManager.GetString("Tab_Search", resourceCulture);
+            }
+        }
+        
+        internal static string Tab_MyFood {
+            get {
+                return ResourceManager.GetString("Tab_MyFood", resourceCulture);
+            }
+        }
+        
+        internal static string Tab_Recipes {
+            get {
+                return ResourceManager.GetString("Tab_Recipes", resourceCulture);
+            }
+        }
+        
+        internal static string Action_CreateProduct {
+            get {
+                return ResourceManager.GetString("Action_CreateProduct", resourceCulture);
+            }
+        }
+        
+        internal static string Action_CreateRecipe {
+            get {
+                return ResourceManager.GetString("Action_CreateRecipe", resourceCulture);
             }
         }
     }

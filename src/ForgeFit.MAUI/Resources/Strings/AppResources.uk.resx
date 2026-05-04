@@ -687,4 +687,19 @@
     <data name="Msg_DeleteProgramConfirm" xml:space="preserve">
       <value>Ви впевнені, що хочете видалити цю програму тренувань?</value>
     </data>
+    <data name="Tab_Search" xml:space="preserve">
+        <value>Пошук</value>
+    </data>
+    <data name="Tab_MyFood" xml:space="preserve">
+        <value>Моя їжа</value>
+    </data>
+    <data name="Tab_Recipes" xml:space="preserve">
+        <value>Рецепти</value>
+    </data>
+    <data name="Action_CreateProduct" xml:space="preserve">
+        <value>Створити продукт</value>
+    </data>
+    <data name="Action_CreateRecipe" xml:space="preserve">
+        <value>Створити рецепт</value>
+    </data>
 </root>

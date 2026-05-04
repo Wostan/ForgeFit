@@ -1,6 +1,6 @@
 using ForgeFit.MAUI.ViewModels;
 using ZXing.Net.Maui;
-using FoodSearchPageViewModel = ForgeFit.MAUI.ViewModels.Diary.FoodSearch.FoodSearchPageViewModel;
+using AddFoodPageViewModel = ForgeFit.MAUI.ViewModels.Diary.AddFood.AddFoodPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Controls.Diary;
 
@@ -74,7 +74,7 @@ public partial class BarcodeScanner : ContentView
             control.CameraCurtain.IsVisible = true;
             await control.CameraCurtain.FadeToAsync(1, 200, Easing.SinOut);
 
-            if (control.BindingContext is FoodSearchPageViewModel vm) vm.ScannerVM.IsTorchOn = false;
+            if (control.BindingContext is AddFoodPageViewModel vm) vm.ScannerVM.IsTorchOn = false;
 
             control.CameraView.IsDetecting = false;
             control.CameraView.IsTorchOn = false;
@@ -93,7 +93,7 @@ public partial class BarcodeScanner : ContentView
         if (!string.IsNullOrEmpty(code))
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (BindingContext is FoodSearchPageViewModel vm) vm.ScannerVM.BarcodeDetectedCommand.Execute(code);
+                if (BindingContext is AddFoodPageViewModel vm) vm.ScannerVM.BarcodeDetectedCommand.Execute(code);
             });
     }
 }

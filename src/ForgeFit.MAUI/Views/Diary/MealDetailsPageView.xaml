@@ -31,7 +31,7 @@
                         Text="{maui:Translate Action_AddFood}"
                         Margin="20"
                         VerticalOptions="End"
-                        Command="{Binding GoToFoodSearchCommand}" />
+                        Command="{Binding GoToAddFoodCommand}" />
             </Grid>
 
             <diary:FoodDetails ZIndex="10" BindingContext="{Binding DetailsVM}">
