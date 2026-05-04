@@ -25,11 +25,11 @@
             <Label Grid.Row="1" HorizontalOptions="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="{Binding MacrosVM.TotalCalories, StringFormat='{0:F0'}"
+                        <Span Text="{Binding MacrosVM.TotalCalories, StringFormat='{0:F0}'}"
                               Style="{StaticResource LabelH2}" />
                         <Span Text=" / "
                               Style="{StaticResource LabelBody}" />
-                        <Span Text="{Binding MacrosVM.MealTargetCaloriesDisplay, StringFormat='{0:F0'}"
+                        <Span Text="{Binding MacrosVM.MealTargetCaloriesDisplay, StringFormat='{0:F0}'}"
                               Style="{StaticResource LabelBody}" />
                         <Span Text=" " 
                               Style="{StaticResource LabelBody}" />
