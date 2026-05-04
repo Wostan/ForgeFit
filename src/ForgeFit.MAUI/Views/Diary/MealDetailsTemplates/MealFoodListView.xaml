@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
@@ -14,7 +13,14 @@
         <Label Grid.Row="0"
                Style="{StaticResource LabelH2}"
                Text="{maui:Translate Details_FoodProducts}"
-               TextColor="{StaticResource TextSecondary}" />
+               TextColor="{StaticResource TextSecondary}"
+               Margin="0,0,0,10">
+            <Label.Triggers>
+                <DataTrigger TargetType="Label" Binding="{Binding FoodItems.Count, FallbackValue=0}" Value="0">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
 
         <Grid Grid.Row="1">
 
@@ -26,53 +32,33 @@
                                    VerticalOptions="Center" />
             </Grid>
 
-            <Border Style="{StaticResource CardStyle}"
-                    VerticalOptions="Fill"
-                    Padding="0">
+            <Border Style="{StaticResource CardStyle}" Padding="0">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding FoodItems.Count, FallbackValue=0}" Value="0">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Border.Triggers>
 
-                <CollectionView ItemsSource="{Binding FoodItems}"
-                                VerticalScrollBarVisibility="Never"
-                                SelectionMode="None">
-
-                    <CollectionView.EmptyView>
-                        <Label Style="{StaticResource LabelBody}"
-                               TextColor="{StaticResource TextSecondary}"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"
-                               Text="{maui:Translate Details_Empty}" />
-                    </CollectionView.EmptyView>
-
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                    </CollectionView.ItemsLayout>
-
-                    <CollectionView.Header>
-                        <BoxView HeightRequest="6" Color="Transparent" />
-                    </CollectionView.Header>
-
-                    <CollectionView.Footer>
-                        <BoxView HeightRequest="6" Color="Transparent" />
-                    </CollectionView.Footer>
-
-                    <CollectionView.ItemTemplate>
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding FoodItems}" 
+                                     Spacing="0" 
+                                     Padding="0">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:FoodItemDto">
                             <SwipeView>
                                 <SwipeView.RightItems>
                                     <SwipeItems>
                                         <SwipeItemView>
                                             <Grid ColumnDefinitions="*,*"
-                                                  MaximumWidthRequest="120"
+                                                  WidthRequest="120"
                                                   VerticalOptions="Fill">
 
                                                 <Grid Grid.Column="0"
                                                       BackgroundColor="{StaticResource DangerColor}"
                                                       VerticalOptions="Fill"
                                                       HorizontalOptions="Fill">
-
                                                     <Image Source="delete.svg"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
-
                                                     <Grid.GestureRecognizers>
                                                         <TapGestureRecognizer
                                                             Command="{Binding Source={x:Reference ThisView}, Path=BindingContext.DeleteItemCommand}"
@@ -84,11 +70,9 @@
                                                       BackgroundColor="{StaticResource Primary}"
                                                       VerticalOptions="Fill"
                                                       HorizontalOptions="Fill">
-
                                                     <Image Source="edit.svg"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
-
                                                     <Grid.GestureRecognizers>
                                                         <TapGestureRecognizer
                                                             Command="{Binding Source={x:Reference ThisView}, Path=BindingContext.OpenEditPopupCommand}"
@@ -104,8 +88,8 @@
                                 <templates:MealFoodItemRowView />
                             </SwipeView>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
             </Border>
         </Grid>
     </Grid>

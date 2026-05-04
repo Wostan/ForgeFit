@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
@@ -7,56 +6,40 @@
              x:DataType="models:FoodItemDto"
              x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsTemplates.MealFoodItemRowView">
 
-    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto"
-          BackgroundColor="{StaticResource Surface}" Padding="16,0">
+    <Grid ColumnDefinitions="*, Auto" 
+          RowDefinitions="Auto, Auto"
+          RowSpacing="-4"
+          BackgroundColor="{StaticResource Surface}" 
+          Padding="16, 8">
 
-        <VerticalStackLayout Grid.Column="0" Spacing="-4">
-            <Label Text="{Binding Label}"
-                   Style="{StaticResource LabelBody}"
-                   FontSize="Medium"
-                   LineBreakMode="TailTruncation"
-                   TextColor="{StaticResource TextPrimary}" />
+        <Label Grid.Column="0" Grid.Row="0"
+               Text="{Binding Label}"
+               Style="{StaticResource LabelH2}"
+               Margin="0,0,16,0"
+               LineBreakMode="TailTruncation"
+               HorizontalOptions="Start"
+               Shadow="{StaticResource TextShadow}" />
 
-            <Label Style="{StaticResource LabelBody}">
+        <FlexLayout Grid.Column="0" Grid.Row="1"
+                    Margin="0,0,16,0"
+                    Wrap="NoWrap"
+                    AlignItems="Center"
+                    JustifyContent="Start">
+            <Label Style="{StaticResource LabelBody}"
+                   FlexLayout.Shrink="0">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="{Binding Amount}"
-                              Style="{StaticResource LabelBody}"
-                              FontSize="Medium" />
+                              Style="{StaticResource LabelBody}" />
                         <Span Text=" " />
                         <Span Text="{Binding ServingUnit}"
-                              Style="{StaticResource LabelBody}"
-                              FontSize="Small" />
-                        <Span Text="  •  "
                               Style="{StaticResource LabelBody}" />
-
-                        <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
-                              Style="{StaticResource LabelBody}"
-                              TextColor="{StaticResource CarbsColor}"
-                              FontSize="Medium" />
-                        <Span Text=" / "
-                              Style="{StaticResource LabelBody}"
-                              FontSize="Small" />
-                        <Span
-                            Text="{Binding Protein, StringFormat='{0:F0}'}"
-                            Style="{StaticResource LabelBody}"
-                            TextColor="{StaticResource ProteinColor}"
-                            FontSize="Medium" />
-                        <Span Text=" / "
-                              Style="{StaticResource LabelBody}"
-                              FontSize="Small" />
-                        <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
-                              Style="{StaticResource LabelBody}"
-                              TextColor="{StaticResource FatColor}"
-                              FontSize="Medium" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-        </VerticalStackLayout>
+        </FlexLayout>
 
-        <Label Grid.Column="1" Grid.RowSpan="2"
-               Style="{StaticResource LabelBody}"
-               VerticalOptions="Center">
+        <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center">
             <Label.FormattedText>
                 <FormattedString>
                     <Span Text="{Binding Calories, StringFormat='{0:F0}'}"
@@ -68,10 +51,37 @@
                           FontSize="Small" />
                     <Span Text="{maui:Translate Nutrient_Kcal}"
                           Style="{StaticResource LabelBody}"
+                          FontSize="Small"
+                          TextColor="{StaticResource TextSecondary}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+            
+        <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center">
+             <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
+                          Style="{StaticResource LabelBody}"
+                          TextColor="{StaticResource CarbsColor}"
+                          FontSize="Small" />
+                    <Span Text=" / "
+                          Style="{StaticResource LabelBody}"
+                          FontSize="Caption" />
+                    <Span Text="{Binding Protein, StringFormat='{0:F0}'}"
+                          Style="{StaticResource LabelBody}"
+                          TextColor="{StaticResource ProteinColor}"
+                          FontSize="Small" />
+                    <Span Text=" / "
+                          Style="{StaticResource LabelBody}"
+                          FontSize="Caption" />
+                    <Span Text="{Binding Fat, StringFormat='{0:F0}'}"
+                          Style="{StaticResource LabelBody}"
+                          TextColor="{StaticResource FatColor}"
                           FontSize="Small" />
                 </FormattedString>
             </Label.FormattedText>
         </Label>
+
     </Grid>
 
 </ContentView>

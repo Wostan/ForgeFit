@@ -300,4 +300,8 @@ public partial class FoodSearchItemViewModel(FoodSearchResponse data) : Observab
     public double Carbs => Data.Carbs;
     public double Protein => Data.Protein;
     public double Fat => Data.Fat;
+    public double Fiber => Data.Fiber;
+    public double Sugar => Data.Sugar;
+    public double SaturatedFat => Data.SaturatedFat;
+    public double Sodium => Data.Sodium;
 }

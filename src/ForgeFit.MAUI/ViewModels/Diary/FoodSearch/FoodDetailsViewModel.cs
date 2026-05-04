@@ -21,6 +21,10 @@ public partial class FoodDetailsViewModel(
     public double CurrentCarbs => CalculateNutrient(s => s.Carbs);
     public double CurrentProtein => CalculateNutrient(s => s.Protein);
     public double CurrentFat => CalculateNutrient(s => s.Fat);
+    public double CurrentFiber => CalculateNutrient(s => s.Fiber);
+    public double CurrentSugar => CalculateNutrient(s => s.Sugar);
+    public double CurrentSaturatedFat => CalculateNutrient(s => s.SaturatedFat);
+    public double CurrentSodium => CalculateNutrient(s => s.Sodium);
 
     public Func<FoodProductResponse, FoodSearchResponse, Task>? OpenFoodDetailsCallback { get; set; }
     public Func<Task>? CloseFoodDetailsCallback { get; set; }
@@ -101,6 +105,10 @@ public partial class FoodDetailsViewModel(
         OnPropertyChanged(nameof(CurrentCarbs));
         OnPropertyChanged(nameof(CurrentProtein));
         OnPropertyChanged(nameof(CurrentFat));
+        OnPropertyChanged(nameof(CurrentFiber));
+        OnPropertyChanged(nameof(CurrentSugar));
+        OnPropertyChanged(nameof(CurrentSaturatedFat));
+        OnPropertyChanged(nameof(CurrentSodium));
     }
 
     private double CalculateNutrient(Func<FoodServingDto, double> selector)

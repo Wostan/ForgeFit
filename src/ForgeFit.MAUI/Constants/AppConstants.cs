@@ -176,4 +176,14 @@ public static class AppConstants
         public const int Fat = 9;
     }
     #endregion
+
+    #region Micronutrient Factors
+    public static class MicronutrientFactors
+    {
+        public const double FiberGramsPer1000Kcal = 14.0;
+        public const double SugarCalorieRatio = 0.10;
+        public const double SaturatedFatCalorieRatio = 0.10;
+        public const int SodiumLimitMg = 2300;
+    }
+    #endregion
 }
