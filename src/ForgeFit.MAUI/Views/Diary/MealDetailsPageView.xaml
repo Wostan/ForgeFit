@@ -14,31 +14,31 @@
              x:Name="ThisPage">
     <ContentPage.Content>
         <Grid>
-            <Grid RowDefinitions="Auto, *, Auto">
+            
+            <ScrollView VerticalScrollBarVisibility="Never" ZIndex="0">
+                <VerticalStackLayout Style="{StaticResource MainContentStackLayout}" Spacing="20">
+                    <templates:MealMacrosView />
+                    <templates:MealFoodListView Margin="0,0,0,60" />
+                </VerticalStackLayout>
+            </ScrollView>
 
-                <controls:NavigationHeader Grid.Row="0"
-                                           Title="{Binding BindingContext.MealTitle, Source={x:Reference ThisPage}}" />
+            <controls:NavigationHeader VerticalOptions="Start"
+                                       ZIndex="1"
+                                       Title="{Binding BindingContext.MealTitle, Source={x:Reference ThisPage}}" />
 
-                <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
-                    <VerticalStackLayout Padding="20,0,20,20" Spacing="20">
-                        <templates:MealMacrosView />
-                        <templates:MealFoodListView />
-                    </VerticalStackLayout>
-                </ScrollView>
-
-                <Button Grid.Row="2"
-                        ImageSource="add_big.svg"
-                        Text="{maui:Translate Action_AddFood}"
-                        Margin="20"
-                        VerticalOptions="End"
-                        Command="{Binding GoToFoodSearchCommand}" />
-            </Grid>
+            <Button ImageSource="add_big.svg"
+                    Text="{maui:Translate Action_AddFood}"
+                    Margin="16"
+                    VerticalOptions="End"
+                    ZIndex="1"
+                    Command="{Binding GoToFoodSearchCommand}" />
 
             <diary:FoodDetails ZIndex="10" BindingContext="{Binding DetailsVM}">
                 <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </diary:FoodDetails.Behaviors>
             </diary:FoodDetails>
+            
         </Grid>
     </ContentPage.Content>
 </ContentPage>
