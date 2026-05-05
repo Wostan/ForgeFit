@@ -2,28 +2,47 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Constants;
+using ForgeFit.MAUI.Models.DTOs.Food;
+using ForgeFit.MAUI.Services.Interfaces;
+using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 
 public partial class FoodSearchViewModel : ObservableObject
 {
-    private bool _canLoadMore = true;
+    private readonly IFoodService _foodService;
+    private readonly IDiaryService _diaryService;
+    private readonly IAlertService _alertService;
+    private readonly ILocalizationResourceManager _localizationManager;
+    private readonly FoodDiaryIntegrationViewModel _diaryVM;
+    private readonly FoodDetailsViewModel _detailsVM;
 
+    private bool _canLoadMore = true;
     private int _currentPage = 1;
+    private CancellationTokenSource? _searchCts;
+
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isLoadingMore;
     [ObservableProperty] private bool _isShowingRecent = true;
-    private CancellationTokenSource? _searchCts;
-
     [ObservableProperty] private string _searchText = string.Empty;
 
     public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 
-    public Func<string, CancellationToken, Task>? PerformSearchCallback { get; set; }
-    public Func<CancellationToken, Task>? LoadRecentCallback { get; set; }
-    public Func<Task>? LoadMoreCallback { get; set; }
-    public Func<FoodSearchItemViewModel, Task>? ToggleItemCallback { get; set; }
-    public Func<FoodSearchItemViewModel, Task>? OpenFoodDetailsCallback { get; set; }
+    public FoodSearchViewModel(
+        IFoodService foodService,
+        IDiaryService diaryService,
+        IAlertService alertService,
+        ILocalizationResourceManager localizationManager,
+        FoodDiaryIntegrationViewModel diaryVM,
+        FoodDetailsViewModel detailsVM)
+    {
+        _foodService = foodService;
+        _diaryService = diaryService;
+        _alertService = alertService;
+        _localizationManager = localizationManager;
+        _diaryVM = diaryVM;
+        _detailsVM = detailsVM;
+    }
 
     partial void OnSearchTextChanged(string value)
     {
@@ -54,8 +73,6 @@ public partial class FoodSearchViewModel : ObservableObject
 
     private async Task PerformSearchAsync(string query, CancellationToken token)
     {
-        if (PerformSearchCallback == null) return;
-
         _currentPage = 1;
         _canLoadMore = true;
         IsLoading = true;
@@ -64,7 +81,28 @@ public partial class FoodSearchViewModel : ObservableObject
 
         try
         {
-            await PerformSearchCallback(query, token);
+            var result = await _foodService.SearchFoodAsync(query, _currentPage);
+
+            if (token.IsCancellationRequested) return;
+
+            if (result is not { Success: true, Data: not null })
+            {
+                if (result is { Success: false })
+                {
+                    var errorMsg = new LocalizedString(() => result.Message);
+                    await _alertService.ShowToastAsync(errorMsg.Localized);
+                }
+                return;
+            }
+
+            if (result.Data.Count < AppConstants.SearchConfig.DefaultPageSize) SetCanLoadMore(false);
+
+            foreach (var item in result.Data)
+            {
+                var vm = new FoodSearchItemViewModel(item);
+                if (_diaryVM.IsProductAdded(item.ExternalId)) vm.IsAdded = true;
+                AddSearchResult(vm);
+            }
         }
         finally
         {
@@ -77,14 +115,28 @@ public partial class FoodSearchViewModel : ObservableObject
     {
         if (IsShowingRecent || IsLoading || IsLoadingMore || !_canLoadMore || string.IsNullOrWhiteSpace(SearchText))
             return;
-        if (LoadMoreCallback == null) return;
 
         IsLoadingMore = true;
         _currentPage++;
 
         try
         {
-            await LoadMoreCallback();
+            var result = await _foodService.SearchFoodAsync(SearchText, _currentPage);
+
+            if (result is not { Success: true, Data: not null })
+            {
+                DecrementPage();
+                return;
+            }
+
+            if (result.Data.Count < AppConstants.SearchConfig.DefaultPageSize) SetCanLoadMore(false);
+
+            foreach (var item in result.Data)
+            {
+                var vm = new FoodSearchItemViewModel(item);
+                if (_diaryVM.IsProductAdded(item.ExternalId)) vm.IsAdded = true;
+                AddSearchResult(vm);
+            }
         }
         finally
         {
@@ -95,7 +147,6 @@ public partial class FoodSearchViewModel : ObservableObject
     public async Task LoadRecentAsync(CancellationToken token = default)
     {
         if (!string.IsNullOrWhiteSpace(SearchText)) return;
-        if (LoadRecentCallback == null) return;
 
         IsLoading = true;
         IsShowingRecent = true;
@@ -103,7 +154,45 @@ public partial class FoodSearchViewModel : ObservableObject
 
         try
         {
-            await LoadRecentCallback(token);
+            var from = DateTime.Now.AddDays(-AppConstants.FoodDefaults.RecentItemsLookupDays);
+            var to = DateTime.Now;
+
+            var result = await _diaryService.GetEntriesByDateRangeAsync(from, to, token);
+
+            if (token.IsCancellationRequested) return;
+            if (result is not { Success: true, Data: not null }) return;
+
+            var recentItems = result.Data
+                .SelectMany(e => e.FoodItems)
+                .Reverse()
+                .GroupBy(x => x.ExternalId)
+                .Select(g => g.First())
+                .Take(AppConstants.SearchConfig.DefaultPageSize)
+                .ToList();
+
+            foreach (var item in recentItems)
+            {
+                var servingString = $"{item.Amount} {item.ServingUnit}";
+
+                var dto = new FoodSearchResponse(
+                    item.ExternalId,
+                    item.Label,
+                    null,
+                    item.Calories,
+                    item.Carbs,
+                    item.Protein,
+                    item.Fat,
+                    item.Fiber,
+                    item.Sugar,
+                    item.SaturatedFat,
+                    item.Sodium,
+                    servingString
+                );
+
+                var vm = new FoodSearchItemViewModel(dto);
+                if (_diaryVM.IsProductAdded(item.ExternalId)) vm.IsAdded = true;
+                AddSearchResult(vm);
+            }
         }
         finally
         {
@@ -114,12 +203,15 @@ public partial class FoodSearchViewModel : ObservableObject
     [RelayCommand]
     private async Task ToggleItem(FoodSearchItemViewModel? itemVm)
     {
-        if (itemVm == null || itemVm.IsAdding || ToggleItemCallback == null) return;
+        if (itemVm == null || itemVm.IsAdding) return;
 
         itemVm.IsAdding = true;
         try
         {
-            await ToggleItemCallback(itemVm);
+            if (itemVm.IsAdded)
+                await _diaryVM.RemoveItemInternal(itemVm);
+            else
+                await _diaryVM.QuickAddInternal(itemVm, IsShowingRecent);
         }
         finally
         {
@@ -128,46 +220,25 @@ public partial class FoodSearchViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task QuickAddItem(FoodSearchItemViewModel? itemVm)
-    {
-        if (itemVm == null || itemVm.IsAdding || ToggleItemCallback == null) return;
-
-        itemVm.IsAdding = true;
-        try
-        {
-            await ToggleItemCallback(itemVm);
-        }
-        finally
-        {
-            itemVm.IsAdding = false;
-        }
-    }
+    private async Task QuickAddItem(FoodSearchItemViewModel? itemVm) => await ToggleItem(itemVm);
 
     [RelayCommand]
-    private async Task RemoveItem(FoodSearchItemViewModel? itemVm)
-    {
-        if (itemVm == null || itemVm.IsAdding || ToggleItemCallback == null) return;
-
-        itemVm.IsAdding = true;
-        try
-        {
-            await ToggleItemCallback(itemVm);
-        }
-        finally
-        {
-            itemVm.IsAdding = false;
-        }
-    }
+    private async Task RemoveItem(FoodSearchItemViewModel? itemVm) => await ToggleItem(itemVm);
 
     [RelayCommand]
     private async Task OpenFoodDetails(FoodSearchItemViewModel? itemVm)
     {
-        if (itemVm is null || IsLoading || itemVm.IsAdding || itemVm.IsAdded || OpenFoodDetailsCallback == null) return;
+        if (itemVm is null || IsLoading || itemVm.IsAdding || itemVm.IsAdded) return;
 
         itemVm.IsAdding = true;
         try
         {
-            await OpenFoodDetailsCallback(itemVm);
+            var result = await _foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
+
+            if (result is { Success: true, Data: not null })
+                await _detailsVM.OpenFoodDetailsInternal(result.Data, itemVm.Data, IsShowingRecent);
+            else
+                await _alertService.ShowToastAsync(new LocalizedString(() => result.Message).Localized);
         }
         finally
         {
@@ -187,33 +258,9 @@ public partial class FoodSearchViewModel : ObservableObject
         _canLoadMore = true;
     }
 
-    public void AddSearchResult(FoodSearchItemViewModel itemVm)
-    {
-        SearchResults.Add(itemVm);
-    }
-
-    public void ClearSearchResults()
-    {
-        SearchResults.Clear();
-    }
-
-    public bool CanLoadMore()
-    {
-        return _canLoadMore;
-    }
-
-    public void DecrementPage()
-    {
-        _currentPage--;
-    }
-
-    public int GetCurrentPage()
-    {
-        return _currentPage;
-    }
-
-    public void SetCanLoadMore(bool canLoadMore)
-    {
-        _canLoadMore = canLoadMore;
-    }
+    public void AddSearchResult(FoodSearchItemViewModel itemVm) => SearchResults.Add(itemVm);
+    public void ClearSearchResults() => SearchResults.Clear();
+    public void DecrementPage() => _currentPage--;
+    public void SetCanLoadMore(bool canLoadMore) => _canLoadMore = canLoadMore;
+    public int GetCurrentPage() => _currentPage;
 }
