@@ -6,31 +6,29 @@ namespace ForgeFit.MAUI.Services;
 
 public class CustomFoodService(IApiService apiService) : ICustomFoodService
 {
-    public async Task<ServiceResponse<List<CustomFoodDto>>> GetAllForUserAsync(Guid userId,
+    public async Task<ServiceResponse<List<CustomFoodDto>>> GetAllForUserAsync(CancellationToken cancellationToken = default)
+    {
+        return await apiService.GetAsync<List<CustomFoodDto>>("/api/custom-food", cancellationToken);
+    }
+
+    public async Task<ServiceResponse<CustomFoodDto>> GetByIdAsync(Guid id, 
         CancellationToken cancellationToken = default)
     {
-        return await apiService.GetAsync<List<CustomFoodDto>>($"/api/custom-food?userId={userId}", cancellationToken);
+        return await apiService.GetAsync<CustomFoodDto>($"/api/custom-food/{id}", cancellationToken);
     }
 
-    public async Task<ServiceResponse<CustomFoodDto>> GetByIdAsync(Guid userId, Guid id,
-        CancellationToken cancellationToken = default)
+    public async Task<ServiceResponse<CustomFoodDto>> CreateAsync(CustomFoodCreateRequest request)
     {
-        return await apiService.GetAsync<CustomFoodDto>($"/api/custom-food/{id}?userId={userId}", cancellationToken);
+        return await apiService.PostAsync<CustomFoodCreateRequest, CustomFoodDto>("/api/custom-food", request);
     }
 
-    public async Task<ServiceResponse<CustomFoodDto>> CreateAsync(Guid userId, CustomFoodCreateRequest request)
+    public async Task<ServiceResponse<CustomFoodDto?>> UpdateAsync(Guid id, CustomFoodUpdateRequest request)
     {
-        return await apiService.PostAsync<CustomFoodCreateRequest, CustomFoodDto>($"/api/custom-food?userId={userId}", request);
+        return await apiService.PutAsync<CustomFoodUpdateRequest, CustomFoodDto>($"/api/custom-food/{id}", request);
     }
 
-    public async Task<ServiceResponse<CustomFoodDto?>> UpdateAsync(Guid userId, Guid id,
-        CustomFoodUpdateRequest request)
+    public async Task<ServiceResponse<bool>> DeleteAsync(Guid id)
     {
-        return await apiService.PutAsync<CustomFoodUpdateRequest, CustomFoodDto>($"/api/custom-food/{id}?userId={userId}", request);
-    }
-
-    public async Task<ServiceResponse<bool>> DeleteAsync(Guid userId, Guid id)
-    {
-        return await apiService.DeleteAsync($"/api/custom-food/{id}?userId={userId}");
+        return await apiService.DeleteAsync($"/api/custom-food/{id}");
     }
 }
