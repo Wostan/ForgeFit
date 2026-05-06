@@ -12,7 +12,8 @@ namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 public class FoodDiaryIntegrationViewModel(
     IDiaryService diaryService,
     IFoodService foodService,
-    IAlertService alertService) : ObservableObject
+    IAlertService alertService,
+    ICustomFoodService customFoodService) : ObservableObject
 {
     private DateTime _date;
     private Guid? _entryId;
@@ -62,18 +63,56 @@ public class FoodDiaryIntegrationViewModel(
         }
     }
 
-    public async Task QuickAddInternal(FoodSearchItemViewModel itemVm, bool isShowingRecent)
+public async Task QuickAddInternal(FoodSearchItemViewModel itemVm, bool isShowingRecent)
     {
         try
         {
-            var productResult = await foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
-            if (productResult is not { Success: true, Data: not null })
+            FoodProductResponse? product;
+
+            if (Guid.TryParse(itemVm.Data.ExternalId, out var customId))
             {
-                await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
-                return;
+                var customResult = await customFoodService.GetByIdAsync(customId);
+                if (customResult is { Success: true, Data: not null })
+                {
+                    var cf = customResult.Data;
+                    product = new FoodProductResponse(
+                        cf.Id.ToString(), 
+                        cf.Name, 
+                        cf.Brand, 
+                        [new FoodServingDto(
+                            "Custom", 
+                            cf.ServingSize, 
+                            cf.ServingUnit, 
+                            cf.Calories, 
+                            cf.Carbs, 
+                            cf.Protein, 
+                            cf.Fat, 
+                            cf.Fiber, 
+                            cf.Sugar, 
+                            cf.SaturatedFat, 
+                            cf.Sodium)]
+                    );
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(new LocalizedString(() => customResult.Message).Localized);
+                    return;
+                }
+            }
+            else
+            {
+                var productResult = await foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
+                if (productResult is { Success: true, Data: not null })
+                {
+                    product = productResult.Data;
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
+                    return;
+                }
             }
 
-            var product = productResult.Data;
             var parts = itemVm.Data.Serving.Split(' ');
             FoodServingDto? targetServing = null;
             double amount = 0;

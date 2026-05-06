@@ -737,4 +737,25 @@
     <data name="CustomFood_ServingUnit" xml:space="preserve">
         <value>Serving Unit</value>
     </data>
+    <data name="Error_FoodNameRequired" xml:space="preserve">
+        <value>Product name is required.</value>
+    </data>
+    <data name="Error_FoodNameTooLong" xml:space="preserve">
+        <value>Product name is too long.</value>
+    </data>
+    <data name="Error_InvalidServingSize" xml:space="preserve">
+        <value>Invalid serving size.</value>
+    </data>
+    <data name="Success_CustomFoodCreated" xml:space="preserve">
+        <value>Custom product saved!</value>
+    </data>
+    <data name="Success_CustomFoodUpdated" xml:space="preserve">
+        <value>Product updated successfully!</value>
+    </data>
+    <data name="Title_DeleteFood" xml:space="preserve">
+        <value>Delete Product</value>
+    </data>
+    <data name="Message_ConfirmDeleteFood" xml:space="preserve">
+        <value>Are you sure you want to delete this custom product?</value>
+    </data>
 </root>

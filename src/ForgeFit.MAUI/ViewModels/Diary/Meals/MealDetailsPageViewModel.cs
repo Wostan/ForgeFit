@@ -21,6 +21,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private readonly IDiaryService _diaryService;
     private readonly IFoodService _foodService;
     private readonly ILocalizationResourceManager _localizationManager;
+    private readonly ICustomFoodService _customFoodService;
 
     private CancellationTokenSource? _cts;
 
@@ -39,12 +40,14 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         IDiaryService diaryService,
         IFoodService foodService,
         IAlertService alertService,
-        ILocalizationResourceManager localizationManager)
+        ILocalizationResourceManager localizationManager,
+        ICustomFoodService customFoodService)
     {
         _diaryService = diaryService;
         _foodService = foodService;
         _alertService = alertService;
         _localizationManager = localizationManager;
+        _customFoodService = customFoodService;
 
         DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();
@@ -271,18 +274,55 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         try
         {
             IsLoading = true;
+            FoodProductResponse? product = null;
 
-            var result = await _foodService.GetProductByIdAsync(item.ExternalId);
-
-            if (result is { Success: true, Data: not null })
+            if (Guid.TryParse(item.ExternalId, out var customId))
             {
-                _editingItem = item;
-                DetailsVM.OpenFoodDetailsInternal(result.Data, item);
+                var customResult = await _customFoodService.GetByIdAsync(customId);
+                if (customResult is { Success: true, Data: not null })
+                {
+                    var cf = customResult.Data;
+                    product = new FoodProductResponse(
+                        cf.Id.ToString(), 
+                        cf.Name, 
+                        cf.Brand,
+                        [new FoodServingDto(
+                            "Custom", 
+                            cf.ServingSize, 
+                            cf.ServingUnit, 
+                            cf.Calories, 
+                            cf.Carbs, 
+                            cf.Protein, 
+                            cf.Fat, 
+                            cf.Fiber, 
+                            cf.Sugar, 
+                            cf.SaturatedFat, 
+                            cf.Sodium)]
+                    );
+                }
+                else
+                {
+                    var errorMsg = new LocalizedString(() => customResult.Message);
+                    await _alertService.ShowToastAsync(errorMsg.Localized);
+                }
             }
             else
             {
-                var errorMsg = new LocalizedString(() => result.Message);
-                await _alertService.ShowToastAsync(errorMsg.Localized);
+                var fsResult = await _foodService.GetProductByIdAsync(item.ExternalId);
+                if (fsResult is { Success: true, Data: not null })
+                {
+                    product = fsResult.Data;
+                }
+                else
+                {
+                    await _alertService.ShowToastAsync(new LocalizedString(() => fsResult.Message).Localized);
+                }
+            }
+
+            if (product != null)
+            {
+                _editingItem = item;
+                DetailsVM.OpenFoodDetailsInternal(product, item);
             }
         }
         catch

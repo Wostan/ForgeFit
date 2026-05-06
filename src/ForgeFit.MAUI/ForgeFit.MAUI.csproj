@@ -138,6 +138,10 @@
           <DependentUpon>ProfilePageView.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Views\Controls\Diary\CreateCustomFoodView.xaml.cs">
+          <DependentUpon>CreateCustomFoodView.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -182,6 +186,9 @@
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Profile\ProfilePageView.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Diary\CreateCustomFoodView.xaml">
           <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>

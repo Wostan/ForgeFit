@@ -19,7 +19,7 @@
                 <CarouselView ZIndex="1"
                               Position="{Binding CurrentTabIndex}"
                               Loop="False"
-                              IsSwipeEnabled="True"
+                              IsSwipeEnabled="False"
                               IsScrollAnimated="True"
                               HorizontalScrollBarVisibility="Never">
                     <CarouselView.ItemsSource>
@@ -107,11 +107,17 @@
                 </diary:FoodDetails.Behaviors>
             </diary:FoodDetails>
 
-            <controls:CreateCustomFoodView ZIndex="13" BindingContext="{Binding CreateCustomFoodVM}">
-                <controls:CreateCustomFoodView.Behaviors>
+            <diary:CreateCustomFoodView ZIndex="13" BindingContext="{Binding CreateCustomFoodVM}">
+                <diary:CreateCustomFoodView.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateFoodPopupVisible, Source={x:Reference ThisPage}}" />
-                </controls:CreateCustomFoodView.Behaviors>
-            </controls:CreateCustomFoodView>
+                </diary:CreateCustomFoodView.Behaviors>
+            </diary:CreateCustomFoodView>
+            
+            <controls:ConfirmationPopup ZIndex="14" BindingContext="{Binding PopupVM}">
+                <controls:ConfirmationPopup.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsConfirmationPopupVisible, Source={x:Reference ThisPage}}" />
+                </controls:ConfirmationPopup.Behaviors>
+            </controls:ConfirmationPopup>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

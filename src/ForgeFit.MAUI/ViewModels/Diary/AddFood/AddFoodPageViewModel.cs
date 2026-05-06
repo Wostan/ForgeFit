@@ -14,9 +14,6 @@ namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
 
 public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
 {
-    private readonly IAlertService _alertService;
-    private readonly IDiaryService _diaryService;
-    private readonly IFoodService _foodService;
     private readonly ILocalizationResourceManager _localizationManager;
 
     private DateTime _date;
@@ -30,21 +27,19 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         IFoodService foodService,
         IDiaryService diaryService,
         IAlertService alertService,
-        ILocalizationResourceManager localizationManager)
+        ILocalizationResourceManager localizationManager,
+        ICustomFoodService customFoodService)
     {
-        _foodService = foodService;
-        _diaryService = diaryService;
-        _alertService = alertService;
         _localizationManager = localizationManager;
 
         PopupVM = new PopupManagerViewModel(localizationManager);
-        DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService);
+        DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService, customFoodService);
         DetailsVM = new FoodDetailsViewModel(alertService);
         
         SearchVM = new FoodSearchViewModel(foodService, diaryService, alertService, localizationManager, DiaryVM, DetailsVM);
         ScannerVM = new FoodScannerViewModel(foodService, alertService, localizationManager, SearchVM, DetailsVM, DiaryVM);
-        MyProductsVM = new MyProductsViewModel(PopupVM);
-        CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM);
+        CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
+        MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM, DetailsVM, CreateCustomFoodVM);
 
         // TODO:
         // RecipesVM = new RecipesViewModel(...);
@@ -89,6 +84,7 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         await DiaryVM.RefreshExistingIdsAsync();
         
         await SearchVM.LoadRecentAsync();
+        await MyProductsVM.LoadProductsAsync();
         
         IsLoading = false;
     }
@@ -99,6 +95,9 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
             DetailsVM.OpenFoodDetailsInternal(product, source, SearchVM.IsShowingRecent);
         DetailsVM.CloseFoodDetailsCallback = CloseFoodDetailsInternal;
         DetailsVM.SaveFoodCallback = SaveFoodInternal;
+        
+        CreateCustomFoodVM.FoodCreatedCallback = MyProductsVM.OnFoodCreatedAsync;
+        CreateCustomFoodVM.FoodUpdatedCallback = MyProductsVM.OnFoodUpdatedAsync;
     }
 
     private void ResetState()

@@ -1472,5 +1472,47 @@ namespace ForgeFit.MAUI.Resources.Strings {
                 return ResourceManager.GetString("CustomFood_ServingUnit", resourceCulture);
             }
         }
+        
+        internal static string Error_FoodNameRequired {
+            get {
+                return ResourceManager.GetString("Error_FoodNameRequired", resourceCulture);
+            }
+        }
+        
+        internal static string Error_FoodNameTooLong {
+            get {
+                return ResourceManager.GetString("Error_FoodNameTooLong", resourceCulture);
+            }
+        }
+        
+        internal static string Error_InvalidServingSize {
+            get {
+                return ResourceManager.GetString("Error_InvalidServingSize", resourceCulture);
+            }
+        }
+        
+        internal static string Success_CustomFoodCreated {
+            get {
+                return ResourceManager.GetString("Success_CustomFoodCreated", resourceCulture);
+            }
+        }
+        
+        internal static string Success_CustomFoodUpdated {
+            get {
+                return ResourceManager.GetString("Success_CustomFoodUpdated", resourceCulture);
+            }
+        }
+        
+        internal static string Title_DeleteFood {
+            get {
+                return ResourceManager.GetString("Title_DeleteFood", resourceCulture);
+            }
+        }
+        
+        internal static string Message_ConfirmDeleteFood {
+            get {
+                return ResourceManager.GetString("Message_ConfirmDeleteFood", resourceCulture);
+            }
+        }
     }
 }

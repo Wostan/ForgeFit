@@ -6,7 +6,7 @@
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:constants="clr-namespace:ForgeFit.MAUI.Constants"
-             x:Class="ForgeFit.MAUI.Views.Controls.CreateCustomFoodView"
+             x:Class="ForgeFit.MAUI.Views.Controls.Diary.CreateCustomFoodView"
              BackgroundColor="#90000000"
              InputTransparent="False">
     <ContentView.GestureRecognizers>
