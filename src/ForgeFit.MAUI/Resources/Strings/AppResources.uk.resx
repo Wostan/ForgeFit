@@ -702,4 +702,31 @@
     <data name="Action_CreateRecipe" xml:space="preserve">
         <value>Створити рецепт</value>
     </data>
+    <data name="MyFood_EmptyList" xml:space="preserve">
+        <value>У вас ще немає власних продуктів</value>
+    </data>
+    <data name="CustomFood_Name" xml:space="preserve">
+        <value>Назва</value>
+    </data>
+    <data name="CustomFood_Brand" xml:space="preserve">
+        <value>Бренд</value>
+    </data>
+    <data name="CustomFood_Barcode" xml:space="preserve">
+        <value>Штрихкод</value>
+    </data>
+    <data name="CustomFood_Macros" xml:space="preserve">
+        <value>Макронутрієнти</value>
+    </data>
+    <data name="CustomFood_Serving" xml:space="preserve">
+        <value>Порція</value>
+    </data>
+    <data name="CustomFood_ServingSize" xml:space="preserve">
+        <value>Розмір порції</value>
+    </data>
+    <data name="CustomFood_ServingUnit" xml:space="preserve">
+        <value>Одиниця порції</value>
+    </data>
+    <data name="CustomFood_AdditionalInfo" xml:space="preserve">
+        <value>Додаткова інформація (необов'язково)</value>
+    </data>
 </root>

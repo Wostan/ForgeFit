@@ -5,9 +5,9 @@ using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
+using ForgeFit.MAUI.ViewModels.Diary.MyProducts;
 using LocalizationResourceManager.Maui;
 
-// using ForgeFit.MAUI.ViewModels.Diary.MyProducts;
 // using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
@@ -37,14 +37,16 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         _alertService = alertService;
         _localizationManager = localizationManager;
 
+        PopupVM = new PopupManagerViewModel(localizationManager);
         DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService);
         DetailsVM = new FoodDetailsViewModel(alertService);
         
         SearchVM = new FoodSearchViewModel(foodService, diaryService, alertService, localizationManager, DiaryVM, DetailsVM);
         ScannerVM = new FoodScannerViewModel(foodService, alertService, localizationManager, SearchVM, DetailsVM, DiaryVM);
+        MyProductsVM = new MyProductsViewModel(PopupVM);
+        CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM);
 
         // TODO:
-        // MyProductsVM = new MyProductsViewModel(popupManager, ...);
         // RecipesVM = new RecipesViewModel(...);
 
         SetupCallbacks();
@@ -54,8 +56,10 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
     public FoodDetailsViewModel DetailsVM { get; }
     public FoodScannerViewModel ScannerVM { get; }
     public FoodDiaryIntegrationViewModel DiaryVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
+    public MyProductsViewModel MyProductsVM { get; }
+    public CreateCustomFoodViewModel CreateCustomFoodVM { get; }
     
-    // public MyProductsViewModel MyProductsVM { get; }
     // public RecipesViewModel RecipesVM { get; }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)

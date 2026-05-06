@@ -192,4 +192,8 @@
         </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ViewModels\Diary\MyProducts\" />
+    </ItemGroup>
+
 </Project>

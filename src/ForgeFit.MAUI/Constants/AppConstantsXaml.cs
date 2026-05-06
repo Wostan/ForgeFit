@@ -36,9 +36,13 @@ public static class AppConstantsXaml
     // --- Exercises ---
     public static int MaxRepsPerSet => AppConstants.ValidationLimits.MaxRepsPerSet;
     public static double MaxWorkoutWeightKg => AppConstants.ValidationLimits.MaxWorkoutWeightKg;
+    
+    // --- Custom Food Input Limits ---
+    public static int MaxFoodLabelLength => AppConstants.ValidationLimits.MaxFoodLabelLength;
+    public static int MaxBarcodeLength => AppConstants.ValidationLimits.MaxBarcodeLength;
+    public static int MacroEntryMaxLength => 4;
 
-
-    // --- Input Limits ---
+    // --- Workout Input Limits ---
     public static int HoursEntryMaxLength => AppConstants.XamlInputLimits.HoursEntryMaxLength;
     public static int MinutesEntryMaxLength => AppConstants.XamlInputLimits.MinutesEntryMaxLength;
     public static int WeightEntryMaxLength => AppConstants.XamlInputLimits.WeightEntryMaxLength;

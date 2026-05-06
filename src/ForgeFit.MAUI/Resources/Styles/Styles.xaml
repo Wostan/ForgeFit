@@ -457,8 +457,8 @@
     <Style TargetType="VerticalStackLayout" x:Key="MainContentStackLayout">
         <Setter Property="Padding">
             <OnPlatform x:TypeArguments="Thickness">
-                <On Platform="iOS" Value="20,140,20,20" />
-                <On Platform="Android" Value="20,120,20,20" />
+                <On Platform="iOS" Value="20,120,20,20" />
+                <On Platform="Android" Value="20,100,20,20" />
             </OnPlatform>
         </Setter>
         <Setter Property="Spacing" Value="20" />

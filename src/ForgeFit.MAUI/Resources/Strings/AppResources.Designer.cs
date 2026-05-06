@@ -1418,5 +1418,59 @@ namespace ForgeFit.MAUI.Resources.Strings {
                 return ResourceManager.GetString("Action_CreateRecipe", resourceCulture);
             }
         }
+        
+        internal static string MyFood_EmptyList {
+            get {
+                return ResourceManager.GetString("MyFood_EmptyList", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Name {
+            get {
+                return ResourceManager.GetString("CustomFood_Name", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Brand {
+            get {
+                return ResourceManager.GetString("CustomFood_Brand", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Barcode {
+            get {
+                return ResourceManager.GetString("CustomFood_Barcode", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Macros {
+            get {
+                return ResourceManager.GetString("CustomFood_Macros", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Serving {
+            get {
+                return ResourceManager.GetString("CustomFood_Serving", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_ServingSize {
+            get {
+                return ResourceManager.GetString("CustomFood_ServingSize", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_AdditionalInfo {
+            get {
+                return ResourceManager.GetString("CustomFood_AdditionalInfo", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_ServingUnit {
+            get {
+                return ResourceManager.GetString("CustomFood_ServingUnit", resourceCulture);
+            }
+        }
     }
 }

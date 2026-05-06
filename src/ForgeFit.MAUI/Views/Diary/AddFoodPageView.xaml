@@ -106,6 +106,12 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.DetailsVM.IsFoodDetailsVisible, Source={x:Reference ThisPage}}" />
                 </diary:FoodDetails.Behaviors>
             </diary:FoodDetails>
+
+            <controls:CreateCustomFoodView ZIndex="13" BindingContext="{Binding CreateCustomFoodVM}">
+                <controls:CreateCustomFoodView.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateFoodPopupVisible, Source={x:Reference ThisPage}}" />
+                </controls:CreateCustomFoodView.Behaviors>
+            </controls:CreateCustomFoodView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

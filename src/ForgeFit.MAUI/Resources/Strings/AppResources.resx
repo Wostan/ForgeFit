@@ -710,4 +710,31 @@
     <data name="Action_CreateRecipe" xml:space="preserve">
         <value>Create Recipe</value>
     </data>
+    <data name="MyFood_EmptyList" xml:space="preserve">
+        <value>You don't have any custom products yet</value>
+    </data>
+    <data name="CustomFood_Name" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="CustomFood_Brand" xml:space="preserve">
+        <value>Brand</value>
+    </data>
+    <data name="CustomFood_Barcode" xml:space="preserve">
+        <value>Barcode</value>
+    </data>
+    <data name="CustomFood_Macros" xml:space="preserve">
+        <value>Macros</value>
+    </data>
+    <data name="CustomFood_Serving" xml:space="preserve">
+        <value>Serving</value>
+    </data>
+    <data name="CustomFood_ServingSize" xml:space="preserve">
+        <value>Serving Size</value>
+    </data>
+    <data name="CustomFood_AdditionalInfo" xml:space="preserve">
+        <value>Additional Info (optional)</value>
+    </data>
+    <data name="CustomFood_ServingUnit" xml:space="preserve">
+        <value>Serving Unit</value>
+    </data>
 </root>
