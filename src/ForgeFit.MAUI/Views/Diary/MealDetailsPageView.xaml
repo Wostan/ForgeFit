@@ -28,10 +28,10 @@
 
             <Button ImageSource="add_big.svg"
                     Text="{maui:Translate Action_AddFood}"
-                    Margin="16"
+                    Margin="12"
                     VerticalOptions="End"
                     ZIndex="1"
-                    Command="{Binding GoToFoodSearchCommand}" />
+                    Command="{Binding GoToAddFoodCommand}" />
 
             <diary:FoodDetails ZIndex="17" BindingContext="{Binding DetailsVM}">
                 <diary:FoodDetails.Behaviors>
