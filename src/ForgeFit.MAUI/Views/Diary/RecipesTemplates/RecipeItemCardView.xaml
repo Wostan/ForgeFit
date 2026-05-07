@@ -21,7 +21,7 @@
     <Border StrokeThickness="0" Padding="16,0" BackgroundColor="{StaticResource PageBackground}">
         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" 
               ColumnDefinitions="*, Auto, 50" 
-              Padding="16, 8">
+              Padding="16, 8,0,8">
 
             <Label Grid.Row="0" Grid.Column="0"
                    Text="{Binding Name}"
@@ -127,7 +127,7 @@
                                    LineBreakMode="TailTruncation"
                                    VerticalOptions="Center" />
                             
-                            <Label Grid.Column="1">
+                            <Label Grid.Column="1" Margin="16,0">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="{Binding Amount, StringFormat='{0:F0}'}"

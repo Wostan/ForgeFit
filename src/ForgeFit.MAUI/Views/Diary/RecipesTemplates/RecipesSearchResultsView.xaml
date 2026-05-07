@@ -75,7 +75,7 @@
             </CollectionView.EmptyView>
 
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
             </CollectionView.ItemsLayout>
 
             <CollectionView.Header>
@@ -133,7 +133,13 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <recipesTemplates:RecipeItemCardView />
+                        <VerticalStackLayout>
+                            <recipesTemplates:RecipeItemCardView />
+
+                            <BoxView HeightRequest="1"
+                                     Color="{StaticResource BorderColor}"
+                                     Margin="16,0"/>
+                        </VerticalStackLayout>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
