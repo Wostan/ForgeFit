@@ -1,4 +1,6 @@
 ﻿using ForgeFit.MAUI.ViewModels;
+using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using ForgeFit.MAUI.Views;
 using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;

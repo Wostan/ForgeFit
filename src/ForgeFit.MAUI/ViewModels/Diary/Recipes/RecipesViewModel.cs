@@ -15,8 +15,6 @@ public partial class RecipesViewModel(
     IRecipeService recipeService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager,
-    FoodDiaryIntegrationViewModel diaryVM,
-    FoodDetailsViewModel detailsVM,
     CreateRecipeViewModel createRecipeVM) : ObservableObject
 {
     private List<RecipeDto> _allRecipes = [];
@@ -26,7 +24,6 @@ public partial class RecipesViewModel(
     [ObservableProperty] private bool _isLoading;
 
     public ObservableCollection<RecipeItemViewModel> SearchResults { get; } = [];
-    public CreateRecipeViewModel CreateRecipeVM => createRecipeVM;
 
     public async Task LoadRecipesAsync(CancellationToken token = default)
     {
@@ -103,22 +100,61 @@ public partial class RecipesViewModel(
         }, token);
     }
 
+    public async Task OnRecipeCreatedAsync(RecipeDto newRecipe)
+    {
+        _allRecipes.Add(newRecipe);
+        SearchText = string.Empty;
+        UpdateSearchResults();
+    }
+
+    public async Task OnRecipeUpdatedAsync(RecipeDto updatedRecipe)
+    {
+        var existingIndex = _allRecipes.FindIndex(r => r.Id == updatedRecipe.Id);
+        if (existingIndex >= 0)
+        {
+            _allRecipes[existingIndex] = updatedRecipe;
+            UpdateSearchResults();
+        }
+    }
+
     [RelayCommand]
     private void OpenCreateRecipePopup()
     {
-        createRecipeVM.Name = string.Empty;
-        createRecipeVM.Description = null;
-        createRecipeVM.Ingredients.Clear();
+        createRecipeVM.InitializeForCreate();
         popupManager.OpenCreateRecipePopup();
     }
 
     [RelayCommand]
     private void EditRecipe(RecipeItemViewModel? recipeVm)
     {
+        if (recipeVm == null) return;
+        var recipe = _allRecipes.FirstOrDefault(r => r.Id == recipeVm.Recipe.Id);
+        if (recipe != null)
+        {
+            createRecipeVM.InitializeForEdit(recipe);
+            popupManager.OpenCreateRecipePopup();
+        }
     }
 
     [RelayCommand]
     private void DeleteRecipe(RecipeItemViewModel? recipeVm)
     {
+        if (recipeVm == null) return;
+        popupManager.ShowConfirmation(
+            "Title_DeleteRecipe",
+            "Message_ConfirmDeleteRecipe",
+            async () =>
+            {
+                var deleteResult = await recipeService.DeleteAsync(recipeVm.Recipe.Id);
+                if (deleteResult.Success)
+                {
+                    _allRecipes.RemoveAll(r => r.Id == recipeVm.Recipe.Id);
+                    UpdateSearchResults();
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(deleteResult.Message);
+                }
+            });
     }
 }

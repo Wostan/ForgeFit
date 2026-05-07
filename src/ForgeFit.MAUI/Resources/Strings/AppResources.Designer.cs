@@ -1605,6 +1605,12 @@ namespace ForgeFit.MAUI.Resources.Strings {
             }
         }
         
+        internal static string Error_RecipeNameTooLong {
+            get {
+                return ResourceManager.GetString("Error_RecipeNameTooLong", resourceCulture);
+            }
+        }
+        
         internal static string Success_RecipeCreated {
             get {
                 return ResourceManager.GetString("Success_RecipeCreated", resourceCulture);

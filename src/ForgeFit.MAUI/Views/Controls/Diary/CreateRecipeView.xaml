@@ -197,55 +197,62 @@
                     </ImageButton>
                 </Grid>
 
-                <CollectionView ItemsSource="{Binding Ingredients}">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FoodItemDto">
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItemView>
-                                            <Grid ColumnDefinitions="*,*"
-                                                  WidthRequest="120"
-                                                  VerticalOptions="Fill">
-                                                <Grid Grid.Column="0"
-                                                      BackgroundColor="{StaticResource DangerColor}"
-                                                      VerticalOptions="Fill"
-                                                      HorizontalOptions="Fill">
-                                                    <Image Source="delete.svg"
-                                                           HorizontalOptions="Center"
-                                                           VerticalOptions="Center" />
-                                                    <Grid.GestureRecognizers>
-                                                        <TapGestureRecognizer
-                                                            Command="{Binding BindingContext.RemoveIngredientCommand, Source={x:Reference ThisView}}"
-                                                            CommandParameter="{Binding .}" />
-                                                    </Grid.GestureRecognizers>
+                <Border Style="{StaticResource CardStyle}" Padding="0">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding Ingredients.Count, FallbackValue=0}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Ingredients}"
+                                     Spacing="0" 
+                                     Padding="0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:FoodItemDto">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItemView>
+                                                <Grid ColumnDefinitions="*,*"
+                                                      WidthRequest="120"
+                                                      VerticalOptions="Fill">
+                                                    <Grid Grid.Column="0"
+                                                          BackgroundColor="{StaticResource DangerColor}"
+                                                          VerticalOptions="Fill"
+                                                          HorizontalOptions="Fill">
+                                                        <Image Source="delete.svg"
+                                                               HorizontalOptions="Center"
+                                                               VerticalOptions="Center" />
+                                                        <Grid.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.RemoveIngredientCommand, Source={x:Reference ThisView}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Grid.GestureRecognizers>
+                                                    </Grid>
+                                                    <Grid Grid.Column="1"
+                                                          BackgroundColor="{StaticResource Primary}"
+                                                          VerticalOptions="Fill"
+                                                          HorizontalOptions="Fill">
+                                                        <Image Source="edit.svg"
+                                                               HorizontalOptions="Center"
+                                                               VerticalOptions="Center" />
+                                                        <Grid.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.EditIngredientCommand, Source={x:Reference ThisView}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Grid.GestureRecognizers>
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid Grid.Column="1"
-                                                      BackgroundColor="{StaticResource Primary}"
-                                                      VerticalOptions="Fill"
-                                                      HorizontalOptions="Fill">
-                                                    <Image Source="edit.svg"
-                                                           HorizontalOptions="Center"
-                                                           VerticalOptions="Center" />
-                                                    <Grid.GestureRecognizers>
-                                                        <TapGestureRecognizer
-                                                            Command="{Binding BindingContext.EditIngredientCommand, Source={x:Reference ThisView}}"
-                                                            CommandParameter="{Binding .}" />
-                                                    </Grid.GestureRecognizers>
-                                                </Grid>
-                                            </Grid>
-                                        </SwipeItemView>
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
+                                            </SwipeItemView>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
 
-                                <mealDetails:MealFoodItemRowView />
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                    <mealDetails:MealFoodItemRowView />
+                                </SwipeView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </Border>
             </VerticalStackLayout>
         </ScrollView>
         

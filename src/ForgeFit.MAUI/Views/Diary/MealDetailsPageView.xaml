@@ -39,6 +39,12 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </diary:FoodDetails.Behaviors>
             </diary:FoodDetails>
+
+            <diary:CreateRecipeView ZIndex="13" BindingContext="{Binding CreateRecipeVM}">
+                <diary:CreateRecipeView.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateRecipePopupVisible, Source={x:Reference ThisPage}}" />
+                </diary:CreateRecipeView.Behaviors>
+            </diary:CreateRecipeView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

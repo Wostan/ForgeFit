@@ -803,6 +803,9 @@
     <data name="Error_RecipeNameRequired" xml:space="preserve">
         <value>Recipe name is required.</value>
     </data>
+    <data name="Error_RecipeNameTooLong" xml:space="preserve">
+        <value>Recipe name is too long.</value>
+    </data>
     <data name="Success_RecipeCreated" xml:space="preserve">
         <value>Recipe saved!</value>
     </data>

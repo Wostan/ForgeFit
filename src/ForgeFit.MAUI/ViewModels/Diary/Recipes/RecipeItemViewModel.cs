@@ -3,7 +3,7 @@ using ForgeFit.MAUI.Models.DTOs.Food;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Recipes;
 
-public partial class RecipeItemViewModel(RecipeDto recipe) : ObservableObject
+public class RecipeItemViewModel(RecipeDto recipe) : ObservableObject
 {
     public RecipeDto Recipe { get; } = recipe;
 

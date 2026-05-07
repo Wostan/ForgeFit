@@ -40,8 +40,8 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         ScannerVM = new FoodScannerViewModel(foodService, alertService, localizationManager, SearchVM, DetailsVM, DiaryVM);
         CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
         MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM, DetailsVM, CreateCustomFoodVM);
-        CreateRecipeVM = new CreateRecipeViewModel(PopupVM);
-        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, DiaryVM, DetailsVM, CreateRecipeVM);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, alertService, localizationManager);
+        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, CreateRecipeVM);
 
         SetupCallbacks();
     }
@@ -98,6 +98,9 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         
         CreateCustomFoodVM.FoodCreatedCallback = MyProductsVM.OnFoodCreatedAsync;
         CreateCustomFoodVM.FoodUpdatedCallback = MyProductsVM.OnFoodUpdatedAsync;
+        
+        CreateRecipeVM.RecipeCreatedCallback = RecipesVM.OnRecipeCreatedAsync;
+        CreateRecipeVM.RecipeUpdatedCallback = RecipesVM.OnRecipeUpdatedAsync;
     }
 
     private void ResetState()

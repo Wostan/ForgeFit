@@ -10,6 +10,7 @@ using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using ForgeFit.MAUI.Views.Diary;
 using LocalizationResourceManager.Maui;
 
@@ -41,13 +42,17 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         IFoodService foodService,
         IAlertService alertService,
         ILocalizationResourceManager localizationManager,
-        ICustomFoodService customFoodService)
+        ICustomFoodService customFoodService,
+        IRecipeService recipeService)
     {
         _diaryService = diaryService;
         _foodService = foodService;
         _alertService = alertService;
         _localizationManager = localizationManager;
         _customFoodService = customFoodService;
+
+        PopupVM = new PopupManagerViewModel(localizationManager);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, alertService, localizationManager);
 
         DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();
@@ -59,6 +64,8 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
     public FoodDetailsViewModel DetailsVM { get; }
     public MealMacroStatsViewModel MacrosVM { get; }
+    public CreateRecipeViewModel CreateRecipeVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -207,7 +214,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         MacrosVM.CalculateTotals(FoodItems);
     }
 
-
     [RelayCommand]
     private async Task DeleteItem(FoodItemDto item)
     {
@@ -336,9 +342,10 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     }
 
     [RelayCommand]
-    private Task SaveAsRecipe()
+    private void SaveAsRecipe()
     {
-        return Task.CompletedTask;
+        CreateRecipeVM.InitializeForCreate(FoodItems);
+        PopupVM.OpenCreateRecipePopup();
     }
 
     [RelayCommand]
