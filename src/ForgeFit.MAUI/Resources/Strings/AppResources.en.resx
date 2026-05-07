@@ -192,6 +192,12 @@
     <data name="Search_Recent" xml:space="preserve">
         <value>Showing recent</value>
     </data>
+    <data name="Search_Food" xml:space="preserve">
+        <value>Search Food</value>
+    </data>
+    <data name="Search_FoodPlaceholder" xml:space="preserve">
+        <value>Search for food...</value>
+    </data>
     <data name="Action_Save" xml:space="preserve">
         <value>Save</value>
     </data>
@@ -797,6 +803,9 @@
     </data>
     <data name="Error_RecipeNameTooLong" xml:space="preserve">
         <value>Recipe name is too long.</value>
+    </data>
+    <data name="Error_RecipeNoIngredients" xml:space="preserve">
+        <value>At least one ingredient is required.</value>
     </data>
     <data name="Success_RecipeCreated" xml:space="preserve">
         <value>Recipe saved!</value>

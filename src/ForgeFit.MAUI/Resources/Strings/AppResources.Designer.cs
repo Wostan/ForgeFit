@@ -399,6 +399,18 @@ namespace ForgeFit.MAUI.Resources.Strings {
             }
         }
         
+        internal static string Search_Food {
+            get {
+                return ResourceManager.GetString("Search_Food", resourceCulture);
+            }
+        }
+        
+        internal static string Search_FoodPlaceholder {
+            get {
+                return ResourceManager.GetString("Search_FoodPlaceholder", resourceCulture);
+            }
+        }
+        
         internal static string Action_Save {
             get {
                 return ResourceManager.GetString("Action_Save", resourceCulture);

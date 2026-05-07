@@ -68,10 +68,11 @@ public class RecipeService(
 
         recipe.UpdateDetails(request.Name, request.Description);
         recipe.UpdateIngredients(ingredients);
-
+        
+        var responseDto = mapper.Map<RecipeDto>(recipe);
         await unitOfWork.SaveChangesAsync();
 
-        return mapper.Map<RecipeDto>(recipe);
+        return responseDto;
     }
 
     public async Task DeleteAsync(Guid userId, Guid recipeId)

@@ -34,7 +34,13 @@
                         Command="{Binding GoToAddFoodCommand}" />
             </Grid>
 
-            <diary:FoodDetails ZIndex="10" BindingContext="{Binding DetailsVM}">
+            <diary:FoodDetails ZIndex="17" BindingContext="{Binding DetailsVM}">
+                <diary:FoodDetails.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
+                </diary:FoodDetails.Behaviors>
+            </diary:FoodDetails>
+            
+            <diary:FoodDetails ZIndex="17" BindingContext="{Binding CreateRecipeVM.IngredientDetailsVM}">
                 <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </diary:FoodDetails.Behaviors>
@@ -45,6 +51,12 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateRecipePopupVisible, Source={x:Reference ThisPage}}" />
                 </diary:CreateRecipeView.Behaviors>
             </diary:CreateRecipeView>
+
+            <diary:RecipeIngredientSearchView ZIndex="15" BindingContext="{Binding CreateRecipeVM.IngredientSearchVM}">
+                <diary:RecipeIngredientSearchView.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsRecipeIngredientSearchPopupVisible, Source={x:Reference ThisPage}}" />
+                </diary:RecipeIngredientSearchView.Behaviors>
+            </diary:RecipeIngredientSearchView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

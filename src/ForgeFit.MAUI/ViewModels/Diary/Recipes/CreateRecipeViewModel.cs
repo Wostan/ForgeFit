@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Constants;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Recipes;
@@ -12,6 +14,8 @@ namespace ForgeFit.MAUI.ViewModels.Diary.Recipes;
 public partial class CreateRecipeViewModel(
     PopupManagerViewModel popupManager,
     IRecipeService recipeService,
+    IFoodService foodService,
+    ICustomFoodService customFoodService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager) : ObservableObject
 {
@@ -27,11 +31,55 @@ public partial class CreateRecipeViewModel(
     [ObservableProperty] private double _totalSodium;
 
     private Guid? _editingRecipeId;
+    
+    private FoodItemDto? _editingIngredient;
+    public FoodDetailsViewModel IngredientDetailsVM { get; } = new(alertService);
 
     public ObservableCollection<FoodItemDto> Ingredients { get; } = [];
 
+    public RecipeIngredientSearchViewModel IngredientSearchVM { get; } =
+        new(foodService, customFoodService, alertService);
+
     public Func<RecipeDto, Task>? RecipeCreatedCallback;
     public Func<RecipeDto, Task>? RecipeUpdatedCallback;
+
+    private void SetupCallbacks()
+    {
+        IngredientSearchVM.IngredientSelectedCallback = async (newItem) =>
+        {
+            Ingredients.Add(newItem);
+            RecalculateMacros();
+        };
+
+        IngredientSearchVM.OpenDetailsCallback = async (product, searchItem) =>
+        {
+            _editingIngredient = null;
+            await IngredientDetailsVM.OpenFoodDetailsInternal(product, searchItem, false);
+        };
+
+        IngredientDetailsVM.SaveFoodCallback = async (newItem) =>
+        {
+            if (_editingIngredient != null)
+            {
+                var index = Ingredients.IndexOf(_editingIngredient);
+                if (index >= 0) Ingredients[index] = newItem;
+                _editingIngredient = null;
+            }
+            else
+            {
+                Ingredients.Add(newItem);
+            }
+            
+            RecalculateMacros();
+            IngredientDetailsVM.IsFoodDetailsVisible = false;
+        };
+
+        IngredientDetailsVM.CloseFoodDetailsCallback = () =>
+        {
+            IngredientDetailsVM.IsFoodDetailsVisible = false;
+            return Task.CompletedTask;
+        };
+    }
 
     public void InitializeForCreate(IEnumerable<FoodItemDto>? initialIngredients = null)
     {
@@ -48,6 +96,7 @@ public partial class CreateRecipeViewModel(
             }
         }
 
+        SetupCallbacks();
         RecalculateMacros();
     }
 
@@ -63,6 +112,7 @@ public partial class CreateRecipeViewModel(
             Ingredients.Add(ingredient);
         }
 
+        SetupCallbacks();
         RecalculateMacros();
     }
 
@@ -130,6 +180,7 @@ public partial class CreateRecipeViewModel(
                 else
                 {
                     await alertService.ShowToastAsync(updateResult.Message);
+                    Debug.WriteLine(updateResult.Message);
                 }
             }
             else
@@ -155,6 +206,7 @@ public partial class CreateRecipeViewModel(
                 else
                 {
                     await alertService.ShowToastAsync(createResult.Message);
+                    Debug.WriteLine(createResult.Message);
                 }
             }
         }
@@ -165,9 +217,10 @@ public partial class CreateRecipeViewModel(
     }
 
     [RelayCommand]
-    private Task AddIngredient()
+    private void AddIngredient()
     {
-        return Task.CompletedTask;
+        IngredientSearchVM.ResetState();
+        popupManager.OpenRecipeIngredientSearchPopup();
     }
 
     [RelayCommand]
@@ -178,8 +231,49 @@ public partial class CreateRecipeViewModel(
     }
 
     [RelayCommand]
-    private Task EditIngredient(FoodItemDto ingredient)
+    private async Task EditIngredient(FoodItemDto ingredient)
     {
-        return Task.CompletedTask;
+        try
+        {
+            FoodProductResponse? product;
+
+            if (Guid.TryParse(ingredient.ExternalId, out var customId))
+            {
+                var customResult = await customFoodService.GetByIdAsync(customId);
+                if (customResult is { Success: true, Data: not null })
+                {
+                    var cf = customResult.Data;
+                    product = new FoodProductResponse(
+                        cf.Id.ToString(), cf.Name, cf.Brand,
+                        [new FoodServingDto("Custom", cf.ServingSize, cf.ServingUnit, cf.Calories, cf.Carbs, cf.Protein, cf.Fat, cf.Fiber, cf.Sugar, cf.SaturatedFat, cf.Sodium)]
+                    );
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(new LocalizedString(() => customResult.Message).Localized);
+                    return;
+                }
+            }
+            else
+            {
+                var productResult = await foodService.GetProductByIdAsync(ingredient.ExternalId);
+                if (productResult is { Success: true, Data: not null })
+                {
+                    product = productResult.Data;
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
+                    return;
+                }
+            }
+
+            _editingIngredient = ingredient;
+            IngredientDetailsVM.OpenFoodDetailsInternal(product, ingredient);
+        }
+        catch (Exception ex)
+        {
+            await alertService.ShowToastAsync(new LocalizedString(() => ex.Message).Localized);
+        }
     }
 }

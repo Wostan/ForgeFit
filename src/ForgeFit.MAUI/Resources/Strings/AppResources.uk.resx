@@ -192,6 +192,12 @@
     <data name="Search_Recent" xml:space="preserve">
         <value>Показано нещодавні</value>
     </data>
+    <data name="Search_Food" xml:space="preserve">
+        <value>Пошук їжі</value>
+    </data>
+    <data name="Search_FoodPlaceholder" xml:space="preserve">
+        <value>Шукайте їжу...</value>
+    </data>
     <data name="Action_Save" xml:space="preserve">
         <value>Зберегти</value>
     </data>

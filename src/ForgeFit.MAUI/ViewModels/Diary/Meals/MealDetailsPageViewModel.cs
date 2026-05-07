@@ -52,7 +52,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _customFoodService = customFoodService;
 
         PopupVM = new PopupManagerViewModel(localizationManager);
-        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, alertService, localizationManager);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, _foodService, _customFoodService, alertService, localizationManager);
 
         DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();

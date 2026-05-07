@@ -200,6 +200,12 @@
     <data name="Search_Recent" xml:space="preserve">
         <value>Showing recent</value>
     </data>
+    <data name="Search_Food" xml:space="preserve">
+        <value>Search Food</value>
+    </data>
+    <data name="Search_FoodPlaceholder" xml:space="preserve">
+        <value>Search for food...</value>
+    </data>
     <data name="Action_Save" xml:space="preserve">
         <value>Save</value>
     </data>

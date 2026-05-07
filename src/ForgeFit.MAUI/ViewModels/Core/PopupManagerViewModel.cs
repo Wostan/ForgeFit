@@ -21,6 +21,7 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
     [ObservableProperty] private bool _isRenamePopupVisible;
     [ObservableProperty] private bool _isCreateFoodPopupVisible;
     [ObservableProperty] private bool _isCreateRecipePopupVisible;
+    [ObservableProperty] private bool _isRecipeIngredientSearchPopupVisible;
 
     private Func<Task>? _pendingConfirmationAction;
 
@@ -133,6 +134,17 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
     public void CloseCreateRecipePopup()
     {
         IsCreateRecipePopupVisible = false;
+    }
+
+    public void OpenRecipeIngredientSearchPopup()
+    {
+        IsRecipeIngredientSearchPopupVisible = true;
+    }
+
+    [RelayCommand]
+    public void CloseRecipeIngredientSearchPopup()
+    {
+        IsRecipeIngredientSearchPopupVisible = false;
     }
 
     public event Action<string>? DurationValidationError;
