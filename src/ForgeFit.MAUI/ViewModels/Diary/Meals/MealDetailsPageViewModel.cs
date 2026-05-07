@@ -336,6 +336,12 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     }
 
     [RelayCommand]
+    private Task SaveAsRecipe()
+    {
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
     private async Task GoToAddFood()
     {
         await Shell.Current.GoToAsync(

@@ -3,18 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:meals="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Meals"
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.MealDetailsTemplates"
              x:DataType="meals:MealDetailsPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.MealDetailsTemplates.MealFoodListView"
              x:Name="ThisView">
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, Auto" RowSpacing="6">
 
-        <Label Grid.Row="0"
+        <Label Grid.Row="0" Grid.Column="0"
                Style="{StaticResource LabelH2}"
                Text="{maui:Translate Details_FoodProducts}"
                TextColor="{StaticResource TextSecondary}"
-               Margin="0,0,0,10">
+               VerticalOptions="End">
             <Label.Triggers>
                 <DataTrigger TargetType="Label" Binding="{Binding FoodItems.Count, FallbackValue=0}" Value="0">
                     <Setter Property="IsVisible" Value="False" />
@@ -22,7 +23,23 @@
             </Label.Triggers>
         </Label>
 
-        <Grid Grid.Row="1">
+        <ImageButton Grid.Row="0" Grid.Column="1"
+                     Source="recipe.svg"
+                     VerticalOptions="Center"
+                     HorizontalOptions="End"
+                     Padding="0"
+                     Command="{Binding SaveAsRecipeCommand}">
+            <ImageButton.Triggers>
+                <DataTrigger TargetType="ImageButton" Binding="{Binding FoodItems.Count, FallbackValue=0}" Value="0">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </ImageButton.Triggers>
+            <ImageButton.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+            </ImageButton.Behaviors>
+        </ImageButton>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
 
             <Grid IsVisible="{Binding IsLoading}"
                   BackgroundColor="#80000000"

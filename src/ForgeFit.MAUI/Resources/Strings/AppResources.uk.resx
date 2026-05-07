@@ -750,4 +750,55 @@
     <data name="Message_ConfirmDeleteFood" xml:space="preserve">
         <value>Ви впевнені, що хочете видалити цей продукт?</value>
     </data>
+    <data name="Recipe_Name" xml:space="preserve">
+        <value>Назва рецепту</value>
+    </data>
+    <data name="Recipe_NamePlaceholder" xml:space="preserve">
+        <value>напр., Грецький салат</value>
+    </data>
+    <data name="Recipe_Description" xml:space="preserve">
+        <value>Опис</value>
+    </data>
+    <data name="Recipe_DescriptionPlaceholder" xml:space="preserve">
+        <value>Додайте опис (необов'язково)...</value>
+    </data>
+    <data name="Recipe_Ingredients" xml:space="preserve">
+        <value>Інгредієнти</value>
+    </data>
+    <data name="Recipe_TotalMacros" xml:space="preserve">
+        <value>Загальні макроси</value>
+    </data>
+    <data name="Recipe_EmptyList" xml:space="preserve">
+        <value>У вас ще немає рецептів</value>
+    </data>
+    <data name="Recipe_SearchPlaceholder" xml:space="preserve">
+        <value>Пошук рецептів...</value>
+    </data>
+    <data name="Recipe_NoResults" xml:space="preserve">
+        <value>Рецепти не знайдено...</value>
+    </data>
+    <data name="Recipe_MoreIngredients" xml:space="preserve">
+        <value>ще...</value>
+    </data>
+    <data name="Action_SaveAsRecipe" xml:space="preserve">
+        <value>Зберегти як рецепт</value>
+    </data>
+    <data name="Title_DeleteRecipe" xml:space="preserve">
+        <value>Видалити рецепт</value>
+    </data>
+    <data name="Message_ConfirmDeleteRecipe" xml:space="preserve">
+        <value>Ви впевнені, що хочете видалити цей рецепт?</value>
+    </data>
+    <data name="Title_EditRecipe" xml:space="preserve">
+        <value>Редагувати рецепт</value>
+    </data>
+    <data name="Error_RecipeNameRequired" xml:space="preserve">
+        <value>Назва рецепту обов'язкова.</value>
+    </data>
+    <data name="Success_RecipeCreated" xml:space="preserve">
+        <value>Рецепт збережено!</value>
+    </data>
+    <data name="Success_RecipeUpdated" xml:space="preserve">
+        <value>Рецепт успішно оновлено!</value>
+    </data>
 </root>

@@ -6,9 +6,8 @@ using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 using ForgeFit.MAUI.ViewModels.Diary.MyProducts;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using LocalizationResourceManager.Maui;
-
-// using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
 
@@ -28,21 +27,21 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         IDiaryService diaryService,
         IAlertService alertService,
         ILocalizationResourceManager localizationManager,
-        ICustomFoodService customFoodService)
+        ICustomFoodService customFoodService,
+        IRecipeService recipeService)
     {
         _localizationManager = localizationManager;
 
         PopupVM = new PopupManagerViewModel(localizationManager);
         DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService, customFoodService);
         DetailsVM = new FoodDetailsViewModel(alertService);
-        
+
         SearchVM = new FoodSearchViewModel(foodService, diaryService, alertService, localizationManager, DiaryVM, DetailsVM);
         ScannerVM = new FoodScannerViewModel(foodService, alertService, localizationManager, SearchVM, DetailsVM, DiaryVM);
         CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
         MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM, DetailsVM, CreateCustomFoodVM);
-
-        // TODO:
-        // RecipesVM = new RecipesViewModel(...);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM);
+        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, DiaryVM, DetailsVM, CreateRecipeVM);
 
         SetupCallbacks();
     }
@@ -54,8 +53,8 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
     public PopupManagerViewModel PopupVM { get; }
     public MyProductsViewModel MyProductsVM { get; }
     public CreateCustomFoodViewModel CreateCustomFoodVM { get; }
-    
-    // public RecipesViewModel RecipesVM { get; }
+    public CreateRecipeViewModel CreateRecipeVM { get; }
+    public RecipesViewModel RecipesVM { get; }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -85,7 +84,8 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         
         await SearchVM.LoadRecentAsync();
         await MyProductsVM.LoadProductsAsync();
-        
+        await RecipesVM.LoadRecipesAsync();
+
         IsLoading = false;
     }
 
@@ -106,6 +106,7 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         DetailsVM.ResetPopupState();
         ScannerVM.ResetState();
         DiaryVM.ResetState();
+        RecipesVM.SearchText = string.Empty;
         CurrentTabIndex = 0;
         IsLoading = false;
     }

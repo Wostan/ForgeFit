@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:recipes="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Recipes"
+             xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.Food"
+             xmlns:recipesTemplates="clr-namespace:ForgeFit.MAUI.Views.Diary.RecipesTemplates"
+             x:DataType="recipes:RecipeItemViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.RecipesTemplates.RecipeItemCardView"
+             x:Name="ThisView">
+
+    <SwipeView>
+        <SwipeView.RightItems>
+            <SwipeItems>
+                <SwipeItemView>
+                    <Grid ColumnDefinitions="*,*"
+                          WidthRequest="120"
+                          VerticalOptions="Fill">
+                        <Grid Grid.Column="0"
+                              BackgroundColor="{StaticResource DangerColor}"
+                              VerticalOptions="Fill"
+                              HorizontalOptions="Fill">
+                            <Image Source="delete.svg"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type recipesTemplates:RecipesSearchResultsView}}, Path=BindingContext.RecipesVM.DeleteRecipeCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                        <Grid Grid.Column="1"
+                              BackgroundColor="{StaticResource Primary}"
+                              VerticalOptions="Fill"
+                              HorizontalOptions="Fill">
+                            <Image Source="edit.svg"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type recipesTemplates:RecipesSearchResultsView}}, Path=BindingContext.RecipesVM.EditRecipeCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+                </SwipeItemView>
+            </SwipeItems>
+        </SwipeView.RightItems>
+
+        <Border Style="{StaticResource CardStyle}" Padding="16">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto" Padding="0">
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding Name}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextPrimary}"
+                       MaxLines="1"
+                       LineBreakMode="TailTruncation"
+                       VerticalOptions="Center" />
+
+                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding Description}"
+                       Style="{StaticResource LabelBody}"
+                       FontSize="Small"
+                       MaxLines="3"
+                       Margin="0,5"
+                       LineBreakMode="WordWrap"
+                       IsVisible="{Binding Description, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
+
+                <VerticalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                     BindableLayout.ItemsSource="{Binding Top3Ingredients}"
+                                     Spacing="4"
+                                     Margin="0,8,0,0">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:FoodItemDto">
+                            <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="🍽️"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       LineBreakMode="TailTruncation"
+                                       VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Label}"
+                                                  Style="{StaticResource LabelBody}"
+                                                  TextColor="{StaticResource TextPrimary}" />
+                                            <Span Text=" "
+                                                  Style="{StaticResource LabelBody}" />
+                                            <Span Text="{Binding Amount, StringFormat='{0:F0}'}"
+                                                  Style="{StaticResource LabelBody}"
+                                                  FontSize="Small" />
+                                            <Span Text=" "
+                                                  Style="{StaticResource LabelBody}"
+                                                  FontSize="Small" />
+                                            <Span Text="{Binding ServingUnit}"
+                                                  Style="{StaticResource LabelBody}"
+                                                  FontSize="Small" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label Grid.Row="3" Grid.Column="0"
+                       IsVisible="{Binding HasMore}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Style="{StaticResource LabelBody}" FontSize="Small" Text="+ " />
+                            <Span Style="{StaticResource LabelBody}" FontSize="Small"
+                                  Text="{Binding RemainingCount}" />
+                            <Span Style="{StaticResource LabelBody}" FontSize="Small" Text=" " />
+                            <Span Style="{StaticResource LabelBody}" FontSize="Small"
+                                  Text="{maui:Translate Recipe_MoreIngredients}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Grid Grid.Row="4" Grid.Column="1"
+                      RowDefinitions="Auto, Auto"
+                      RowSpacing="-4"
+                      HorizontalOptions="End"
+                      VerticalOptions="End">
+                    <Label Grid.Row="0" HorizontalTextAlignment="End">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding TotalCalories, StringFormat='{0:F0}'}"
+                                      Style="{StaticResource LabelBody}"
+                                      TextColor="{StaticResource TextPrimary}"
+                                      FontSize="Medium" />
+                                <Span Text=" "
+                                      Style="{StaticResource LabelBody}"
+                                      FontSize="Small" />
+                                <Span Text="{maui:Translate Nutrient_Kcal}"
+                                      Style="{StaticResource LabelBody}"
+                                      FontSize="Small"
+                                      TextColor="{StaticResource TextSecondary}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label Grid.Row="1" HorizontalTextAlignment="End">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding TotalCarbs, StringFormat='{0:F0}'}"
+                                      Style="{StaticResource LabelBody}"
+                                      TextColor="{StaticResource CarbsColor}"
+                                      FontSize="Small" />
+                                <Span Text=" / "
+                                      Style="{StaticResource LabelBody}"
+                                      FontSize="Caption" />
+                                <Span Text="{Binding TotalProtein, StringFormat='{0:F0}'}"
+                                      Style="{StaticResource LabelBody}"
+                                      TextColor="{StaticResource ProteinColor}"
+                                      FontSize="Small" />
+                                <Span Text=" / "
+                                      Style="{StaticResource LabelBody}"
+                                      FontSize="Caption" />
+                                <Span Text="{Binding TotalFat, StringFormat='{0:F0}'}"
+                                      Style="{StaticResource LabelBody}"
+                                      TextColor="{StaticResource FatColor}"
+                                      FontSize="Small" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Grid>
+            </Grid>
+        </Border>
+    </SwipeView>
+</ContentView>

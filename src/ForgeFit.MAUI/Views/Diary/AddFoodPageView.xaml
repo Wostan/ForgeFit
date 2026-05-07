@@ -112,7 +112,13 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateFoodPopupVisible, Source={x:Reference ThisPage}}" />
                 </diary:CreateCustomFoodView.Behaviors>
             </diary:CreateCustomFoodView>
-            
+
+            <diary:CreateRecipeView ZIndex="13" BindingContext="{Binding CreateRecipeVM}">
+                <diary:CreateRecipeView.Behaviors>
+                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateRecipePopupVisible, Source={x:Reference ThisPage}}" />
+                </diary:CreateRecipeView.Behaviors>
+            </diary:CreateRecipeView>
+
             <controls:ConfirmationPopup ZIndex="14" BindingContext="{Binding PopupVM}">
                 <controls:ConfirmationPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsConfirmationPopupVisible, Source={x:Reference ThisPage}}" />

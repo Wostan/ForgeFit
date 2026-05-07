@@ -41,6 +41,12 @@ public static class AppConstantsXaml
     public static int MaxFoodLabelLength => AppConstants.ValidationLimits.MaxFoodLabelLength;
     public static int MaxBarcodeLength => AppConstants.ValidationLimits.MaxBarcodeLength;
     public static int MacroEntryMaxLength => 4;
+    
+    // --- Recipe Input Limits ---
+    public static int MaxFoodItemsPerMeal => AppConstants.ValidationLimits.MaxFoodItemsPerMeal;
+    public static string MaxFoodItemsPerMealStr => AppConstants.ValidationLimits.MaxFoodItemsPerMeal.ToString(CultureInfo.InvariantCulture);
+    public static string MaxFoodLabelLengthStr => AppConstants.ValidationLimits.MaxFoodLabelLength.ToString(CultureInfo.InvariantCulture);
+    public static string MaxDescriptionLengthStr => AppConstants.ValidationLimits.MaxDescriptionLength.ToString(CultureInfo.InvariantCulture);
 
     // --- Workout Input Limits ---
     public static int HoursEntryMaxLength => AppConstants.XamlInputLimits.HoursEntryMaxLength;
