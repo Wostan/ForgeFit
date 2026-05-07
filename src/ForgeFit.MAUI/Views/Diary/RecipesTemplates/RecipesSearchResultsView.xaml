@@ -6,7 +6,6 @@
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
              xmlns:recipes="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Recipes"
-             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.AddFoodTemplates"
              xmlns:recipesTemplates="clr-namespace:ForgeFit.MAUI.Views.Diary.RecipesTemplates"
              x:DataType="addFood:AddFoodPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.RecipesTemplates.RecipesSearchResultsView"

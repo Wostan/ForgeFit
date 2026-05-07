@@ -128,8 +128,6 @@
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
             </Grid>
-
         </Grid>
     </Border>
-
 </ContentView>

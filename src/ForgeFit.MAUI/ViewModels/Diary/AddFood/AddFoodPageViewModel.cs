@@ -41,7 +41,7 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
         MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM, DetailsVM, CreateCustomFoodVM);
         CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, alertService, localizationManager);
-        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, CreateRecipeVM);
+        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, DiaryVM, CreateRecipeVM);
 
         SetupCallbacks();
     }

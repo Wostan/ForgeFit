@@ -15,6 +15,7 @@ public partial class RecipesViewModel(
     IRecipeService recipeService,
     IAlertService alertService,
     ILocalizationResourceManager localizationManager,
+    FoodDiaryIntegrationViewModel diaryVM,
     CreateRecipeViewModel createRecipeVM) : ObservableObject
 {
     private List<RecipeDto> _allRecipes = [];
@@ -76,6 +77,7 @@ public partial class RecipesViewModel(
     {
         _searchCts?.Cancel();
         _searchCts?.Dispose();
+        _searchCts = null;
 
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -98,6 +100,22 @@ public partial class RecipesViewModel(
             {
             }
         }, token);
+    }
+    
+    [RelayCommand]
+    private async Task ToggleItem(RecipeItemViewModel? itemVm)
+    {
+        if (itemVm == null || itemVm.IsAdding || itemVm.IsAdded) return;
+
+        itemVm.IsAdding = true;
+        try
+        {
+            await diaryVM.QuickAddRecipeInternal(itemVm);
+        }
+        finally
+        {
+            itemVm.IsAdding = false;
+        }
     }
 
     public async Task OnRecipeCreatedAsync(RecipeDto newRecipe)

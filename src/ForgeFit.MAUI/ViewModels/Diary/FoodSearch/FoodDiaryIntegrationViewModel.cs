@@ -5,6 +5,7 @@ using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
@@ -63,7 +64,7 @@ public class FoodDiaryIntegrationViewModel(
         }
     }
 
-public async Task QuickAddInternal(FoodSearchItemViewModel itemVm, bool isShowingRecent)
+    public async Task QuickAddInternal(FoodSearchItemViewModel itemVm, bool isShowingRecent)
     {
         try
         {
@@ -195,6 +196,43 @@ public async Task QuickAddInternal(FoodSearchItemViewModel itemVm, bool isShowin
         catch
         {
             await alertService.ShowToastAsync("Unexpected error occurred");
+        }
+    }
+    
+    public async Task QuickAddRecipeInternal(RecipeItemViewModel recipeVm)
+    {
+        try
+        {
+            var newIngredients = recipeVm.Recipe.Ingredients;
+            if (newIngredients.Count == 0) return;
+
+            if (_entryId.HasValue)
+            {
+                var entryResult = await diaryService.GetEntryAsync(_entryId.Value);
+                if (entryResult is { Success: true, Data: not null })
+                {
+                    var updatedItems = entryResult.Data.FoodItems.ToList();
+                    
+                    updatedItems.AddRange(newIngredients);
+                    
+                    var updateRequest = new FoodEntryCreateRequest(_mealType, _date, updatedItems);
+                    await diaryService.UpdateEntryAsync(_entryId.Value, updateRequest);
+                }
+            }
+            else
+            {
+                var createRequest = new FoodEntryCreateRequest(_mealType, _date, newIngredients);
+                var createResponse = await diaryService.CreateEntryAsync(createRequest);
+                if (createResponse is { Success: true, Data: not null })
+                    _entryId = createResponse.Data.Id;
+            }
+
+            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+            recipeVm.IsAdded = true;
+        }
+        catch (Exception ex)
+        {
+            await alertService.ShowToastAsync(ex.Message);
         }
     }
 

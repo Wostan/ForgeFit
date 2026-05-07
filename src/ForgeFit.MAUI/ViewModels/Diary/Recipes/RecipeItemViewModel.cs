@@ -3,8 +3,11 @@ using ForgeFit.MAUI.Models.DTOs.Food;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.Recipes;
 
-public class RecipeItemViewModel(RecipeDto recipe) : ObservableObject
+public partial class RecipeItemViewModel(RecipeDto recipe) : ObservableObject
 {
+    [ObservableProperty] private bool _isAdded;
+    [ObservableProperty] private bool _isAdding;
+
     public RecipeDto Recipe { get; } = recipe;
 
     public string Name => Recipe.Name;
