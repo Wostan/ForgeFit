@@ -101,6 +101,12 @@ public partial class CreateRecipeViewModel(
                 return;
             }
 
+            if (Ingredients.Count == 0)
+            {
+                await alertService.ShowToastAsync(localizationManager["Error_RecipeNoIngredients"]);
+                return;
+            }
+
             if (_editingRecipeId.HasValue)
             {
                 var updateRequest = new RecipeUpdateRequest(
