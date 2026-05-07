@@ -1,4 +1,6 @@
 ﻿using ForgeFit.MAUI.ViewModels;
+using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using ForgeFit.MAUI.Views;
 using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;
@@ -6,7 +8,7 @@ using ForgeFit.MAUI.Views.Workout;
 using ActiveWorkoutPageViewModel = ForgeFit.MAUI.ViewModels.Workout.ActiveSession.ActiveWorkoutPageViewModel;
 using DiaryPageViewModel = ForgeFit.MAUI.ViewModels.Diary.Main.DiaryPageViewModel;
 using ExerciseSearchPageViewModel = ForgeFit.MAUI.ViewModels.Workout.ExerciseSearch.ExerciseSearchPageViewModel;
-using FoodSearchPageViewModel = ForgeFit.MAUI.ViewModels.Diary.FoodSearch.FoodSearchPageViewModel;
+using AddFoodPageViewModel = ForgeFit.MAUI.ViewModels.Diary.AddFood.AddFoodPageViewModel;
 using LoginPageViewModel = ForgeFit.MAUI.ViewModels.Auth.LoginPageViewModel;
 using MealDetailsPageViewModel = ForgeFit.MAUI.ViewModels.Diary.Meals.MealDetailsPageViewModel;
 using ProfilePageView = ForgeFit.MAUI.Views.Profile.ProfilePageView;
@@ -26,7 +28,7 @@ public static class PresentationExtensions
 
         builder.Services.AddTransient<DiaryPageViewModel>();
         builder.Services.AddTransient<MealDetailsPageViewModel>();
-        builder.Services.AddTransient<FoodSearchPageViewModel>();
+        builder.Services.AddTransient<AddFoodPageViewModel>();
 
         builder.Services.AddTransient<WorkoutPageViewModel>();
         builder.Services.AddTransient<ActiveWorkoutPageViewModel>();
@@ -45,7 +47,7 @@ public static class PresentationExtensions
 
         builder.Services.AddTransient<DiaryPageView>();
         builder.Services.AddTransient<MealDetailsPageView>();
-        builder.Services.AddTransient<FoodSearchPageView>();
+        builder.Services.AddTransient<AddFoodPageView>();
 
         builder.Services.AddTransient<WorkoutPageView>();
         builder.Services.AddTransient<ActiveWorkoutPageView>();

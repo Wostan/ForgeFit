@@ -200,6 +200,12 @@
     <data name="Search_Recent" xml:space="preserve">
         <value>Showing recent</value>
     </data>
+    <data name="Search_Food" xml:space="preserve">
+        <value>Search Food</value>
+    </data>
+    <data name="Search_FoodPlaceholder" xml:space="preserve">
+        <value>Search for food...</value>
+    </data>
     <data name="Action_Save" xml:space="preserve">
         <value>Save</value>
     </data>
@@ -694,5 +700,125 @@
     </data>
     <data name="Msg_DeleteProgramConfirm" xml:space="preserve">
       <value>Are you sure you want to delete this workout program?</value>
+    </data>
+    <data name="Tab_Search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="Tab_MyFood" xml:space="preserve">
+        <value>My Food</value>
+    </data>
+    <data name="Tab_Recipes" xml:space="preserve">
+        <value>Recipes</value>
+    </data>
+    <data name="Action_CreateProduct" xml:space="preserve">
+        <value>Create Product</value>
+    </data>
+    <data name="Action_CreateRecipe" xml:space="preserve">
+        <value>Create Recipe</value>
+    </data>
+    <data name="MyFood_EmptyList" xml:space="preserve">
+        <value>You don't have any custom products yet</value>
+    </data>
+    <data name="CustomFood_Name" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="CustomFood_Brand" xml:space="preserve">
+        <value>Brand</value>
+    </data>
+    <data name="CustomFood_Barcode" xml:space="preserve">
+        <value>Barcode</value>
+    </data>
+    <data name="CustomFood_Macros" xml:space="preserve">
+        <value>Macros</value>
+    </data>
+    <data name="CustomFood_Serving" xml:space="preserve">
+        <value>Serving</value>
+    </data>
+    <data name="CustomFood_ServingSize" xml:space="preserve">
+        <value>Serving Size</value>
+    </data>
+    <data name="CustomFood_AdditionalInfo" xml:space="preserve">
+        <value>Additional Info (optional)</value>
+    </data>
+    <data name="CustomFood_ServingUnit" xml:space="preserve">
+        <value>Serving Unit</value>
+    </data>
+    <data name="Error_FoodNameRequired" xml:space="preserve">
+        <value>Product name is required.</value>
+    </data>
+    <data name="Error_FoodNameTooLong" xml:space="preserve">
+        <value>Product name is too long.</value>
+    </data>
+    <data name="Error_InvalidServingSize" xml:space="preserve">
+        <value>Invalid serving size.</value>
+    </data>
+    <data name="Success_CustomFoodCreated" xml:space="preserve">
+        <value>Custom product saved!</value>
+    </data>
+    <data name="Success_CustomFoodUpdated" xml:space="preserve">
+        <value>Product updated successfully!</value>
+    </data>
+    <data name="Title_DeleteFood" xml:space="preserve">
+        <value>Delete Product</value>
+    </data>
+    <data name="Message_ConfirmDeleteFood" xml:space="preserve">
+        <value>Are you sure you want to delete this custom product?</value>
+    </data>
+    <data name="Recipe_Name" xml:space="preserve">
+        <value>Recipe Name</value>
+    </data>
+    <data name="Recipe_NamePlaceholder" xml:space="preserve">
+        <value>e.g., Greek Salad</value>
+    </data>
+    <data name="Recipe_Description" xml:space="preserve">
+        <value>Description</value>
+    </data>
+    <data name="Recipe_DescriptionPlaceholder" xml:space="preserve">
+        <value>Add a description (optional)...</value>
+    </data>
+    <data name="Recipe_Ingredients" xml:space="preserve">
+        <value>Ingredients</value>
+    </data>
+    <data name="Recipe_TotalMacros" xml:space="preserve">
+        <value>Total Macros</value>
+    </data>
+    <data name="Recipe_EmptyList" xml:space="preserve">
+        <value>You don't have any recipes yet</value>
+    </data>
+    <data name="Recipe_SearchPlaceholder" xml:space="preserve">
+        <value>Search recipes...</value>
+    </data>
+    <data name="Recipe_NoResults" xml:space="preserve">
+        <value>No recipes found...</value>
+    </data>
+    <data name="Recipe_MoreIngredients" xml:space="preserve">
+        <value>more...</value>
+    </data>
+    <data name="Action_SaveAsRecipe" xml:space="preserve">
+        <value>Save as Recipe</value>
+    </data>
+    <data name="Title_DeleteRecipe" xml:space="preserve">
+        <value>Delete Recipe</value>
+    </data>
+    <data name="Message_ConfirmDeleteRecipe" xml:space="preserve">
+        <value>Are you sure you want to delete this recipe?</value>
+    </data>
+    <data name="Title_EditRecipe" xml:space="preserve">
+        <value>Edit Recipe</value>
+    </data>
+    <data name="Error_RecipeNameRequired" xml:space="preserve">
+        <value>Recipe name is required.</value>
+    </data>
+    <data name="Error_RecipeNameTooLong" xml:space="preserve">
+        <value>Recipe name is too long.</value>
+    </data>
+    <data name="Error_RecipeNoIngredients" xml:space="preserve">
+        <value>At least one ingredient is required.</value>
+    </data>
+    <data name="Success_RecipeCreated" xml:space="preserve">
+        <value>Recipe saved!</value>
+    </data>
+    <data name="Success_RecipeUpdated" xml:space="preserve">
+        <value>Recipe updated successfully!</value>
     </data>
 </root>

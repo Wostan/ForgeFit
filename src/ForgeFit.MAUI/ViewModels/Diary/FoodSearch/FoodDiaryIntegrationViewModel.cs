@@ -5,6 +5,7 @@ using ForgeFit.MAUI.Messages;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
@@ -12,7 +13,8 @@ namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 public class FoodDiaryIntegrationViewModel(
     IDiaryService diaryService,
     IFoodService foodService,
-    IAlertService alertService) : ObservableObject
+    IAlertService alertService,
+    ICustomFoodService customFoodService) : ObservableObject
 {
     private DateTime _date;
     private Guid? _entryId;
@@ -66,14 +68,52 @@ public class FoodDiaryIntegrationViewModel(
     {
         try
         {
-            var productResult = await foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
-            if (productResult is not { Success: true, Data: not null })
+            FoodProductResponse? product;
+
+            if (Guid.TryParse(itemVm.Data.ExternalId, out var customId))
             {
-                await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
-                return;
+                var customResult = await customFoodService.GetByIdAsync(customId);
+                if (customResult is { Success: true, Data: not null })
+                {
+                    var cf = customResult.Data;
+                    product = new FoodProductResponse(
+                        cf.Id.ToString(), 
+                        cf.Name, 
+                        cf.Brand, 
+                        [new FoodServingDto(
+                            "Custom", 
+                            cf.ServingSize, 
+                            cf.ServingUnit, 
+                            cf.Calories, 
+                            cf.Carbs, 
+                            cf.Protein, 
+                            cf.Fat, 
+                            cf.Fiber, 
+                            cf.Sugar, 
+                            cf.SaturatedFat, 
+                            cf.Sodium)]
+                    );
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(new LocalizedString(() => customResult.Message).Localized);
+                    return;
+                }
+            }
+            else
+            {
+                var productResult = await foodService.GetProductByIdAsync(itemVm.Data.ExternalId);
+                if (productResult is { Success: true, Data: not null })
+                {
+                    product = productResult.Data;
+                }
+                else
+                {
+                    await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
+                    return;
+                }
             }
 
-            var product = productResult.Data;
             var parts = itemVm.Data.Serving.Split(' ');
             FoodServingDto? targetServing = null;
             double amount = 0;
@@ -156,6 +196,43 @@ public class FoodDiaryIntegrationViewModel(
         catch
         {
             await alertService.ShowToastAsync("Unexpected error occurred");
+        }
+    }
+    
+    public async Task QuickAddRecipeInternal(RecipeItemViewModel recipeVm)
+    {
+        try
+        {
+            var newIngredients = recipeVm.Recipe.Ingredients;
+            if (newIngredients.Count == 0) return;
+
+            if (_entryId.HasValue)
+            {
+                var entryResult = await diaryService.GetEntryAsync(_entryId.Value);
+                if (entryResult is { Success: true, Data: not null })
+                {
+                    var updatedItems = entryResult.Data.FoodItems.ToList();
+                    
+                    updatedItems.AddRange(newIngredients);
+                    
+                    var updateRequest = new FoodEntryCreateRequest(_mealType, _date, updatedItems);
+                    await diaryService.UpdateEntryAsync(_entryId.Value, updateRequest);
+                }
+            }
+            else
+            {
+                var createRequest = new FoodEntryCreateRequest(_mealType, _date, newIngredients);
+                var createResponse = await diaryService.CreateEntryAsync(createRequest);
+                if (createResponse is { Success: true, Data: not null })
+                    _entryId = createResponse.Data.Id;
+            }
+
+            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+            recipeVm.IsAdded = true;
+        }
+        catch (Exception ex)
+        {
+            await alertService.ShowToastAsync(ex.Message);
         }
     }
 

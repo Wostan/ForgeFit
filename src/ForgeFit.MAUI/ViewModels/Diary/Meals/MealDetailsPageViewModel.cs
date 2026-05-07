@@ -10,6 +10,7 @@ using ForgeFit.MAUI.Models.Enums.FoodEnums;
 using ForgeFit.MAUI.Services.Interfaces;
 using ForgeFit.MAUI.ViewModels.Core;
 using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
 using ForgeFit.MAUI.Views.Diary;
 using LocalizationResourceManager.Maui;
 
@@ -21,6 +22,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private readonly IDiaryService _diaryService;
     private readonly IFoodService _foodService;
     private readonly ILocalizationResourceManager _localizationManager;
+    private readonly ICustomFoodService _customFoodService;
 
     private CancellationTokenSource? _cts;
 
@@ -39,12 +41,18 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         IDiaryService diaryService,
         IFoodService foodService,
         IAlertService alertService,
-        ILocalizationResourceManager localizationManager)
+        ILocalizationResourceManager localizationManager,
+        ICustomFoodService customFoodService,
+        IRecipeService recipeService)
     {
         _diaryService = diaryService;
         _foodService = foodService;
         _alertService = alertService;
         _localizationManager = localizationManager;
+        _customFoodService = customFoodService;
+
+        PopupVM = new PopupManagerViewModel(localizationManager);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, _foodService, _customFoodService, alertService, localizationManager);
 
         DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();
@@ -56,6 +64,8 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
     public FoodDetailsViewModel DetailsVM { get; }
     public MealMacroStatsViewModel MacrosVM { get; }
+    public CreateRecipeViewModel CreateRecipeVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -204,7 +214,6 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         MacrosVM.CalculateTotals(FoodItems);
     }
 
-
     [RelayCommand]
     private async Task DeleteItem(FoodItemDto item)
     {
@@ -271,18 +280,55 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         try
         {
             IsLoading = true;
+            FoodProductResponse? product = null;
 
-            var result = await _foodService.GetProductByIdAsync(item.ExternalId);
-
-            if (result is { Success: true, Data: not null })
+            if (Guid.TryParse(item.ExternalId, out var customId))
             {
-                _editingItem = item;
-                DetailsVM.OpenFoodDetailsInternal(result.Data, item);
+                var customResult = await _customFoodService.GetByIdAsync(customId);
+                if (customResult is { Success: true, Data: not null })
+                {
+                    var cf = customResult.Data;
+                    product = new FoodProductResponse(
+                        cf.Id.ToString(), 
+                        cf.Name, 
+                        cf.Brand,
+                        [new FoodServingDto(
+                            "Custom", 
+                            cf.ServingSize, 
+                            cf.ServingUnit, 
+                            cf.Calories, 
+                            cf.Carbs, 
+                            cf.Protein, 
+                            cf.Fat, 
+                            cf.Fiber, 
+                            cf.Sugar, 
+                            cf.SaturatedFat, 
+                            cf.Sodium)]
+                    );
+                }
+                else
+                {
+                    var errorMsg = new LocalizedString(() => customResult.Message);
+                    await _alertService.ShowToastAsync(errorMsg.Localized);
+                }
             }
             else
             {
-                var errorMsg = new LocalizedString(() => result.Message);
-                await _alertService.ShowToastAsync(errorMsg.Localized);
+                var fsResult = await _foodService.GetProductByIdAsync(item.ExternalId);
+                if (fsResult is { Success: true, Data: not null })
+                {
+                    product = fsResult.Data;
+                }
+                else
+                {
+                    await _alertService.ShowToastAsync(new LocalizedString(() => fsResult.Message).Localized);
+                }
+            }
+
+            if (product != null)
+            {
+                _editingItem = item;
+                DetailsVM.OpenFoodDetailsInternal(product, item);
             }
         }
         catch
@@ -296,9 +342,16 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     }
 
     [RelayCommand]
-    private async Task GoToFoodSearch()
+    private void SaveAsRecipe()
+    {
+        CreateRecipeVM.InitializeForCreate(FoodItems);
+        PopupVM.OpenCreateRecipePopup();
+    }
+
+    [RelayCommand]
+    private async Task GoToAddFood()
     {
         await Shell.Current.GoToAsync(
-            $"{nameof(FoodSearchPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
+            $"{nameof(AddFoodPageView)}?Date={_date:yyyy-MM-dd}&MealType={_mealType}&EntryId={_entryId}");
     }
 }

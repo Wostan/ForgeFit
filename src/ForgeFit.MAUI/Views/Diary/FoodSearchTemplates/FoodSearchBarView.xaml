@@ -4,12 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             xmlns:foodSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
-             x:DataType="foodSearch:FoodSearchPageViewModel"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
+             x:DataType="addFood:AddFoodPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchTemplates.FoodSearchBarView">
     <ContentView.Content>
         <Border Style="{StaticResource CardStyle}"
-                Margin="16"
+                Margin="10"
                 VerticalOptions="End"
                 Padding="0">
             <Grid ColumnDefinitions="*, Auto" ColumnSpacing="-10">

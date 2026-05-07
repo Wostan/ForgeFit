@@ -6,9 +6,9 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             xmlns:foodSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
              x:Class="ForgeFit.MAUI.Views.Controls.Diary.BarcodeScanner"
-             x:DataType="foodSearch:FoodSearchPageViewModel"
+             x:DataType="addFood:AddFoodPageViewModel"
              BackgroundColor="#90000000"
              InputTransparent="False">
 

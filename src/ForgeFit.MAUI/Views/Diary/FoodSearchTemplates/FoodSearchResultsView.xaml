@@ -4,18 +4,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             xmlns:foodSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.FoodSearchTemplates"
-             x:DataType="foodSearch:FoodSearchPageViewModel"
+             xmlns:foodSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
+             x:DataType="addFood:AddFoodPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchTemplates.FoodSearchResultsView">
     <ContentView.Content>
-        <Grid>
-            <CollectionView ItemsSource="{Binding SearchVM.SearchResults}"
-                            RemainingItemsThreshold="5"
-                            RemainingItemsThresholdReachedCommand="{Binding SearchVM.LoadMoreCommand}"
-                            Opacity="{Binding SearchVM.IsLoading, Converter={toolkit:InvertedBoolConverter}}">
+        <CollectionView ItemsSource="{Binding SearchVM.SearchResults}"
+                        RemainingItemsThreshold="5"
+                        RemainingItemsThresholdReachedCommand="{Binding SearchVM.LoadMoreCommand}">
 
-                <CollectionView.EmptyView>
+            <CollectionView.EmptyView>
+                <Grid>
                     <VerticalStackLayout Spacing="10"
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center"
@@ -33,34 +33,58 @@
                                Text="{maui:Translate Search_Empty}"
                                HorizontalOptions="Center" />
                     </VerticalStackLayout>
-                </CollectionView.EmptyView>
 
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                </CollectionView.ItemsLayout>
+                    <ActivityIndicator IsRunning="{Binding SearchVM.IsLoading}"
+                                       IsVisible="{Binding SearchVM.IsLoading}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       MaximumHeightRequest="50"
+                                       MaximumWidthRequest="50"
+                                       Color="{StaticResource Primary}" />
+                </Grid>
+            </CollectionView.EmptyView>
 
-                <CollectionView.Header>
-                    <BoxView HeightRequest="100" BackgroundColor="Transparent" />
-                </CollectionView.Header>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
 
-                <CollectionView.Footer>
-                    <BoxView HeightRequest="80" BackgroundColor="Transparent" />
-                </CollectionView.Footer>
+            <CollectionView.Header>
+                <VerticalStackLayout>
+                    <BoxView HeightRequest="160" BackgroundColor="Transparent" />
+                    
+                    <Label Style="{StaticResource LabelH2}"
+                           Text="{maui:Translate Search_Recent}"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding SearchVM.IsShowingRecent}" />
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="foodSearch:FoodSearchItemViewModel">
-                        <templates:FoodSearchItemCardView />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    <Label HorizontalOptions="Center"
+                           IsVisible="{Binding SearchVM.IsShowingRecent, Converter={toolkit:InvertedBoolConverter}}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{maui:Translate Search_ResultsFor}"
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
+                                <Span Text=" '" 
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
+                                <Span Text="{Binding SearchVM.SearchText}" 
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
+                                <Span Text="'" 
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+            </CollectionView.Header>
 
-            <ActivityIndicator IsRunning="{Binding SearchVM.IsLoading}"
-                               IsVisible="{Binding SearchVM.IsLoading}"
-                               VerticalOptions="Center"
-                               HorizontalOptions="Center"
-                               MaximumHeightRequest="50"
-                               MaximumWidthRequest="50"
-                               ZIndex="5" />
-        </Grid>
+            <CollectionView.Footer>
+                <BoxView HeightRequest="60" BackgroundColor="Transparent" />
+            </CollectionView.Footer>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="foodSearch:FoodSearchItemViewModel">
+                    <templates:FoodSearchItemCardView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </ContentView.Content>
 </ContentView>

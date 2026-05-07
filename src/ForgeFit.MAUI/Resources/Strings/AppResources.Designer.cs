@@ -243,6 +243,30 @@ namespace ForgeFit.MAUI.Resources.Strings {
             }
         }
         
+        internal static string Nutrient_Fiber {
+            get {
+                return ResourceManager.GetString("Nutrient_Fiber", resourceCulture);
+            }
+        }
+        
+        internal static string Nutrient_Sugar {
+            get {
+                return ResourceManager.GetString("Nutrient_Sugar", resourceCulture);
+            }
+        }
+        
+        internal static string Nutrient_SaturatedFat {
+            get {
+                return ResourceManager.GetString("Nutrient_SaturatedFat", resourceCulture);
+            }
+        }
+        
+        internal static string Nutrient_Sodium {
+            get {
+                return ResourceManager.GetString("Nutrient_Sodium", resourceCulture);
+            }
+        }
+        
         internal static string Meal_Breakfast {
             get {
                 return ResourceManager.GetString("Meal_Breakfast", resourceCulture);
@@ -372,6 +396,18 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Search_Recent {
             get {
                 return ResourceManager.GetString("Search_Recent", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Food {
+            get {
+                return ResourceManager.GetString("Search_Food", resourceCulture);
+            }
+        }
+        
+        internal static string Search_FoodPlaceholder {
+            get {
+                return ResourceManager.GetString("Search_FoodPlaceholder", resourceCulture);
             }
         }
         
@@ -1362,6 +1398,246 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Msg_DeleteProgramConfirm {
             get {
                 return ResourceManager.GetString("Msg_DeleteProgramConfirm", resourceCulture);
+            }
+        }
+        
+        internal static string Tab_Search {
+            get {
+                return ResourceManager.GetString("Tab_Search", resourceCulture);
+            }
+        }
+        
+        internal static string Tab_MyFood {
+            get {
+                return ResourceManager.GetString("Tab_MyFood", resourceCulture);
+            }
+        }
+        
+        internal static string Tab_Recipes {
+            get {
+                return ResourceManager.GetString("Tab_Recipes", resourceCulture);
+            }
+        }
+        
+        internal static string Action_CreateProduct {
+            get {
+                return ResourceManager.GetString("Action_CreateProduct", resourceCulture);
+            }
+        }
+        
+        internal static string Action_CreateRecipe {
+            get {
+                return ResourceManager.GetString("Action_CreateRecipe", resourceCulture);
+            }
+        }
+        
+        internal static string MyFood_EmptyList {
+            get {
+                return ResourceManager.GetString("MyFood_EmptyList", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Name {
+            get {
+                return ResourceManager.GetString("CustomFood_Name", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Brand {
+            get {
+                return ResourceManager.GetString("CustomFood_Brand", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Barcode {
+            get {
+                return ResourceManager.GetString("CustomFood_Barcode", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Macros {
+            get {
+                return ResourceManager.GetString("CustomFood_Macros", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_Serving {
+            get {
+                return ResourceManager.GetString("CustomFood_Serving", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_ServingSize {
+            get {
+                return ResourceManager.GetString("CustomFood_ServingSize", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_AdditionalInfo {
+            get {
+                return ResourceManager.GetString("CustomFood_AdditionalInfo", resourceCulture);
+            }
+        }
+        
+        internal static string CustomFood_ServingUnit {
+            get {
+                return ResourceManager.GetString("CustomFood_ServingUnit", resourceCulture);
+            }
+        }
+        
+        internal static string Error_FoodNameRequired {
+            get {
+                return ResourceManager.GetString("Error_FoodNameRequired", resourceCulture);
+            }
+        }
+        
+        internal static string Error_FoodNameTooLong {
+            get {
+                return ResourceManager.GetString("Error_FoodNameTooLong", resourceCulture);
+            }
+        }
+        
+        internal static string Error_InvalidServingSize {
+            get {
+                return ResourceManager.GetString("Error_InvalidServingSize", resourceCulture);
+            }
+        }
+        
+        internal static string Success_CustomFoodCreated {
+            get {
+                return ResourceManager.GetString("Success_CustomFoodCreated", resourceCulture);
+            }
+        }
+        
+        internal static string Success_CustomFoodUpdated {
+            get {
+                return ResourceManager.GetString("Success_CustomFoodUpdated", resourceCulture);
+            }
+        }
+        
+        internal static string Title_DeleteFood {
+            get {
+                return ResourceManager.GetString("Title_DeleteFood", resourceCulture);
+            }
+        }
+        
+        internal static string Message_ConfirmDeleteFood {
+            get {
+                return ResourceManager.GetString("Message_ConfirmDeleteFood", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_Name {
+            get {
+                return ResourceManager.GetString("Recipe_Name", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_NamePlaceholder {
+            get {
+                return ResourceManager.GetString("Recipe_NamePlaceholder", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_Description {
+            get {
+                return ResourceManager.GetString("Recipe_Description", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_DescriptionPlaceholder {
+            get {
+                return ResourceManager.GetString("Recipe_DescriptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_Ingredients {
+            get {
+                return ResourceManager.GetString("Recipe_Ingredients", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_TotalMacros {
+            get {
+                return ResourceManager.GetString("Recipe_TotalMacros", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_EmptyList {
+            get {
+                return ResourceManager.GetString("Recipe_EmptyList", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("Recipe_SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_NoResults {
+            get {
+                return ResourceManager.GetString("Recipe_NoResults", resourceCulture);
+            }
+        }
+        
+        internal static string Recipe_MoreIngredients {
+            get {
+                return ResourceManager.GetString("Recipe_MoreIngredients", resourceCulture);
+            }
+        }
+        
+        internal static string Action_SaveAsRecipe {
+            get {
+                return ResourceManager.GetString("Action_SaveAsRecipe", resourceCulture);
+            }
+        }
+        
+        internal static string Title_DeleteRecipe {
+            get {
+                return ResourceManager.GetString("Title_DeleteRecipe", resourceCulture);
+            }
+        }
+        
+        internal static string Message_ConfirmDeleteRecipe {
+            get {
+                return ResourceManager.GetString("Message_ConfirmDeleteRecipe", resourceCulture);
+            }
+        }
+        
+        internal static string Title_EditRecipe {
+            get {
+                return ResourceManager.GetString("Title_EditRecipe", resourceCulture);
+            }
+        }
+        
+        internal static string Error_RecipeNameRequired {
+            get {
+                return ResourceManager.GetString("Error_RecipeNameRequired", resourceCulture);
+            }
+        }
+        
+        internal static string Error_RecipeNameTooLong {
+            get {
+                return ResourceManager.GetString("Error_RecipeNameTooLong", resourceCulture);
+            }
+        }
+        
+        internal static string Error_RecipeNoIngredients {
+            get {
+                return ResourceManager.GetString("Error_RecipeNoIngredients", resourceCulture);
+            }
+        }
+        
+        internal static string Success_RecipeCreated {
+            get {
+                return ResourceManager.GetString("Success_RecipeCreated", resourceCulture);
+            }
+        }
+        
+        internal static string Success_RecipeUpdated {
+            get {
+                return ResourceManager.GetString("Success_RecipeUpdated", resourceCulture);
             }
         }
     }

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:constants="clr-namespace:ForgeFit.MAUI.Constants"
+             x:Class="ForgeFit.MAUI.Views.Controls.Diary.CreateCustomFoodView"
+             BackgroundColor="#90000000"
+             InputTransparent="False">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding CloseCommand}" />
+    </ContentView.GestureRecognizers>
+
+    <Grid BackgroundColor="{StaticResource PageBackground}">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Grid.GestureRecognizers>
+        
+        <controls:NavigationHeader Title="{maui:Translate Action_CreateProduct}" ZIndex="10"
+                                   BackCommand="{Binding CloseCommand}"/>
+
+        <ScrollView>
+            <VerticalStackLayout Style="{StaticResource MainContentStackLayout}" Margin="0,0,0,60" Spacing="8">
+                
+                <VerticalStackLayout>
+                    <Label Style="{StaticResource LabelBody}"
+                           Text="{maui:Translate CustomFood_Name}"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Border Style="{StaticResource InputWrapper}">
+                        <Entry Text="{Binding Name}"
+                               Placeholder="{maui:Translate CustomFood_Name}"
+                               MaxLength="{x:Static constants:AppConstantsXaml.MaxFoodLabelLength}"/>
+                    </Border>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout>
+                    <Label Style="{StaticResource LabelBody}"
+                           Text="{maui:Translate CustomFood_ServingSize}"
+                           TextColor="{StaticResource TextSecondary}" />
+                    
+                    <Grid ColumnDefinitions="*, 3*" ColumnSpacing="-2">
+                        <Border Grid.Column="0" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 16,0,16,0">
+                            <Entry Text="{Binding ServingSize, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+
+                        <Border Grid.Column="1" Style="{StaticResource InputWrapper}" StrokeShape="RoundRectangle 0,16,0,16">
+                            <Picker ItemsSource="{Binding ServingUnits}"
+                                    SelectedItem="{Binding ServingUnit}"
+                                    Title="{maui:Translate CustomFood_ServingUnit}" />
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <Label Style="{StaticResource LabelH2}"
+                       Text="{maui:Translate CustomFood_Macros}"
+                       Margin="0,8,0,0" />
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Calories}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Calories, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Carbs}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Carbs, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Protein}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Protein, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Fat}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Fat, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+                
+                <Label Style="{StaticResource LabelH2}"
+                       Text="{maui:Translate CustomFood_AdditionalInfo}"
+                       Margin="0,8,0,0" />
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Fiber}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Fiber, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Sugar}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Sugar, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+                
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_SaturatedFat}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding SaturatedFat, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Nutrient_Sodium}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}" Padding="5,0">
+                            <Entry Text="{Binding Sodium, TargetNullValue='0'}"
+                                   Keyboard="Numeric"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MacroEntryMaxLength}">
+                                <Entry.Behaviors>
+                                    <behaviors:PositiveOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+                
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate CustomFood_Brand}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}">
+                            <Entry Text="{Binding Brand}"
+                                   Placeholder="{maui:Translate CustomFood_Brand}"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MaxFoodLabelLength}" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate CustomFood_Barcode}"
+                               FontSize="Small"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Border Style="{StaticResource InputWrapper}">
+                            <Entry Text="{Binding Barcode}"
+                                   Keyboard="Numeric"
+                                   Placeholder="{maui:Translate CustomFood_Barcode}"
+                                   MaxLength="{x:Static constants:AppConstantsXaml.MaxBarcodeLength}" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <Button ImageSource="check.svg"
+                Text="{maui:Translate Action_Save}"
+                VerticalOptions="End"
+                Margin="12"
+                Command="{Binding SaveCommand}" />
+    </Grid>
+</ContentView>

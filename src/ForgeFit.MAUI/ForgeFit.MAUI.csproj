@@ -138,6 +138,10 @@
           <DependentUpon>ProfilePageView.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Views\Controls\Diary\CreateCustomFoodView.xaml.cs">
+          <DependentUpon>CreateCustomFoodView.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -184,12 +188,19 @@
         <MauiXaml Update="Views\Profile\ProfilePageView.xaml">
           <SubType>Designer</SubType>
         </MauiXaml>
+        <MauiXaml Update="Views\Controls\Diary\CreateCustomFoodView.xaml">
+          <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
         <Reference Include="Microsoft.WinUI">
             <HintPath>..\..\..\..\..\.nuget\packages\microsoft.windowsappsdk\1.7.250909003\lib\net6.0-windows10.0.18362.0\Microsoft.WinUI.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ViewModels\Diary\MyProducts\" />
     </ItemGroup>
 
 </Project>

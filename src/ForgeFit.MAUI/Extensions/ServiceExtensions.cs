@@ -18,6 +18,8 @@ public static class ServiceExtensions
 
         builder.Services.AddScoped<IDiaryService, DiaryService>();
         builder.Services.AddScoped<IFoodService, FoodService>();
+        builder.Services.AddScoped<ICustomFoodService, CustomFoodService>();
+        builder.Services.AddScoped<IRecipeService, RecipeService>();
         builder.Services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
 
         builder.Services.AddScoped<IWorkoutTrackingService, WorkoutTrackingService>();

@@ -13,16 +13,17 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
     [ObservableProperty] private TimeSpan _entryPopupDuration;
     [ObservableProperty] private string _entryPopupPlaceholder = string.Empty;
     [ObservableProperty] private string _entryPopupTitle = string.Empty;
+    [ObservableProperty] private string _tempProgramName = string.Empty;
 
     [ObservableProperty] private bool _isConfirmationPopupVisible;
-
     [ObservableProperty] private bool _isCreatePopupVisible;
-
     [ObservableProperty] private bool _isEntryPopupVisible;
-
     [ObservableProperty] private bool _isRenamePopupVisible;
+    [ObservableProperty] private bool _isCreateFoodPopupVisible;
+    [ObservableProperty] private bool _isCreateRecipePopupVisible;
+    [ObservableProperty] private bool _isRecipeIngredientSearchPopupVisible;
+
     private Func<Task>? _pendingConfirmationAction;
-    [ObservableProperty] private string _tempProgramName = string.Empty;
 
     public void ShowConfirmation(string titleKey, string messageKey, Func<Task> confirmationAction)
     {
@@ -111,6 +112,39 @@ public partial class PopupManagerViewModel(ILocalizationResourceManager localiza
     private void CloseCreatePopup()
     {
         IsCreatePopupVisible = false;
+    }
+
+    public void OpenCreateFoodPopup()
+    {
+        IsCreateFoodPopupVisible = true;
+    }
+
+    [RelayCommand]
+    public void CloseCreateFoodPopup()
+    {
+        IsCreateFoodPopupVisible = false;
+    }
+
+    public void OpenCreateRecipePopup()
+    {
+        IsCreateRecipePopupVisible = true;
+    }
+
+    [RelayCommand]
+    public void CloseCreateRecipePopup()
+    {
+        IsCreateRecipePopupVisible = false;
+    }
+
+    public void OpenRecipeIngredientSearchPopup()
+    {
+        IsRecipeIngredientSearchPopupVisible = true;
+    }
+
+    [RelayCommand]
+    public void CloseRecipeIngredientSearchPopup()
+    {
+        IsRecipeIngredientSearchPopupVisible = false;
     }
 
     public event Action<string>? DurationValidationError;
