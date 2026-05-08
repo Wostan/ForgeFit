@@ -20,27 +20,24 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         int pageNumber = 1,
         int pageSize = 20)
     {
-        if (string.IsNullOrEmpty(query)) query = " ";
-
-        var offset = (pageNumber - 1) * pageSize;
         var queryParams = new List<string>
         {
-            $"offset={offset}",
             $"limit={pageSize}"
         };
 
-        if (!string.IsNullOrWhiteSpace(query)) queryParams.Add($"search={Uri.EscapeDataString(query)}");
+        if (!string.IsNullOrWhiteSpace(query)) 
+            queryParams.Add($"name={Uri.EscapeDataString(query)}");
 
         if (muscles is { Count: > 0 })
-            queryParams.Add($"muscles={EnumsToApiString(muscles)}");
+            queryParams.Add($"targetMuscles={EnumsToApiString(muscles)}");
 
         if (bodyParts is { Count: > 0 })
             queryParams.Add($"bodyParts={EnumsToApiString(bodyParts)}");
 
         if (equipment is { Count: > 0 })
-            queryParams.Add($"equipment={EnumsToApiString(equipment)}");
+            queryParams.Add($"equipments={EnumsToApiString(equipment)}");
 
-        var requestUrl = $"exercises/filter?{string.Join("&", queryParams)}";
+        var requestUrl = $"exercises?{string.Join("&", queryParams)}";
 
         try
         {
@@ -50,7 +47,7 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
                 throw new ServiceUnavailableException("API rate limit exceeded. Please try again later.");
 
             if (!response.IsSuccessStatusCode) 
-                throw new ServiceUnavailableException("Failed to retrieve exercises from external API.");
+                throw new ServiceUnavailableException("Failed to retrieve exercises from external API: " + response.ReasonPhrase);
 
             var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbResponse>();
 
