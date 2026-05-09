@@ -160,7 +160,7 @@
         <value>Ми шукали, а тут пусто...</value>
     </data>
     <data name="Search_Barcode" xml:space="preserve">
-        <value>Сканувати штрихкод</value>
+        <value>Сканувати</value>
     </data>
     <data name="Details_FoodProducts" xml:space="preserve">
         <value>Продукти</value>
