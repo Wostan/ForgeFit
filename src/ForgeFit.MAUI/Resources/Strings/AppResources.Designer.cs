@@ -309,6 +309,18 @@ namespace ForgeFit.MAUI.Resources.Strings {
             }
         }
         
+        internal static string Action_Capture {
+            get {
+                return ResourceManager.GetString("Action_Capture", resourceCulture);
+            }
+        }
+        
+        internal static string Action_Retake {
+            get {
+                return ResourceManager.GetString("Action_Retake", resourceCulture);
+            }
+        }
+        
         internal static string Action_AddFood {
             get {
                 return ResourceManager.GetString("Action_AddFood", resourceCulture);
@@ -336,6 +348,18 @@ namespace ForgeFit.MAUI.Resources.Strings {
         internal static string Search_Barcode {
             get {
                 return ResourceManager.GetString("Search_Barcode", resourceCulture);
+            }
+        }
+        
+        internal static string Photo_Recognition_Title {
+            get {
+                return ResourceManager.GetString("Photo_Recognition_Title", resourceCulture);
+            }
+        }
+        
+        internal static string Photo_Recognition_Upload_Image {
+            get {
+                return ResourceManager.GetString("Photo_Recognition_Upload_Image", resourceCulture);
             }
         }
         
@@ -1455,9 +1479,9 @@ namespace ForgeFit.MAUI.Resources.Strings {
             }
         }
         
-        internal static string CustomFood_Macros {
+        internal static string Nutrient_Macros {
             get {
-                return ResourceManager.GetString("CustomFood_Macros", resourceCulture);
+                return ResourceManager.GetString("Nutrient_Macros", resourceCulture);
             }
         }
         

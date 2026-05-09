@@ -21,12 +21,6 @@ public partial class AddFoodPageView : ContentPage
             return true;
         }
 
-        if (vm.ScannerVM.IsScannerVisible)
-        {
-            vm.ScannerVM.IsScannerVisible = false;
-            return true;
-        }
-
         if (vm.DetailsVM.IsFoodDetailsVisible)
         {
             vm.DetailsVM.IsFoodDetailsVisible = false;

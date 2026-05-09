@@ -4,8 +4,8 @@
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
              xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
+             xmlns:diary="using:ForgeFit.MAUI.Views.Controls.Diary"
              xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.AddFoodTemplates"
              behaviors:PageAnimationBehavior.AnimationType="Fade"
              Shell.NavBarIsVisible="False"
@@ -97,9 +97,6 @@
                     </Border>
                 </VerticalStackLayout>
             </Grid>
-
-            <diary:BarcodeScanner ZIndex="17"
-                                  IsActive="{Binding ScannerVM.IsScannerVisible}" />
 
             <diary:FoodDetails ZIndex="13" BindingContext="{Binding DetailsVM}">
                 <diary:FoodDetails.Behaviors>

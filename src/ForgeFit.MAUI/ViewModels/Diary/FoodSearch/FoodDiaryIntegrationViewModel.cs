@@ -189,7 +189,7 @@ public class FoodDiaryIntegrationViewModel(
                 await diaryService.UpdateEntryAsync(existingEntry.Id, updateRequest);
             }
 
-            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(nameof(FoodDiaryIntegrationViewModel)));
             itemVm.IsAdded = false;
             ExistingProductIds.Remove(itemVm.Data.ExternalId);
         }
@@ -199,12 +199,11 @@ public class FoodDiaryIntegrationViewModel(
         }
     }
     
-    public async Task QuickAddRecipeInternal(RecipeItemViewModel recipeVm)
+    public async Task AddProductRangeAsync(List<FoodItemDto> itemsToAdd)
     {
         try
         {
-            var newIngredients = recipeVm.Recipe.Ingredients;
-            if (newIngredients.Count == 0) return;
+            if (itemsToAdd.Count == 0) return;
 
             if (_entryId.HasValue)
             {
@@ -212,28 +211,33 @@ public class FoodDiaryIntegrationViewModel(
                 if (entryResult is { Success: true, Data: not null })
                 {
                     var updatedItems = entryResult.Data.FoodItems.ToList();
-                    
-                    updatedItems.AddRange(newIngredients);
-                    
+                    updatedItems.AddRange(itemsToAdd);
                     var updateRequest = new FoodEntryCreateRequest(_mealType, _date, updatedItems);
                     await diaryService.UpdateEntryAsync(_entryId.Value, updateRequest);
                 }
             }
             else
             {
-                var createRequest = new FoodEntryCreateRequest(_mealType, _date, newIngredients);
+                var createRequest = new FoodEntryCreateRequest(_mealType, _date, itemsToAdd);
                 var createResponse = await diaryService.CreateEntryAsync(createRequest);
                 if (createResponse is { Success: true, Data: not null })
                     _entryId = createResponse.Data.Id;
             }
 
-            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
-            recipeVm.IsAdded = true;
+            WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(
+                nameof(FoodDiaryIntegrationViewModel), 
+                _entryId));
         }
         catch (Exception ex)
         {
             await alertService.ShowToastAsync(ex.Message);
         }
+    }
+
+    public async Task QuickAddRecipeInternal(RecipeItemViewModel recipeVm)
+    {
+        await AddProductRangeAsync(recipeVm.Recipe.Ingredients.ToList());
+        recipeVm.IsAdded = true;
     }
 
     public async Task AddEntryToDiaryInternal(FoodItemDto newItem)
@@ -257,7 +261,7 @@ public class FoodDiaryIntegrationViewModel(
                 _entryId = createResponse.Data.Id;
         }
 
-        WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+        WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(nameof(FoodDiaryIntegrationViewModel)));
     }
 
     public void ResetState()

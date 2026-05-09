@@ -56,6 +56,17 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
         DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();
+        
+        WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, FoodDataChangedMessage>(this, async (r, msg) =>
+        {
+            System.Diagnostics.Debug.WriteLine($"[MealDetails] message received, source={msg.Source}, entryId={msg.EntryId}");
+            if (msg.Source == nameof(MealDetailsPageViewModel)) return;
+
+            if (msg.EntryId.HasValue && !r._entryId.HasValue)
+                r._entryId = msg.EntryId;
+
+            await MainThread.InvokeOnMainThreadAsync(r.LoadDataAsync);
+        });
 
         SetupFoodDetailsCallbacks();
     }
@@ -108,7 +119,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
                 if (response is { Success: true, Data: not null })
                 {
-                    WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+                    WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(nameof(MealDetailsPageViewModel)));
                     return;
                 }
 
@@ -240,7 +251,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 _entryId = null;
                 _currentEntry = null;
                 MacrosVM.CalculateTotals(FoodItems);
-                WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+                WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(nameof(MealDetailsPageViewModel)));
                 return;
             }
 
@@ -249,7 +260,7 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
             if (updateResult.Success)
             {
-                WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage());
+                WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(nameof(MealDetailsPageViewModel)));
                 return;
             }
 

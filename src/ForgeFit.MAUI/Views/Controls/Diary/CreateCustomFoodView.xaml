@@ -9,10 +9,6 @@
              x:Class="ForgeFit.MAUI.Views.Controls.Diary.CreateCustomFoodView"
              BackgroundColor="#90000000"
              InputTransparent="False">
-    <ContentView.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding CloseCommand}" />
-    </ContentView.GestureRecognizers>
-
     <Grid BackgroundColor="{StaticResource PageBackground}">
         <Grid.GestureRecognizers>
             <TapGestureRecognizer />
@@ -60,7 +56,7 @@
                 </VerticalStackLayout>
 
                 <Label Style="{StaticResource LabelH2}"
-                       Text="{maui:Translate CustomFood_Macros}"
+                       Text="{maui:Translate Nutrient_Macros}"
                        Margin="0,8,0,0" />
 
                 <Grid ColumnDefinitions="*, *" ColumnSpacing="8">

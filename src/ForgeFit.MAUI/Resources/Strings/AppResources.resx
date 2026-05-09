@@ -155,6 +155,12 @@
     <data name="Action_Add" xml:space="preserve">
         <value>Add</value>
     </data>
+    <data name="Action_Capture" xml:space="preserve">
+        <value>Capture</value>
+    </data>
+    <data name="Action_Retake" xml:space="preserve">
+        <value>Retake</value>
+    </data>
     <data name="Action_AddFood" xml:space="preserve">
         <value>Add Food</value>
     </data>
@@ -169,6 +175,12 @@
     </data>
     <data name="Search_Barcode" xml:space="preserve">
         <value>Scan barcode</value>
+    </data>
+    <data name="Photo_Recognition_Title" xml:space="preserve">
+        <value>Photo Scan</value>
+    </data>
+    <data name="Photo_Recognition_Upload_Image" xml:space="preserve">
+        <value>Upload Image</value>
     </data>
     <data name="Details_FoodProducts" xml:space="preserve">
         <value>Food Products</value>
@@ -728,7 +740,7 @@
     <data name="CustomFood_Barcode" xml:space="preserve">
         <value>Barcode</value>
     </data>
-    <data name="CustomFood_Macros" xml:space="preserve">
+    <data name="Nutrient_Macros" xml:space="preserve">
         <value>Macros</value>
     </data>
     <data name="CustomFood_Serving" xml:space="preserve">

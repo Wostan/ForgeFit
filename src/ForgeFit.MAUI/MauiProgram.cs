@@ -19,6 +19,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMarkup()
+            .UseMauiCommunityToolkitCamera()
             .UseLocalizationResourceManager(settings =>
             {
                 settings.AddResource(AppResources.ResourceManager);
