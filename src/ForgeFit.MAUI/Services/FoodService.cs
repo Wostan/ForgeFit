@@ -1,6 +1,8 @@
 ﻿using ForgeFit.MAUI.Models;
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
+using Microsoft.Maui.Graphics.Platform;
+using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace ForgeFit.MAUI.Services;
 
@@ -32,12 +34,22 @@ public class FoodService(IApiService apiService) : IFoodService
 
             await using (var stream = await file.OpenReadAsync())
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await stream.CopyToAsync(memoryStream);
-                    var imageBytes = memoryStream.ToArray();
+                using var image = PlatformImage.FromStream(stream);
 
-                    base64String = Convert.ToBase64String(imageBytes);
+                if (image != null)
+                {
+                    using var resizedImage = image.Downsize(512, true);
+                    
+                    using var memoryStream = new MemoryStream();
+                    await resizedImage.SaveAsync(memoryStream, ImageFormat.Jpeg, 0.85f);
+                    
+                    base64String = Convert.ToBase64String(memoryStream.ToArray());
+                }
+                else
+                {
+                    using var memoryStream = new MemoryStream();
+                    await stream.CopyToAsync(memoryStream);
+                    base64String = Convert.ToBase64String(memoryStream.ToArray());
                 }
             }
 
