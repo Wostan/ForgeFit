@@ -1,5 +1,4 @@
-using ForgeFit.MAUI.ViewModels;
-using ZXing.Net.Maui;
+using BarcodeScanner.Mobile;
 using AddFoodPageViewModel = ForgeFit.MAUI.ViewModels.Diary.AddFood.AddFoodPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Controls.Diary;
@@ -23,17 +22,12 @@ public partial class BarcodeScanner : ContentView
     {
         InitializeComponent();
 
-        CameraView.Options = new BarcodeReaderOptions
-        {
-            Formats = BarcodeFormats.All,
-            TryHarder = true,
-            AutoRotate = true
-        };
+        Methods.SetSupportBarcodeFormat(BarcodeFormats.All);
 
         IsVisible = false;
         Opacity = 0;
 
-        CameraView.IsDetecting = false;
+        CameraView.IsScanning = false;
 
         CameraCurtain.Opacity = 1;
         CameraCurtain.IsVisible = true;
@@ -47,7 +41,7 @@ public partial class BarcodeScanner : ContentView
 
         if (isVisible)
         {
-            control.CameraView.IsEnabled = true;
+            control.CameraView.IsScanning = true;
 
             control.CameraCurtain.Opacity = 1;
             control.CameraCurtain.IsVisible = true;
@@ -58,8 +52,6 @@ public partial class BarcodeScanner : ContentView
             MainThread.BeginInvokeOnMainThread(async void () =>
             {
                 if (!control.IsActive) return;
-
-                control.CameraView.IsDetecting = true;
 
                 await Task.Delay(200);
 
@@ -74,26 +66,26 @@ public partial class BarcodeScanner : ContentView
             control.CameraCurtain.IsVisible = true;
             await control.CameraCurtain.FadeToAsync(1, 200, Easing.SinOut);
 
-            if (control.BindingContext is AddFoodPageViewModel vm) vm.ScannerVM.IsTorchOn = false;
+            if (control.BindingContext is AddFoodPageViewModel vm)
+                vm.ScannerVM.IsTorchOn = false;
 
-            control.CameraView.IsDetecting = false;
-            control.CameraView.IsTorchOn = false;
-
-            control.CameraView.IsEnabled = false;
+            control.CameraView.IsScanning = false;
+            control.CameraView.TorchOn = false;
 
             await control.FadeToAsync(0, 200, Easing.SinIn);
             control.IsVisible = false;
         }
     }
 
-    private void CameraView_OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs e)
+    private void CameraView_OnDetected(object? sender, OnDetectedEventArg e)
     {
-        var code = e.Results?.FirstOrDefault()?.Value;
+        var code = e.BarcodeResults?.FirstOrDefault()?.DisplayValue;
 
         if (!string.IsNullOrEmpty(code))
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (BindingContext is AddFoodPageViewModel vm) vm.ScannerVM.BarcodeDetectedCommand.Execute(code);
+                if (BindingContext is AddFoodPageViewModel vm)
+                    vm.ScannerVM.BarcodeDetectedCommand.Execute(code);
             });
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
+using BarcodeScanner.Mobile;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
-using ForgeFit.MAUI.Extensions;
 using ForgeFit.MAUI.Resources.Strings;
-using LocalizationResourceManager.Maui;
 using Microsoft.Extensions.Logging;
-using ZXing.Net.Maui.Controls;
+using ForgeFit.MAUI.Extensions;
+using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI;
 
@@ -19,12 +19,15 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMarkup()
-            .UseBarcodeReader()
             .UseLocalizationResourceManager(settings =>
             {
                 settings.AddResource(AppResources.ResourceManager);
                 settings.InitialCulture(new CultureInfo("uk-UA"));
                 settings.RestoreLatestCulture(true);
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+                handlers.AddBarcodeScannerHandler();
             })
             .ConfigureUiSettings()
             .RegisterServices()
