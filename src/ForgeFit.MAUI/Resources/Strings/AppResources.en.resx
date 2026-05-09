@@ -162,6 +162,12 @@
     <data name="Search_Barcode" xml:space="preserve">
         <value>Scan barcode</value>
     </data>
+    <data name="Photo_Recognition_Title" xml:space="preserve">
+        <value>Photo Scan</value>
+    </data>
+    <data name="Photo_Recognition_Upload_Image" xml:space="preserve">
+        <value>Upload Image</value>
+    </data>
     <data name="Details_FoodProducts" xml:space="preserve">
         <value>Food Products</value>
     </data>
@@ -714,7 +720,7 @@
     <data name="CustomFood_Brand" xml:space="preserve">
         <value>Brand</value>
     </data>
-    <data name="CustomFood_Macros" xml:space="preserve">
+    <data name="Nutrient_Macros" xml:space="preserve">
         <value>Macros</value>
     </data>
     <data name="CustomFood_Name" xml:space="preserve">
@@ -812,5 +818,8 @@
     </data>
     <data name="Success_RecipeUpdated" xml:space="preserve">
         <value>Recipe updated successfully!</value>
+    </data>
+    <data name="Action_Retake" xml:space="preserve">
+        <value>Retake</value>
     </data>
 </root>

@@ -26,31 +26,28 @@ public class FoodService(IApiService apiService) : IFoodService
         return await apiService.GetAsync<FoodProductResponse>($"/api/food-api/barcode?barcode={barcode}");
     }
 
-    public async Task<ServiceResponse<List<FoodProductResponse>>> RecognizeFoodFromImageAsync(FileResult file)
+    public async Task<ServiceResponse<List<FoodProductResponse>>> RecognizeFoodFromImageAsync(Stream stream)
     {
         try
         {
             string base64String;
 
-            await using (var stream = await file.OpenReadAsync())
-            {
-                using var image = PlatformImage.FromStream(stream);
+            using var image = PlatformImage.FromStream(stream);
 
-                if (image != null)
-                {
-                    using var resizedImage = image.Downsize(512, true);
-                    
-                    using var memoryStream = new MemoryStream();
-                    await resizedImage.SaveAsync(memoryStream, ImageFormat.Jpeg, 0.85f);
-                    
-                    base64String = Convert.ToBase64String(memoryStream.ToArray());
-                }
-                else
-                {
-                    using var memoryStream = new MemoryStream();
-                    await stream.CopyToAsync(memoryStream);
-                    base64String = Convert.ToBase64String(memoryStream.ToArray());
-                }
+            if (image != null)
+            {
+                using var resizedImage = image.Downsize(512, true);
+
+                using var memoryStream = new MemoryStream();
+                await resizedImage.SaveAsync(memoryStream, ImageFormat.Jpeg, 0.85f);
+
+                base64String = Convert.ToBase64String(memoryStream.ToArray());
+            }
+            else
+            {
+                using var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
+                base64String = Convert.ToBase64String(memoryStream.ToArray());
             }
 
             var requestDto = new RecognizeByPhotoRequest(base64String);

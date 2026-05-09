@@ -147,6 +147,12 @@
     <data name="Action_Add" xml:space="preserve">
         <value>Додати</value>
     </data>
+    <data name="Action_Capture" xml:space="preserve">
+        <value>Знімок</value>
+    </data>
+    <data name="Action_Retake" xml:space="preserve">
+        <value>Перезняти</value>
+    </data>
     <data name="Action_AddFood" xml:space="preserve">
         <value>Додати їжу</value>
     </data>
@@ -161,6 +167,12 @@
     </data>
     <data name="Search_Barcode" xml:space="preserve">
         <value>Сканувати</value>
+    </data>
+    <data name="Photo_Recognition_Title" xml:space="preserve">
+        <value>Сканування фото</value>
+    </data>
+    <data name="Photo_Recognition_Upload_Image" xml:space="preserve">
+        <value>Завантажити зображення</value>
     </data>
     <data name="Details_FoodProducts" xml:space="preserve">
         <value>Продукти</value>
@@ -720,7 +732,7 @@
     <data name="CustomFood_Barcode" xml:space="preserve">
         <value>Штрихкод</value>
     </data>
-    <data name="CustomFood_Macros" xml:space="preserve">
+    <data name="Nutrient_Macros" xml:space="preserve">
         <value>Макронутрієнти</value>
     </data>
     <data name="CustomFood_Serving" xml:space="preserve">

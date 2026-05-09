@@ -63,6 +63,7 @@
     <ItemGroup>
         <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="9.0.1" />
         <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0"/>
+        <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.1" />
         <PackageReference Include="CommunityToolkit.Maui.Markup" Version="7.0.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <PackageReference Include="Humanizer" Version="3.0.1"/>
@@ -106,8 +107,12 @@
             <DependentUpon>WorkoutPageView.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Controls\Diary\BarcodeScanner.xaml.cs">
-            <DependentUpon>BarcodeScanner.xaml</DependentUpon>
+        <Compile Update="Views\Diary\BarcodeScannerPage.xaml.cs">
+            <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Diary\PhotoRecognitionPage.xaml.cs">
+            <DependentUpon>PhotoRecognitionPage.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Diary\FoodDetails.xaml.cs">
@@ -164,7 +169,10 @@
         <MauiXaml Update="Views\Workout\WorkoutPageView.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
-        <MauiXaml Update="Views\Controls\Diary\BarcodeScanner.xaml">
+        <MauiXaml Update="Views\Diary\BarcodeScannerPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Diary\PhotoRecognitionPage.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Diary\FoodDetails.xaml">

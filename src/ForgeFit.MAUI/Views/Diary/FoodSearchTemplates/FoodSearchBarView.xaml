@@ -12,7 +12,7 @@
                 Margin="10"
                 VerticalOptions="End"
                 Padding="0">
-            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="-10">
+            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="-10">
                 <SearchBar Grid.Column="0"
                            Placeholder="{maui:Translate Search_Placeholder}"
                            ReturnType="Done"
@@ -22,7 +22,15 @@
                 <Button Grid.Column="1"
                         Style="{StaticResource TextButton}"
                         ImageSource="barcode_scanner.svg"
-                        Command="{Binding ScannerVM.ToggleScannerCommand}">
+                        Command="{Binding OpenBarcodeScannerCommand}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                    </Button.Behaviors>
+                </Button>
+                <Button Grid.Column="2"
+                        Style="{StaticResource TextButton}"
+                        ImageSource="camera.svg"
+                        Command="{Binding OpenPhotoRecognitionCommand}">
                     <Button.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
                     </Button.Behaviors>
