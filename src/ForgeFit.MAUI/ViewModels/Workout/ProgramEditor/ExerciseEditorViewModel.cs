@@ -33,7 +33,8 @@ public partial class ExerciseEditorViewModel(
 
     public void AddNewExercise(WorkoutExerciseDto exerciseDto)
     {
-        var defaultSet = new WorkoutSetDto(Guid.NewGuid(), 1, AppConstants.DefaultValues.DefaultReps, TimeSpan.FromMinutes(AppConstants.Time.DefaultRestTimeMinutes), 0, WeightUnit.Kg);
+        var defaultSet = new WorkoutSetDto(Guid.NewGuid(), 1, AppConstants.DefaultValues.DefaultReps,
+            TimeSpan.FromMinutes(AppConstants.Time.DefaultRestTimeMinutes), 0, WeightUnit.Kg);
         var tempPlanDto = new WorkoutExercisePlanDto(Guid.NewGuid(), programId, exerciseDto, [defaultSet]);
 
         var item = new EditorExerciseItem(

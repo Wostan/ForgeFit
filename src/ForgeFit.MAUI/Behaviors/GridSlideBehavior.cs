@@ -2,6 +2,9 @@
 
 public class GridSlideBehavior
 {
+    private const uint AnimDuration = 400;
+    private const double TranslationOffset = 100;
+
     public static readonly BindableProperty IsVisibleAnimatedProperty =
         BindableProperty.CreateAttached(
             "IsVisibleAnimated",
@@ -19,9 +22,6 @@ public class GridSlideBehavior
     {
         view.SetValue(IsVisibleAnimatedProperty, value);
     }
-
-    private const uint AnimDuration = 400;
-    private const double TranslationOffset = 100;
 
     private static async void OnIsVisibleAnimatedChanged(BindableObject bindable, object oldValue, object newValue)
     {

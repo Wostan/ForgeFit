@@ -94,7 +94,7 @@
                                    HorizontalTextAlignment="Center" />
                         </controls:ViewBox>
 
-                        <Label Grid.Row="1" 
+                        <Label Grid.Row="1"
                                Style="{StaticResource LabelBody}"
                                Text="{maui:Translate Workout_Type}"
                                LineBreakMode="TailTruncation"

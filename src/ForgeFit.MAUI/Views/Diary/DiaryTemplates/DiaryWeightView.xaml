@@ -41,7 +41,7 @@
                                 <FormattedString>
                                     <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}" />
                                     <Span Text=": " Style="{StaticResource LabelBody}" />
-                                    <Span Text="{Binding WeightVM.TargetWeightDisplay}" 
+                                    <Span Text="{Binding WeightVM.TargetWeightDisplay}"
                                           Style="{StaticResource LabelH2}" />
                                     <Span Text=" " Style="{StaticResource LabelBody}" />
                                     <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}" />

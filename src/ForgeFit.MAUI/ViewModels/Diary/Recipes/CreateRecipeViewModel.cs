@@ -19,20 +19,23 @@ public partial class CreateRecipeViewModel(
     IAlertService alertService,
     ILocalizationResourceManager localizationManager) : ObservableObject
 {
-    [ObservableProperty] private string _name = string.Empty;
     [ObservableProperty] private string? _description;
-    [ObservableProperty] private double _totalCalories;
-    [ObservableProperty] private double _totalCarbs;
-    [ObservableProperty] private double _totalProtein;
-    [ObservableProperty] private double _totalFat;
-    [ObservableProperty] private double _totalFiber;
-    [ObservableProperty] private double _totalSugar;
-    [ObservableProperty] private double _totalSaturatedFat;
-    [ObservableProperty] private double _totalSodium;
+
+    private FoodItemDto? _editingIngredient;
 
     private Guid? _editingRecipeId;
-    
-    private FoodItemDto? _editingIngredient;
+    [ObservableProperty] private string _name = string.Empty;
+    [ObservableProperty] private double _totalCalories;
+    [ObservableProperty] private double _totalCarbs;
+    [ObservableProperty] private double _totalFat;
+    [ObservableProperty] private double _totalFiber;
+    [ObservableProperty] private double _totalProtein;
+    [ObservableProperty] private double _totalSaturatedFat;
+    [ObservableProperty] private double _totalSodium;
+    [ObservableProperty] private double _totalSugar;
+
+    public Func<RecipeDto, Task>? RecipeCreatedCallback;
+    public Func<RecipeDto, Task>? RecipeUpdatedCallback;
     public FoodDetailsViewModel IngredientDetailsVM { get; } = new(alertService);
 
     public ObservableCollection<FoodItemDto> Ingredients { get; } = [];
@@ -40,12 +43,9 @@ public partial class CreateRecipeViewModel(
     public RecipeIngredientSearchViewModel IngredientSearchVM { get; } =
         new(foodService, customFoodService, alertService);
 
-    public Func<RecipeDto, Task>? RecipeCreatedCallback;
-    public Func<RecipeDto, Task>? RecipeUpdatedCallback;
-
     private void SetupCallbacks()
     {
-        IngredientSearchVM.IngredientSelectedCallback = async (newItem) =>
+        IngredientSearchVM.IngredientSelectedCallback = async newItem =>
         {
             Ingredients.Add(newItem);
             RecalculateMacros();
@@ -57,7 +57,7 @@ public partial class CreateRecipeViewModel(
             await IngredientDetailsVM.OpenFoodDetailsInternal(product, searchItem, false);
         };
 
-        IngredientDetailsVM.SaveFoodCallback = async (newItem) =>
+        IngredientDetailsVM.SaveFoodCallback = async newItem =>
         {
             if (_editingIngredient != null)
             {
@@ -69,7 +69,7 @@ public partial class CreateRecipeViewModel(
             {
                 Ingredients.Add(newItem);
             }
-            
+
             RecalculateMacros();
             IngredientDetailsVM.IsFoodDetailsVisible = false;
         };
@@ -89,12 +89,8 @@ public partial class CreateRecipeViewModel(
         Ingredients.Clear();
 
         if (initialIngredients != null)
-        {
             foreach (var ingredient in initialIngredients)
-            {
                 Ingredients.Add(ingredient);
-            }
-        }
 
         SetupCallbacks();
         RecalculateMacros();
@@ -107,10 +103,7 @@ public partial class CreateRecipeViewModel(
         _editingRecipeId = recipe.Id;
         Ingredients.Clear();
 
-        foreach (var ingredient in recipe.Ingredients)
-        {
-            Ingredients.Add(ingredient);
-        }
+        foreach (var ingredient in recipe.Ingredients) Ingredients.Add(ingredient);
 
         SetupCallbacks();
         RecalculateMacros();
@@ -172,10 +165,7 @@ public partial class CreateRecipeViewModel(
                     popupManager.CloseCreateRecipePopup();
                     await alertService.ShowToastAsync(localizationManager["Success_RecipeUpdated"]);
 
-                    if (RecipeUpdatedCallback != null)
-                    {
-                        await RecipeUpdatedCallback(updateResult.Data);
-                    }
+                    if (RecipeUpdatedCallback != null) await RecipeUpdatedCallback(updateResult.Data);
                 }
                 else
                 {
@@ -198,10 +188,7 @@ public partial class CreateRecipeViewModel(
                     popupManager.CloseCreateRecipePopup();
                     await alertService.ShowToastAsync(localizationManager["Success_RecipeCreated"]);
 
-                    if (RecipeCreatedCallback != null)
-                    {
-                        await RecipeCreatedCallback(createResult.Data);
-                    }
+                    if (RecipeCreatedCallback != null) await RecipeCreatedCallback(createResult.Data);
                 }
                 else
                 {
@@ -245,7 +232,10 @@ public partial class CreateRecipeViewModel(
                     var cf = customResult.Data;
                     product = new FoodProductResponse(
                         cf.Id.ToString(), cf.Name, cf.Brand,
-                        [new FoodServingDto("Custom", cf.ServingSize, cf.ServingUnit, cf.Calories, cf.Carbs, cf.Protein, cf.Fat, cf.Fiber, cf.Sugar, cf.SaturatedFat, cf.Sodium)]
+                        [
+                            new FoodServingDto("Custom", cf.ServingSize, cf.ServingUnit, cf.Calories, cf.Carbs,
+                                cf.Protein, cf.Fat, cf.Fiber, cf.Sugar, cf.SaturatedFat, cf.Sodium)
+                        ]
                     );
                 }
                 else

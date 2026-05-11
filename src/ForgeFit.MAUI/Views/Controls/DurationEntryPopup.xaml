@@ -45,7 +45,9 @@
                            HorizontalTextAlignment="Center"
                            TextChanged="OnTimePartsChanged">
                         <Entry.Behaviors>
-                            <behaviors:NumericClampBehavior MaxValue="{x:Static xaml:AppConstantsXaml.MaxWorkoutDurationHours}" MinValue="0" Decimals="0" />
+                            <behaviors:NumericClampBehavior
+                                MaxValue="{x:Static xaml:AppConstantsXaml.MaxWorkoutDurationHours}" MinValue="0"
+                                Decimals="0" />
                         </Entry.Behaviors>
                     </Entry>
                 </Border>

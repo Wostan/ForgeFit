@@ -42,7 +42,8 @@ public class GoalRealismValidator(
 
         var days = (dueDate.Value - DateTime.UtcNow).TotalDays;
 
-        if (days < AppConstants.GoalValidation.MinDaysToDeadline) return (false, localizationManager["Error_DeadlineTooClose"]);
+        if (days < AppConstants.GoalValidation.MinDaysToDeadline)
+            return (false, localizationManager["Error_DeadlineTooClose"]);
 
         var weeks = days / 7.0;
 

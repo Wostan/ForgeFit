@@ -13,13 +13,13 @@
     <VerticalStackLayout Spacing="6">
         <Label Text="{maui:Translate Workout_MyPrograms_Title}"
                Style="{StaticResource LabelH1}"
-               TextColor="{StaticResource TextSecondary}"/>
+               TextColor="{StaticResource TextSecondary}" />
 
         <VerticalStackLayout BindableLayout.ItemsSource="{Binding ProgramManagerVM.Programs}"
                              Spacing="8">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="programEditor:WorkoutProgramItem">
-                    
+
                     <SwipeView Threshold="70">
                         <SwipeView.RightItems>
                             <SwipeItems>
@@ -48,9 +48,9 @@
                         </SwipeView.RightItems>
 
                         <templates:ProgramItemView />
-                        
+
                     </SwipeView>
-                    
+
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>

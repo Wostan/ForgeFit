@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Models.DTOs.Food;
@@ -16,22 +18,22 @@ public partial class PhotoRecognitionViewModel(
     FoodDiaryIntegrationViewModel diaryVM)
     : ObservableObject, IQueryAttributable
 {
+    [ObservableProperty] private ImageSource? _capturedImageSource;
     [ObservableProperty] private bool _isCameraActive = true;
+
+    [ObservableProperty] private bool _isCapturing;
     [ObservableProperty] private bool _isImageCaptured;
     [ObservableProperty] private bool _isLoading;
-    [ObservableProperty] private ImageSource? _capturedImageSource;
+    [ObservableProperty] private bool _isSuccessState;
+    [ObservableProperty] private bool _showRetakeButton;
     [ObservableProperty] private double _totalCalories;
-    [ObservableProperty] private double _totalProtein;
     [ObservableProperty] private double _totalCarbs;
     [ObservableProperty] private double _totalFat;
     [ObservableProperty] private double _totalFiber;
-    [ObservableProperty] private double _totalSugar;
+    [ObservableProperty] private double _totalProtein;
     [ObservableProperty] private double _totalSaturatedFat;
     [ObservableProperty] private double _totalSodium;
-
-    [ObservableProperty] private bool _isCapturing;
-    [ObservableProperty] private bool _showRetakeButton;
-    [ObservableProperty] private bool _isSuccessState;
+    [ObservableProperty] private double _totalSugar;
 
     public ObservableCollection<FoodItemDto> RecognizedItems { get; } = [];
 
@@ -44,23 +46,23 @@ public partial class PhotoRecognitionViewModel(
         DayTime mealType = default;
         Guid? entryId = null;
 
-        if (query.TryGetValue("Date", out var dateObj) && 
+        if (query.TryGetValue("Date", out var dateObj) &&
             DateTime.TryParse(
-                dateObj.ToString(), 
-                System.Globalization.CultureInfo.InvariantCulture,
-                System.Globalization.DateTimeStyles.RoundtripKind, 
+                dateObj.ToString(),
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.RoundtripKind,
                 out var d))
             date = d;
 
-        if (query.TryGetValue("MealType", out var typeObj) && 
+        if (query.TryGetValue("MealType", out var typeObj) &&
             Enum.TryParse<DayTime>(typeObj.ToString(), out var t))
             mealType = t;
 
-        if (query.TryGetValue("EntryId", out var idObj) && 
+        if (query.TryGetValue("EntryId", out var idObj) &&
             Guid.TryParse(idObj.ToString(), out var id))
             entryId = id;
 
-        System.Diagnostics.Debug.WriteLine($"[PhotoRecognition] date={date}, meal={mealType}, entryId={entryId}");
+        Debug.WriteLine($"[PhotoRecognition] date={date}, meal={mealType}, entryId={entryId}");
         diaryVM.Initialize(date, mealType, entryId);
     }
 
@@ -85,7 +87,7 @@ public partial class PhotoRecognitionViewModel(
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[CapturePhoto OUTER] {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+            Debug.WriteLine($"[CapturePhoto OUTER] {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
             await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
         }
         finally
@@ -146,7 +148,7 @@ public partial class PhotoRecognitionViewModel(
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[CapturePhoto OUTER] {ex.GetType().Name}: {ex.Message}");
+            Debug.WriteLine($"[CapturePhoto OUTER] {ex.GetType().Name}: {ex.Message}");
             await alertService.ShowToastAsync(localizationManager["UnexpectedErrorMessage"]);
             ShowRetakeButton = true;
         }
@@ -180,8 +182,14 @@ public partial class PhotoRecognitionViewModel(
 
     private void ResetTotals()
     {
-        TotalCalories = 0; TotalProtein = 0; TotalCarbs = 0; TotalFat = 0;
-        TotalFiber = 0; TotalSugar = 0; TotalSaturatedFat = 0; TotalSodium = 0;
+        TotalCalories = 0;
+        TotalProtein = 0;
+        TotalCarbs = 0;
+        TotalFat = 0;
+        TotalFiber = 0;
+        TotalSugar = 0;
+        TotalSaturatedFat = 0;
+        TotalSodium = 0;
     }
 
     private void CalculateTotals()

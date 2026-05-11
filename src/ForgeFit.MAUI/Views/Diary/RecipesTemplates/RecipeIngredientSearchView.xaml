@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -63,19 +64,19 @@
                 <CollectionView.Header>
                     <VerticalStackLayout>
                         <BoxView HeightRequest="100" BackgroundColor="Transparent" />
-                        
+
                         <Label HorizontalOptions="Center"
                                IsVisible="{Binding SearchText, Converter={toolkit:IsStringNotNullOrEmptyConverter}}">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{maui:Translate Search_ResultsFor}"
-                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
-                                    <Span Text=" '" 
-                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
-                                    <Span Text="{Binding SearchText}" 
-                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
-                                    <Span Text="'" 
-                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
+                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
+                                    <Span Text=" '"
+                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
+                                    <Span Text="{Binding SearchText}"
+                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
+                                    <Span Text="'"
+                                          Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -88,9 +89,9 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="foodSearch:FoodSearchItemViewModel">
-                        
+
                         <Border StrokeThickness="0" Margin="16,0">
-                            
+
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding BindingContext.OpenFoodDetailsCommand, Source={x:Reference ThisSearchPopup}}"
@@ -101,7 +102,7 @@
                                   RowDefinitions="Auto, Auto"
                                   RowSpacing="-4"
                                   Padding="16, 8, 0, 8">
-                                
+
                                 <Label Grid.Column="0" Grid.Row="0"
                                        Text="{Binding Label}"
                                        Style="{StaticResource LabelH2}"
@@ -131,10 +132,9 @@
                                     <Label Style="{StaticResource LabelBody}"
                                            Text="{Binding ServingUnit}"
                                            LineBreakMode="NoWrap"
-                                           FlexLayout.Shrink="0">
-                                    </Label>
+                                           FlexLayout.Shrink="0" />
                                 </FlexLayout>
-                                
+
                                 <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
@@ -150,9 +150,9 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                    
+
                                 <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center">
-                                     <Label.FormattedText>
+                                    <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
                                                   Style="{StaticResource LabelBody}"
@@ -212,7 +212,7 @@
                            Text="{Binding SearchText}"
                            SearchIconColor="{StaticResource TextPrimary}" />
             </Border>
-            
+
         </Grid>
     </Grid>
 </ContentView>

@@ -25,8 +25,8 @@
         <VerticalStackLayout Spacing="16" Padding="20">
 
             <Grid ColumnDefinitions="*, 3*, *">
-    
-                <Button Grid.Column="0" 
+
+                <Button Grid.Column="0"
                         Style="{StaticResource TextButton}"
                         ImageSource="arrow_back.svg"
                         HorizontalOptions="Start"
@@ -52,7 +52,7 @@
                            LineBreakMode="TailTruncation"
                            IsVisible="{Binding SelectedFoodDetail.BrandName, Converter={toolkit:IsStringNotNullOrEmptyConverter}}" />
                 </VerticalStackLayout>
-    
+
             </Grid>
 
             <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">

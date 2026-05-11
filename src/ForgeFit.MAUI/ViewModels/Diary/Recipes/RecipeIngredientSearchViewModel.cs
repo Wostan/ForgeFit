@@ -14,22 +14,22 @@ public partial class RecipeIngredientSearchViewModel(
     ICustomFoodService customFoodService,
     IAlertService alertService) : ObservableObject
 {
+    [ObservableProperty] private bool _isLoading;
     private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private bool _isLoading;
-
-    public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 
     public Func<FoodItemDto, Task>? IngredientSelectedCallback;
     public Func<FoodProductResponse, FoodSearchResponse, Task>? OpenDetailsCallback;
+
+    public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 
     partial void OnSearchTextChanged(string value)
     {
         _searchCts?.Cancel();
         _searchCts?.Dispose();
         _searchCts = null;
-        
+
         if (string.IsNullOrWhiteSpace(value))
         {
             MainThread.BeginInvokeOnMainThread(() => SearchResults.Clear());
@@ -61,7 +61,7 @@ public partial class RecipeIngredientSearchViewModel(
 
         try
         {
-            var result = await foodService.SearchFoodAsync(query, 1);
+            var result = await foodService.SearchFoodAsync(query);
 
             if (token.IsCancellationRequested) return;
 
@@ -72,13 +72,11 @@ public partial class RecipeIngredientSearchViewModel(
                     var errorMsg = new LocalizedString(() => result.Message);
                     await alertService.ShowToastAsync(errorMsg.Localized);
                 }
+
                 return;
             }
 
-            foreach (var item in result.Data)
-            {
-                SearchResults.Add(new FoodSearchItemViewModel(item));
-            }
+            foreach (var item in result.Data) SearchResults.Add(new FoodSearchItemViewModel(item));
         }
         finally
         {
@@ -130,7 +128,7 @@ public partial class RecipeIngredientSearchViewModel(
             itemVm.IsAdding = false;
         }
     }
-    
+
     [RelayCommand]
     private async Task OpenFoodDetails(FoodSearchItemViewModel? itemVm)
     {
@@ -154,7 +152,7 @@ public partial class RecipeIngredientSearchViewModel(
             itemVm.IsAdding = false;
         }
     }
-    
+
     private async Task<FoodProductResponse?> FetchProductAsync(string externalId)
     {
         if (Guid.TryParse(externalId, out var customId))
@@ -165,24 +163,23 @@ public partial class RecipeIngredientSearchViewModel(
                 var cf = customResult.Data;
                 return new FoodProductResponse(
                     cf.Id.ToString(), cf.Name, cf.Brand,
-                    [new FoodServingDto("Custom", cf.ServingSize, cf.ServingUnit, cf.Calories, cf.Carbs, cf.Protein, cf.Fat, cf.Fiber, cf.Sugar, cf.SaturatedFat, cf.Sodium)]
+                    [
+                        new FoodServingDto("Custom", cf.ServingSize, cf.ServingUnit, cf.Calories, cf.Carbs, cf.Protein,
+                            cf.Fat, cf.Fiber, cf.Sugar, cf.SaturatedFat, cf.Sodium)
+                    ]
                 );
             }
+
             await alertService.ShowToastAsync(new LocalizedString(() => customResult.Message).Localized);
             return null;
         }
-        else
-        {
-            var productResult = await foodService.GetProductByIdAsync(externalId);
-            if (productResult is { Success: true, Data: not null })
-            {
-                return productResult.Data;
-            }
-            await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
-            return null;
-        }
+
+        var productResult = await foodService.GetProductByIdAsync(externalId);
+        if (productResult is { Success: true, Data: not null }) return productResult.Data;
+        await alertService.ShowToastAsync(new LocalizedString(() => productResult.Message).Localized);
+        return null;
     }
-    
+
 
     public void ResetState()
     {

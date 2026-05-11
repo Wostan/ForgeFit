@@ -63,8 +63,9 @@ public partial class ActiveSetItem : ObservableObject
 
     partial void OnRestTimeChanged(TimeSpan value)
     {
-        if (value.TotalMinutes >= AppConstants.ValidationLimits.MaxRestTimeMinutes) 
-            RestTime = TimeSpan.FromMinutes(AppConstants.ValidationLimits.MaxRestTimeMinutes - 1).Add(TimeSpan.FromSeconds(59));
+        if (value.TotalMinutes >= AppConstants.ValidationLimits.MaxRestTimeMinutes)
+            RestTime = TimeSpan.FromMinutes(AppConstants.ValidationLimits.MaxRestTimeMinutes - 1)
+                .Add(TimeSpan.FromSeconds(59));
     }
 
     partial void OnIsCompletedChanged(bool value)

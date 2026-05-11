@@ -31,7 +31,7 @@
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="{maui:Translate Workout_CreateProgram}"
                                        Style="{StaticResource LabelH1}"
-                                       TextColor="{StaticResource TextSecondary}"/>
+                                       TextColor="{StaticResource TextSecondary}" />
 
                                 <Button Text="{maui:Translate Workout_CreateProgram}"
                                         ImageSource="workout.svg"
@@ -60,7 +60,7 @@
             </controls:TextEntryPopup>
 
             <controls:ConfirmationPopup IsVisible="{Binding IsConfirmationPopupVisible}"
-                                     BindingContext="{Binding PopupVM}">
+                                        BindingContext="{Binding PopupVM}">
                 <controls:ConfirmationPopup.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>

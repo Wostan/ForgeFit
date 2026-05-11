@@ -1,13 +1,32 @@
-﻿namespace ForgeFit.MAUI.Behaviors;
+﻿using System.ComponentModel;
+
+namespace ForgeFit.MAUI.Behaviors;
 
 public class PageAnimationBehavior : Behavior<ContentPage>
 {
+    private const uint AnimationDuration = 300;
+    private const uint ExitDuration = 200;
+
+    private const double SlideScaleX = 0.95;
+    private const double SlideScaleY = 1.05;
+    private const double SlideTransY = 30.0;
+
+    private const double PopScale = 0.95;
+
     public static readonly BindableProperty AnimationTypeProperty =
         BindableProperty.CreateAttached(
             "AnimationType",
             typeof(PageAnimationType),
             typeof(PageAnimationBehavior),
             PageAnimationType.SlideUp);
+
+    public static readonly BindableProperty IsAnimatedProperty =
+        BindableProperty.CreateAttached("IsAnimated", typeof(bool), typeof(PageAnimationBehavior), false,
+            propertyChanged: OnIsAnimatedChanged);
+
+    private bool _isAnimatingOut;
+
+    private ContentPage? _page;
 
     public static PageAnimationType GetAnimationType(BindableObject view)
     {
@@ -19,10 +38,6 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         view.SetValue(AnimationTypeProperty, value);
     }
 
-    public static readonly BindableProperty IsAnimatedProperty =
-        BindableProperty.CreateAttached("IsAnimated", typeof(bool), typeof(PageAnimationBehavior), false,
-            propertyChanged: OnIsAnimatedChanged);
-
     public static bool GetIsAnimated(BindableObject view)
     {
         return (bool)view.GetValue(IsAnimatedProperty);
@@ -32,18 +47,6 @@ public class PageAnimationBehavior : Behavior<ContentPage>
     {
         view.SetValue(IsAnimatedProperty, value);
     }
-
-    private const uint AnimationDuration = 300;
-    private const uint ExitDuration = 200;
-
-    private const double SlideScaleX = 0.95;
-    private const double SlideScaleY = 1.05;
-    private const double SlideTransY = 30.0;
-
-    private const double PopScale = 0.95;
-
-    private ContentPage? _page;
-    private bool _isAnimatingOut;
 
     private static void OnIsAnimatedChanged(BindableObject view, object oldValue, object newValue)
     {
@@ -82,7 +85,7 @@ public class PageAnimationBehavior : Behavior<ContentPage>
         base.OnDetachingFrom(page);
     }
 
-    private static void OnPagePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    private static void OnPagePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(ContentPage.Content) ||
             sender is not ContentPage { Content: { } content } page) return;

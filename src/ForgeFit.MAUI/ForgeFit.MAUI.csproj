@@ -61,15 +61,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="9.0.1" />
+        <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="9.0.1"/>
         <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0"/>
-        <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.1" />
+        <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.1"/>
         <PackageReference Include="CommunityToolkit.Maui.Markup" Version="7.0.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <PackageReference Include="Humanizer" Version="3.0.1"/>
         <PackageReference Include="LocalizationResourceManager.Maui" Version="1.2.2"/>
         <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0"/>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.60" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.60"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
         <PackageReference Include="MPowerKit.ProgressRing" Version="1.4.2"/>
     </ItemGroup>
@@ -140,20 +140,20 @@
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Profile\ProfilePageView.xaml.cs">
-          <DependentUpon>ProfilePageView.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>ProfilePageView.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Diary\CreateCustomFoodView.xaml.cs">
-          <DependentUpon>CreateCustomFoodView.xaml</DependentUpon>
-          <SubType>Code</SubType>
+            <DependentUpon>CreateCustomFoodView.xaml</DependentUpon>
+            <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryHydrationView.xaml" />
-        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryMealsView.xaml" />
-        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiarySummaryView.xaml" />
-        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryWeightView.xaml" />
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryHydrationView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryMealsView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiarySummaryView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryWeightView.xaml"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -194,10 +194,10 @@
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Profile\ProfilePageView.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Diary\CreateCustomFoodView.xaml">
-          <SubType>Designer</SubType>
+            <SubType>Designer</SubType>
         </MauiXaml>
     </ItemGroup>
 
@@ -208,7 +208,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ViewModels\Diary\MyProducts\" />
+        <Folder Include="ViewModels\Diary\MyProducts\"/>
     </ItemGroup>
 
 </Project>

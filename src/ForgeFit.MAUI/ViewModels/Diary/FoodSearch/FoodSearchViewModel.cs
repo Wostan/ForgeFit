@@ -10,23 +10,21 @@ namespace ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 
 public partial class FoodSearchViewModel : ObservableObject
 {
-    private readonly IFoodService _foodService;
-    private readonly IDiaryService _diaryService;
     private readonly IAlertService _alertService;
-    private readonly ILocalizationResourceManager _localizationManager;
-    private readonly FoodDiaryIntegrationViewModel _diaryVM;
     private readonly FoodDetailsViewModel _detailsVM;
+    private readonly IDiaryService _diaryService;
+    private readonly FoodDiaryIntegrationViewModel _diaryVM;
+    private readonly IFoodService _foodService;
+    private readonly ILocalizationResourceManager _localizationManager;
 
     private bool _canLoadMore = true;
     private int _currentPage = 1;
-    private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isLoadingMore;
     [ObservableProperty] private bool _isShowingRecent = true;
+    private CancellationTokenSource? _searchCts;
     [ObservableProperty] private string _searchText = string.Empty;
-
-    public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 
     public FoodSearchViewModel(
         IFoodService foodService,
@@ -43,6 +41,8 @@ public partial class FoodSearchViewModel : ObservableObject
         _diaryVM = diaryVM;
         _detailsVM = detailsVM;
     }
+
+    public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 
     partial void OnSearchTextChanged(string value)
     {
@@ -92,6 +92,7 @@ public partial class FoodSearchViewModel : ObservableObject
                     var errorMsg = new LocalizedString(() => result.Message);
                     await _alertService.ShowToastAsync(errorMsg.Localized);
                 }
+
                 return;
             }
 
@@ -220,10 +221,16 @@ public partial class FoodSearchViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task QuickAddItem(FoodSearchItemViewModel? itemVm) => await ToggleItem(itemVm);
+    private async Task QuickAddItem(FoodSearchItemViewModel? itemVm)
+    {
+        await ToggleItem(itemVm);
+    }
 
     [RelayCommand]
-    private async Task RemoveItem(FoodSearchItemViewModel? itemVm) => await ToggleItem(itemVm);
+    private async Task RemoveItem(FoodSearchItemViewModel? itemVm)
+    {
+        await ToggleItem(itemVm);
+    }
 
     [RelayCommand]
     private async Task OpenFoodDetails(FoodSearchItemViewModel? itemVm)
@@ -258,9 +265,28 @@ public partial class FoodSearchViewModel : ObservableObject
         _canLoadMore = true;
     }
 
-    public void AddSearchResult(FoodSearchItemViewModel itemVm) => SearchResults.Add(itemVm);
-    public void ClearSearchResults() => SearchResults.Clear();
-    public void DecrementPage() => _currentPage--;
-    public void SetCanLoadMore(bool canLoadMore) => _canLoadMore = canLoadMore;
-    public int GetCurrentPage() => _currentPage;
+    public void AddSearchResult(FoodSearchItemViewModel itemVm)
+    {
+        SearchResults.Add(itemVm);
+    }
+
+    public void ClearSearchResults()
+    {
+        SearchResults.Clear();
+    }
+
+    public void DecrementPage()
+    {
+        _currentPage--;
+    }
+
+    public void SetCanLoadMore(bool canLoadMore)
+    {
+        _canLoadMore = canLoadMore;
+    }
+
+    public int GetCurrentPage()
+    {
+        return _currentPage;
+    }
 }

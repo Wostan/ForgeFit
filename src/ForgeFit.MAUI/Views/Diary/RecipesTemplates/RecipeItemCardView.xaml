@@ -9,7 +9,7 @@
              x:DataType="recipes:RecipeItemViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.RecipesTemplates.RecipeItemCardView"
              x:Name="ThisView">
-    
+
     <ContentView.Resources>
         <ResourceDictionary>
             <toolkit:BoolToObjectConverter x:Key="StateIconConverter"
@@ -19,8 +19,8 @@
     </ContentView.Resources>
 
     <Border StrokeThickness="0" Padding="16,0" BackgroundColor="{StaticResource PageBackground}">
-        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" 
-              ColumnDefinitions="*, Auto, 50" 
+        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto"
+              ColumnDefinitions="*, Auto, 50"
               Padding="16, 8,0,8">
 
             <Label Grid.Row="0" Grid.Column="0"
@@ -29,7 +29,7 @@
                    Style="{StaticResource LabelH2}"
                    LineBreakMode="TailTruncation"
                    VerticalOptions="Center" />
-            
+
             <Grid Grid.Row="0" Grid.Column="1"
                   RowDefinitions="Auto, Auto"
                   RowSpacing="-4"
@@ -78,7 +78,7 @@
                     </Label.FormattedText>
                 </Label>
             </Grid>
-            
+
             <Grid Grid.Row="0" Grid.Column="2"
                   MaximumWidthRequest="50"
                   MaximumHeightRequest="50">
@@ -126,7 +126,7 @@
                                    Margin="0,0,8,0"
                                    LineBreakMode="TailTruncation"
                                    VerticalOptions="Center" />
-                            
+
                             <Label Grid.Column="1" Margin="16,0">
                                 <Label.FormattedText>
                                     <FormattedString>

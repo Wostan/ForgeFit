@@ -234,7 +234,8 @@
                                TextTransform="Uppercase"
                                HorizontalOptions="Center">
                             <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSugarOverLimit}" Value="True">
+                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSugarOverLimit}"
+                                             Value="True">
                                     <Setter Property="TextColor" Value="{StaticResource DangerColor}" />
                                 </DataTrigger>
                             </Label.Triggers>
@@ -252,10 +253,12 @@
                                     Easing="SinInOut" />
                             </ProgressBar.Behaviors>
                             <ProgressBar.Triggers>
-                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSugarOverLimit}" Value="True">
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSugarOverLimit}"
+                                             Value="True">
                                     <Setter Property="ProgressColor" Value="{StaticResource DangerColor}" />
                                 </DataTrigger>
-                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSugarOverLimit}" Value="False">
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSugarOverLimit}"
+                                             Value="False">
                                     <Setter Property="ProgressColor" Value="{StaticResource TextSecondary}" />
                                 </DataTrigger>
                             </ProgressBar.Triggers>
@@ -277,7 +280,8 @@
                                TextColor="{StaticResource TextPrimary}"
                                HorizontalOptions="Center">
                             <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="True">
+                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}"
+                                             Value="True">
                                     <Setter Property="TextColor" Value="{StaticResource DangerColor}" />
                                 </DataTrigger>
                             </Label.Triggers>
@@ -291,10 +295,12 @@
                                     Easing="SinInOut" />
                             </ProgressBar.Behaviors>
                             <ProgressBar.Triggers>
-                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="True">
+                                <DataTrigger TargetType="ProgressBar"
+                                             Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="True">
                                     <Setter Property="ProgressColor" Value="{StaticResource DangerColor}" />
                                 </DataTrigger>
-                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="False">
+                                <DataTrigger TargetType="ProgressBar"
+                                             Binding="{Binding NutritionVM.IsSaturatedFatOverLimit}" Value="False">
                                     <Setter Property="ProgressColor" Value="{StaticResource TextSecondary}" />
                                 </DataTrigger>
                             </ProgressBar.Triggers>
@@ -316,7 +322,8 @@
                                TextColor="{StaticResource TextPrimary}"
                                HorizontalOptions="Center">
                             <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSodiumOverLimit}" Value="True">
+                                <DataTrigger TargetType="Label" Binding="{Binding NutritionVM.IsSodiumOverLimit}"
+                                             Value="True">
                                     <Setter Property="TextColor" Value="{StaticResource DangerColor}" />
                                 </DataTrigger>
                             </Label.Triggers>
@@ -330,10 +337,12 @@
                                     Easing="SinInOut" />
                             </ProgressBar.Behaviors>
                             <ProgressBar.Triggers>
-                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSodiumOverLimit}" Value="True">
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSodiumOverLimit}"
+                                             Value="True">
                                     <Setter Property="ProgressColor" Value="{StaticResource DangerColor}" />
                                 </DataTrigger>
-                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSodiumOverLimit}" Value="False">
+                                <DataTrigger TargetType="ProgressBar" Binding="{Binding NutritionVM.IsSodiumOverLimit}"
+                                             Value="False">
                                     <Setter Property="ProgressColor" Value="{StaticResource TextSecondary}" />
                                 </DataTrigger>
                             </ProgressBar.Triggers>

@@ -17,7 +17,10 @@ public partial class GoalSettingsViewModel : BaseViewModel
     private double _currentHeight;
     private double _currentWeight;
     [ObservableProperty] private string _daysLeftText = string.Empty;
-    [ObservableProperty] private DateTime _goalDueDate = DateTime.Today.AddMonths(AppConstants.GoalValidation.DefaultGoalMonthsAhead);
+
+    [ObservableProperty]
+    private DateTime _goalDueDate = DateTime.Today.AddMonths(AppConstants.GoalValidation.DefaultGoalMonthsAhead);
+
     [ObservableProperty] private bool _isDeadlineActive = true;
     [ObservableProperty] private bool _isNoDeadline;
     [ObservableProperty] private double _maxTargetWeight = AppConstants.ValidationLimits.MaxWeightKg;

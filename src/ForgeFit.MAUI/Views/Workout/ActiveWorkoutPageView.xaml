@@ -57,10 +57,11 @@
                 </ScrollView>
             </controls:StateContainer>
 
-            <controls:ConfirmationPopup IsVisible="{Binding PopupVM.IsConfirmationPopupVisible}" 
+            <controls:ConfirmationPopup IsVisible="{Binding PopupVM.IsConfirmationPopupVisible}"
                                         BindingContext="{Binding PopupVM}">
                 <controls:ConfirmationPopup.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding Source={x:Reference Name=RootGrid}, Path=BindingContext.PopupVM.IsConfirmationPopupVisible}" />
+                    <behaviors:FadeVisibilityBehavior
+                        IsVisible="{Binding Source={x:Reference Name=RootGrid}, Path=BindingContext.PopupVM.IsConfirmationPopupVisible}" />
                 </controls:ConfirmationPopup.Behaviors>
             </controls:ConfirmationPopup>
 

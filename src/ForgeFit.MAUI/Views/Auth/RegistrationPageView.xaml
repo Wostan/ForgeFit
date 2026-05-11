@@ -24,11 +24,16 @@
                                       PeekAreaInsets="0">
             <CarouselView.ItemsSource>
                 <x:Array Type="{x:Type ContentView}">
-                    <templates:Step1CredentialsView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
-                    <templates:Step2PersonalView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
-                    <templates:Step3MeasurementsView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
-                    <templates:Step4GoalView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
-                    <templates:Step5CommitmentView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step1CredentialsView
+                        BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step2PersonalView
+                        BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step3MeasurementsView
+                        BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step4GoalView
+                        BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step5CommitmentView
+                        BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
                 </x:Array>
             </CarouselView.ItemsSource>
             <CarouselView.ItemTemplate>

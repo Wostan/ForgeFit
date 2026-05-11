@@ -2,7 +2,6 @@
 using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
 using Microsoft.Maui.Graphics.Platform;
-using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace ForgeFit.MAUI.Services;
 

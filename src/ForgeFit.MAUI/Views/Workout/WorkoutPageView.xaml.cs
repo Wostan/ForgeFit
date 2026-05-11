@@ -1,4 +1,3 @@
-using ForgeFit.MAUI.ViewModels;
 using WorkoutPageViewModel = ForgeFit.MAUI.ViewModels.Workout.Dashboard.WorkoutPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Workout;

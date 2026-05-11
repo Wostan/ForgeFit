@@ -81,7 +81,8 @@ public partial class NutritionGoalViewModel(
             return;
         }
 
-        if (water is < AppConstants.ValidationLimits.MinWaterIntakeMl or > AppConstants.ValidationLimits.MaxWaterIntakeMl)
+        if (water is < AppConstants.ValidationLimits.MinWaterIntakeMl
+            or > AppConstants.ValidationLimits.MaxWaterIntakeMl)
         {
             await alertService.ShowToastAsync(localizationManager["Error_WaterRange"]);
             return;

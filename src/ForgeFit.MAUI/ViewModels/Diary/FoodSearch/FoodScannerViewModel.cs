@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ForgeFit.MAUI.Messages;
-using ForgeFit.MAUI.Models.DTOs.Food;
 using ForgeFit.MAUI.Services.Interfaces;
 using LocalizationResourceManager.Maui;
 
@@ -37,7 +36,13 @@ public partial class FoodScannerViewModel(
 
         _isProcessingBarcode = true;
 
-        try { HapticFeedback.Perform(); } catch { }
+        try
+        {
+            HapticFeedback.Perform();
+        }
+        catch
+        {
+        }
 
         try
         {

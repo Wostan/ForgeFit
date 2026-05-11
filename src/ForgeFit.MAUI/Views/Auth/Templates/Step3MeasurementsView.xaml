@@ -56,8 +56,10 @@
                             Value="{Binding MeasurementsVM.Height}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
-                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MinHeightCmStr}" />
-                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MaxHeightCmStr}" />
+                        <Label Grid.Column="0" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MinHeightCmStr}" />
+                        <Label Grid.Column="2" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MaxHeightCmStr}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
@@ -90,8 +92,10 @@
                             Value="{Binding MeasurementsVM.Weight}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
-                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MinWeightKgStr}" />
-                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="{x:Static constants:AppConstantsXaml.MaxWeightKgStr}" />
+                        <Label Grid.Column="0" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MinWeightKgStr}" />
+                        <Label Grid.Column="2" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MaxWeightKgStr}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>

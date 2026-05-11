@@ -16,12 +16,12 @@ public partial class WorkoutPageViewModel : BaseViewModel
     private CancellationTokenSource? _cts;
 
     private bool _isInitialized;
+    private bool _isProgramsDirty = true;
 
     [ObservableProperty] private bool _isRefreshing;
+    private bool _isWorkoutEntriesDirty = true;
 
     private bool _isWorkoutGoalDirty = true;
-    private bool _isWorkoutEntriesDirty = true;
-    private bool _isProgramsDirty = true;
 
     public WorkoutPageViewModel(
         IWorkoutTrackingService workoutTrackingService,

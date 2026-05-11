@@ -21,15 +21,15 @@ public partial class DiaryPageViewModel : BaseViewModel
     private CancellationTokenSource? _cts;
     [ObservableProperty] private string _dateTitle = string.Empty;
 
+    private bool _isFoodDirty = true;
+    private bool _isGoalsDirty = true;
+
     private bool _isInitialized;
 
     [ObservableProperty] private bool _isRefreshing;
-    [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
-
-    private bool _isFoodDirty = true;
     private bool _isWaterDirty = true;
-    private bool _isGoalsDirty = true;
     private bool _isWeightDirty = true;
+    [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
 
     public DiaryPageViewModel(
         IDiaryService diaryService,
@@ -69,10 +69,7 @@ public partial class DiaryPageViewModel : BaseViewModel
             this,
             (r, msg) =>
             {
-                if (msg.Source != nameof(WeightManagementViewModel))
-                {
-                    r._isWeightDirty = true;
-                }
+                if (msg.Source != nameof(WeightManagementViewModel)) r._isWeightDirty = true;
             }
         );
     }

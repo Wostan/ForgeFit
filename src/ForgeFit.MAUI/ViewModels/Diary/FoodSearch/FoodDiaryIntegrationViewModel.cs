@@ -77,21 +77,23 @@ public class FoodDiaryIntegrationViewModel(
                 {
                     var cf = customResult.Data;
                     product = new FoodProductResponse(
-                        cf.Id.ToString(), 
-                        cf.Name, 
-                        cf.Brand, 
-                        [new FoodServingDto(
-                            "Custom", 
-                            cf.ServingSize, 
-                            cf.ServingUnit, 
-                            cf.Calories, 
-                            cf.Carbs, 
-                            cf.Protein, 
-                            cf.Fat, 
-                            cf.Fiber, 
-                            cf.Sugar, 
-                            cf.SaturatedFat, 
-                            cf.Sodium)]
+                        cf.Id.ToString(),
+                        cf.Name,
+                        cf.Brand,
+                        [
+                            new FoodServingDto(
+                                "Custom",
+                                cf.ServingSize,
+                                cf.ServingUnit,
+                                cf.Calories,
+                                cf.Carbs,
+                                cf.Protein,
+                                cf.Fat,
+                                cf.Fiber,
+                                cf.Sugar,
+                                cf.SaturatedFat,
+                                cf.Sodium)
+                        ]
                     );
                 }
                 else
@@ -198,7 +200,7 @@ public class FoodDiaryIntegrationViewModel(
             await alertService.ShowToastAsync("Unexpected error occurred");
         }
     }
-    
+
     public async Task AddProductRangeAsync(List<FoodItemDto> itemsToAdd)
     {
         try
@@ -224,13 +226,10 @@ public class FoodDiaryIntegrationViewModel(
                     _entryId = createResponse.Data.Id;
             }
 
-            foreach (var item in itemsToAdd)
-            {
-                ExistingProductIds.Add(item.ExternalId);
-            }
+            foreach (var item in itemsToAdd) ExistingProductIds.Add(item.ExternalId);
 
             WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(
-                nameof(FoodDiaryIntegrationViewModel), 
+                nameof(FoodDiaryIntegrationViewModel),
                 _entryId));
         }
         catch (Exception ex)

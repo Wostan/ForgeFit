@@ -19,10 +19,10 @@ public partial class RecipesViewModel(
     CreateRecipeViewModel createRecipeVM) : ObservableObject
 {
     private List<RecipeDto> _allRecipes = [];
+    [ObservableProperty] private bool _isLoading;
     private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private bool _isLoading;
 
     public ObservableCollection<RecipeItemViewModel> SearchResults { get; } = [];
 
@@ -61,7 +61,8 @@ public partial class RecipesViewModel(
             var searchLower = SearchText.ToLowerInvariant();
             filtered = filtered.Where(r =>
                 r.Name.Contains(searchLower, StringComparison.InvariantCultureIgnoreCase) ||
-                (r.Description?.ToLowerInvariant().Contains(searchLower, StringComparison.InvariantCultureIgnoreCase) ?? false));
+                (r.Description?.ToLowerInvariant().Contains(searchLower, StringComparison.InvariantCultureIgnoreCase) ??
+                 false));
         }
 
         SearchResults.Clear();
@@ -101,7 +102,7 @@ public partial class RecipesViewModel(
             }
         }, token);
     }
-    
+
     [RelayCommand]
     private async Task ToggleItem(RecipeItemViewModel? itemVm)
     {

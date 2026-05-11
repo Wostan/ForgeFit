@@ -1,4 +1,3 @@
-using ForgeFit.MAUI.ViewModels;
 using DiaryPageViewModel = ForgeFit.MAUI.ViewModels.Diary.Main.DiaryPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Diary;

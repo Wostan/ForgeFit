@@ -3,7 +3,6 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
-             xmlns:recipesTemplates="clr-namespace:ForgeFit.MAUI.Views.Diary.AddFoodTemplates"
              xmlns:recipesTemplates1="clr-namespace:ForgeFit.MAUI.Views.Diary.RecipesTemplates"
              x:DataType="addFood:AddFoodPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.AddFoodTemplates.RecipesView">

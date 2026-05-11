@@ -1,9 +1,5 @@
-﻿using ForgeFit.MAUI.ViewModels;
-using ForgeFit.MAUI.ViewModels.Core;
-using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
+﻿using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
 using ForgeFit.MAUI.ViewModels.Diary.PhotoRecognition;
-using ForgeFit.MAUI.ViewModels.Diary.Recipes;
-using ForgeFit.MAUI.Views;
 using ForgeFit.MAUI.Views.Auth;
 using ForgeFit.MAUI.Views.Diary;
 using ForgeFit.MAUI.Views.Workout;
@@ -17,7 +13,8 @@ using ProfilePageView = ForgeFit.MAUI.Views.Profile.ProfilePageView;
 using ProfilePageViewModel = ForgeFit.MAUI.ViewModels.Profile.Main.ProfilePageViewModel;
 using RegistrationPageViewModel = ForgeFit.MAUI.ViewModels.Registration.RegistrationPageViewModel;
 using WorkoutPageViewModel = ForgeFit.MAUI.ViewModels.Workout.Dashboard.WorkoutPageViewModel;
-using WorkoutProgramEditorPageViewModel = ForgeFit.MAUI.ViewModels.Workout.ProgramEditor.WorkoutProgramEditorPageViewModel;
+using WorkoutProgramEditorPageViewModel =
+    ForgeFit.MAUI.ViewModels.Workout.ProgramEditor.WorkoutProgramEditorPageViewModel;
 
 namespace ForgeFit.MAUI.Extensions;
 

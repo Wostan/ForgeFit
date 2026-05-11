@@ -16,8 +16,7 @@
              x:Name="ThisPage">
 
     <ContentPage.Resources>
-        <ResourceDictionary>
-        </ResourceDictionary>
+        <ResourceDictionary />
     </ContentPage.Resources>
 
     <ContentPage.Content>

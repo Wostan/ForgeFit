@@ -100,7 +100,7 @@
                             <SwipeItems>
                                 <SwipeItemView>
                                     <Grid ColumnDefinitions="*,*" WidthRequest="120" VerticalOptions="Fill">
-                                        
+
                                         <Grid Grid.Column="0"
                                               BackgroundColor="{StaticResource DangerColor}"
                                               VerticalOptions="Fill"
@@ -135,7 +135,7 @@
                         </SwipeView.RightItems>
 
                         <myProductsTemplates:MyProductsItemCardView />
-                        
+
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

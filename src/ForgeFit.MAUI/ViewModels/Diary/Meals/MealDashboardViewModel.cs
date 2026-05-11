@@ -1,3 +1,4 @@
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ForgeFit.MAUI.Constants;
@@ -79,11 +80,11 @@ public partial class MealDashboardViewModel : BaseViewModel
         var route = $"{nameof(MealDetailsPageView)}?" +
                     $"Date={_selectedDate:yyyy-MM-dd}&" +
                     $"MealType={mealType}&" +
-                    $"TargetCalories={item.TargetCalories.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+                    $"TargetCalories={item.TargetCalories.ToString(CultureInfo.InvariantCulture)}";
 
-        if (item.EntryId != null) 
+        if (item.EntryId != null)
             route += $"&EntryId={item.EntryId}";
-        
+
         await Shell.Current.GoToAsync(route);
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System.Globalization;
+using AndroidX.Core.Widget;
 using BarcodeScanner.Mobile;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
-using ForgeFit.MAUI.Resources.Strings;
-using Microsoft.Extensions.Logging;
 using ForgeFit.MAUI.Extensions;
 using ForgeFit.MAUI.Handlers;
+using ForgeFit.MAUI.Resources.Strings;
 using ForgeFit.MAUI.Views.Controls;
 using LocalizationResourceManager.Maui;
+using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
 
 namespace ForgeFit.MAUI;
 
@@ -41,13 +43,13 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-        
-        Microsoft.Maui.Handlers.ButtonHandler.Mapper.AppendToMapping("AutoSizeText", (handler, view) =>
+
+        ButtonHandler.Mapper.AppendToMapping("AutoSizeText", (handler, view) =>
         {
 #if ANDROID
-            AndroidX.Core.Widget.TextViewCompat.SetAutoSizeTextTypeWithDefaults(
-                handler.PlatformView, 
-                AndroidX.Core.Widget.TextViewCompat.AutoSizeTextTypeUniform);
+            TextViewCompat.SetAutoSizeTextTypeWithDefaults(
+                handler.PlatformView,
+                TextViewCompat.AutoSizeTextTypeUniform);
 #elif IOS
         if (handler.PlatformView.TitleLabel != null)
         {

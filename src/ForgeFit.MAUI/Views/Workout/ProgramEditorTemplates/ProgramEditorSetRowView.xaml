@@ -18,8 +18,8 @@
                         MaximumWidthRequest="60"
                         VerticalOptions="Fill">
                         <Image Source="delete.svg"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center" />
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding DeleteCommand}"

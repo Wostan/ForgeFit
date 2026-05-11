@@ -1,29 +1,31 @@
-﻿using Microsoft.Maui.Layouts;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using Microsoft.Maui.Layouts;
 
 namespace ForgeFit.MAUI.Views.Controls;
 
 #region StretchDirection
 
 /// <summary>
-/// StretchDirection - Enum which describes when scaling should be used on the content of a Viewbox. This
-/// enum restricts the scaling factors along various axes.
+///     StretchDirection - Enum which describes when scaling should be used on the content of a Viewbox. This
+///     enum restricts the scaling factors along various axes.
 /// </summary>
 public enum StretchDirection
 {
     /// <summary>
-    /// Only scales the content upwards when the content is smaller than the Viewbox.
-    /// If the content is larger, no scaling downwards is done.
+    ///     Only scales the content upwards when the content is smaller than the Viewbox.
+    ///     If the content is larger, no scaling downwards is done.
     /// </summary>
     UpOnly,
 
     /// <summary>
-    /// Only scales the content downwards when the content is larger than the Viewbox.
-    /// If the content is smaller, no scaling upwards is done.
+    ///     Only scales the content downwards when the content is larger than the Viewbox.
+    ///     If the content is smaller, no scaling upwards is done.
     /// </summary>
     DownOnly,
 
     /// <summary>
-    /// Always stretches to fit the Viewbox according to the stretch mode.
+    ///     Always stretches to fit the Viewbox according to the stretch mode.
     /// </summary>
     Both
 }
@@ -32,6 +34,37 @@ public enum StretchDirection
 
 public class ViewBox : Layout
 {
+    protected override void OnChildAdded(Element child)
+    {
+        if (child is not View view)
+            throw new ArgumentException(nameof(child));
+
+        view.PropertyChanged += ViewPropertyChanged;
+        base.OnChildAdded(child);
+    }
+
+    protected override void OnChildRemoved(Element child, int oldLogicalIndex)
+    {
+        if (child is View view)
+            view.PropertyChanged -= ViewPropertyChanged;
+
+        base.OnChildRemoved(child, oldLogicalIndex);
+    }
+
+    private void ViewPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (sender is not View)
+            return;
+
+        if (e.PropertyName == "VerticalOptions" || e.PropertyName == "HorizontalOptions")
+            InvalidateMeasure();
+    }
+
+    protected override ILayoutManager CreateLayoutManager()
+    {
+        return new ViewBoxLayoutManager(this);
+    }
+
     #region Public Fields
 
     public static readonly BindableProperty StretchProperty =
@@ -63,53 +96,18 @@ public class ViewBox : Layout
     }
 
     #endregion
-
-    public ViewBox()
-    {
-    }
-
-    protected override void OnChildAdded(Element child)
-    {
-        if (child is not View view)
-            throw new ArgumentException(nameof(child));
-
-        view.PropertyChanged += ViewPropertyChanged;
-        base.OnChildAdded(child);
-    }
-
-    protected override void OnChildRemoved(Element child, int oldLogicalIndex)
-    {
-        if (child is View view)
-            view.PropertyChanged -= ViewPropertyChanged;
-
-        base.OnChildRemoved(child, oldLogicalIndex);
-    }
-
-    private void ViewPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (sender is not View)
-            return;
-
-        if (e.PropertyName == "VerticalOptions" || e.PropertyName == "HorizontalOptions")
-            InvalidateMeasure();
-    }
-
-    protected override ILayoutManager CreateLayoutManager()
-    {
-        return new ViewBoxLayoutManager(this);
-    }
 }
 
 public class ViewBoxLayoutManager : ILayoutManager
 {
-    private ViewBox _viewBox;
-
-    private View? InternalChild => _viewBox.Children.FirstOrDefault() as View;
+    private readonly ViewBox _viewBox;
 
     public ViewBoxLayoutManager(ViewBox viewBox)
     {
         _viewBox = viewBox;
     }
+
+    private View? InternalChild => _viewBox.Children.FirstOrDefault() as View;
 
     public Size Measure(double widthConstraint, double heightConstraint)
     {
@@ -136,7 +134,7 @@ public class ViewBoxLayoutManager : ILayoutManager
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.Print(ex.Message);
+            Debug.Print(ex.Message);
         }
 
         return parentSize;
@@ -187,14 +185,14 @@ public class ViewBoxLayoutManager : ILayoutManager
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.Print(ex.Message);
+            Debug.Print(ex.Message);
         }
 
         return arrangeSize;
     }
 
     /// <summary>
-    /// This is a helper function that computes scale factors depending on a target size and a content size
+    ///     This is a helper function that computes scale factors depending on a target size and a content size
     /// </summary>
     /// <param name="availableSize">Size into which the content is being fitted.</param>
     /// <param name="contentSize">Size of the content, measured natively (unconstrained).</param>
@@ -264,7 +262,7 @@ public class ViewBoxLayoutManager : ILayoutManager
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.Print(ex.Message);
+            Debug.Print(ex.Message);
         }
 
         //Return this as a size now
@@ -272,11 +270,11 @@ public class ViewBoxLayoutManager : ILayoutManager
     }
 
     /// <summary>
-    /// IsZero - Returns whether or not the double is "close" to 0.  Same as AreClose(double, 0),
-    /// but this is faster.
+    ///     IsZero - Returns whether or not the double is "close" to 0.  Same as AreClose(double, 0),
+    ///     but this is faster.
     /// </summary>
     /// <returns>
-    /// bool - the result of the AreClose comparision.
+    ///     bool - the result of the AreClose comparision.
     /// </returns>
     /// <param name="value"> The double to compare to 0. </param>
     public static bool IsZero(double value)

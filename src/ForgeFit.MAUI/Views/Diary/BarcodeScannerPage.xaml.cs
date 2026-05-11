@@ -21,10 +21,7 @@ public partial class BarcodeScannerPage : ContentPage
     {
         base.OnDisappearing();
         CameraView.IsScanning = false;
-        if (BindingContext is FoodScannerViewModel vm)
-        {
-            vm.IsTorchOn = false;
-        }
+        if (BindingContext is FoodScannerViewModel vm) vm.IsTorchOn = false;
         CameraView.TorchOn = false;
     }
 
@@ -32,11 +29,6 @@ public partial class BarcodeScannerPage : ContentPage
     {
         var code = e.BarcodeResults?.FirstOrDefault()?.DisplayValue;
         if (!string.IsNullOrEmpty(code) && BindingContext is FoodScannerViewModel vm)
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                vm.BarcodeDetectedCommand.Execute(code);
-            });
-        }
+            MainThread.BeginInvokeOnMainThread(() => { vm.BarcodeDetectedCommand.Execute(code); });
     }
 }

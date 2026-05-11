@@ -12,7 +12,7 @@
     <VerticalStackLayout Spacing="6">
         <Label Text="{maui:Translate Workout_Stats_Title}"
                Style="{StaticResource LabelH1}"
-               TextColor="{StaticResource TextSecondary}"/>
+               TextColor="{StaticResource TextSecondary}" />
 
         <Border Style="{StaticResource CardStyle}" Padding="0">
             <VerticalStackLayout Padding="16">

@@ -30,7 +30,7 @@
               RowDefinitions="Auto, Auto"
               RowSpacing="-4"
               Padding="16, 8, 0, 8">
-            
+
             <Label Grid.Column="0" Grid.Row="0"
                    Text="{Binding Label}"
                    Style="{StaticResource LabelH2}"
@@ -60,10 +60,9 @@
                 <Label Style="{StaticResource LabelBody}"
                        Text="{Binding ServingUnit}"
                        LineBreakMode="NoWrap"
-                       FlexLayout.Shrink="0">
-                </Label>
+                       FlexLayout.Shrink="0" />
             </FlexLayout>
-            
+
             <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
@@ -81,9 +80,9 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-                
+
             <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center">
-                 <Label.FormattedText>
+                <Label.FormattedText>
                     <FormattedString>
                         <Span Text="{Binding Carbs, StringFormat='{0:F0}'}"
                               Style="{StaticResource LabelBody}"

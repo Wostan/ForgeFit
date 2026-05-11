@@ -2,6 +2,13 @@
 
 public class EditorAnimationBehavior : Behavior<Editor>
 {
+    private const uint AnimationDuration = 250;
+    private const int AnimationRate = 16;
+
+    private const string StrokeAnimationName = "StrokeColorAnim";
+    private const string PrimaryColorKey = "Primary";
+    private const string BorderColorKey = "BorderColor";
+
     public static readonly BindableProperty IsAnimatedProperty =
         BindableProperty.CreateAttached(
             "IsAnimated",
@@ -9,13 +16,6 @@ public class EditorAnimationBehavior : Behavior<Editor>
             typeof(EditorAnimationBehavior),
             false,
             propertyChanged: OnIsAnimatedChanged);
-
-    private const uint AnimationDuration = 250;
-    private const int AnimationRate = 16;
-
-    private const string StrokeAnimationName = "StrokeColorAnim";
-    private const string PrimaryColorKey = "Primary";
-    private const string BorderColorKey = "BorderColor";
 
     public static bool GetIsAnimated(BindableObject view)
     {

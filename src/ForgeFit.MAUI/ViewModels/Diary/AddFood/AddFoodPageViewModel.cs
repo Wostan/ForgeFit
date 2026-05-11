@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -20,14 +16,14 @@ namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
 public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly ILocalizationResourceManager _localizationManager;
-    private bool _isInitialized;
+    [ObservableProperty] private int _currentTabIndex;
 
     private DateTime _date;
-    private DayTime _mealType;
     private Guid? _entryId;
+    private bool _isInitialized;
 
     [ObservableProperty] private string _mealTitle = string.Empty;
-    [ObservableProperty] private int _currentTabIndex;
+    private DayTime _mealType;
 
     public AddFoodPageViewModel(
         IFoodService foodService,
@@ -43,11 +39,16 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService, customFoodService);
         DetailsVM = new FoodDetailsViewModel(alertService);
 
-        SearchVM = new FoodSearchViewModel(foodService, diaryService, alertService, localizationManager, DiaryVM, DetailsVM);
-        CreateCustomFoodVM = new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
-        MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM, DetailsVM, CreateCustomFoodVM);
-        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, foodService, customFoodService, alertService, localizationManager);
-        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, DiaryVM, CreateRecipeVM);
+        SearchVM = new FoodSearchViewModel(foodService, diaryService, alertService, localizationManager, DiaryVM,
+            DetailsVM);
+        CreateCustomFoodVM =
+            new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
+        MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM,
+            DetailsVM, CreateCustomFoodVM);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, foodService, customFoodService, alertService,
+            localizationManager);
+        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, DiaryVM,
+            CreateRecipeVM);
 
         SetupCallbacks();
     }
@@ -60,19 +61,6 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
     public CreateCustomFoodViewModel CreateCustomFoodVM { get; }
     public CreateRecipeViewModel CreateRecipeVM { get; }
     public RecipesViewModel RecipesVM { get; }
-
-    [RelayCommand]
-    private async Task OpenBarcodeScanner()
-    {
-        await Shell.Current.GoToAsync("BarcodeScannerPage");
-    }
-
-    [RelayCommand]
-    private async Task OpenPhotoRecognition()
-    {
-        await Shell.Current.GoToAsync(
-            $"PhotoRecognitionPage?Date={Uri.EscapeDataString(_date.ToString("O"))}&MealType={_mealType}&EntryId={_entryId?.ToString() ?? string.Empty}");
-    }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -102,12 +90,25 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
 
         DiaryVM.Initialize(_date, _mealType, _entryId);
         await DiaryVM.RefreshExistingIdsAsync();
-        
+
         await SearchVM.LoadRecentAsync();
         await MyProductsVM.LoadProductsAsync();
         await RecipesVM.LoadRecipesAsync();
 
         IsLoading = false;
+    }
+
+    [RelayCommand]
+    private async Task OpenBarcodeScanner()
+    {
+        await Shell.Current.GoToAsync("BarcodeScannerPage");
+    }
+
+    [RelayCommand]
+    private async Task OpenPhotoRecognition()
+    {
+        await Shell.Current.GoToAsync(
+            $"PhotoRecognitionPage?Date={Uri.EscapeDataString(_date.ToString("O"))}&MealType={_mealType}&EntryId={_entryId?.ToString() ?? string.Empty}");
     }
 
     private void SetupCallbacks()
@@ -176,7 +177,7 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         var myProduct = MyProductsVM.SearchResults.FirstOrDefault(x => x.Data.ExternalId == newItem.ExternalId);
         myProduct?.IsAdded = true;
 
-        try 
+        try
         {
             var searchResultsProp = SearchVM.GetType().GetProperty("SearchResults");
             if (searchResultsProp?.GetValue(SearchVM) is IEnumerable<FoodSearchItemViewModel> searchItems)
@@ -184,8 +185,10 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
                 var searchItem = searchItems.FirstOrDefault(x => x.Data.ExternalId == newItem.ExternalId);
                 searchItem?.IsAdded = true;
             }
-        } 
-        catch { }
+        }
+        catch
+        {
+        }
     }
 
     [RelayCommand]
@@ -198,7 +201,8 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         }
 
         if (DiaryVM.EntryId.HasValue)
-            await Shell.Current.GoToAsync($"..?EntryId={Uri.EscapeDataString(DiaryVM.EntryId.Value.ToString())}", false);
+            await Shell.Current.GoToAsync($"..?EntryId={Uri.EscapeDataString(DiaryVM.EntryId.Value.ToString())}",
+                false);
         else
             await Shell.Current.GoToAsync("..", false);
     }

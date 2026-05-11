@@ -22,7 +22,7 @@
         </Grid.GestureRecognizers>
 
         <controls:NavigationHeader Title="{maui:Translate Action_CreateRecipe}" ZIndex="10"
-                                   BackCommand="{Binding CloseCommand}"/>
+                                   BackCommand="{Binding CloseCommand}" />
 
         <ScrollView>
             <VerticalStackLayout Style="{StaticResource MainContentStackLayout}" Margin="0,0,0,60" Spacing="8">
@@ -34,7 +34,7 @@
                     <Border Style="{StaticResource InputWrapper}">
                         <Entry Text="{Binding Name}"
                                Placeholder="{maui:Translate Recipe_NamePlaceholder}"
-                               MaxLength="{x:Static constants:AppConstantsXaml.MaxFoodLabelLength}"/>
+                               MaxLength="{x:Static constants:AppConstantsXaml.MaxFoodLabelLength}" />
                     </Border>
                 </VerticalStackLayout>
 
@@ -48,14 +48,14 @@
                                 AutoSize="TextChanges"
                                 MinimumHeightRequest="100"
                                 MaximumHeightRequest="300"
-                                MaxLength="{x:Static constants:AppConstantsXaml.MaxDescriptionLength}"/>
+                                MaxLength="{x:Static constants:AppConstantsXaml.MaxDescriptionLength}" />
                     </Border>
                 </VerticalStackLayout>
 
                 <Label Style="{StaticResource LabelH2}"
                        Margin="0,8,0,0"
                        Text="{maui:Translate Recipe_TotalMacros}" />
-                
+
                 <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">
                     <VerticalStackLayout Grid.Column="0" Spacing="-4">
                         <Label Text="{maui:Translate Nutrient_Calories}"
@@ -199,14 +199,15 @@
 
                 <Border Style="{StaticResource CardStyle}" Padding="0">
                     <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding Ingredients.Count, FallbackValue=0}" Value="0">
+                        <DataTrigger TargetType="Border" Binding="{Binding Ingredients.Count, FallbackValue=0}"
+                                     Value="0">
                             <Setter Property="IsVisible" Value="False" />
                         </DataTrigger>
                     </Border.Triggers>
-                    
+
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding Ingredients}"
-                                     Spacing="0" 
-                                     Padding="0">
+                                         Spacing="0"
+                                         Padding="0">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:FoodItemDto">
                                 <SwipeView>
@@ -255,7 +256,7 @@
                 </Border>
             </VerticalStackLayout>
         </ScrollView>
-        
+
         <Button ImageSource="check.svg"
                 Text="{maui:Translate Action_Save}"
                 VerticalOptions="End"

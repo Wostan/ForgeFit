@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.Maui.Controls;
-
-namespace ForgeFit.MAUI.Views.Auth.Templates;
+﻿namespace ForgeFit.MAUI.Views.Auth.Templates;
 
 public partial class Step1CredentialsView : ContentView
 {

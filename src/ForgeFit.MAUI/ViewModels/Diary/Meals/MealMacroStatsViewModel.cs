@@ -23,11 +23,11 @@ public partial class MealMacroStatsViewModel : ObservableObject
     [ObservableProperty] private double _totalCalories;
     [ObservableProperty] private double _totalCarbs;
     [ObservableProperty] private double _totalFat;
-    [ObservableProperty] private double _totalProtein;
     [ObservableProperty] private double _totalFiber;
-    [ObservableProperty] private double _totalSugar;
+    [ObservableProperty] private double _totalProtein;
     [ObservableProperty] private double _totalSaturatedFat;
     [ObservableProperty] private double _totalSodium;
+    [ObservableProperty] private double _totalSugar;
 
     public void CalculateTargets(double targetCalories)
     {

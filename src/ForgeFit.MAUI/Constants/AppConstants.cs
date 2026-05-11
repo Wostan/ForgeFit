@@ -3,6 +3,7 @@ namespace ForgeFit.MAUI.Constants;
 public static class AppConstants
 {
     #region Validation Limits
+
     public static class ValidationLimits
     {
         // --- Authentication & Security ---
@@ -60,9 +61,11 @@ public static class AppConstants
         public const int MaxDrinkVolumeMl = 2000;
         public const int MaxRecipesPerUser = 20;
     }
+
     #endregion
 
     #region Conversion Factors
+
     public static class ConversionFactors
     {
         public const double KgToLbs = 2.20462;
@@ -71,9 +74,11 @@ public static class AppConstants
         public const double InchesToCm = 2.54;
         public const double CmToM = 0.01;
     }
+
     #endregion
 
     #region Time
+
     public static class Time
     {
         public const int MinutesPerHour = 60;
@@ -81,18 +86,22 @@ public static class AppConstants
         public const int SecondsPerHour = 3600;
         public const double DefaultRestTimeMinutes = 1.5;
     }
+
     #endregion
 
     #region BMI Thresholds (WHO Standards)
+
     public static class BmiThresholds
     {
         public const double UnderweightMax = 18.5;
         public const double NormalMax = 25.0;
         public const double OverweightMax = 30.0;
     }
+
     #endregion
 
     #region Goal Validation
+
     public static class GoalValidation
     {
         public const double MaxFatLossKgPerWeek = 1.3;
@@ -101,9 +110,11 @@ public static class AppConstants
         public const int MinDaysToDeadline = 7;
         public const int DefaultGoalMonthsAhead = 3;
     }
+
     #endregion
 
     #region Default Values
+
     public static class DefaultValues
     {
         public const int DefaultReps = 10;
@@ -112,9 +123,11 @@ public static class AppConstants
         public const double DefaultHeightCm = 175.0;
         public const double DefaultWeightChangeStep = 0.1;
     }
+
     #endregion
 
     #region Formatting Precision
+
     public static class FormattingPrecision
     {
         public const double DoubleComparisonEpsilon = 0.01;
@@ -122,34 +135,42 @@ public static class AppConstants
         public const int WeightDecimalPlaces = 1;
         public const int BmiDecimalPlaces = 1;
     }
+
     #endregion
 
     #region XAML Input Limits
+
     public static class XamlInputLimits
     {
-        public const int HoursEntryMaxLength = 1;      // For hours input (0-5)
-        public const int MinutesEntryMaxLength = 2;      // For minutes input (0-59)
-        public const int WeightEntryMaxLength = 5;     // For weight input ("150.5")
+        public const int HoursEntryMaxLength = 1; // For hours input (0-5)
+        public const int MinutesEntryMaxLength = 2; // For minutes input (0-59)
+        public const int WeightEntryMaxLength = 5; // For weight input ("150.5")
     }
+
     #endregion
 
     #region Search & Debounce
+
     public static class SearchConfig
     {
         public const int DebounceDelayMs = 800;
         public const int DefaultPageSize = 20;
     }
+
     #endregion
 
     #region Food & Nutrition Defaults
+
     public static class FoodDefaults
     {
         public const int DefaultServingAmount = 100;
         public const int RecentItemsLookupDays = 7;
     }
+
     #endregion
 
     #region Meal Calorie Distribution (WHO/standard recommendations)
+
     public static class MealRatios
     {
         public const double Breakfast = 0.25;
@@ -157,27 +178,33 @@ public static class AppConstants
         public const double Dinner = 0.25;
         public const double Snack = 0.15;
     }
+
     #endregion
 
     #region Macro Nutrient Ratios (standard balanced diet)
+
     public static class MacroRatios
     {
         public const double Carbs = 0.5;
         public const double Protein = 0.2;
         public const double Fat = 0.3;
     }
+
     #endregion
 
     #region Calorie Conversion (per gram)
+
     public static class CaloriePerGram
     {
         public const int Carbs = 4;
         public const int Protein = 4;
         public const int Fat = 9;
     }
+
     #endregion
 
     #region Micronutrient Factors
+
     public static class MicronutrientFactors
     {
         public const double FiberGramsPer1000Kcal = 14.0;
@@ -185,5 +212,6 @@ public static class AppConstants
         public const double SaturatedFatCalorieRatio = 0.10;
         public const int SodiumLimitMg = 2300;
     }
+
     #endregion
 }

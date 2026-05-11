@@ -117,7 +117,8 @@ public partial class UserProfileViewModel(
         var hUnit = _currentUserProfile?.HeightUnit ?? HeightUnit.Cm;
         var isHeightValid = hUnit == HeightUnit.Cm
             ? height is >= AppConstants.ValidationLimits.MinHeightCm and <= AppConstants.ValidationLimits.MaxHeightCm
-            : height is >= AppConstants.ValidationLimits.MinHeightInches and <= AppConstants.ValidationLimits.MaxHeightInches;
+            : height is >= AppConstants.ValidationLimits.MinHeightInches
+                and <= AppConstants.ValidationLimits.MaxHeightInches;
 
         if (!isHeightValid)
         {

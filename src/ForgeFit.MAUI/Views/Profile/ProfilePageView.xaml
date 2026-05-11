@@ -19,7 +19,7 @@
                          Command="{Binding RefreshCommand}">
                 <ScrollView>
                     <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
-                        
+
                         <templates:UserProfileCardView />
 
                         <templates:ProfileBodyGoalCardView />

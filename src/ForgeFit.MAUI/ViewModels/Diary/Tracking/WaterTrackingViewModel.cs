@@ -168,7 +168,9 @@ public partial class WaterTrackingViewModel : BaseViewModel
 
     private bool CanSaveCustomWater()
     {
-        return int.TryParse((string?)WaterInputValue, out var amount) && amount is > AppConstants.ValidationLimits.MinDrinkVolumeMl and < AppConstants.ValidationLimits.MaxDrinkVolumeMl;
+        return int.TryParse((string?)WaterInputValue, out var amount) &&
+               amount is > AppConstants.ValidationLimits.MinDrinkVolumeMl
+                   and < AppConstants.ValidationLimits.MaxDrinkVolumeMl;
     }
 
     public void ResetWater()

@@ -186,7 +186,8 @@ public partial class WeightManagementViewModel : BaseViewModel
 
         weight = Math.Round(weight, AppConstants.FormattingPrecision.WeightDecimalPlaces);
 
-        if (Math.Abs(Math.Round(CurrentWeight, AppConstants.FormattingPrecision.WeightDecimalPlaces) - weight) < AppConstants.FormattingPrecision.DoubleComparisonEpsilon)
+        if (Math.Abs(Math.Round(CurrentWeight, AppConstants.FormattingPrecision.WeightDecimalPlaces) - weight) <
+            AppConstants.FormattingPrecision.DoubleComparisonEpsilon)
             return;
 
         CurrentWeight = weight;

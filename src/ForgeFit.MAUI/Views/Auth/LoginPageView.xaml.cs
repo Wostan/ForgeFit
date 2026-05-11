@@ -1,5 +1,4 @@
-﻿using ForgeFit.MAUI.ViewModels;
-using LoginPageViewModel = ForgeFit.MAUI.ViewModels.Auth.LoginPageViewModel;
+﻿using LoginPageViewModel = ForgeFit.MAUI.ViewModels.Auth.LoginPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Auth;
 

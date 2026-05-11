@@ -20,10 +20,10 @@ public partial class MyProductsViewModel(
     CreateCustomFoodViewModel createCustomFoodVM) : ObservableObject
 {
     private List<CustomFoodDto> _allCustomFoods = [];
+    [ObservableProperty] private bool _isLoading;
     private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private bool _isLoading;
 
     public ObservableCollection<FoodSearchItemViewModel> SearchResults { get; } = [];
 
@@ -63,17 +63,18 @@ public partial class MyProductsViewModel(
     private void UpdateSearchResults()
     {
         var filtered = _allCustomFoods.AsEnumerable();
-        
+
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             var searchLower = SearchText.ToLowerInvariant();
-            filtered = filtered.Where(f => 
+            filtered = filtered.Where(f =>
                 f.Name.Contains(searchLower, StringComparison.InvariantCultureIgnoreCase) ||
-                (f.Brand?.ToLowerInvariant().Contains(searchLower, StringComparison.InvariantCultureIgnoreCase) ?? false));
+                (f.Brand?.ToLowerInvariant().Contains(searchLower, StringComparison.InvariantCultureIgnoreCase) ??
+                 false));
         }
 
         SearchResults.Clear();
-        
+
         foreach (var food in filtered)
         {
             var searchResponse = new FoodSearchResponse(
@@ -93,7 +94,7 @@ public partial class MyProductsViewModel(
 
             var vm = new FoodSearchItemViewModel(searchResponse);
             if (diaryVM.IsProductAdded(searchResponse.ExternalId)) vm.IsAdded = true;
-            
+
             SearchResults.Add(vm);
         }
     }
@@ -146,10 +147,16 @@ public partial class MyProductsViewModel(
     }
 
     [RelayCommand]
-    private async Task QuickAddItem(FoodSearchItemViewModel? itemVm) => await ToggleItem(itemVm);
+    private async Task QuickAddItem(FoodSearchItemViewModel? itemVm)
+    {
+        await ToggleItem(itemVm);
+    }
 
     [RelayCommand]
-    private async Task RemoveItem(FoodSearchItemViewModel? itemVm) => await ToggleItem(itemVm);
+    private async Task RemoveItem(FoodSearchItemViewModel? itemVm)
+    {
+        await ToggleItem(itemVm);
+    }
 
     [RelayCommand]
     private void OpenEditFoodPopup(FoodSearchItemViewModel itemVm)

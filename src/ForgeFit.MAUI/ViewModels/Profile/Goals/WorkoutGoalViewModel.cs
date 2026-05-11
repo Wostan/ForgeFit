@@ -78,13 +78,15 @@ public partial class WorkoutGoalViewModel(
             return;
         }
 
-        if (freq is < AppConstants.ValidationLimits.MinWorkoutsPerWeek or > AppConstants.ValidationLimits.MaxWorkoutsPerWeek)
+        if (freq is < AppConstants.ValidationLimits.MinWorkoutsPerWeek
+            or > AppConstants.ValidationLimits.MaxWorkoutsPerWeek)
         {
             await alertService.ShowToastAsync(localizationManager["Error_WorkoutFrequency"]);
             return;
         }
 
-        if (duration is < AppConstants.ValidationLimits.MinWorkoutDurationMinutes or > AppConstants.ValidationLimits.MaxWorkoutDurationHours * AppConstants.Time.MinutesPerHour)
+        if (duration is < AppConstants.ValidationLimits.MinWorkoutDurationMinutes
+            or > AppConstants.ValidationLimits.MaxWorkoutDurationHours * AppConstants.Time.MinutesPerHour)
         {
             await alertService.ShowToastAsync(localizationManager["Error_WorkoutDuration"]);
             return;

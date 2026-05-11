@@ -19,13 +19,14 @@ public partial class NutritionTrackingViewModel : BaseViewModel
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(FatProgress))]
     private double _currentFat;
 
+    [ObservableProperty] private double _currentFiber;
+
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
     private double _currentProtein;
 
-    [ObservableProperty] private double _currentFiber;
-    [ObservableProperty] private double _currentSugar;
     [ObservableProperty] private double _currentSaturatedFat;
     [ObservableProperty] private double _currentSodium;
+    [ObservableProperty] private double _currentSugar;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CaloriesProgress))]
     private double _targetCalories;
@@ -42,22 +43,22 @@ public partial class NutritionTrackingViewModel : BaseViewModel
 
     [ObservableProperty] private string? _targetFatDisplay;
 
+    [ObservableProperty] private double _targetFiber;
+
+    [ObservableProperty] private string? _targetFiberDisplay;
+
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(ProteinProgress))]
     private double _targetProtein;
 
     [ObservableProperty] private string? _targetProteinDisplay;
+    [ObservableProperty] private double _targetSaturatedFat;
+    [ObservableProperty] private string? _targetSaturatedFatDisplay;
+    [ObservableProperty] private double _targetSodium;
+    [ObservableProperty] private string? _targetSodiumDisplay;
+    [ObservableProperty] private double _targetSugar;
+    [ObservableProperty] private string? _targetSugarDisplay;
 
     [ObservableProperty] private int _waterGoalMl;
-
-    [ObservableProperty] private double _targetFiber;
-    [ObservableProperty] private double _targetSugar;
-    [ObservableProperty] private double _targetSaturatedFat;
-    [ObservableProperty] private double _targetSodium;
-
-    [ObservableProperty] private string? _targetFiberDisplay;
-    [ObservableProperty] private string? _targetSugarDisplay;
-    [ObservableProperty] private string? _targetSaturatedFatDisplay;
-    [ObservableProperty] private string? _targetSodiumDisplay;
 
     public NutritionTrackingViewModel(
         IGoalService goalService)
@@ -90,8 +91,14 @@ public partial class NutritionTrackingViewModel : BaseViewModel
         if (TargetCalories <= 0) return;
 
         TargetFiber = Math.Round(TargetCalories / 1000.0 * AppConstants.MicronutrientFactors.FiberGramsPer1000Kcal, 1);
-        TargetSugar = Math.Round(TargetCalories * AppConstants.MicronutrientFactors.SugarCalorieRatio / AppConstants.CaloriePerGram.Carbs, 1);
-        TargetSaturatedFat = Math.Round(TargetCalories * AppConstants.MicronutrientFactors.SaturatedFatCalorieRatio / AppConstants.CaloriePerGram.Fat, 1);
+        TargetSugar =
+            Math.Round(
+                TargetCalories * AppConstants.MicronutrientFactors.SugarCalorieRatio /
+                AppConstants.CaloriePerGram.Carbs, 1);
+        TargetSaturatedFat =
+            Math.Round(
+                TargetCalories * AppConstants.MicronutrientFactors.SaturatedFatCalorieRatio /
+                AppConstants.CaloriePerGram.Fat, 1);
         TargetSodium = AppConstants.MicronutrientFactors.SodiumLimitMg;
 
         TargetFiberDisplay = TargetFiber.ToString("F1");

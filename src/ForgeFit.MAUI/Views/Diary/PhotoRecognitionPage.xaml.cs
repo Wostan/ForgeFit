@@ -1,6 +1,6 @@
+using System.ComponentModel;
 using CommunityToolkit.Maui.Core;
 using ForgeFit.MAUI.ViewModels.Diary.PhotoRecognition;
-using System.ComponentModel;
 
 namespace ForgeFit.MAUI.Views.Diary;
 
@@ -60,7 +60,7 @@ public partial class PhotoRecognitionPage : ContentPage
                 CameraBorder.WidthRequest = -1;
                 CameraBorder.HorizontalOptions = LayoutOptions.Fill;
                 CameraContainer.HeightRequest = targetWidth * 1.3333;
-            
+
                 _vm.IsCameraActive = true;
             });
     }
@@ -68,9 +68,7 @@ public partial class PhotoRecognitionPage : ContentPage
     private void CameraContainer_SizeChanged(object? sender, EventArgs e)
     {
         if (!_vm.IsSuccessState && CameraContainer.Width > 0 && _originalBorderWidth == 0)
-        {
             CameraContainer.HeightRequest = CameraContainer.Width * 1.3333;
-        }
     }
 
     private async void FoodCamera_OnLoaded(object? sender, EventArgs e)
@@ -79,12 +77,11 @@ public partial class PhotoRecognitionPage : ContentPage
         {
             var cameras = await FoodCamera.GetAvailableCameras(CancellationToken.None);
             var rearCamera = cameras.FirstOrDefault(c => c.Position == CameraPosition.Rear);
-            
-            if (rearCamera is not null)
-            {
-                FoodCamera.SelectedCamera = rearCamera;
-            }
+
+            if (rearCamera is not null) FoodCamera.SelectedCamera = rearCamera;
         }
-        catch { }
+        catch
+        {
+        }
     }
 }

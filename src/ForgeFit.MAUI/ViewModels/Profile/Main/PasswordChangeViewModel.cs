@@ -41,7 +41,8 @@ public partial class PasswordChangeViewModel(
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(NewPasswordInput) || NewPasswordInput.Length < AppConstants.ValidationLimits.MinPasswordLength)
+        if (string.IsNullOrWhiteSpace(NewPasswordInput) ||
+            NewPasswordInput.Length < AppConstants.ValidationLimits.MinPasswordLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_PasswordTooShort"]);
             return;

@@ -51,7 +51,7 @@
             <CollectionView.Header>
                 <VerticalStackLayout>
                     <BoxView HeightRequest="160" BackgroundColor="Transparent" />
-                    
+
                     <Label Style="{StaticResource LabelH2}"
                            Text="{maui:Translate Search_Recent}"
                            TextColor="{StaticResource TextSecondary}"
@@ -63,13 +63,13 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="{maui:Translate Search_ResultsFor}"
-                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
-                                <Span Text=" '" 
-                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
-                                <Span Text="{Binding SearchVM.SearchText}" 
-                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
-                                <Span Text="'" 
-                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}"/>
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
+                                <Span Text=" '"
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
+                                <Span Text="{Binding SearchVM.SearchText}"
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
+                                <Span Text="'"
+                                      Style="{StaticResource LabelH2}" TextColor="{StaticResource TextSecondary}" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>

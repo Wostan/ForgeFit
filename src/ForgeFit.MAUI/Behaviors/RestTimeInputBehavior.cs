@@ -15,13 +15,13 @@ public class RestTimeInputBehavior : Behavior<Entry>
             BindingMode.TwoWay,
             propertyChanged: OnTimeChanged);
 
+    private Entry? _entry;
+
     public TimeSpan Time
     {
         get => (TimeSpan)GetValue(TimeProperty);
         set => SetValue(TimeProperty, value);
     }
-
-    private Entry? _entry;
 
     protected override void OnAttachedTo(Entry entry)
     {

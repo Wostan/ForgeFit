@@ -24,11 +24,11 @@ public partial class ProfilePageViewModel : BaseViewModel
     private CancellationTokenSource? _cts;
 
     private BodyGoalResponse? _currentBodyGoal;
-    [ObservableProperty] private bool _isRefreshing;
-
-    private bool _isProfileDirty = true;
     private bool _isBodyGoalDirty = true;
     private bool _isNutritionGoalDirty = true;
+
+    private bool _isProfileDirty = true;
+    [ObservableProperty] private bool _isRefreshing;
     private bool _isWorkoutGoalDirty = true;
 
     public ProfilePageViewModel(

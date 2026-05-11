@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -19,10 +20,10 @@ namespace ForgeFit.MAUI.ViewModels.Diary.Meals;
 public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly IAlertService _alertService;
+    private readonly ICustomFoodService _customFoodService;
     private readonly IDiaryService _diaryService;
     private readonly IFoodService _foodService;
     private readonly ILocalizationResourceManager _localizationManager;
-    private readonly ICustomFoodService _customFoodService;
 
     private CancellationTokenSource? _cts;
 
@@ -31,11 +32,11 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
     private DateTime _date;
     private FoodItemDto? _editingItem;
     private Guid? _entryId;
-    private double _targetCalories;
-    
+
     [ObservableProperty] private string _mealEmoji = string.Empty;
     [ObservableProperty] private string _mealTitle = string.Empty;
     private DayTime _mealType;
+    private double _targetCalories;
 
     public MealDetailsPageViewModel(
         IDiaryService diaryService,
@@ -52,21 +53,23 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
         _customFoodService = customFoodService;
 
         PopupVM = new PopupManagerViewModel(localizationManager);
-        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, _foodService, _customFoodService, alertService, localizationManager);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, _foodService, _customFoodService,
+            alertService, localizationManager);
 
         DetailsVM = new FoodDetailsViewModel(alertService);
         MacrosVM = new MealMacroStatsViewModel();
-        
-        WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, FoodDataChangedMessage>(this, async (r, msg) =>
-        {
-            System.Diagnostics.Debug.WriteLine($"[MealDetails] message received, source={msg.Source}, entryId={msg.EntryId}");
-            if (msg.Source == nameof(MealDetailsPageViewModel)) return;
 
-            if (msg.EntryId.HasValue && !r._entryId.HasValue)
-                r._entryId = msg.EntryId;
+        WeakReferenceMessenger.Default.Register<MealDetailsPageViewModel, FoodDataChangedMessage>(this,
+            async (r, msg) =>
+            {
+                Debug.WriteLine($"[MealDetails] message received, source={msg.Source}, entryId={msg.EntryId}");
+                if (msg.Source == nameof(MealDetailsPageViewModel)) return;
 
-            await MainThread.InvokeOnMainThreadAsync(r.LoadDataAsync);
-        });
+                if (msg.EntryId.HasValue && !r._entryId.HasValue)
+                    r._entryId = msg.EntryId;
+
+                await MainThread.InvokeOnMainThreadAsync(r.LoadDataAsync);
+            });
 
         SetupFoodDetailsCallbacks();
     }
@@ -92,9 +95,9 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
 
         if (query.TryGetValue("EntryId", out var idObj) &&
             Guid.TryParse(idObj.ToString(), out var id)) _entryId = id;
-        
+
         if (query.TryGetValue("TargetCalories", out var tc) &&
-            double.TryParse(tc.ToString(), NumberStyles.Float, 
+            double.TryParse(tc.ToString(), NumberStyles.Float,
                 CultureInfo.InvariantCulture, out var calories)) _targetCalories = calories;
 
         LoadDataCommand.Execute(null);
@@ -300,21 +303,23 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
                 {
                     var cf = customResult.Data;
                     product = new FoodProductResponse(
-                        cf.Id.ToString(), 
-                        cf.Name, 
+                        cf.Id.ToString(),
+                        cf.Name,
                         cf.Brand,
-                        [new FoodServingDto(
-                            "Custom", 
-                            cf.ServingSize, 
-                            cf.ServingUnit, 
-                            cf.Calories, 
-                            cf.Carbs, 
-                            cf.Protein, 
-                            cf.Fat, 
-                            cf.Fiber, 
-                            cf.Sugar, 
-                            cf.SaturatedFat, 
-                            cf.Sodium)]
+                        [
+                            new FoodServingDto(
+                                "Custom",
+                                cf.ServingSize,
+                                cf.ServingUnit,
+                                cf.Calories,
+                                cf.Carbs,
+                                cf.Protein,
+                                cf.Fat,
+                                cf.Fiber,
+                                cf.Sugar,
+                                cf.SaturatedFat,
+                                cf.Sodium)
+                        ]
                     );
                 }
                 else
@@ -327,13 +332,9 @@ public partial class MealDetailsPageViewModel : BaseViewModel, IQueryAttributabl
             {
                 var fsResult = await _foodService.GetProductByIdAsync(item.ExternalId);
                 if (fsResult is { Success: true, Data: not null })
-                {
                     product = fsResult.Data;
-                }
                 else
-                {
                     await _alertService.ShowToastAsync(new LocalizedString(() => fsResult.Message).Localized);
-                }
             }
 
             if (product != null)

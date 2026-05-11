@@ -105,7 +105,8 @@ public partial class BodyGoalViewModel(
             return;
         }
 
-        if (!string.IsNullOrEmpty(EditBodyGoalDescription) && EditBodyGoalDescription.Length > AppConstants.ValidationLimits.MaxDescriptionLength)
+        if (!string.IsNullOrEmpty(EditBodyGoalDescription) &&
+            EditBodyGoalDescription.Length > AppConstants.ValidationLimits.MaxDescriptionLength)
         {
             await alertService.ShowToastAsync(localizationManager["Error_DescriptionTooLong"]);
             return;
@@ -113,8 +114,10 @@ public partial class BodyGoalViewModel(
 
         var wUnit = _currentBodyGoal?.WeightUnit ?? WeightUnit.Kg;
         var isWeightValid = wUnit == WeightUnit.Kg
-            ? targetWeight is >= AppConstants.ValidationLimits.MinWeightKg and <= AppConstants.ValidationLimits.MaxWeightKg
-            : targetWeight is >= AppConstants.ValidationLimits.MinWeightLbs and <= AppConstants.ValidationLimits.MaxWeightLbs;
+            ? targetWeight is >= AppConstants.ValidationLimits.MinWeightKg
+                and <= AppConstants.ValidationLimits.MaxWeightKg
+            : targetWeight is >= AppConstants.ValidationLimits.MinWeightLbs
+                and <= AppConstants.ValidationLimits.MaxWeightLbs;
 
         if (!isWeightValid)
         {

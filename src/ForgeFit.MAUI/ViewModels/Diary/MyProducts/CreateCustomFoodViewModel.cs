@@ -15,26 +15,26 @@ public partial class CreateCustomFoodViewModel(
     IAlertService alertService,
     ILocalizationResourceManager localizationManager) : ObservableObject
 {
-    [ObservableProperty] private string _name = string.Empty;
-    [ObservableProperty] private string? _brand;
     [ObservableProperty] private string? _barcode;
+    [ObservableProperty] private string? _brand;
     [ObservableProperty] private double _calories;
     [ObservableProperty] private double _carbs;
-    [ObservableProperty] private double _protein;
-    [ObservableProperty] private double _fat;
-    [ObservableProperty] private double _fiber;
-    [ObservableProperty] private double _sugar;
-    [ObservableProperty] private double _saturatedFat;
-    [ObservableProperty] private double _sodium;
-    [ObservableProperty] private double _servingSize = 100;
-    [ObservableProperty] private string _servingUnit = "g";
 
     private Guid? _editingFoodId;
-
-    public ObservableCollection<string> ServingUnits { get; } = ["g", "ml"];
+    [ObservableProperty] private double _fat;
+    [ObservableProperty] private double _fiber;
+    [ObservableProperty] private string _name = string.Empty;
+    [ObservableProperty] private double _protein;
+    [ObservableProperty] private double _saturatedFat;
+    [ObservableProperty] private double _servingSize = 100;
+    [ObservableProperty] private string _servingUnit = "g";
+    [ObservableProperty] private double _sodium;
+    [ObservableProperty] private double _sugar;
 
     public Func<CustomFoodDto, Task>? FoodCreatedCallback;
     public Func<CustomFoodDto, Task>? FoodUpdatedCallback;
+
+    public ObservableCollection<string> ServingUnits { get; } = ["g", "ml"];
 
     public void InitializeForCreate()
     {
@@ -124,11 +124,8 @@ public partial class CreateCustomFoodViewModel(
                 {
                     popupManager.CloseCreateFoodPopup();
                     await alertService.ShowToastAsync(localizationManager["Success_CustomFoodUpdated"]);
-                    
-                    if (FoodUpdatedCallback != null)
-                    {
-                        await FoodUpdatedCallback(updateResult.Data);
-                    }
+
+                    if (FoodUpdatedCallback != null) await FoodUpdatedCallback(updateResult.Data);
                 }
                 else
                 {
@@ -159,11 +156,9 @@ public partial class CreateCustomFoodViewModel(
                 {
                     popupManager.CloseCreateFoodPopup();
                     await alertService.ShowToastAsync(localizationManager["Success_CustomFoodCreated"]);
-                    
+
                     if (FoodCreatedCallback != null && createResult.Data != null)
-                    {
                         await FoodCreatedCallback(createResult.Data);
-                    }
                 }
                 else
                 {

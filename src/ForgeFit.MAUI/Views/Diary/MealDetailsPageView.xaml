@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
@@ -14,7 +15,7 @@
              x:Name="ThisPage">
     <ContentPage.Content>
         <Grid>
-            
+
             <ScrollView VerticalScrollBarVisibility="Never" ZIndex="0">
                 <VerticalStackLayout Style="{StaticResource MainContentStackLayout}" Spacing="20">
                     <templates:MealMacrosView />
@@ -38,7 +39,7 @@
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
                 </diary:FoodDetails.Behaviors>
             </diary:FoodDetails>
-            
+
             <diary:FoodDetails ZIndex="17" BindingContext="{Binding CreateRecipeVM.IngredientDetailsVM}">
                 <diary:FoodDetails.Behaviors>
                     <behaviors:FadeVisibilityBehavior IsVisible="{Binding IsFoodDetailsVisible}" />
@@ -47,13 +48,15 @@
 
             <diary:CreateRecipeView ZIndex="13" BindingContext="{Binding CreateRecipeVM}">
                 <diary:CreateRecipeView.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsCreateRecipePopupVisible, Source={x:Reference ThisPage}}" />
+                    <behaviors:FadeVisibilityBehavior
+                        IsVisible="{Binding BindingContext.PopupVM.IsCreateRecipePopupVisible, Source={x:Reference ThisPage}}" />
                 </diary:CreateRecipeView.Behaviors>
             </diary:CreateRecipeView>
 
             <diary:RecipeIngredientSearchView ZIndex="15" BindingContext="{Binding CreateRecipeVM.IngredientSearchVM}">
                 <diary:RecipeIngredientSearchView.Behaviors>
-                    <behaviors:FadeVisibilityBehavior IsVisible="{Binding BindingContext.PopupVM.IsRecipeIngredientSearchPopupVisible, Source={x:Reference ThisPage}}" />
+                    <behaviors:FadeVisibilityBehavior
+                        IsVisible="{Binding BindingContext.PopupVM.IsRecipeIngredientSearchPopupVisible, Source={x:Reference ThisPage}}" />
                 </diary:RecipeIngredientSearchView.Behaviors>
             </diary:RecipeIngredientSearchView>
         </Grid>

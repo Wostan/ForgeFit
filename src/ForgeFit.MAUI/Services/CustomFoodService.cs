@@ -6,12 +6,13 @@ namespace ForgeFit.MAUI.Services;
 
 public class CustomFoodService(IApiService apiService) : ICustomFoodService
 {
-    public async Task<ServiceResponse<List<CustomFoodDto>>> GetAllForUserAsync(CancellationToken cancellationToken = default)
+    public async Task<ServiceResponse<List<CustomFoodDto>>> GetAllForUserAsync(
+        CancellationToken cancellationToken = default)
     {
         return await apiService.GetAsync<List<CustomFoodDto>>("/api/custom-food", cancellationToken);
     }
 
-    public async Task<ServiceResponse<CustomFoodDto>> GetByIdAsync(Guid id, 
+    public async Task<ServiceResponse<CustomFoodDto>> GetByIdAsync(Guid id,
         CancellationToken cancellationToken = default)
     {
         return await apiService.GetAsync<CustomFoodDto>($"/api/custom-food/{id}", cancellationToken);

@@ -60,7 +60,8 @@ public partial class ExerciseSearchPageViewModel : BaseViewModel, IQueryAttribut
         SearchVM.ToggleExerciseCallback = async itemVm => await ToggleExerciseAsync(itemVm);
         SearchVM.OpenDetailsCallback = async itemVm => await OpenDetailsAsync(itemVm);
 
-        FiltersVM.ApplyFiltersCallback = async () => await PerformSearchAsync(SearchVM.SearchText, CancellationToken.None);
+        FiltersVM.ApplyFiltersCallback =
+            async () => await PerformSearchAsync(SearchVM.SearchText, CancellationToken.None);
 
         DetailsVM.AddFromDetailsCallback = async exercise => await AddFromDetailsAsync(exercise);
     }

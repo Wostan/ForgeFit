@@ -5,11 +5,10 @@ namespace ForgeFit.MAUI.Behaviors;
 
 public class NumericClampBehavior : Behavior<Entry>
 {
+    private Entry? _entry;
     public double MaxValue { get; set; } = double.MaxValue;
     public double MinValue { get; set; } = 0;
     public int Decimals { get; set; } = 0;
-
-    private Entry? _entry;
 
     protected override void OnAttachedTo(Entry entry)
     {
