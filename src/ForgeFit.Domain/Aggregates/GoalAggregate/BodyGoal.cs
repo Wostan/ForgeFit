@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Enums.GoalEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
@@ -8,6 +9,10 @@ namespace ForgeFit.Domain.Aggregates.GoalAggregate;
 
 public class BodyGoal : Entity, ITimeFields
 {
+    #region Private Fields
+    #endregion
+
+    #region Constructors
     internal BodyGoal(
         Guid userId,
         string title,
@@ -30,7 +35,9 @@ public class BodyGoal : Entity, ITimeFields
     private BodyGoal()
     {
     }
+    #endregion
 
+    #region Public Properties
     public Guid UserId { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
@@ -38,12 +45,15 @@ public class BodyGoal : Entity, ITimeFields
     public DateTime? DueDate { get; private set; }
     public GoalType GoalType { get; private set; }
     public GoalStatus GoalStatus { get; private set; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
+    #endregion
 
-    // Navigation properties
+    #region Navigation Properties
     public User User { get; private set; }
+    #endregion
 
+    #region Factory Methods
     public static BodyGoal Create(
         Guid userId,
         string title,
@@ -55,11 +65,25 @@ public class BodyGoal : Entity, ITimeFields
     {
         return new BodyGoal(userId, title, description, weightGoal, dueDate, goalType, goalStatus);
     }
+    #endregion
 
+    #region Domain Methods
+    public void Update(string title, string? description, DateTime? dueDate, Weight weightGoal, GoalType goalType)
+    {
+        SetTitle(title);
+        SetDescription(description);
+        SetDueDate(dueDate);
+        SetWeightGoal(weightGoal);
+        SetGoalType(goalType);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    #endregion
+
+    #region Private Setters
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty)
-            throw new DomainValidationException("WorkoutProgramId cannot be empty.");
+            throw new DomainValidationException("UserId cannot be empty.");
 
         UserId = userId;
     }
@@ -69,16 +93,16 @@ public class BodyGoal : Entity, ITimeFields
         if (string.IsNullOrWhiteSpace(title))
             throw new DomainValidationException("Title cannot be null or whitespace.");
 
-        if (title.Length > 100)
-            throw new DomainValidationException("Title must be less than 100 characters long.");
+        if (title.Length > DomainConstants.ValidationLimits.MaxTitleLength)
+            throw new DomainValidationException($"Title must be less than {DomainConstants.ValidationLimits.MaxTitleLength} characters long.");
 
         Title = title;
     }
 
     private void SetDescription(string? description)
     {
-        if (description is not null && description.Length > 500)
-            throw new DomainValidationException("Description must be less than 500 characters long.");
+        if (description is not null && description.Length > DomainConstants.ValidationLimits.MaxDescriptionLength)
+            throw new DomainValidationException($"Description must be less than {DomainConstants.ValidationLimits.MaxDescriptionLength} characters long.");
 
         Description = description;
     }
@@ -111,14 +135,5 @@ public class BodyGoal : Entity, ITimeFields
 
         GoalStatus = goalStatus;
     }
-
-    public void Update(string title, string? description, DateTime? dueDate, Weight weightGoal, GoalType goalType)
-    {
-        SetTitle(title);
-        SetDescription(description);
-        SetDueDate(dueDate);
-        SetWeightGoal(weightGoal);
-        SetGoalType(goalType);
-        UpdatedAt = DateTime.UtcNow;
-    }
+    #endregion
 }

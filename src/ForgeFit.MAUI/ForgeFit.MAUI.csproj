@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
-        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+        <TargetFramework>net10.0-android</TargetFramework>
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
         <!-- <TargetFrameworks>$(TargetFrameworks);net10.0-tizen</TargetFrameworks> -->
 
@@ -35,12 +34,7 @@
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
 
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -67,16 +61,17 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="BarcodeScanner.Mobile.Maui" Version="9.0.1"/>
         <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0"/>
+        <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.1"/>
         <PackageReference Include="CommunityToolkit.Maui.Markup" Version="7.0.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
         <PackageReference Include="Humanizer" Version="3.0.1"/>
         <PackageReference Include="LocalizationResourceManager.Maui" Version="1.2.2"/>
         <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0"/>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.60"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
         <PackageReference Include="MPowerKit.ProgressRing" Version="1.4.2"/>
-        <PackageReference Include="ZXing.Net.Maui.Controls" Version="0.7.2"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -112,8 +107,12 @@
             <DependentUpon>WorkoutPageView.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Update="Views\Controls\Diary\BarcodeScanner.xaml.cs">
-            <DependentUpon>BarcodeScanner.xaml</DependentUpon>
+        <Compile Update="Views\Diary\BarcodeScannerPage.xaml.cs">
+            <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Diary\PhotoRecognitionPage.xaml.cs">
+            <DependentUpon>PhotoRecognitionPage.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
         <Compile Update="Views\Controls\Diary\FoodDetails.xaml.cs">
@@ -140,13 +139,21 @@
             <DependentUpon>EditWorkoutGoalPopup.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Views\Profile\ProfilePageView.xaml.cs">
+            <DependentUpon>ProfilePageView.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\Controls\Diary\CreateCustomFoodView.xaml.cs">
+            <DependentUpon>CreateCustomFoodView.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Views\Diary\Templates\DiaryHydrationView.xaml"/>
-        <AdditionalFiles Include="Views\Diary\Templates\DiaryMealsView.xaml"/>
-        <AdditionalFiles Include="Views\Diary\Templates\DiarySummaryView.xaml"/>
-        <AdditionalFiles Include="Views\Diary\Templates\DiaryWeightView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryHydrationView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryMealsView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiarySummaryView.xaml"/>
+        <AdditionalFiles Include="Views\Diary\DiaryTemplates\DiaryWeightView.xaml"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -162,7 +169,10 @@
         <MauiXaml Update="Views\Workout\WorkoutPageView.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
-        <MauiXaml Update="Views\Controls\Diary\BarcodeScanner.xaml">
+        <MauiXaml Update="Views\Diary\BarcodeScannerPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Diary\PhotoRecognitionPage.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
         <MauiXaml Update="Views\Controls\Diary\FoodDetails.xaml">
@@ -183,12 +193,22 @@
         <MauiXaml Update="Views\Controls\Profile\EditWorkoutGoalPopup.xaml">
             <SubType>Designer</SubType>
         </MauiXaml>
+        <MauiXaml Update="Views\Profile\ProfilePageView.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\Controls\Diary\CreateCustomFoodView.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
         <Reference Include="Microsoft.WinUI">
             <HintPath>..\..\..\..\..\.nuget\packages\microsoft.windowsappsdk\1.7.250909003\lib\net6.0-windows10.0.18362.0\Microsoft.WinUI.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="ViewModels\Diary\MyProducts\"/>
     </ItemGroup>
 
 </Project>

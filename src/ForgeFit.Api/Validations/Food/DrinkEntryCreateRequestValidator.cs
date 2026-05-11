@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Food;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Food;
 
@@ -8,6 +9,6 @@ public class DrinkEntryCreateRequestValidator : AbstractValidator<DrinkEntryCrea
     public DrinkEntryCreateRequestValidator()
     {
         RuleFor(x => x.VolumeMl)
-            .InclusiveBetween(50, 2000).WithMessage("Drink volume must be between 50ml and 2000ml.");
+            .InclusiveBetween(DomainConstants.ValidationLimits.MinDrinkVolumeMl, DomainConstants.ValidationLimits.MaxDrinkVolumeMl).WithMessage($"Drink volume must be between {DomainConstants.ValidationLimits.MinDrinkVolumeMl}ml and {DomainConstants.ValidationLimits.MaxDrinkVolumeMl}ml.");
     }
 }

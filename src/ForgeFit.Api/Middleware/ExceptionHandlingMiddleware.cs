@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions.AuthExceptions;
 using ForgeFit.Domain.Exceptions;
 
 namespace ForgeFit.Api.Middleware;
@@ -23,8 +24,11 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
         context.Response.StatusCode = exception switch
         {
             DomainValidationException or BadRequestException or UriFormatException => StatusCodes.Status400BadRequest,
-            ServiceUnavailableException => StatusCodes.Status503ServiceUnavailable,
+            InvalidCredentialsException => StatusCodes.Status401Unauthorized,
+            UnauthorizedAccessException => StatusCodes.Status403Forbidden,
             NotFoundException => StatusCodes.Status404NotFound,
+            EmailAlreadyExistsException => StatusCodes.Status409Conflict,
+            ServiceUnavailableException => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status500InternalServerError
         };
 

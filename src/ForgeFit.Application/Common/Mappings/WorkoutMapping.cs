@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.DTOs.Workout;
+using ForgeFit.Application.DTOs.Workout;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
 using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 using Mapster;
@@ -13,8 +13,11 @@ public class WorkoutMapping : IRegister
             .Map(dest => dest.GifUrl, src => src.GifUrl != null ? src.GifUrl.ToString() : null);
 
         config.NewConfig<WorkoutSet, WorkoutSetDto>()
-            .Map(dest => dest.Weight, src => src.Weight.Value)
-            .Map(dest => dest.WeightUnit, src => src.Weight.Unit);
+            .Map(dest => dest.Order, src => src.WorkoutSetInfo.Order)
+            .Map(dest => dest.Reps, src => src.WorkoutSetInfo.Reps)
+            .Map(dest => dest.Weight, src => src.WorkoutSetInfo.Weight.Value)
+            .Map(dest => dest.WeightUnit, src => src.WorkoutSetInfo.Weight.Unit)
+            .Map(dest => dest.RestTime, src => src.RestTime.Value);
 
         config.NewConfig<WorkoutEntry, WorkoutEntryDto>()
             .Map(dest => dest.Id, src => src.Id)

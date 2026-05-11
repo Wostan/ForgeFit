@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Goal;
+using ForgeFit.Domain.Constants;
 using ForgeFit.Domain.Enums.ProfileEnums;
 
 namespace ForgeFit.Api.Validations.Goal;
@@ -10,16 +11,16 @@ public class BodyGoalCreateRequestValidator : AbstractValidator<BodyGoalCreateRe
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required.")
-            .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");
+            .MaximumLength(DomainConstants.ValidationLimits.MaxTitleLength).WithMessage($"Title must not exceed {DomainConstants.ValidationLimits.MaxTitleLength} characters.");
 
         RuleFor(x => x.Description)
-            .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
+            .MaximumLength(DomainConstants.ValidationLimits.MaxDescriptionLength).WithMessage($"Description must not exceed {DomainConstants.ValidationLimits.MaxDescriptionLength} characters.");
 
         RuleFor(x => x.WeightUnit).IsInEnum();
         RuleFor(x => x.WeightGoal)
             .GreaterThan(0)
-            .InclusiveBetween(30, 300).When(x => x.WeightUnit == WeightUnit.Kg)
-            .InclusiveBetween(66, 660).When(x => x.WeightUnit == WeightUnit.Lb)
+            .InclusiveBetween(DomainConstants.ValidationLimits.MinWeightKg, DomainConstants.ValidationLimits.MaxWeightKg).When(x => x.WeightUnit == WeightUnit.Kg)
+            .InclusiveBetween(DomainConstants.ValidationLimits.MinWeightLbs, DomainConstants.ValidationLimits.MaxWeightLbs).When(x => x.WeightUnit == WeightUnit.Lb)
             .WithMessage("Target weight must be realistic.");
 
 

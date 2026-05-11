@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +14,15 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
 
     public async Task<User?> GetByIdAsync(Guid id)
     {
-        return await dbContext.Users.FindAsync(id);
+        return await dbContext.Users
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<List<User>> GetAllAsync()
     {
-        return await dbContext.Users.ToListAsync();
+        return await dbContext.Users
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<bool> ExistsAsync(Guid id)

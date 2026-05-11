@@ -1,15 +1,14 @@
 ﻿using System.Globalization;
-using Microsoft.Maui.Controls;
+using ForgeFit.MAUI.Constants;
 
 namespace ForgeFit.MAUI.Behaviors;
 
 public class NumericClampBehavior : Behavior<Entry>
 {
+    private Entry? _entry;
     public double MaxValue { get; set; } = double.MaxValue;
     public double MinValue { get; set; } = 0;
     public int Decimals { get; set; } = 0;
-
-    private Entry? _entry;
 
     protected override void OnAttachedTo(Entry entry)
     {
@@ -57,7 +56,7 @@ public class NumericClampBehavior : Behavior<Entry>
 
         clamped = Math.Round(clamped, Decimals);
 
-        if (Math.Abs(value - clamped) > 0.001)
+        if (Math.Abs(value - clamped) > AppConstants.FormattingPrecision.NumericClampEpsilon)
             _entry.Text = clamped.ToString(CultureInfo.InvariantCulture);
     }
 }

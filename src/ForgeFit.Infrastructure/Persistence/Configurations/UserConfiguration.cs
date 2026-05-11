@@ -1,4 +1,6 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,11 +12,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users", tableBuilder =>
         {
-            tableBuilder.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", "UserProfile_Gender IN (1, 2)");
-            tableBuilder.HasCheckConstraint("CK_Users_WeightCheck", "WeightValue > 0");
-            tableBuilder.HasCheckConstraint("CK_Users_WeightUnitCheck", "WeightUnit IN (1, 2)");
-            tableBuilder.HasCheckConstraint("CK_Users_HeightCheck", "HeightValue > 0");
-            tableBuilder.HasCheckConstraint("CK_Users_HeightUnitCheck", "HeightUnit IN (1, 2)");
+            tableBuilder.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", 
+                $"UserProfile_Gender IN ({string.Join(", ", Enum.GetValues<Gender>().Cast<int>())})");
+            tableBuilder.HasCheckConstraint("CK_Users_WeightCheck", 
+                $"(WeightUnit = {(int)WeightUnit.Kg} AND WeightValue >= {DomainConstants.ValidationLimits.MinWeightKg} AND WeightValue <= {DomainConstants.ValidationLimits.MaxWeightKg}) OR " +
+                $"(WeightUnit = {(int)WeightUnit.Lb} AND WeightValue >= {DomainConstants.ValidationLimits.MinWeightLbs} AND WeightValue <= {DomainConstants.ValidationLimits.MaxWeightLbs})");
+            tableBuilder.HasCheckConstraint("CK_Users_WeightUnitCheck", 
+                $"WeightUnit IN ({string.Join(", ", Enum.GetValues<WeightUnit>().Cast<int>())})");
+            tableBuilder.HasCheckConstraint("CK_Users_HeightCheck", 
+                $"(HeightUnit = {(int)HeightUnit.Cm} AND HeightValue >= {DomainConstants.ValidationLimits.MinHeightCm} AND HeightValue <= {DomainConstants.ValidationLimits.MaxHeightCm}) OR " +
+                $"(HeightUnit = {(int)HeightUnit.Inch} AND HeightValue >= {DomainConstants.ValidationLimits.MinHeightInches} AND HeightValue <= {DomainConstants.ValidationLimits.MaxHeightInches})");
+            tableBuilder.HasCheckConstraint("CK_Users_HeightUnitCheck", 
+                $"HeightUnit IN ({string.Join(", ", Enum.GetValues<HeightUnit>().Cast<int>())})");
         });
 
         builder.HasKey(u => u.Id);
@@ -22,18 +31,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // Properties
         builder.Property(u => u.PasswordHash)
             .IsRequired()
-            .HasMaxLength(256);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxPasswordHashLength);
 
         builder.Property(u => u.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(u => u.UpdatedAt)
+            .IsRequired(false);
 
         // ValueObject properties
         builder.OwnsOne(u => u.Email, email =>
         {
             email.Property(e => e.Value)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxEmailLength);
 
             email.HasIndex(e => e.Value)
                 .IsUnique();
@@ -43,10 +55,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         {
             profile.Property(p => p.Username)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxUsernameLength);
 
             profile.Property(p => p.AvatarUrl)
-                .HasMaxLength(200)
+                .HasMaxLength(DomainConstants.ValidationLimits.MaxAvatarUrlLength)
                 .HasConversion(
                     v => v != null ? v.ToString() : null,
                     v => v != null ? new Uri(v) : null

@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
@@ -44,7 +44,8 @@ public class FoodTrackingService(
 
         var foodItems = GetFoodItemsFromDto(request.FoodItems);
 
-        foodEntry.Update(request.DayTime, request.Date, foodItems);
+        foodEntry.Update(request.DayTime, request.Date);
+        foodEntry.UpdateFoodItems(foodItems);
         await unitOfWork.SaveChangesAsync();
 
         return mapper.Map<FoodEntryDto>(foodEntry);
@@ -64,7 +65,7 @@ public class FoodTrackingService(
 
     public async Task<FoodEntryDto> GetFoodEntryAsync(Guid userId, Guid entryId)
     {
-        var foodEntry = await foodEntryRepository.GetByIdWithNavigationsAsync(entryId);
+        var foodEntry = await foodEntryRepository.GetByIdAsync(entryId);
 
         if (foodEntry == null) throw new NotFoundException("Food entry not found");
 
@@ -94,6 +95,10 @@ public class FoodTrackingService(
             dto.Carbs,
             dto.Protein,
             dto.Fat,
+            dto.Fiber,
+            dto.Sugar,
+            dto.SaturatedFat,
+            dto.Sodium,
             dto.ServingUnit,
             dto.Amount
         )).ToHashSet();

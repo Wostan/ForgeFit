@@ -1,9 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Controls.Profile.EditProfilePopup"
              BackgroundColor="#90000000">
 
@@ -30,12 +31,12 @@
             <VerticalStackLayout>
                 <Label Style="{StaticResource LabelBody}"
                        Text="{maui:Translate Profile_Username}"
-                       FontSize="12"
+                       FontSize="Small"
                        TextColor="{StaticResource TextSecondary}" />
                 <Border Style="{StaticResource InputWrapper}">
                     <Entry Text="{Binding EditUsername}"
                            Placeholder="{Binding Username}"
-                           MaxLength="20"
+                           MaxLength="{x:Static xaml:AppConstantsXaml.MaxUsernameLength}"
                            HorizontalTextAlignment="Center" />
                 </Border>
             </VerticalStackLayout>
@@ -44,7 +45,7 @@
                 <VerticalStackLayout Grid.Column="0">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Profile_BirthDate}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}">
@@ -57,7 +58,7 @@
                 <VerticalStackLayout Grid.Column="1">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Profile_Gender}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}">
@@ -73,7 +74,7 @@
                 <VerticalStackLayout Grid.Column="0">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Height_Cm}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}">
@@ -91,7 +92,7 @@
                 <VerticalStackLayout Grid.Column="1">
                     <Label Style="{StaticResource LabelBody}"
                            Text="{maui:Translate Weight_Kg}"
-                           FontSize="12"
+                           FontSize="Small"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" />
                     <Border Style="{StaticResource InputWrapper}">

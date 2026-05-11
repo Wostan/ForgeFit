@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
+             xmlns:programEditor="clr-namespace:ForgeFit.MAUI.ViewModels.Workout.ProgramEditor"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
+             x:Class="ForgeFit.MAUI.Views.Workout.ProgramEditorTemplates.ProgramEditorSetRowView"
+             x:DataType="programEditor:EditorSetItem"
+             x:Name="ThisView">
+
+    <SwipeView>
+        <SwipeView.RightItems>
+            <SwipeItems>
+                <SwipeItemView>
+                    <Grid
+                        BackgroundColor="{StaticResource DangerColor}"
+                        MaximumWidthRequest="60"
+                        VerticalOptions="Fill">
+                        <Image Source="delete.svg"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding DeleteCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </SwipeItemView>
+            </SwipeItems>
+        </SwipeView.RightItems>
+
+        <Grid ColumnDefinitions="40, *, 0.75*, 0.75*"
+              ColumnSpacing="8"
+              Padding="20,4"
+              BackgroundColor="{StaticResource Surface}">
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource InputWrapper}">
+                <Label Text="{Binding Order}"
+                       Style="{StaticResource LabelBody}"
+                       TextColor="{StaticResource TextSecondary}"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource InputWrapper}">
+                <Entry x:Name="RestEntry"
+                       FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       Keyboard="Numeric"
+                       Placeholder="mm:ss"
+                       PlaceholderColor="{StaticResource TextDisabled}"
+                       TextColor="{StaticResource TextPrimary}">
+                    <Entry.Behaviors>
+                        <behaviors:RestTimeInputBehavior
+                            BindingContext="{Binding Source={x:Reference RestEntry}, Path=BindingContext}"
+                            Time="{Binding RestTime}" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Border>
+
+            <Border Grid.Column="2"
+                    Style="{StaticResource InputWrapper}">
+                <Entry Text="{Binding Weight}"
+                       FontSize="Medium"
+                       Keyboard="Numeric"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{StaticResource TextPrimary}">
+                    <Entry.Behaviors>
+                        <behaviors:NumericClampBehavior
+                            MaxValue="{x:Static xaml:AppConstantsXaml.MaxWorkoutWeightKg}"
+                            MinValue="0"
+                            Decimals="2" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Border>
+
+            <Border Grid.Column="3"
+                    Style="{StaticResource InputWrapper}">
+                <Entry Text="{Binding Reps}"
+                       FontSize="Medium"
+                       Keyboard="Numeric"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{StaticResource TextPrimary}">
+                    <Entry.Behaviors>
+                        <behaviors:NumericClampBehavior
+                            MaxValue="{x:Static xaml:AppConstantsXaml.MaxRepsPerSet}"
+                            MinValue="1"
+                            Decimals="0" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Border>
+        </Grid>
+    </SwipeView>
+
+</ContentView>

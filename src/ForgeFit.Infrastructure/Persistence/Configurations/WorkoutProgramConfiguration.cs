@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Aggregates.WorkoutAggregate;
+using ForgeFit.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,13 +16,16 @@ public class WorkoutProgramConfiguration : IEntityTypeConfiguration<WorkoutProgr
         // Properties
         builder.Property(wp => wp.Name)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxWorkoutProgramNameLength);
 
         builder.Property(wp => wp.Description)
-            .HasMaxLength(300);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxWorkoutProgramDescriptionLength);
 
         builder.Property(wp => wp.CreatedAt)
             .IsRequired();
+
+        builder.Property(wp => wp.UpdatedAt)
+            .IsRequired(false);
 
         builder.Property(wp => wp.IsDeleted)
             .IsRequired()

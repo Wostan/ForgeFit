@@ -1,4 +1,4 @@
-﻿namespace ForgeFit.Application.DTOs.Food;
+namespace ForgeFit.Application.DTOs.Food;
 
 public record FoodSearchResponse(
     string ExternalId,
@@ -8,5 +8,9 @@ public record FoodSearchResponse(
     double Carbs,
     double Protein,
     double Fat,
+    double Fiber,
+    double Sugar,
+    double SaturatedFat,
+    double Sodium,
     string Serving
 );

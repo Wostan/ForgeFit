@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.User;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.User;
 
@@ -12,7 +13,7 @@ public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRe
 
         RuleFor(x => x.NewPassword)
             .NotEmpty().WithMessage("New password is required.")
-            .MinimumLength(6).WithMessage("Password must be at least 6 characters long.")
+            .MinimumLength(DomainConstants.ValidationLimits.MinPasswordLength).WithMessage($"Password must be at least {DomainConstants.ValidationLimits.MinPasswordLength} characters long.")
             .NotEqual(x => x.CurrentPassword).WithMessage("New password must be different from the current password.");
     }
 }

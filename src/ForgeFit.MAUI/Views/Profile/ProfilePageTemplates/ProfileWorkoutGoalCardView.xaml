@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
+             x:Class="ForgeFit.MAUI.Views.Profile.ProfilePageTemplates.ProfileWorkoutGoalCardView"
+             x:DataType="main:ProfilePageViewModel"
+             x:Name="ThisView">
+
+    <VerticalStackLayout Spacing="4">
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Grid.Column="0"
+                   Style="{StaticResource LabelH2}"
+                   Text="{maui:Translate Profile_WorkoutGoal}"
+                   LineBreakMode="TailTruncation"
+                   TextColor="{StaticResource TextSecondary}" />
+
+            <Button Grid.Column="1"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="edit.svg"
+                    Text="{maui:Translate Action_Edit}"
+                    TextColor="{StaticResource WorkoutColor}"
+                    Padding="0"
+                    MinimumHeightRequest="-1"
+                    HorizontalOptions="End"
+                    Command="{Binding WorkoutGoalVM.OpenEditWorkoutGoalCommand}">
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource WorkoutColor}" />
+                </Button.Behaviors>
+            </Button>
+        </Grid>
+
+        <Border Style="{StaticResource CardStyle}" Padding="0">
+            <VerticalStackLayout Padding="20" Spacing="10">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding WorkoutGoalVM.WorkoutGoalPerWeek}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource WorkoutColor}"
+                                   Shadow="{StaticResource WorkoutGlow}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <controls:ViewBox Grid.Row="1" Stretch="Uniform"
+                                              HorizontalOptions="Center" VerticalOptions="Start">
+                                <Label Style="{StaticResource LabelBody}"
+                                       Text="{maui:Translate Workout_Frequency}"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       LineBreakMode="TailTruncation"
+                                       HorizontalTextAlignment="Center" />
+                            </controls:ViewBox>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding WorkoutGoalVM.WorkoutGoalDurationMinutes}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource WorkoutColor}"
+                                   Shadow="{StaticResource WorkoutGlow}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <controls:ViewBox Grid.Row="1" Stretch="Uniform"
+                                              HorizontalOptions="Center" VerticalOptions="Start"
+                                              MaximumWidthRequest="120">
+                                <Label Style="{StaticResource LabelBody}"
+                                       Text="{maui:Translate Workout_Duration}"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       MaxLines="1"
+                                       LineBreakMode="NoWrap"
+                                       HorizontalTextAlignment="Center" />
+                            </controls:ViewBox>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Border Style="{StaticResource CardStyle}" Padding="0">
+                    <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                        <controls:ViewBox Grid.Row="0" Stretch="Uniform" HorizontalOptions="Center"
+                                          VerticalOptions="Center">
+                            <Label Text="{Binding WorkoutGoalVM.WorkoutGoalType}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource WorkoutColor}"
+                                   Shadow="{StaticResource WorkoutGlow}"
+                                   HorizontalTextAlignment="Center" />
+                        </controls:ViewBox>
+
+                        <Label Grid.Row="1"
+                               Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Workout_Type}"
+                               LineBreakMode="TailTruncation"
+                               HorizontalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+
+</ContentView>

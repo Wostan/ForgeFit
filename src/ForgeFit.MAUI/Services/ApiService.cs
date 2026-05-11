@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ForgeFit.MAUI.Models;
@@ -51,7 +52,7 @@ public class ApiService(HttpClient httpClient) : IApiService
 
             if (response.IsSuccessStatusCode)
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                if (response.StatusCode == HttpStatusCode.NoContent)
                     return ServiceResponse<T>.Ok(default!);
 
                 var contentString = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -65,7 +66,7 @@ public class ApiService(HttpClient httpClient) : IApiService
                 return ServiceResponse<T>.Ok(data!);
             }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
                 return ServiceResponse<T>.Error(AppResources.InvalidCredentialsMessage, 401);
 
             var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);

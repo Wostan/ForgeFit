@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -40,8 +40,8 @@
                 <VerticalStackLayout Spacing="16" Style="{StaticResource MainContentStackLayout}">
 
                     <Border StrokeShape="RoundRectangle 12"
-                            HeightRequest="200"
-                            WidthRequest="200"
+                            MaximumHeightRequest="200"
+                            MaximumWidthRequest="200"
                             HorizontalOptions="Center"
                             Margin="0,0,0,10"
                             StrokeThickness="0">
@@ -79,7 +79,7 @@
                                             <FormattedString>
                                                 <Span Style="{StaticResource LabelBody}" Text="• "
                                                       TextColor="{StaticResource WorkoutColor}" />
-                                                <Span Style="{StaticResource LabelBody}" FontSize="13"
+                                                <Span Style="{StaticResource LabelBody}" FontSize="Small"
                                                       Text="{Binding .}" />
                                             </FormattedString>
                                         </Label.FormattedText>

@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Workout;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Workout;
 
@@ -12,7 +13,7 @@ public class WorkoutExercisePlanDtoValidator : AbstractValidator<WorkoutExercise
 
         RuleFor(x => x.WorkoutSets)
             .NotNull()
-            .Must(x => x.Count <= 20).WithMessage("Too many sets for one exercise (max 20).");
+            .Must(x => x.Count <= DomainConstants.ValidationLimits.MaxSetsPerExercise).WithMessage($"Too many sets for one exercise (max {DomainConstants.ValidationLimits.MaxSetsPerExercise}).");
 
         RuleForEach(x => x.WorkoutSets).SetValidator(new WorkoutSetDtoValidator());
     }

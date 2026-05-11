@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
+             xmlns:xaml="clr-namespace:ForgeFit.MAUI.Constants"
+             x:DataType="main:DiaryPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryWeightView">
+    <ContentView.Resources>
+        <Style x:Key="WeightEntryStyle" TargetType="Entry">
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="FontSize" Value="32" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Keyboard" Value="Numeric" />
+            <Setter Property="ReturnType" Value="Done" />
+            <Setter Property="MaxLength" Value="{x:Static xaml:AppConstantsXaml.WeightEntryMaxLength}" />
+            <Setter Property="Margin" Value="0, 0, 0, -8" />
+            <Setter Property="TextColor" Value="{StaticResource TextPrimaryDark}" />
+            <Setter Property="behaviors:EntryAnimationBehavior.IsAnimated" Value="False" />
+        </Style>
+    </ContentView.Resources>
+    <VerticalStackLayout Spacing="4">
+
+        <Label Style="{StaticResource LabelH1}"
+               Text="{maui:Translate Diary_Weight}"
+               TextColor="{StaticResource TextSecondary}" />
+
+        <Border Style="{StaticResource CardStyle}"
+                Padding="0">
+            <Grid RowDefinitions="Auto, Auto" Padding="16" RowSpacing="16">
+                <VerticalStackLayout Grid.Row="0">
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Label Grid.Column="0"
+                               HorizontalOptions="Start"
+                               VerticalOptions="End">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{maui:Translate Weight_Goal}" Style="{StaticResource LabelBody}" />
+                                    <Span Text=": " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding WeightVM.TargetWeightDisplay}"
+                                          Style="{StaticResource LabelH2}" />
+                                    <Span Text=" " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Grid.Column="1"
+                               HorizontalOptions="End"
+                               VerticalOptions="End">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{maui:Translate Weight_Left}" Style="{StaticResource LabelBody}" />
+                                    <Span Text=": " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding WeightVM.WeightLeft, StringFormat='{0:F1}'}"
+                                          Style="{StaticResource LabelH2}"
+                                          TextColor="{StaticResource WeightColor}" />
+                                    <Span Text=" " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Weight_Kg}" Style="{StaticResource LabelBody}"
+                                          TextColor="{StaticResource WeightColor}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+
+                    <ProgressBar x:Name="WeightBar"
+                                 ProgressColor="{StaticResource WeightColor}"
+                                 Shadow="{StaticResource WeightGlow}">
+                        <ProgressBar.Behaviors>
+                            <toolkit:ProgressBarAnimationBehavior
+                                BindingContext="{Binding BindingContext, Source={x:Reference WeightBar}}"
+                                Progress="{Binding WeightVM.WeightProgress}"
+                                Length="250"
+                                Easing="SinInOut" />
+                        </ProgressBar.Behaviors>
+                    </ProgressBar>
+                </VerticalStackLayout>
+
+                <Border Grid.Row="1"
+                        Style="{StaticResource CardStyle}"
+                        BackgroundColor="{StaticResource WeightColor}"
+                        Padding="0"
+                        Stroke="{StaticResource WeightColor}"
+                        Shadow="{StaticResource WeightGlow}"
+                        HorizontalOptions="Center">
+                    <Grid ColumnDefinitions="Auto, Auto, Auto" HorizontalOptions="Center">
+                        <Button Grid.Column="0"
+                                Style="{StaticResource TextButton}"
+                                ImageSource="remove.svg"
+                                HorizontalOptions="End"
+                                Shadow="{StaticResource WeightGlow}"
+                                Command="{Binding WeightVM.DecreaseWeightCommand}">
+                            <Button.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimaryDark}" />
+                            </Button.Behaviors>
+                        </Button>
+
+                        <Label Grid.Column="1"
+                               Text="{Binding WeightVM.CurrentWeightInput}"
+                               Style="{StaticResource WeightEntryStyle}" />
+
+                        <Button Grid.Column="2"
+                                Style="{StaticResource TextButton}"
+                                ImageSource="add_big.svg"
+                                HorizontalOptions="Start"
+                                Shadow="{StaticResource WeightGlow}"
+                                Command="{Binding WeightVM.IncreaseWeightCommand}">
+                            <Button.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimaryDark}" />
+                            </Button.Behaviors>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

@@ -1,4 +1,4 @@
-﻿using ForgeFit.MAUI.ViewModels;
+using DiaryPageViewModel = ForgeFit.MAUI.ViewModels.Diary.Main.DiaryPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Diary;
 
@@ -10,10 +10,10 @@ public partial class DiaryPageView : ContentPage
         BindingContext = viewModel;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        if (BindingContext is DiaryPageViewModel vm) vm.InitializeCommand.Execute(null);
+        if (BindingContext is DiaryPageViewModel vm) await vm.CheckAndRefreshAsync();
     }
 }

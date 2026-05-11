@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Aggregates.UserAggregate;
+using ForgeFit.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +16,7 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
         // Properties
         builder.Property(rt => rt.Token)
             .IsRequired()
-            .HasMaxLength(256);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxRefreshTokenLength);
 
         builder.Property(rt => rt.ExpiryDate)
             .IsRequired();
@@ -23,6 +24,9 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
         builder.Property(rt => rt.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(rt => rt.UpdatedAt)
+            .IsRequired(false);
 
         // Indexes
         builder.HasIndex(rt => rt.Token);

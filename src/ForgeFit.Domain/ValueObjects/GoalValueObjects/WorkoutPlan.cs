@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Enums.WorkoutEnums;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.WorkoutEnums;
 using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 
@@ -6,6 +7,7 @@ namespace ForgeFit.Domain.ValueObjects.GoalValueObjects;
 
 public class WorkoutPlan : ValueObject
 {
+    #region Constructors
     public WorkoutPlan(
         int workoutsPerWeek,
         TimeSpan duration,
@@ -15,23 +17,30 @@ public class WorkoutPlan : ValueObject
         SetDuration(duration);
         SetWorkoutType(workoutType);
     }
+    
+    private WorkoutPlan() { }
+    #endregion
 
+    #region Public Properties
     public int WorkoutsPerWeek { get; private set; }
     public TimeSpan Duration { get; private set; }
     public WorkoutType WorkoutType { get; private set; }
+    #endregion
 
+    #region Private Methods
     private void SetWorkoutsPerWeek(int workoutsPerWeek)
     {
-        if (workoutsPerWeek is < 1 or > 7)
-            throw new DomainValidationException("WorkoutsPerWeek must be between 1 and 7.");
+        if (workoutsPerWeek is < DomainConstants.ValidationLimits.MinWorkoutsPerWeek or > DomainConstants.ValidationLimits.MaxWorkoutsPerWeek)
+            throw new DomainValidationException($"WorkoutsPerWeek must be between {DomainConstants.ValidationLimits.MinWorkoutsPerWeek} and {DomainConstants.ValidationLimits.MaxWorkoutsPerWeek}.");
 
         WorkoutsPerWeek = workoutsPerWeek;
     }
 
     private void SetDuration(TimeSpan recommendedDuration)
     {
-        if (recommendedDuration < TimeSpan.FromMinutes(10) || recommendedDuration > TimeSpan.FromHours(5))
-            throw new DomainValidationException("Workout duration hours must be between 10 minutes and 5 hours.");
+        if (recommendedDuration < TimeSpan.FromMinutes(DomainConstants.ValidationLimits.MinWorkoutDurationMinutes) || 
+            recommendedDuration > TimeSpan.FromHours(DomainConstants.ValidationLimits.MaxWorkoutDurationHours))
+            throw new DomainValidationException($"Workout duration must be between {DomainConstants.ValidationLimits.MinWorkoutDurationMinutes} minutes and {DomainConstants.ValidationLimits.MaxWorkoutDurationHours} hours.");
 
         Duration = recommendedDuration;
     }
@@ -43,11 +52,14 @@ public class WorkoutPlan : ValueObject
 
         WorkoutType = recommendedWorkoutType;
     }
+    #endregion
 
+    #region ValueObject Implementation
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return WorkoutsPerWeek;
         yield return Duration;
         yield return WorkoutType;
     }
+    #endregion
 }

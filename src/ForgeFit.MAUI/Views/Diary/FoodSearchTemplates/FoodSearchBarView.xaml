@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
+             x:DataType="addFood:AddFoodPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.FoodSearchTemplates.FoodSearchBarView">
+    <ContentView.Content>
+        <Border Style="{StaticResource CardStyle}"
+                Margin="10"
+                VerticalOptions="End"
+                Padding="0">
+            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="-10">
+                <SearchBar Grid.Column="0"
+                           Placeholder="{maui:Translate Search_Placeholder}"
+                           ReturnType="Done"
+                           IsTextPredictionEnabled="True"
+                           Text="{Binding SearchVM.SearchText}"
+                           SearchIconColor="{StaticResource TextPrimary}" />
+                <Button Grid.Column="1"
+                        Style="{StaticResource TextButton}"
+                        ImageSource="barcode_scanner.svg"
+                        Command="{Binding OpenBarcodeScannerCommand}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                    </Button.Behaviors>
+                </Button>
+                <Button Grid.Column="2"
+                        Style="{StaticResource TextButton}"
+                        ImageSource="camera.svg"
+                        Command="{Binding OpenPhotoRecognitionCommand}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                    </Button.Behaviors>
+                </Button>
+            </Grid>
+        </Border>
+    </ContentView.Content>
+</ContentView>

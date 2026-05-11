@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Domain.Aggregates.GoalAggregate;
 using ForgeFit.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,9 @@ public class NutritionGoalRepository(AppDbContext dbContext) : INutritionGoalRep
 
     public async Task<List<NutritionGoal>> GetAllAsync()
     {
-        return await dbContext.NutritionGoals.ToListAsync();
+        return await dbContext.NutritionGoals
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<bool> ExistsAsync(Guid id)

@@ -12,13 +12,13 @@ public class DurationInputBehavior : Behavior<Entry>
             BindingMode.TwoWay,
             propertyChanged: OnDurationChanged);
 
+    private Entry? _entry;
+
     public TimeSpan Duration
     {
         get => (TimeSpan)GetValue(DurationProperty);
         set => SetValue(DurationProperty, value);
     }
-
-    private Entry? _entry;
 
     protected override void OnAttachedTo(Entry entry)
     {

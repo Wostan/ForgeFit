@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Services;
 using ForgeFit.Domain.Primitives.Interfaces;
@@ -26,6 +26,8 @@ public static class DependencyInjection
         services.AddScoped<IWorkoutTrackingService, WorkoutTrackingService>();
         services.AddScoped<IFoodTrackingService, FoodTrackingService>();
         services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
+        services.AddScoped<ICustomFoodService, CustomFoodService>();
+        services.AddScoped<IRecipeService, RecipeService>();
         services.AddScoped<IUserService, UserService>();
 
         // Mapper

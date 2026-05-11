@@ -1,15 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maui="using:LocalizationResourceManager.Maui"
-             xmlns:local="using:ForgeFit.MAUI.ViewModels"
              xmlns:views="using:ForgeFit.MAUI.Views.Auth"
+             xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
+             xmlns:constants="clr-namespace:ForgeFit.MAUI.Constants"
              x:Class="ForgeFit.MAUI.Views.Auth.Templates.Step3MeasurementsView">
 
     <Grid RowDefinitions="Auto, *, Auto"
           Padding="30,50,30,130"
-          x:DataType="local:RegistrationPageViewModel"
+          x:DataType="registration:RegistrationPageViewModel"
           BindingContext="{Binding Source={RelativeSource AncestorType={x:Type views:RegistrationPageView}}, Path=BindingContext}">
 
         <VerticalStackLayout Grid.Row="0"
@@ -17,7 +18,6 @@
                              Margin="0, 50, 0, 0">
             <Label Text="{maui:Translate Reg_Title_Measurements}"
                    Style="{StaticResource LabelH1}"
-                   FontSize="32"
                    HorizontalTextAlignment="Center" />
 
             <Label Text="{maui:Translate Reg_Subtitle_Measurements}"
@@ -39,7 +39,7 @@
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding Height, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding MeasurementsVM.Height, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
                                           Style="{StaticResource LabelH1}" />
                                     <Span Text=" "
@@ -51,13 +51,15 @@
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="100"
-                            Maximum="250"
-                            Value="{Binding Height}" />
+                    <Slider Minimum="{x:Static constants:AppConstantsXaml.MinHeightCm}"
+                            Maximum="{x:Static constants:AppConstantsXaml.MaxHeightCm}"
+                            Value="{Binding MeasurementsVM.Height}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
-                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="100" />
-                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="250" />
+                        <Label Grid.Column="0" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MinHeightCmStr}" />
+                        <Label Grid.Column="2" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MaxHeightCmStr}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
@@ -73,7 +75,7 @@
                         <Label Grid.Column="1">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding Weight, StringFormat='{0:F0}'}"
+                                    <Span Text="{Binding MeasurementsVM.Weight, StringFormat='{0:F0}'}"
                                           TextColor="{StaticResource Primary}"
                                           Style="{StaticResource LabelH1}" />
                                     <Span Text=" "
@@ -85,13 +87,15 @@
                         </Label>
                     </Grid>
 
-                    <Slider Minimum="30"
-                            Maximum="300"
-                            Value="{Binding Weight}" />
+                    <Slider Minimum="{x:Static constants:AppConstantsXaml.MinWeightKg}"
+                            Maximum="{x:Static constants:AppConstantsXaml.MaxWeightKg}"
+                            Value="{Binding MeasurementsVM.Weight}" />
 
                     <Grid ColumnDefinitions="Auto, * , Auto" Padding="5,0">
-                        <Label Grid.Column="0" Style="{StaticResource LabelBody}" Text="30" />
-                        <Label Grid.Column="2" Style="{StaticResource LabelBody}" Text="300" />
+                        <Label Grid.Column="0" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MinWeightKgStr}" />
+                        <Label Grid.Column="2" Style="{StaticResource LabelBody}"
+                               Text="{x:Static constants:AppConstantsXaml.MaxWeightKgStr}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
@@ -100,31 +104,31 @@
 
         <Border Grid.Row="2"
                 Style="{StaticResource CardStyle}"
-                Stroke="{Binding BmiColor}"
+                Stroke="{Binding MeasurementsVM.BmiColor}"
                 VerticalOptions="End">
 
             <Grid ColumnDefinitions="Auto, *">
-                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="0" WidthRequest="120">
+                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="0" MaximumWidthRequest="120">
                     <Label Text="{maui:Translate BMI_Title}"
                            Style="{StaticResource LabelBody}"
-                           FontSize="14"
+                           FontSize="Caption"
                            HorizontalOptions="Center" />
-                    <Label Text="{Binding BmiValue, StringFormat='{0:F1}'}"
-                           Style="{StaticResource LabelH1}"
-                           FontSize="40"
-                           TextColor="{Binding BmiColor}"
+                    <Label Text="{Binding MeasurementsVM.BmiValue, StringFormat='{0:F1}'}"
+                           FontSize="Header"
+                           FontFamily="MontserratSemiBold"
+                           TextColor="{Binding MeasurementsVM.BmiColor}"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End">
-                    <Label Text="{Binding BmiCategoryText.Localized}"
+                    <Label Text="{Binding MeasurementsVM.BmiCategoryText.Localized}"
                            Style="{StaticResource LabelH2}"
-                           TextColor="{Binding BmiColor}"
+                           TextColor="{Binding MeasurementsVM.BmiColor}"
                            HorizontalTextAlignment="End" />
 
-                    <Label Text="{Binding BmiDescription.Localized}"
+                    <Label Text="{Binding MeasurementsVM.BmiDescription.Localized}"
                            Style="{StaticResource LabelBody}"
-                           FontSize="12"
+                           FontSize="Caption"
                            HorizontalTextAlignment="End" />
                 </VerticalStackLayout>
             </Grid>

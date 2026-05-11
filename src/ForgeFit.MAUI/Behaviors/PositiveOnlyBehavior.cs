@@ -1,9 +1,9 @@
-﻿using Microsoft.Maui.Controls;
-
-namespace ForgeFit.MAUI.Behaviors;
+﻿namespace ForgeFit.MAUI.Behaviors;
 
 public class PositiveOnlyBehavior : Behavior<Entry>
 {
+    private bool _isInternalChange;
+
     protected override void OnAttachedTo(Entry entry)
     {
         base.OnAttachedTo(entry);
@@ -15,8 +15,6 @@ public class PositiveOnlyBehavior : Behavior<Entry>
         base.OnDetachingFrom(entry);
         entry.TextChanged -= OnTextChanged;
     }
-
-    private bool _isInternalChange;
 
     private void OnTextChanged(object? sender, TextChangedEventArgs e)
     {

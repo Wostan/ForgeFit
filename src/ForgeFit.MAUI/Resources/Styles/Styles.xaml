@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xaml-comp compile="true" ?>
 
 <ResourceDictionary
@@ -8,7 +8,7 @@
     xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing">
 
     <Shadow x:Key="PrimaryGlow"
-            Radius="25"
+            Radius="20"
             Opacity="0.3"
             Brush="{StaticResource Primary}"
             Offset="0,8" />
@@ -86,7 +86,7 @@
     </LinearGradientBrush>
 
     <Style TargetType="BoxView" x:Key="StatusBarGradient">
-        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
         <Setter Property="HorizontalOptions" Value="Fill" />
         <Setter Property="VerticalOptions" Value="Start" />
         <Setter Property="InputTransparent" Value="True" />
@@ -124,7 +124,7 @@
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
         <Setter Property="Padding" Value="12,0" />
-        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="MinimumHeightRequest" Value="50" />
         <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -143,7 +143,9 @@
     <Style TargetType="Border" x:Key="CardStyle">
         <Setter Property="Padding" Value="16" />
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="StrokeShape">
+            <RoundRectangle CornerRadius="16" />
+        </Setter>
         <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
     </Style>
@@ -156,12 +158,12 @@
         <Setter Property="TextColor" Value="{StaticResource TextPrimaryDark}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="BorderWidth" Value="2" />
         <Setter Property="BorderColor" Value="{StaticResource Primary}" />
         <Setter Property="CornerRadius" Value="16" />
         <Setter Property="Padding" Value="14,10" />
-        <Setter Property="MinimumHeightRequest" Value="50" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="behaviors:ButtonAnimationBehavior.IsAnimated" Value="true" />
         <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -194,8 +196,9 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Small" />
         <Setter Property="Shadow" Value="{StaticResource ControlShadow}" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
     <Style TargetType="CheckBox">
@@ -232,7 +235,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
@@ -241,7 +244,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="behaviors:EditorAnimationBehavior.IsAnimated" Value="true" />
@@ -252,7 +255,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="behaviors:EntryAnimationBehavior.IsAnimated" Value="true" />
@@ -281,14 +284,14 @@
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Small" />
         <Setter Property="Shadow" Value="{StaticResource TextShadow}" />
     </Style>
 
     <Style TargetType="Label" x:Key="Headline">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontSize" Value="36" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="HorizontalTextAlignment" Value="Start" />
     </Style>
@@ -296,7 +299,7 @@
     <Style TargetType="Label" x:Key="SubHeadline">
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="HorizontalTextAlignment" Value="Start" />
         <Setter Property="Shadow" Value="{x:Null}" />
@@ -304,19 +307,19 @@
 
     <Style TargetType="Label" x:Key="LabelH1">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontSize" Value="Large" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
     </Style>
 
     <Style TargetType="Label" x:Key="LabelH2">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
     </Style>
 
     <Style TargetType="Label" x:Key="LabelBody">
         <Setter Property="FontFamily" Value="MontserratSemiBold" />
-        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontSize" Value="Small" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="LineHeight" Value="1.4" />
         <Setter Property="Shadow" Value="{x:Null}" />
@@ -330,13 +333,13 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
     <Style TargetType="ProgressBar">
         <Setter Property="ProgressColor" Value="{StaticResource Primary}" />
-        <Setter Property="Height" Value="4" />
+        <Setter Property="MinimumHeightRequest" Value="4" />
         <Setter Property="Shadow" Value="{StaticResource PrimaryGlow}" />
     </Style>
 
@@ -344,7 +347,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
     <Style TargetType="RefreshView">
@@ -358,7 +362,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
@@ -367,7 +371,7 @@
         <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
     </Style>
 
     <Style TargetType="Slider">
@@ -406,7 +410,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MontserratRegular" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="Medium" />
         <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
@@ -443,8 +447,6 @@
     </Style>
 
     <Style TargetType="progressRing:ProgressRing">
-        <Setter Property="HeightRequest" Value="100" />
-        <Setter Property="WidthRequest" Value="100" />
         <Setter Property="MinimumHeightRequest" Value="50" />
         <Setter Property="MinimumWidthRequest" Value="50" />
         <Setter Property="Smooth" Value="True" />
@@ -453,7 +455,12 @@
     </Style>
 
     <Style TargetType="VerticalStackLayout" x:Key="MainContentStackLayout">
-        <Setter Property="Padding" Value="20,120,20,20" />
+        <Setter Property="Padding">
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="20,120,20,20" />
+                <On Platform="Android" Value="20,100,20,20" />
+            </OnPlatform>
+        </Setter>
         <Setter Property="Spacing" Value="20" />
     </Style>
 

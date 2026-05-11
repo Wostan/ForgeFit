@@ -4,14 +4,24 @@ namespace ForgeFit.MAUI.Views.Controls;
 
 public partial class NavigationHeader : ContentView
 {
+    public static readonly BindableProperty TitleProperty =
+        BindableProperty.Create(nameof(Title), typeof(string), typeof(NavigationHeader), string.Empty);
+
+    public static readonly BindableProperty CustomTitleViewProperty =
+        BindableProperty.Create(nameof(CustomTitleView), typeof(View), typeof(NavigationHeader),
+            propertyChanged: OnCustomTitleViewChanged);
+
+    public static readonly BindableProperty ShowBackButtonProperty =
+        BindableProperty.Create(nameof(ShowBackButton), typeof(bool), typeof(NavigationHeader), true);
+
+    public static readonly BindableProperty BackCommandProperty =
+        BindableProperty.Create(nameof(BackCommand), typeof(ICommand), typeof(NavigationHeader));
+
     public NavigationHeader()
     {
         DefaultBackCommand = new Command(OnDefaultBack);
         InitializeComponent();
     }
-
-    public static readonly BindableProperty TitleProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(NavigationHeader), string.Empty);
 
     public string Title
     {
@@ -19,27 +29,17 @@ public partial class NavigationHeader : ContentView
         set => SetValue(TitleProperty, value);
     }
 
-    public static readonly BindableProperty CustomTitleViewProperty =
-        BindableProperty.Create(nameof(CustomTitleView), typeof(View), typeof(NavigationHeader), null,
-            propertyChanged: OnCustomTitleViewChanged);
-
     public View CustomTitleView
     {
         get => (View)GetValue(CustomTitleViewProperty);
         set => SetValue(CustomTitleViewProperty, value);
     }
 
-    public static readonly BindableProperty ShowBackButtonProperty =
-        BindableProperty.Create(nameof(ShowBackButton), typeof(bool), typeof(NavigationHeader), true);
-
     public bool ShowBackButton
     {
         get => (bool)GetValue(ShowBackButtonProperty);
         set => SetValue(ShowBackButtonProperty, value);
     }
-
-    public static readonly BindableProperty BackCommandProperty =
-        BindableProperty.Create(nameof(BackCommand), typeof(ICommand), typeof(NavigationHeader));
 
     public ICommand BackCommand
     {

@@ -1,4 +1,5 @@
-﻿using ForgeFit.Domain.Aggregates.FoodAggregate;
+using ForgeFit.Domain.Aggregates.FoodAggregate;
+using ForgeFit.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +10,10 @@ public class DrinkEntryConfiguration : IEntityTypeConfiguration<DrinkEntry>
     public void Configure(EntityTypeBuilder<DrinkEntry> builder)
     {
         builder.ToTable("DrinkEntries",
-            tableBuilder => { tableBuilder.HasCheckConstraint("CK_DrinkEntries_VolumeMlCheck", "VolumeMl > 0"); });
+            tableBuilder => { 
+                tableBuilder.HasCheckConstraint("CK_DrinkEntries_VolumeMlCheck", 
+                    $"VolumeMl >= {DomainConstants.ValidationLimits.MinDrinkVolumeMl} AND VolumeMl <= {DomainConstants.ValidationLimits.MaxDrinkVolumeMl}"); 
+            });
 
         builder.HasKey(de => de.Id);
 
@@ -23,6 +27,9 @@ public class DrinkEntryConfiguration : IEntityTypeConfiguration<DrinkEntry>
         builder.Property(de => de.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(de => de.UpdatedAt)
+            .IsRequired(false);
 
         // Indexes
         builder.HasIndex(de => de.UserId);

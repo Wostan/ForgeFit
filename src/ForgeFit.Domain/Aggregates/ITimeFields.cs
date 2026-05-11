@@ -1,7 +1,7 @@
-﻿namespace ForgeFit.Domain.Aggregates;
+namespace ForgeFit.Domain.Aggregates;
 
 public interface ITimeFields
 {
-    public DateTime CreatedAt { get; private protected init; }
-    public DateTime? UpdatedAt { get; private protected set; }
+    public DateTime CreatedAt { get; }
+    public DateTime? UpdatedAt { get; }
 }

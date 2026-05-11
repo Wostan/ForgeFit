@@ -2,6 +2,14 @@
 
 public class ButtonAnimationBehavior : Behavior<Button>
 {
+    private const uint FadeDuration = 400;
+    private const uint PressDuration = 200;
+    private const uint ReleaseDuration = 400;
+    private const double PressedScaleX = 0.97;
+    private const double PressedScaleY = 1.05;
+    private const double ReleasedScaleX = 1.0;
+    private const double ReleasedScaleY = 1.0;
+
     public static readonly BindableProperty IsAnimatedProperty =
         BindableProperty.CreateAttached(
             "IsAnimated",
@@ -35,14 +43,6 @@ public class ButtonAnimationBehavior : Behavior<Button>
     {
         view.SetValue(IsLoadingProperty, value);
     }
-
-    private const uint FadeDuration = 400;
-    private const uint PressDuration = 200;
-    private const uint ReleaseDuration = 400;
-    private const double PressedScaleX = 0.97;
-    private const double PressedScaleY = 1.05;
-    private const double ReleasedScaleX = 1.0;
-    private const double ReleasedScaleY = 1.0;
 
     private static void OnIsAnimatedChanged(BindableObject view, object oldValue, object newValue)
     {

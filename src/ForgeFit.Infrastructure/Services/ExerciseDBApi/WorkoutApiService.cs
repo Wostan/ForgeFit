@@ -1,5 +1,6 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
@@ -19,74 +20,95 @@ public partial class WorkoutApiService(HttpClient client) : IWorkoutApiService
         int pageNumber = 1,
         int pageSize = 20)
     {
-        if (string.IsNullOrEmpty(query)) query = " ";
-
-        var offset = (pageNumber - 1) * pageSize;
         var queryParams = new List<string>
         {
-            $"offset={offset}",
             $"limit={pageSize}"
         };
 
-        if (!string.IsNullOrWhiteSpace(query)) queryParams.Add($"search={Uri.EscapeDataString(query)}");
+        if (!string.IsNullOrWhiteSpace(query)) 
+            queryParams.Add($"name={Uri.EscapeDataString(query)}");
 
         if (muscles is { Count: > 0 })
-            queryParams.Add($"muscles={EnumsToApiString(muscles)}");
+            queryParams.Add($"targetMuscles={EnumsToApiString(muscles)}");
 
         if (bodyParts is { Count: > 0 })
             queryParams.Add($"bodyParts={EnumsToApiString(bodyParts)}");
 
         if (equipment is { Count: > 0 })
-            queryParams.Add($"equipment={EnumsToApiString(equipment)}");
+            queryParams.Add($"equipments={EnumsToApiString(equipment)}");
 
-        var requestUrl = $"exercises/filter?{string.Join("&", queryParams)}";
+        var requestUrl = $"exercises?{string.Join("&", queryParams)}";
 
-        var response = await client.GetAsync(requestUrl);
+        try
+        {
+            var response = await client.GetAsync(requestUrl);
 
-        if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
-            throw new NotFoundException("Please try again later.");
+            if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
+                throw new ServiceUnavailableException("API rate limit exceeded. Please try again later.");
 
-        if (!response.IsSuccessStatusCode) throw new NotFoundException("Failed to retrieve exercises.");
+            if (!response.IsSuccessStatusCode) 
+                throw new ServiceUnavailableException("Failed to retrieve exercises from external API: " + response.ReasonPhrase);
 
-        var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbResponse>();
+            var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbResponse>();
 
-        if (apiResponse is null || !apiResponse.Success) return [];
+            if (apiResponse is null || !apiResponse.Success) return [];
 
-        return apiResponse.Data.Select(item => new WorkoutExerciseSearchResponse(
-            item.ExerciseId,
-            item.Name,
-            ParseEnums<Muscle>(item.TargetMuscles),
-            string.IsNullOrEmpty(item.GifUrl) ? null : new Uri(item.GifUrl)
-        )).ToList();
+            return apiResponse.Data.Select(item => new WorkoutExerciseSearchResponse(
+                item.ExerciseId,
+                item.Name,
+                ParseEnums<Muscle>(item.TargetMuscles),
+                string.IsNullOrEmpty(item.GifUrl) ? null : new Uri(item.GifUrl)
+            )).ToList();
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new ServiceUnavailableException($"ExerciseDB API service unavailable: {ex.Message}");
+        }
+        catch (JsonException ex)
+        {
+            throw new ServiceUnavailableException($"ExerciseDB API response parsing failed: {ex.Message}");
+        }
     }
 
     public async Task<WorkoutExerciseDto> GetByIdAsync(string id)
     {
         var requestUrl = $"exercises/{id}";
-        var response = await client.GetAsync(requestUrl);
+        try
+        {
+            var response = await client.GetAsync(requestUrl);
 
-        if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
-            throw new NotFoundException("Please try again later.");
+            if (response is { IsSuccessStatusCode: false, StatusCode: HttpStatusCode.TooManyRequests })
+                throw new ServiceUnavailableException("API rate limit exceeded. Please try again later.");
 
-        if (!response.IsSuccessStatusCode) throw new NotFoundException($"Exercise with id {id} not found.");
+            if (!response.IsSuccessStatusCode) 
+                throw new ServiceUnavailableException($"Failed to retrieve exercise with id {id} from external API.");
 
-        var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbSingleResponse>();
+            var apiResponse = await response.Content.ReadFromJsonAsync<ExerciseDbSingleResponse>();
 
-        if (apiResponse is null || !apiResponse.Success || apiResponse.Data is null)
-            throw new ServiceUnavailableException("Failed to retrieve exercise details.");
+            if (apiResponse is null || !apiResponse.Success || apiResponse.Data is null)
+                throw new ServiceUnavailableException("Failed to retrieve exercise details.");
 
-        var item = apiResponse.Data;
+            var item = apiResponse.Data;
 
-        return new WorkoutExerciseDto(
-            item.ExerciseId,
-            item.Name,
-            string.IsNullOrEmpty(item.GifUrl) ? null : item.GifUrl,
-            ParseEnums<Muscle>(item.TargetMuscles),
-            ParseEnums<BodyPart>(item.BodyParts),
-            ParseEnums<Equipment>(item.Equipments),
-            ParseEnums<Muscle>(item.SecondaryMuscles),
-            item.Instructions
-        );
+            return new WorkoutExerciseDto(
+                item.ExerciseId,
+                item.Name,
+                string.IsNullOrEmpty(item.GifUrl) ? null : item.GifUrl,
+                ParseEnums<Muscle>(item.TargetMuscles),
+                ParseEnums<BodyPart>(item.BodyParts),
+                ParseEnums<Equipment>(item.Equipments),
+                ParseEnums<Muscle>(item.SecondaryMuscles),
+                item.Instructions
+            );
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new ServiceUnavailableException($"ExerciseDB API service unavailable: {ex.Message}");
+        }
+        catch (JsonException ex)
+        {
+            throw new ServiceUnavailableException($"ExerciseDB API response parsing failed: {ex.Message}");
+        }
     }
 
     private static string EnumsToApiString<T>(List<T> enums) where T : Enum

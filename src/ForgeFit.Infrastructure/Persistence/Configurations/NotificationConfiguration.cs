@@ -1,4 +1,7 @@
-﻿using ForgeFit.Domain.Aggregates.NotificationAggregate;
+using ForgeFit.Domain.Aggregates.NotificationAggregate;
+using ForgeFit.Domain.Constants;
+using ForgeFit.Domain.Enums.HabitEnums;
+using ForgeFit.Domain.Enums.NotificationEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,10 +14,11 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
         builder.ToTable("Notifications", tableBuilder =>
         {
             tableBuilder.HasCheckConstraint("CK_Notifications_NotificationTypeCheck",
-                "NotificationType IN (1, 2, 3, 4, 5)");
+                $"NotificationType IN ({string.Join(", ", Enum.GetValues<NotificationType>().Cast<int>())})");
             tableBuilder.HasCheckConstraint("CK_Notifications_Frequency_FrequencyUnitCheck",
-                "Frequency_FrequencyUnit IN (1, 2, 3)");
-            tableBuilder.HasCheckConstraint("CK_Notifications_Frequency_IntervalCheck", "Frequency_Interval > 0");
+                $"Frequency_FrequencyUnit IN ({string.Join(", ", Enum.GetValues<FrequencyUnit>().Cast<int>())})");
+            tableBuilder.HasCheckConstraint("CK_Notifications_Frequency_IntervalCheck", 
+                "Frequency_Interval > 0");
         });
 
         builder.HasKey(n => n.Id);
@@ -26,11 +30,11 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 
         builder.Property(n => n.Title)
             .IsRequired()
-            .HasMaxLength(20);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxTitleLength);
 
         builder.Property(n => n.Body)
             .IsRequired()
-            .HasMaxLength(200);
+            .HasMaxLength(DomainConstants.ValidationLimits.MaxDescriptionLength);
 
         builder.Property(n => n.ScheduledAt)
             .IsRequired();
@@ -42,6 +46,9 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
         builder.Property(n => n.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
+
+        builder.Property(n => n.UpdatedAt)
+            .IsRequired(false);
 
         // ValueObject properties
         builder.OwnsOne(n => n.Frequency, freq =>

@@ -1,6 +1,5 @@
 ﻿using ForgeFit.MAUI.Models;
 using ForgeFit.MAUI.Models.DTOs.DrinkTracking;
-using ForgeFit.MAUI.Models.DTOs.Food;
 
 namespace ForgeFit.MAUI.Services.Interfaces;
 

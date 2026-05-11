@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Profile.Main"
+             x:Class="ForgeFit.MAUI.Views.Profile.ProfilePageTemplates.ProfileNutritionGoalCardView"
+             x:DataType="main:ProfilePageViewModel"
+             x:Name="ThisView">
+
+    <VerticalStackLayout Spacing="4">
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Grid.Column="0"
+                   Style="{StaticResource LabelH2}"
+                   LineBreakMode="TailTruncation"
+                   Text="{maui:Translate Profile_NutritionGoal}"
+                   TextColor="{StaticResource TextSecondary}" />
+
+            <Button Grid.Column="1"
+                    Style="{StaticResource TextButton}"
+                    ImageSource="edit.svg"
+                    Text="{maui:Translate Action_Edit}"
+                    TextColor="{StaticResource Primary}"
+                    Padding="0"
+                    MinimumHeightRequest="-1"
+                    HorizontalOptions="End"
+                    Command="{Binding NutritionGoalVM.OpenEditNutritionGoalCommand}">
+                <Button.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                </Button.Behaviors>
+            </Button>
+        </Grid>
+
+        <Border Style="{StaticResource CardStyle}" Padding="0">
+            <VerticalStackLayout Padding="16, 12" Spacing="8">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding NutritionGoalVM.NutritionGoalCalories}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource Primary}"
+                                   Shadow="{StaticResource PrimaryGlow}"
+                                   Margin="0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                                   Text="{maui:Translate Nutrient_Kcal}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   MaxLines="1"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding NutritionGoalVM.NutritionGoalVolumeMl}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource WaterColor}"
+                                   Shadow="{StaticResource WaterGlow}"
+                                   Margin="0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                                   Text="{maui:Translate Hydration_Ml}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   MaxLines="1"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding NutritionGoalVM.NutritionGoalCarbs}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource CarbsColor}"
+                                   Shadow="{StaticResource CarbsGlow}"
+                                   Margin="0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                                   Text="{maui:Translate Nutrient_Carbs}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   MaxLines="1"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding NutritionGoalVM.NutritionGoalProtein}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource ProteinColor}"
+                                   Shadow="{StaticResource ProteinGlow}"
+                                   Margin="0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                                   Text="{maui:Translate Nutrient_Protein}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   MaxLines="1"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="2" Style="{StaticResource CardStyle}" Padding="0">
+                        <Grid RowDefinitions="*, *" Padding="5" VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Text="{Binding NutritionGoalVM.NutritionGoalFat}"
+                                   Style="{StaticResource LabelH1}"
+                                   FontSize="28"
+                                   TextColor="{StaticResource FatColor}"
+                                   Shadow="{StaticResource FatGlow}"
+                                   Margin="0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                            <Label Grid.Row="1" Style="{StaticResource LabelBody}"
+                                   Text="{maui:Translate Nutrient_Fat}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   MaxLines="1"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+
+</ContentView>

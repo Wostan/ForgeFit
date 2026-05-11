@@ -1,4 +1,3 @@
-﻿using ForgeFit.Application.Common.Exceptions.AuthExceptions;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -15,15 +14,8 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<UserSignUpResponse>> SignUp([FromBody] UserSignUpRequest request)
     {
-        try
-        {
-            var response = await authService.SignUpAsync(request);
-            return Created(string.Empty, response);
-        }
-        catch (EmailAlreadyExistsException e)
-        {
-            return Conflict(e.Message);
-        }
+        var response = await authService.SignUpAsync(request);
+        return Created(string.Empty, response);
     }
 
     [HttpPost("sign-in")]
@@ -32,19 +24,12 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<UserSignInResponse>> SignIn([FromBody] UserSignInRequest request)
     {
-        try
-        {
-            var response = await authService.SignInAsync(request);
-            return Ok(response);
-        }
-        catch (InvalidCredentialsException e)
-        {
-            return Unauthorized(e.Message);
-        }
+        var response = await authService.SignInAsync(request);
+        return Ok(response);
     }
 
     [HttpPost("check-email")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CheckEmailResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CheckEmailResponse>> CheckEmail([FromBody] CheckEmailRequest request)
     {
@@ -57,14 +42,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<UserSignInResponse>> RefreshToken([FromBody] RefreshTokenRequest request)
     {
-        try
-        {
-            var response = await authService.RefreshTokenAsync(request);
-            return Ok(response);
-        }
-        catch (InvalidCredentialsException e)
-        {
-            return Unauthorized(e.Message);
-        }
+        var response = await authService.RefreshTokenAsync(request);
+        return Ok(response);
     }
 }
