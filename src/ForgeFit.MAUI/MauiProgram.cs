@@ -5,6 +5,8 @@ using CommunityToolkit.Maui.Markup;
 using ForgeFit.MAUI.Resources.Strings;
 using Microsoft.Extensions.Logging;
 using ForgeFit.MAUI.Extensions;
+using ForgeFit.MAUI.Handlers;
+using ForgeFit.MAUI.Views.Controls;
 using LocalizationResourceManager.Maui;
 
 namespace ForgeFit.MAUI;
@@ -29,6 +31,7 @@ public static class MauiProgram
             .ConfigureMauiHandlers(handlers =>
             {
                 handlers.AddBarcodeScannerHandler();
+                handlers.AddHandler<NoSwipeCarouselView, NoSwipeCarouselViewHandler>();
             })
             .ConfigureUiSettings()
             .RegisterServices()

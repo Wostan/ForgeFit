@@ -2,57 +2,41 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:helpers="using:ForgeFit.MAUI.Helpers"
              xmlns:maui="using:LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:templates="using:ForgeFit.MAUI.Views.Auth.Templates"
              xmlns:behaviors="using:ForgeFit.MAUI.Behaviors"
              xmlns:registration="clr-namespace:ForgeFit.MAUI.ViewModels.Registration"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
              x:Class="ForgeFit.MAUI.Views.Auth.RegistrationPageView"
              x:DataType="registration:RegistrationPageViewModel"
              x:Name="ThisPage"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="Step1Template">
-                <templates:Step1CredentialsView />
-            </DataTemplate>
-
-            <DataTemplate x:Key="Step2Template">
-                <templates:Step2PersonalView />
-            </DataTemplate>
-
-            <DataTemplate x:Key="Step3Template">
-                <templates:Step3MeasurementsView />
-            </DataTemplate>
-
-            <DataTemplate x:Key="Step4Template">
-                <templates:Step4GoalView />
-            </DataTemplate>
-
-            <DataTemplate x:Key="Step5Template">
-                <templates:Step5CommitmentView />
-            </DataTemplate>
-
-            <helpers:RegistrationStepTemplateSelector x:Key="StepSelector"
-                                                      Step1Credentials="{StaticResource Step1Template}"
-                                                      Step2Personal="{StaticResource Step2Template}"
-                                                      Step3Measurements="{StaticResource Step3Template}"
-                                                      Step4Goal="{StaticResource Step4Template}"
-                                                      Step5Commitment="{StaticResource Step5Template}" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <Grid>
-        <CarouselView ItemsSource="{Binding NavigationVM.Steps}"
-                      ItemTemplate="{StaticResource StepSelector}"
-                      Position="{Binding NavigationVM.CurrentPosition}"
-                      VerticalOptions="Fill"
-                      HorizontalScrollBarVisibility="Never"
-                      IsSwipeEnabled="False"
-                      Loop="False"
-                      PeekAreaInsets="0" />
+        <controls:NoSwipeCarouselView Position="{Binding NavigationVM.CurrentPosition}"
+                                      VerticalOptions="Fill"
+                                      HorizontalScrollBarVisibility="Never"
+                                      IsScrollAnimated="True"
+                                      IsSwipeEnabled="False"
+                                      Loop="False"
+                                      PeekAreaInsets="0">
+            <CarouselView.ItemsSource>
+                <x:Array Type="{x:Type ContentView}">
+                    <templates:Step1CredentialsView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step2PersonalView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step3MeasurementsView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step4GoalView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                    <templates:Step5CommitmentView BindingContext="{Binding BindingContext, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                </x:Array>
+            </CarouselView.ItemsSource>
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type ContentView}">
+                    <ContentView Content="{Binding .}" />
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </controls:NoSwipeCarouselView>
 
         <Grid ColumnDefinitions="Auto, *"
               ColumnSpacing="15"
