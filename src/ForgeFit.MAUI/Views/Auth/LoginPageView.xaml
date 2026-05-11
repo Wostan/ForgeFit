@@ -52,7 +52,7 @@
                                  VerticalOptions="Center">
                 <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
                     <Label Text="ForgeFit"
-                           FontSize="Title"
+                           FontSize="50"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            LineBreakMode="NoWrap"
