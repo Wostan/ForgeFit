@@ -35,7 +35,7 @@ public static class ServiceExtensions
 
         // API Client configuration
         var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-            ? "http://10.0.2.2:8080"
+            ? "http://192.168.10.97:8080"
             : "http://localhost:8080";
 
         builder.Services.AddHttpClient<IApiService, ApiService>(client =>
