@@ -224,6 +224,11 @@ public class FoodDiaryIntegrationViewModel(
                     _entryId = createResponse.Data.Id;
             }
 
+            foreach (var item in itemsToAdd)
+            {
+                ExistingProductIds.Add(item.ExternalId);
+            }
+
             WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(
                 nameof(FoodDiaryIntegrationViewModel), 
                 _entryId));
@@ -260,6 +265,8 @@ public class FoodDiaryIntegrationViewModel(
             if (createResponse is { Success: true, Data: not null })
                 _entryId = createResponse.Data.Id;
         }
+
+        ExistingProductIds.Add(newItem.ExternalId);
 
         WeakReferenceMessenger.Default.Send(new FoodDataChangedMessage(nameof(FoodDiaryIntegrationViewModel)));
     }

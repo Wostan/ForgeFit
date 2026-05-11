@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -168,6 +172,20 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
     private async Task SaveFoodInternal(FoodItemDto newItem)
     {
         await DiaryVM.AddEntryToDiaryInternal(newItem);
+
+        var myProduct = MyProductsVM.SearchResults.FirstOrDefault(x => x.Data.ExternalId == newItem.ExternalId);
+        myProduct?.IsAdded = true;
+
+        try 
+        {
+            var searchResultsProp = SearchVM.GetType().GetProperty("SearchResults");
+            if (searchResultsProp?.GetValue(SearchVM) is IEnumerable<FoodSearchItemViewModel> searchItems)
+            {
+                var searchItem = searchItems.FirstOrDefault(x => x.Data.ExternalId == newItem.ExternalId);
+                searchItem?.IsAdded = true;
+            }
+        } 
+        catch { }
     }
 
     [RelayCommand]
