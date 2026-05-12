@@ -275,8 +275,11 @@ public partial class DiaryPageViewModel : BaseViewModel
 
     private void UpdateDateTitle()
     {
-        var humanized = SelectedDate.Humanize(
-            dateToCompareAgainst: DateTime.Today,
+        var selected = DateOnly.FromDateTime(SelectedDate);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        var humanized = selected.Humanize(
+            dateToCompareAgainst: today,
             culture: _localizationManager.CurrentCulture
         );
 
