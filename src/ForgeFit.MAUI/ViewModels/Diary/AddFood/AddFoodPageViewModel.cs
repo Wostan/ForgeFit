@@ -16,6 +16,7 @@ namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
 public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
 {
     private readonly ILocalizationResourceManager _localizationManager;
+    private readonly IAlertService _alertService;
     [ObservableProperty] private int _currentTabIndex;
 
     private DateTime _date;
@@ -34,6 +35,7 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
         IRecipeService recipeService)
     {
         _localizationManager = localizationManager;
+        _alertService = alertService;
 
         PopupVM = new PopupManagerViewModel(localizationManager);
         DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService, customFoodService);
@@ -97,18 +99,35 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
 
         IsLoading = false;
     }
+    
+    private async Task<bool> CheckCameraPermissionAsync()
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+    
+        if (status == PermissionStatus.Granted)
+            return true;
+
+        await _alertService.ShowToastAsync("Для використання камери потрібен дозвіл");
+        return false;
+    }
 
     [RelayCommand]
     private async Task OpenBarcodeScanner()
     {
-        await Shell.Current.GoToAsync("BarcodeScannerPage");
+        if (await CheckCameraPermissionAsync())
+        {
+            await Shell.Current.GoToAsync("BarcodeScannerPage");
+        }
     }
 
     [RelayCommand]
     private async Task OpenPhotoRecognition()
     {
-        await Shell.Current.GoToAsync(
-            $"PhotoRecognitionPage?Date={Uri.EscapeDataString(_date.ToString("O"))}&MealType={_mealType}&EntryId={_entryId?.ToString() ?? string.Empty}");
+        if (await CheckCameraPermissionAsync())
+        {
+            await Shell.Current.GoToAsync(
+                $"PhotoRecognitionPage?Date={Uri.EscapeDataString(_date.ToString("O"))}&MealType={_mealType}&EntryId={_entryId?.ToString() ?? string.Empty}");
+        }
     }
 
     private void SetupCallbacks()
