@@ -103,11 +103,12 @@ public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
     private async Task<bool> CheckCameraPermissionAsync()
     {
         var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-    
-        if (status == PermissionStatus.Granted)
-            return true;
+        if (status == PermissionStatus.Granted) return true;
 
-        await _alertService.ShowToastAsync("Для використання камери потрібен дозвіл");
+        status = await Permissions.RequestAsync<Permissions.Camera>();
+        if (status == PermissionStatus.Granted) return true;
+        
+        await _alertService.ShowToastAsync(_localizationManager["Error_CameraPermissionRequired"]);
         return false;
     }
 
