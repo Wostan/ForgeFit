@@ -1,4 +1,5 @@
-﻿using ForgeFit.Application.DTOs.User;
+using ForgeFit.Application.DTOs.User;
+using ForgeFit.Domain.Enums.ProfileEnums;
 using ForgeFit.Domain.ValueObjects;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
 using Mapster;
@@ -18,15 +19,5 @@ public class UserMapping : IRegister
             .Map(dest => dest.WeightUnit, src => src.Weight.Unit)
             .Map(dest => dest.Height, src => src.Height.Value)
             .Map(dest => dest.HeightUnit, src => src.Height.Unit);
-
-        config.NewConfig<UserProfileDto, UserProfile>()
-            .MapWith(src => new UserProfile(
-                src.Username,
-                string.IsNullOrWhiteSpace(src.AvatarUrl) ? null : new Uri(src.AvatarUrl),
-                new DateOfBirth(src.DateOfBirth),
-                src.Gender,
-                new Weight(src.Weight, src.WeightUnit),
-                new Height(src.Height, src.HeightUnit)
-            ));
     }
 }

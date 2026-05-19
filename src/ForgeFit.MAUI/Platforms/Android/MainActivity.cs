@@ -4,6 +4,7 @@ using Android.OS;
 using AndroidX.Core.View;
 using View = Android.Views.View;
 using Color = Android.Graphics.Color;
+using Object = Java.Lang.Object;
 
 namespace ForgeFit.MAUI;
 
@@ -23,7 +24,7 @@ public class MainActivity : MauiAppCompatActivity
         if (rootView != null) ViewCompat.SetOnApplyWindowInsetsListener(rootView, new ZeroTopPaddingListener());
     }
 
-    private class ZeroTopPaddingListener : Java.Lang.Object, IOnApplyWindowInsetsListener
+    private class ZeroTopPaddingListener : Object, IOnApplyWindowInsetsListener
     {
         public WindowInsetsCompat? OnApplyWindowInsets(View? v, WindowInsetsCompat? insets)
         {

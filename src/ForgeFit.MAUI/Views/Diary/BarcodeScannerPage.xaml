@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scanner="clr-namespace:BarcodeScanner.Mobile;assembly=BarcodeScanner.Mobile.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:scannerVm="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             x:Class="ForgeFit.MAUI.Views.Diary.BarcodeScannerPage"
+             x:DataType="scannerVm:FoodScannerViewModel"
+             Shell.NavBarIsVisible="False"
+             behaviors:PageAnimationBehavior.AnimationType="Fade"
+             BackgroundColor="Black">
+
+    <Grid>
+        <scanner:CameraView x:Name="CameraView"
+                            IsVisible="True"
+                            IsScanning="False"
+                            TorchOn="{Binding IsTorchOn}"
+                            OnDetected="CameraView_OnDetected" />
+
+        <Grid>
+            <Image Source="frame.svg"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   MaximumWidthRequest="240"
+                   MaximumHeightRequest="240"
+                   Aspect="AspectFit"
+                   Opacity="0.75"
+                   InputTransparent="True">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="White" />
+                </Image.Behaviors>
+            </Image>
+
+            <Image Source="barcode.svg"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   MaximumWidthRequest="140"
+                   MaximumHeightRequest="140"
+                   Aspect="AspectFit"
+                   Opacity="0.5"
+                   InputTransparent="True">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="White" />
+                </Image.Behaviors>
+            </Image>
+        </Grid>
+
+        <controls:NavigationHeader Grid.Row="0"
+                                   x:Name="ScannerHeader"
+                                   Title="{maui:Translate Search_Barcode}"
+                                   BackCommand="{Binding CloseCommand}"
+                                   ZIndex="2">
+            <controls:NavigationHeader.Content>
+                <Grid Padding="0,40,0,16" BackgroundColor="Transparent" VerticalOptions="Start">
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+                        <Label Text="{Binding Title, Source={x:Reference ScannerHeader}}"
+                               Style="{StaticResource LabelH1}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Margin="60,0" />
+                    </Grid>
+
+                    <Button HorizontalOptions="Start"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="arrow_back.svg"
+                            Command="{Binding BackCommand, Source={x:Reference ScannerHeader}}"
+                            Margin="16,0,0,0">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource TextPrimary}" />
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+            </controls:NavigationHeader.Content>
+        </controls:NavigationHeader>
+
+        <Button ZIndex="2"
+                ImageSource="light_off.svg"
+                HeightRequest="80"
+                WidthRequest="80"
+                Margin="16"
+                CornerRadius="60"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Command="{Binding ToggleTorchCommand}"
+                AutomationProperties.Name="Turn flashlight on">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button"
+                             Binding="{Binding IsTorchOn}"
+                             Value="True">
+                    <Setter Property="ImageSource" Value="light_on.svg" />
+                    <Setter Property="AutomationProperties.Name" Value="Turn flashlight off" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+    </Grid>
+</ContentPage>

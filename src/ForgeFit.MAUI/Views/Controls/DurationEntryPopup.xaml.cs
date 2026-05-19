@@ -4,21 +4,8 @@ namespace ForgeFit.MAUI.Views.Controls;
 
 public partial class DurationEntryPopup : ContentView
 {
-    private bool _isUpdatingUi;
-
-    public DurationEntryPopup()
-    {
-        InitializeComponent();
-    }
-
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title), typeof(string), typeof(DurationEntryPopup), string.Empty);
-
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
 
     public static readonly BindableProperty DurationProperty = BindableProperty.Create(
         nameof(Duration),
@@ -28,23 +15,36 @@ public partial class DurationEntryPopup : ContentView
         BindingMode.TwoWay,
         propertyChanged: OnDurationChanged);
 
+    public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(
+        nameof(SaveCommand), typeof(ICommand), typeof(DurationEntryPopup));
+
+    public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(
+        nameof(CancelCommand), typeof(ICommand), typeof(DurationEntryPopup));
+
+    private bool _isUpdatingUi;
+
+    public DurationEntryPopup()
+    {
+        InitializeComponent();
+    }
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
     public TimeSpan Duration
     {
         get => (TimeSpan)GetValue(DurationProperty);
         set => SetValue(DurationProperty, value);
     }
 
-    public static readonly BindableProperty SaveCommandProperty = BindableProperty.Create(
-        nameof(SaveCommand), typeof(ICommand), typeof(DurationEntryPopup));
-
     public ICommand SaveCommand
     {
         get => (ICommand)GetValue(SaveCommandProperty);
         set => SetValue(SaveCommandProperty, value);
     }
-
-    public static readonly BindableProperty CancelCommandProperty = BindableProperty.Create(
-        nameof(CancelCommand), typeof(ICommand), typeof(DurationEntryPopup));
 
     public ICommand CancelCommand
     {

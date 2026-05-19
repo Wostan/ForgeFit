@@ -2,14 +2,14 @@
 
 public class FadeVisibilityBehavior : Behavior<VisualElement>
 {
-    private VisualElement? _element;
-
     public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(
         nameof(IsVisible),
         typeof(bool),
         typeof(FadeVisibilityBehavior),
         false,
         propertyChanged: OnIsVisibleChanged);
+
+    private VisualElement? _element;
 
     public bool IsVisible
     {

@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Enums.FoodEnums;
+using ForgeFit.Domain.Enums.FoodEnums;
 
 namespace ForgeFit.Application.DTOs.Food;
 
@@ -10,4 +10,8 @@ public record FoodEntryDto(
     double TotalCalories,
     double TotalCarbs,
     double TotalProtein,
-    double TotalFat);
+    double TotalFat,
+    double TotalFiber,
+    double TotalSugar,
+    double TotalSaturatedFat,
+    double TotalSodium);

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:models="clr-namespace:ForgeFit.MAUI.Models.DTOs.DrinkTracking"
+             xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
+             x:DataType="main:DiaryPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryHydrationView">
+    <VerticalStackLayout Spacing="4">
+
+        <Label Style="{StaticResource LabelH1}"
+               Text="{maui:Translate Diary_Hydration}"
+               TextColor="{StaticResource TextSecondary}" />
+
+        <Border Style="{StaticResource CardStyle}"
+                Padding="0">
+            <Grid RowDefinitions="Auto, Auto, Auto" Padding="16" RowSpacing="16">
+                <VerticalStackLayout Grid.Row="0">
+                    <Grid>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding WaterVM.CurrentWater, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelH1}" />
+                                    <Span Text=" / " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding WaterVM.TargetWaterDisplay, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text=" " Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Hydration_Ml}"
+                                          Style="{StaticResource LabelBody}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Text="💧" FontSize="Subtitle"
+                               VerticalOptions="Center" HorizontalOptions="End"
+                               Shadow="{StaticResource WaterGlow}" />
+                    </Grid>
+
+                    <ProgressBar x:Name="WaterBar" ProgressColor="{StaticResource WaterColor}"
+                                 Shadow="{StaticResource WaterGlow}">
+                        <ProgressBar.Behaviors>
+                            <toolkit:ProgressBarAnimationBehavior
+                                BindingContext="{Binding BindingContext, Source={x:Reference WaterBar}}"
+                                Progress="{Binding WaterVM.WaterProgress}"
+                                Length="250"
+                                Easing="SinInOut" />
+                        </ProgressBar.Behaviors>
+                    </ProgressBar>
+                </VerticalStackLayout>
+
+                <Border Grid.Row="1" Style="{StaticResource CardStyle}"
+                        MaximumHeightRequest="150"
+                        Padding="0">
+                    <CollectionView ItemsSource="{Binding WaterVM.WaterEntries}">
+                        <CollectionView.EmptyView>
+                            <Label Text="{maui:Translate Hydration_Empty}"
+                                   Style="{StaticResource LabelH2}"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:DrinkEntryResponse">
+                                <Grid ColumnDefinitions="Auto, Auto, *, Auto" ColumnSpacing="8" Padding="16,0">
+                                    <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
+                                           Style="{StaticResource LabelBody}"
+                                           Margin="10,0"
+                                           VerticalOptions="Center" />
+
+                                    <Image Grid.Column="1" Source="water.svg" VerticalOptions="Center">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="{StaticResource WaterColor}" />
+                                        </Image.Behaviors>
+                                    </Image>
+
+                                    <Label Grid.Column="2"
+                                           VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding VolumeMl}" Style="{StaticResource LabelBody}"
+                                                      TextColor="{StaticResource TextPrimary}" />
+                                                <Span Text=" " Style="{StaticResource LabelBody}"
+                                                      TextColor="{StaticResource TextPrimary}" />
+                                                <Span Text="{maui:Translate Hydration_Ml}"
+                                                      Style="{StaticResource LabelBody}"
+                                                      TextColor="{StaticResource TextPrimary}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Button Grid.Column="3"
+                                            Style="{StaticResource TextButton}"
+                                            ImageSource="delete.svg"
+                                            VerticalOptions="Center"
+                                            Shadow="{StaticResource DangerGlow}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type main:DiaryPageViewModel}}, Path=WaterVM.DeleteWaterEntryCommand}"
+                                            CommandParameter="{Binding .}">
+                                        <Button.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="{StaticResource DangerColor}" />
+                                        </Button.Behaviors>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Border>
+
+                <Grid Grid.Row="2" ColumnDefinitions="*, Auto">
+                    <Button BackgroundColor="{StaticResource WaterColor}"
+                            BorderColor="{StaticResource WaterColor}"
+                            Shadow="{StaticResource WaterGlow}"
+                            Text="+ 250 ml"
+                            Command="{Binding WaterVM.AddWaterCommand}">
+                        <Button.CommandParameter>
+                            <x:Int32>250</x:Int32>
+                        </Button.CommandParameter>
+                    </Button>
+
+                    <Button Grid.Column="1"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="edit.svg"
+                            Shadow="{StaticResource WaterGlow}"
+                            Command="{Binding WaterVM.OpenWaterInputCommand}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource WaterColor}" />
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+
+                <controls:EntryPopup Grid.RowSpan="3" ZIndex="2"
+                                     EntryPopupTitle="{maui:Translate Hydration_Custom}"
+                                     EntryPopupPlaceholder="250"
+                                     EntryPopupText="{Binding WaterVM.WaterInputValue}"
+                                     EntryPopupButtonCommand="{Binding WaterVM.SaveCustomWaterCommand}"
+                                     CloseEntryPopupCommand="{Binding WaterVM.CloseWaterInputCommand}"
+                                     Margin="-16">
+                    <controls:EntryPopup.Behaviors>
+                        <behaviors:FadeVisibilityBehavior IsVisible="{Binding WaterVM.IsWaterInputVisible}" />
+                    </controls:EntryPopup.Behaviors>
+                </controls:EntryPopup>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

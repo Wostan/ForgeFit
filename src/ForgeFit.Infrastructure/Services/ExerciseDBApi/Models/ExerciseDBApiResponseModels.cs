@@ -5,7 +5,7 @@ namespace ForgeFit.Infrastructure.Services.ExerciseDBApi.Models;
 internal record ExerciseDbResponse(
     [property: JsonPropertyName("success")]
     bool Success,
-    [property: JsonPropertyName("metadata")]
+    [property: JsonPropertyName("meta")]
     object? Metadata,
     [property: JsonPropertyName("data")] List<ExerciseDbItem> Data
 );

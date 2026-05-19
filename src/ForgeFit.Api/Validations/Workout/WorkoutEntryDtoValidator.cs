@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Workout;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Workout;
 
@@ -11,10 +12,10 @@ public class WorkoutEntryDtoValidator : AbstractValidator<WorkoutEntryDto>
             .GreaterThan(x => x.Start).WithMessage("End time must be after start time.");
 
         RuleFor(x => x)
-            .Must(x => x.End - x.Start >= TimeSpan.FromMinutes(10))
-            .WithMessage("Workout looks too short (< 10 min).")
-            .Must(x => x.End - x.Start <= TimeSpan.FromHours(5))
-            .WithMessage("Workout looks too long (> 5 hours).");
+            .Must(x => x.End - x.Start >= TimeSpan.FromMinutes(DomainConstants.ValidationLimits.MinWorkoutDurationMinutes))
+            .WithMessage($"Workout looks too short (< {DomainConstants.ValidationLimits.MinWorkoutDurationMinutes} min).")
+            .Must(x => x.End - x.Start <= TimeSpan.FromHours(DomainConstants.ValidationLimits.MaxWorkoutDurationHours))
+            .WithMessage($"Workout looks too long (> {DomainConstants.ValidationLimits.MaxWorkoutDurationHours} hours).");
 
         RuleFor(x => x.PerformedExercises)
             .NotNull()

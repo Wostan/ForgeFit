@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:addFood="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.AddFood"
+             xmlns:foodSearch="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.FoodSearch"
+             xmlns:myProductsTemplates="clr-namespace:ForgeFit.MAUI.Views.Diary.MyProductsTemplates"
+             x:DataType="addFood:AddFoodPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.MyProductsTemplates.MyProductsSearchResultsView"
+             x:Name="ThisView">
+    <ContentView.Content>
+        <CollectionView ItemsSource="{Binding MyProductsVM.SearchResults}">
+
+            <CollectionView.EmptyView>
+                <Grid>
+                    <VerticalStackLayout Spacing="10"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Opacity="0.5"
+                                         IsVisible="False">
+                        <VerticalStackLayout.Triggers>
+                            <DataTrigger TargetType="VerticalStackLayout"
+                                         Binding="{Binding MyProductsVM.SearchText}"
+                                         Value="">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </VerticalStackLayout.Triggers>
+                        <Image Source="food.svg"
+                               MaximumWidthRequest="100"
+                               MaximumHeightRequest="100"
+                               Aspect="AspectFit">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
+                            </Image.Behaviors>
+                        </Image>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate MyFood_EmptyList}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Opacity="0.5">
+                        <VerticalStackLayout.Triggers>
+                            <DataTrigger TargetType="VerticalStackLayout"
+                                         Binding="{Binding MyProductsVM.SearchText}"
+                                         Value="">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                        </VerticalStackLayout.Triggers>
+                        <Image Source="search.svg"
+                               MaximumWidthRequest="100"
+                               MaximumHeightRequest="100"
+                               Aspect="AspectFit">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource TextSecondary}" />
+                            </Image.Behaviors>
+                        </Image>
+                        <Label Style="{StaticResource LabelBody}"
+                               Text="{maui:Translate Search_Empty}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <ActivityIndicator IsRunning="{Binding MyProductsVM.IsLoading}"
+                                       IsVisible="{Binding MyProductsVM.IsLoading}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       MaximumHeightRequest="50"
+                                       MaximumWidthRequest="50"
+                                       Color="{StaticResource Primary}" />
+                </Grid>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.Header>
+                <VerticalStackLayout>
+                    <BoxView HeightRequest="160" BackgroundColor="Transparent" />
+
+                    <Label Style="{StaticResource LabelH2}"
+                           Text="{maui:Translate Tab_MyFood}"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.Footer>
+                <BoxView HeightRequest="60" BackgroundColor="Transparent" />
+            </CollectionView.Footer>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="foodSearch:FoodSearchItemViewModel">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItemView>
+                                    <Grid ColumnDefinitions="*,*" WidthRequest="120" VerticalOptions="Fill">
+
+                                        <Grid Grid.Column="0"
+                                              BackgroundColor="{StaticResource DangerColor}"
+                                              VerticalOptions="Fill"
+                                              HorizontalOptions="Fill">
+                                            <Image Source="delete.svg"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.MyProductsVM.DeleteFoodCommand, Source={x:Reference ThisView}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1"
+                                              BackgroundColor="{StaticResource Primary}"
+                                              VerticalOptions="Fill"
+                                              HorizontalOptions="Fill">
+                                            <Image Source="edit.svg"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.MyProductsVM.OpenEditFoodPopupCommand, Source={x:Reference ThisView}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+
+                                    </Grid>
+                                </SwipeItemView>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <myProductsTemplates:MyProductsItemCardView />
+
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentView.Content>
+</ContentView>

@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
-             xmlns:templates="clr-namespace:ForgeFit.MAUI.Views.Diary.Templates"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:controls="clr-namespace:ForgeFit.MAUI.Views.Controls"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
+             xmlns:diaryTemplates="clr-namespace:ForgeFit.MAUI.Views.Diary.DiaryTemplates"
              behaviors:PageAnimationBehavior.AnimationType="SlideUp"
-             x:DataType="local:DiaryPageViewModel"
+             x:DataType="main:DiaryPageViewModel"
              x:Class="ForgeFit.MAUI.Views.Diary.DiaryPageView"
              x:Name="ThisPage">
     <ContentPage.Content>
@@ -21,8 +21,7 @@
 
                         <DatePicker Grid.Column="2"
                                     Date="{Binding BindingContext.SelectedDate, Source={x:Reference ThisPage}, Mode=TwoWay}"
-                                    VerticalOptions="Center"
-                                    FontSize="16" />
+                                    VerticalOptions="Center" />
                     </Grid>
                 </controls:NavigationHeader.CustomTitleView>
             </controls:NavigationHeader>
@@ -36,10 +35,10 @@
                     <ScrollView>
                         <VerticalStackLayout Style="{StaticResource MainContentStackLayout}">
 
-                            <templates:DiarySummaryView />
-                            <templates:DiaryMealsView />
-                            <templates:DiaryHydrationView />
-                            <templates:DiaryWeightView />
+                            <diaryTemplates:DiarySummaryView />
+                            <diaryTemplates:DiaryMealsView />
+                            <diaryTemplates:DiaryHydrationView />
+                            <diaryTemplates:DiaryWeightView />
 
                         </VerticalStackLayout>
                     </ScrollView>

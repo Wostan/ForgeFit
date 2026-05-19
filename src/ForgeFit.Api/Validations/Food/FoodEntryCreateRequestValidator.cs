@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Food;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Food;
 
@@ -11,7 +12,7 @@ public class FoodEntryCreateRequestValidator : AbstractValidator<FoodEntryCreate
 
         RuleFor(x => x.FoodItems)
             .NotEmpty().WithMessage("At least one food item is required.")
-            .Must(items => items.Count <= 20).WithMessage("Maximum 20 items per meal allowed.");
+            .Must(items => items.Count <= DomainConstants.ValidationLimits.MaxFoodItemsPerMeal).WithMessage($"Maximum {DomainConstants.ValidationLimits.MaxFoodItemsPerMeal} items per meal allowed.");
 
         RuleForEach(x => x.FoodItems).SetValidator(new FoodItemDtoValidator());
     }

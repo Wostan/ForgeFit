@@ -1,7 +1,7 @@
 ﻿#if ANDROID
 using Android.Content;
-using Android.Graphics.Drawables;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.BottomNavigation;

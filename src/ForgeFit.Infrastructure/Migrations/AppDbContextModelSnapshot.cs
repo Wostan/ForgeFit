@@ -51,7 +51,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("DrinkEntries", null, t =>
                         {
-                            t.HasCheckConstraint("CK_DrinkEntries_VolumeMlCheck", "VolumeMl > 0");
+                            t.HasCheckConstraint("CK_DrinkEntries_VolumeMlCheck", "VolumeMl >= 50 AND VolumeMl <= 2000");
                         });
                 });
 
@@ -60,12 +60,6 @@ namespace ForgeFit.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Calories")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Carbs")
-                        .HasColumnType("float");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -77,12 +71,6 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.Property<int>("DayTime")
                         .HasColumnType("int");
-
-                    b.Property<double>("Fat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Protein")
-                        .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -104,8 +92,149 @@ namespace ForgeFit.Infrastructure.Migrations
 
                             t.HasCheckConstraint("CK_FoodEntries_FatCheck", "Fat >= 0");
 
+                            t.HasCheckConstraint("CK_FoodEntries_FiberCheck", "Fiber >= 0");
+
                             t.HasCheckConstraint("CK_FoodEntries_ProteinCheck", "Protein >= 0");
+
+                            t.HasCheckConstraint("CK_FoodEntries_SaturatedFatCheck", "SaturatedFat >= 0");
+
+                            t.HasCheckConstraint("CK_FoodEntries_SodiumCheck", "Sodium >= 0");
+
+                            t.HasCheckConstraint("CK_FoodEntries_SugarCheck", "Sugar >= 0");
                         });
+                });
+
+            modelBuilder.Entity("ForgeFit.Domain.Aggregates.FoodAggregate.FoodProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Barcode")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Brand")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Carbs")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("ExternalId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("Fat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Fiber")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("Protein")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SaturatedFat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ServingSize")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ServingUnit")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<double>("Sodium")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Sugar")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Barcode");
+
+                    b.HasIndex("ExternalId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ExternalId", "UserId")
+                        .IsUnique()
+                        .HasFilter("[ExternalId] IS NOT NULL AND [UserId] IS NOT NULL");
+
+                    b.ToTable("FoodProducts", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_FoodProducts_CaloriesCheck", "Calories >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_CarbsCheck", "Carbs >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_FatCheck", "Fat >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_FiberCheck", "Fiber >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_ProteinCheck", "Protein >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_SaturatedFatCheck", "SaturatedFat >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_ServingSizeCheck", "ServingSize > 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_SodiumCheck", "Sodium >= 0");
+
+                            t.HasCheckConstraint("CK_FoodProducts_SugarCheck", "Sugar >= 0");
+                        });
+                });
+
+            modelBuilder.Entity("ForgeFit.Domain.Aggregates.FoodAggregate.Recipe", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("ForgeFit.Domain.Aggregates.GoalAggregate.BodyGoal", b =>
@@ -151,11 +280,11 @@ namespace ForgeFit.Infrastructure.Migrations
                         {
                             t.HasCheckConstraint("CK_BodyGoals_GoalStatusCheck", "GoalStatus IN (1, 2, 3)");
 
-                            t.HasCheckConstraint("CK_BodyGoals_GoalTypeCheck", "GoalType IN (1, 2, 3, 4)");
+                            t.HasCheckConstraint("CK_BodyGoals_GoalTypeCheck", "GoalType IN (1, 2, 3)");
 
                             t.HasCheckConstraint("CK_BodyGoals_WeightGoal_UnitCheck", "WeightGoal_Unit IN (1, 2)");
 
-                            t.HasCheckConstraint("CK_BodyGoals_WeightGoal_ValueCheck", "WeightGoal_Value > 0");
+                            t.HasCheckConstraint("CK_BodyGoals_WeightGoal_ValueCheck", "(WeightGoal_Unit = 1 AND WeightGoal_Value >= 30 AND WeightGoal_Value <= 300) OR (WeightGoal_Unit = 2 AND WeightGoal_Value >= 66 AND WeightGoal_Value <= 661)");
                         });
                 });
 
@@ -182,7 +311,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("NutritionGoals", null, t =>
                         {
-                            t.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CaloriesCheck", "DailyNutritionPlan_TargetCalories > 1000");
+                            t.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CaloriesCheck", "DailyNutritionPlan_TargetCalories >= 1200 AND DailyNutritionPlan_TargetCalories <= 10000");
 
                             t.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_CarbsCheck", "DailyNutritionPlan_Carbs > 0");
 
@@ -190,7 +319,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                             t.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_ProteinCheck", "DailyNutritionPlan_Protein > 0");
 
-                            t.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_WaterGoalMlCheck", "DailyNutritionPlan_WaterMl > 1000");
+                            t.HasCheckConstraint("CK_NutritionGoals_DailyNutritionPlan_WaterGoalMlCheck", "DailyNutritionPlan_WaterMl >= 1000 AND DailyNutritionPlan_WaterMl <= 10000");
                         });
                 });
 
@@ -217,11 +346,11 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("WorkoutGoals", null, t =>
                         {
-                            t.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_DurationCheck", "WorkoutPlan_Duration BETWEEN '00:10:00' AND '05:00:00'");
+                            t.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_DurationCheck", "WorkoutPlan_Duration BETWEEN '00:05:00' AND '05:00:00'");
 
                             t.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_WorkoutTypeCheck", "WorkoutPlan_WorkoutType IN (1, 2, 3)");
 
-                            t.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_WorkoutsPerWeekCheck", "WorkoutPlan_WorkoutsPerWeek > 0 AND WorkoutPlan_WorkoutsPerWeek < 8");
+                            t.HasCheckConstraint("CK_WorkoutGoals_WorkoutPlan_WorkoutsPerWeekCheck", "WorkoutPlan_WorkoutsPerWeek >= 1 AND WorkoutPlan_WorkoutsPerWeek <= 7");
                         });
                 });
 
@@ -233,8 +362,8 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.Property<string>("Body")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -254,8 +383,8 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -293,8 +422,8 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -334,13 +463,13 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("Users", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Users_HeightCheck", "HeightValue > 0");
+                            t.HasCheckConstraint("CK_Users_HeightCheck", "(HeightUnit = 1 AND HeightValue >= 100 AND HeightValue <= 250) OR (HeightUnit = 2 AND HeightValue >= 39 AND HeightValue <= 98)");
 
                             t.HasCheckConstraint("CK_Users_HeightUnitCheck", "HeightUnit IN (1, 2)");
 
                             t.HasCheckConstraint("CK_Users_UserProfile_GenderCheck", "UserProfile_Gender IN (1, 2)");
 
-                            t.HasCheckConstraint("CK_Users_WeightCheck", "WeightValue > 0");
+                            t.HasCheckConstraint("CK_Users_WeightCheck", "(WeightUnit = 1 AND WeightValue >= 30 AND WeightValue <= 300) OR (WeightUnit = 2 AND WeightValue >= 66 AND WeightValue <= 661)");
 
                             t.HasCheckConstraint("CK_Users_WeightUnitCheck", "WeightUnit IN (1, 2)");
                         });
@@ -357,6 +486,9 @@ namespace ForgeFit.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -371,7 +503,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("WorkoutEntries", null, t =>
                         {
-                            t.HasCheckConstraint("CK_WorkoutEntries_WorkoutSchedule_DurationCheck", "WorkoutSchedule_Duration BETWEEN '00:10:00' AND '05:00:00'");
+                            t.HasCheckConstraint("CK_WorkoutEntries_WorkoutSchedule_DurationCheck", "WorkoutSchedule_Duration BETWEEN '00:05:00' AND '05:00:00'");
                         });
                 });
 
@@ -437,14 +569,13 @@ namespace ForgeFit.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("RestTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -460,11 +591,13 @@ namespace ForgeFit.Infrastructure.Migrations
 
                     b.ToTable("WorkoutSets", null, t =>
                         {
-                            t.HasCheckConstraint("CK_WorkoutSet_OrderCheck", "[Order] > 0");
+                            t.HasCheckConstraint("CK_WorkoutSet_OrderCheck", "[Order] >= 0");
 
-                            t.HasCheckConstraint("CK_WorkoutSet_RepsCheck", "Reps > 0");
+                            t.HasCheckConstraint("CK_WorkoutSet_RepsCheck", "Reps >= 1 AND Reps <= 100");
 
-                            t.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue >= 0");
+                            t.HasCheckConstraint("CK_WorkoutSets_RestTimeCheck", "RestTime <= '00:10:00'");
+
+                            t.HasCheckConstraint("CK_WorkoutSets_WeightCheck", "WeightValue >= 0 AND WeightValue < 1500");
 
                             t.HasCheckConstraint("CK_WorkoutSets_WeightUnitCheck", "WeightUnit IN (1, 2)");
                         });
@@ -516,6 +649,9 @@ namespace ForgeFit.Infrastructure.Migrations
                             b1.Property<double>("Fat")
                                 .HasColumnType("float");
 
+                            b1.Property<double>("Fiber")
+                                .HasColumnType("float");
+
                             b1.Property<Guid>("FoodEntryId")
                                 .HasColumnType("uniqueidentifier");
 
@@ -527,11 +663,20 @@ namespace ForgeFit.Infrastructure.Migrations
                             b1.Property<double>("Protein")
                                 .HasColumnType("float");
 
+                            b1.Property<double>("SaturatedFat")
+                                .HasColumnType("float");
+
                             b1.Property<string>("ServingUnit")
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("nvarchar(max)")
                                 .HasDefaultValue("g");
+
+                            b1.Property<double>("Sodium")
+                                .HasColumnType("float");
+
+                            b1.Property<double>("Sugar")
+                                .HasColumnType("float");
 
                             b1.HasKey("Id");
 
@@ -539,7 +684,7 @@ namespace ForgeFit.Infrastructure.Migrations
 
                             b1.ToTable("FoodItems", null, t =>
                                 {
-                                    t.HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount > 0");
+                                    t.HasCheckConstraint("CK_FoodItems_AmountCheck", "Amount >= 1 AND Amount <= 5000");
 
                                     t.HasCheckConstraint("CK_FoodItems_CaloriesCheck", "Calories >= 0");
 
@@ -547,14 +692,178 @@ namespace ForgeFit.Infrastructure.Migrations
 
                                     t.HasCheckConstraint("CK_FoodItems_FatCheck", "Fat >= 0");
 
+                                    t.HasCheckConstraint("CK_FoodItems_FiberCheck", "Fiber >= 0");
+
                                     t.HasCheckConstraint("CK_FoodItems_ProteinCheck", "Protein >= 0");
+
+                                    t.HasCheckConstraint("CK_FoodItems_SaturatedFatCheck", "SaturatedFat >= 0");
+
+                                    t.HasCheckConstraint("CK_FoodItems_SodiumCheck", "Sodium >= 0");
+
+                                    t.HasCheckConstraint("CK_FoodItems_SugarCheck", "Sugar >= 0");
                                 });
 
                             b1.WithOwner()
                                 .HasForeignKey("FoodEntryId");
                         });
 
+                    b.OwnsOne("ForgeFit.Domain.ValueObjects.FoodValueObjects.NutritionInfo", "NutritionInfo", b1 =>
+                        {
+                            b1.Property<Guid>("FoodEntryId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<double>("Calories")
+                                .HasColumnType("float")
+                                .HasColumnName("Calories");
+
+                            b1.Property<double>("Carbs")
+                                .HasColumnType("float")
+                                .HasColumnName("Carbs");
+
+                            b1.Property<double>("Fat")
+                                .HasColumnType("float")
+                                .HasColumnName("Fat");
+
+                            b1.Property<double>("Fiber")
+                                .HasColumnType("float")
+                                .HasColumnName("Fiber");
+
+                            b1.Property<double>("Protein")
+                                .HasColumnType("float")
+                                .HasColumnName("Protein");
+
+                            b1.Property<double>("SaturatedFat")
+                                .HasColumnType("float")
+                                .HasColumnName("SaturatedFat");
+
+                            b1.Property<double>("Sodium")
+                                .HasColumnType("float")
+                                .HasColumnName("Sodium");
+
+                            b1.Property<double>("Sugar")
+                                .HasColumnType("float")
+                                .HasColumnName("Sugar");
+
+                            b1.HasKey("FoodEntryId");
+
+                            b1.ToTable("FoodEntries");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FoodEntryId");
+                        });
+
                     b.Navigation("FoodItems");
+
+                    b.Navigation("NutritionInfo")
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ForgeFit.Domain.Aggregates.FoodAggregate.FoodProduct", b =>
+                {
+                    b.HasOne("ForgeFit.Domain.Aggregates.UserAggregate.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ForgeFit.Domain.Aggregates.FoodAggregate.Recipe", b =>
+                {
+                    b.HasOne("ForgeFit.Domain.Aggregates.UserAggregate.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsMany("ForgeFit.Domain.ValueObjects.FoodValueObjects.FoodItem", "Ingredients", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<double>("Amount")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("float")
+                                .HasDefaultValue(100.0);
+
+                            b1.Property<double>("Calories")
+                                .HasColumnType("float");
+
+                            b1.Property<double>("Carbs")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("ExternalId")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<double>("Fat")
+                                .HasColumnType("float");
+
+                            b1.Property<double>("Fiber")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("Label")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<double>("Protein")
+                                .HasColumnType("float");
+
+                            b1.Property<Guid>("RecipeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<double>("SaturatedFat")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("ServingUnit")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("nvarchar(max)")
+                                .HasDefaultValue("g");
+
+                            b1.Property<double>("Sodium")
+                                .HasColumnType("float");
+
+                            b1.Property<double>("Sugar")
+                                .HasColumnType("float");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("RecipeId");
+
+                            b1.ToTable("RecipeIngredients", null, t =>
+                                {
+                                    t.HasCheckConstraint("CK_RecipeIngredients_AmountCheck", "Amount >= 1 AND Amount <= 5000");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_CaloriesCheck", "Calories >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_CarbsCheck", "Carbs >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_FatCheck", "Fat >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_FiberCheck", "Fiber >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_ProteinCheck", "Protein >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_SaturatedFatCheck", "SaturatedFat >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_SodiumCheck", "Sodium >= 0");
+
+                                    t.HasCheckConstraint("CK_RecipeIngredients_SugarCheck", "Sugar >= 0");
+                                });
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+                        });
+
+                    b.Navigation("Ingredients");
 
                     b.Navigation("User");
                 });
@@ -723,8 +1032,8 @@ namespace ForgeFit.Infrastructure.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
+                                .HasMaxLength(254)
+                                .HasColumnType("nvarchar(254)");
 
                             b1.HasKey("UserId");
 
@@ -743,8 +1052,8 @@ namespace ForgeFit.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AvatarUrl")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)");
+                                .HasMaxLength(2048)
+                                .HasColumnType("nvarchar(2048)");
 
                             b1.Property<int>("Gender")
                                 .HasColumnType("int");
@@ -1099,18 +1408,14 @@ namespace ForgeFit.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("ForgeFit.Domain.ValueObjects.Weight", "Weight", b1 =>
+                    b.OwnsOne("ForgeFit.Domain.ValueObjects.WorkoutValueObjects.RestTime", "RestTime", b1 =>
                         {
                             b1.Property<Guid>("WorkoutSetId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int>("Unit")
-                                .HasColumnType("int")
-                                .HasColumnName("WeightUnit");
-
-                            b1.Property<double>("Value")
-                                .HasColumnType("float")
-                                .HasColumnName("WeightValue");
+                            b1.Property<TimeSpan>("Value")
+                                .HasColumnType("time")
+                                .HasColumnName("RestTime");
 
                             b1.HasKey("WorkoutSetId");
 
@@ -1120,10 +1425,58 @@ namespace ForgeFit.Infrastructure.Migrations
                                 .HasForeignKey("WorkoutSetId");
                         });
 
-                    b.Navigation("Weight")
+                    b.OwnsOne("ForgeFit.Domain.ValueObjects.WorkoutValueObjects.WorkoutSetInfo", "WorkoutSetInfo", b1 =>
+                        {
+                            b1.Property<Guid>("WorkoutSetId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Order")
+                                .HasColumnType("int")
+                                .HasColumnName("Order");
+
+                            b1.Property<int>("Reps")
+                                .HasColumnType("int")
+                                .HasColumnName("Reps");
+
+                            b1.HasKey("WorkoutSetId");
+
+                            b1.ToTable("WorkoutSets");
+
+                            b1.WithOwner()
+                                .HasForeignKey("WorkoutSetId");
+
+                            b1.OwnsOne("ForgeFit.Domain.ValueObjects.Weight", "Weight", b2 =>
+                                {
+                                    b2.Property<Guid>("WorkoutSetInfoWorkoutSetId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<int>("Unit")
+                                        .HasColumnType("int")
+                                        .HasColumnName("WeightUnit");
+
+                                    b2.Property<double>("Value")
+                                        .HasColumnType("float")
+                                        .HasColumnName("WeightValue");
+
+                                    b2.HasKey("WorkoutSetInfoWorkoutSetId");
+
+                                    b2.ToTable("WorkoutSets");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("WorkoutSetInfoWorkoutSetId");
+                                });
+
+                            b1.Navigation("Weight")
+                                .IsRequired();
+                        });
+
+                    b.Navigation("RestTime")
                         .IsRequired();
 
                     b.Navigation("WorkoutExercisePlan");
+
+                    b.Navigation("WorkoutSetInfo")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ForgeFit.Domain.Aggregates.WorkoutAggregate.WorkoutExercisePlan", b =>

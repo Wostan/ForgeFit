@@ -18,6 +18,8 @@ public static class ServiceExtensions
 
         builder.Services.AddScoped<IDiaryService, DiaryService>();
         builder.Services.AddScoped<IFoodService, FoodService>();
+        builder.Services.AddScoped<ICustomFoodService, CustomFoodService>();
+        builder.Services.AddScoped<IRecipeService, RecipeService>();
         builder.Services.AddScoped<IDrinkTrackingService, DrinkTrackingService>();
 
         builder.Services.AddScoped<IWorkoutTrackingService, WorkoutTrackingService>();
@@ -33,8 +35,8 @@ public static class ServiceExtensions
 
         // API Client configuration
         var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-            ? "http://10.0.2.2:5052"
-            : "http://localhost:5052";
+            ? "http://192.168.10.97:8080"
+            : "http://localhost:8080";
 
         builder.Services.AddHttpClient<IApiService, ApiService>(client =>
             {

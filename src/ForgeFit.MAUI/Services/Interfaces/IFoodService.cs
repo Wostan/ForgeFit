@@ -10,5 +10,5 @@ public interface IFoodService
 
     Task<ServiceResponse<FoodProductResponse>> GetProductByIdAsync(string externalId);
     Task<ServiceResponse<FoodProductResponse>> GetProductByBarcodeAsync(string barcode);
-    Task<ServiceResponse<List<FoodProductResponse>>> RecognizeFoodFromImageAsync(FileResult file);
+    Task<ServiceResponse<List<FoodProductResponse>>> RecognizeFoodFromImageAsync(Stream stream);
 }

@@ -1,9 +1,11 @@
-﻿using ForgeFit.Application.Common.Exceptions;
+using ForgeFit.Application.Common.Exceptions;
 using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Application.Common.Interfaces.Services;
 using ForgeFit.Application.Common.Interfaces.Services.InfrastructureServices;
 using ForgeFit.Application.DTOs.User;
 using ForgeFit.Domain.ValueObjects.UserValueObjects;
+using ForgeFit.Domain.Enums.ProfileEnums;
+using ForgeFit.Domain.ValueObjects;
 using MapsterMapper;
 
 namespace ForgeFit.Application.Services;
@@ -28,7 +30,19 @@ public class UserService(
         var user = await userRepository.GetByIdAsync(userId);
         if (user == null) throw new NotFoundException("User not found");
 
-        var updatedUserProfile = mapper.Map<UserProfile>(profile);
+        var avatarUri = string.IsNullOrWhiteSpace(profile.AvatarUrl) ? null : new Uri(profile.AvatarUrl);
+        var dateOfBirth = DateOfBirth.Create(profile.DateOfBirth);
+        var weight = profile.WeightUnit == WeightUnit.Kg ? Weight.FromKg(profile.Weight) : Weight.FromLbs(profile.Weight);
+        var height = profile.HeightUnit == HeightUnit.Cm ? Height.FromCm(profile.Height) : Height.FromInches(profile.Height);
+
+        var updatedUserProfile = new UserProfile(
+            profile.Username,
+            avatarUri,
+            dateOfBirth,
+            profile.Gender,
+            weight,
+            height
+        );
 
         user.UpdateUserProfile(updatedUserProfile);
         await unitOfWork.SaveChangesAsync();

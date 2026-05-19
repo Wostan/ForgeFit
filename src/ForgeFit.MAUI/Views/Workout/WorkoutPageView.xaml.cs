@@ -1,4 +1,4 @@
-﻿using ForgeFit.MAUI.ViewModels;
+using WorkoutPageViewModel = ForgeFit.MAUI.ViewModels.Workout.Dashboard.WorkoutPageViewModel;
 
 namespace ForgeFit.MAUI.Views.Workout;
 
@@ -10,10 +10,10 @@ public partial class WorkoutPageView : ContentPage
         BindingContext = viewModel;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        if (BindingContext is WorkoutPageViewModel vm) vm.InitializeCommand.Execute(null);
+        if (BindingContext is WorkoutPageViewModel vm) await vm.CheckAndRefreshAsync();
     }
 }

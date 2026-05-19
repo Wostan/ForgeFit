@@ -1,0 +1,229 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ForgeFit.MAUI.Messages;
+using ForgeFit.MAUI.Models.DTOs.Food;
+using ForgeFit.MAUI.Models.Enums.FoodEnums;
+using ForgeFit.MAUI.Services.Interfaces;
+using ForgeFit.MAUI.ViewModels.Core;
+using ForgeFit.MAUI.ViewModels.Diary.FoodSearch;
+using ForgeFit.MAUI.ViewModels.Diary.MyProducts;
+using ForgeFit.MAUI.ViewModels.Diary.Recipes;
+using LocalizationResourceManager.Maui;
+
+namespace ForgeFit.MAUI.ViewModels.Diary.AddFood;
+
+public partial class AddFoodPageViewModel : BaseViewModel, IQueryAttributable
+{
+    private readonly ILocalizationResourceManager _localizationManager;
+    private readonly IAlertService _alertService;
+    [ObservableProperty] private int _currentTabIndex;
+
+    private DateTime _date;
+    private Guid? _entryId;
+    private bool _isInitialized;
+
+    [ObservableProperty] private string _mealTitle = string.Empty;
+    private DayTime _mealType;
+
+    public AddFoodPageViewModel(
+        IFoodService foodService,
+        IDiaryService diaryService,
+        IAlertService alertService,
+        ILocalizationResourceManager localizationManager,
+        ICustomFoodService customFoodService,
+        IRecipeService recipeService)
+    {
+        _localizationManager = localizationManager;
+        _alertService = alertService;
+
+        PopupVM = new PopupManagerViewModel(localizationManager);
+        DiaryVM = new FoodDiaryIntegrationViewModel(diaryService, foodService, alertService, customFoodService);
+        DetailsVM = new FoodDetailsViewModel(alertService);
+
+        SearchVM = new FoodSearchViewModel(foodService, diaryService, alertService, localizationManager, DiaryVM,
+            DetailsVM);
+        CreateCustomFoodVM =
+            new CreateCustomFoodViewModel(PopupVM, customFoodService, alertService, localizationManager);
+        MyProductsVM = new MyProductsViewModel(PopupVM, customFoodService, alertService, localizationManager, DiaryVM,
+            DetailsVM, CreateCustomFoodVM);
+        CreateRecipeVM = new CreateRecipeViewModel(PopupVM, recipeService, foodService, customFoodService, alertService,
+            localizationManager);
+        RecipesVM = new RecipesViewModel(PopupVM, recipeService, alertService, localizationManager, DiaryVM,
+            CreateRecipeVM);
+
+        SetupCallbacks();
+    }
+
+    public FoodSearchViewModel SearchVM { get; }
+    public FoodDetailsViewModel DetailsVM { get; }
+    public FoodDiaryIntegrationViewModel DiaryVM { get; }
+    public PopupManagerViewModel PopupVM { get; }
+    public MyProductsViewModel MyProductsVM { get; }
+    public CreateCustomFoodViewModel CreateCustomFoodVM { get; }
+    public CreateRecipeViewModel CreateRecipeVM { get; }
+    public RecipesViewModel RecipesVM { get; }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (!_isInitialized)
+            ResetState();
+
+        _isInitialized = true;
+        IsLoading = true;
+
+        if (query.TryGetValue("Date", out var dateObj) && DateTime.TryParse(dateObj.ToString(), out var date))
+            _date = date;
+
+        if (query.TryGetValue("MealType", out var typeObj) && Enum.TryParse<DayTime>(typeObj.ToString(), out var type))
+        {
+            _mealType = type;
+            MealTitle = type switch
+            {
+                DayTime.Breakfast => _localizationManager["Meal_Breakfast"],
+                DayTime.Lunch => _localizationManager["Meal_Lunch"],
+                DayTime.Dinner => _localizationManager["Meal_Dinner"],
+                _ => _localizationManager["Meal_Snack"]
+            };
+        }
+
+        if (query.TryGetValue("EntryId", out var idObj) && Guid.TryParse(idObj.ToString(), out var id))
+            _entryId = id;
+
+        DiaryVM.Initialize(_date, _mealType, _entryId);
+        await DiaryVM.RefreshExistingIdsAsync();
+
+        await SearchVM.LoadRecentAsync();
+        await MyProductsVM.LoadProductsAsync();
+        await RecipesVM.LoadRecipesAsync();
+
+        IsLoading = false;
+    }
+    
+    private async Task<bool> CheckCameraPermissionAsync()
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status == PermissionStatus.Granted) return true;
+
+        status = await Permissions.RequestAsync<Permissions.Camera>();
+        if (status == PermissionStatus.Granted) return true;
+        
+        await _alertService.ShowToastAsync(_localizationManager["Error_CameraPermissionRequired"]);
+        return false;
+    }
+
+    [RelayCommand]
+    private async Task OpenBarcodeScanner()
+    {
+        if (await CheckCameraPermissionAsync())
+        {
+            await Shell.Current.GoToAsync("BarcodeScannerPage");
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenPhotoRecognition()
+    {
+        if (await CheckCameraPermissionAsync())
+        {
+            await Shell.Current.GoToAsync(
+                $"PhotoRecognitionPage?Date={Uri.EscapeDataString(_date.ToString("O"))}&MealType={_mealType}&EntryId={_entryId?.ToString() ?? string.Empty}");
+        }
+    }
+
+    private void SetupCallbacks()
+    {
+        DetailsVM.OpenFoodDetailsCallback = (product, source) =>
+            DetailsVM.OpenFoodDetailsInternal(product, source, SearchVM.IsShowingRecent);
+        DetailsVM.CloseFoodDetailsCallback = CloseFoodDetailsInternal;
+        DetailsVM.SaveFoodCallback = SaveFoodInternal;
+
+        WeakReferenceMessenger.Default.Register<BarcodeDetectedMessage>(this, async (recipient, message) =>
+        {
+            var barcode = message.Barcode;
+            var p = message.Product;
+            var baseServing = p.Servings.FirstOrDefault();
+
+            var searchResponse = new FoodSearchResponse(
+                p.ExternalId, p.Label, p.BrandName,
+                baseServing?.Calories ?? 0, baseServing?.Carbs ?? 0,
+                baseServing?.Protein ?? 0, baseServing?.Fat ?? 0,
+                baseServing?.Fiber ?? 0, baseServing?.Sugar ?? 0,
+                baseServing?.SaturatedFat ?? 0, baseServing?.Sodium ?? 0,
+                $"{baseServing?.MetricAmount} {baseServing?.MetricUnit}");
+
+            var itemVm = new FoodSearchItemViewModel(searchResponse);
+            if (DiaryVM.IsProductAdded(p.ExternalId)) itemVm.IsAdded = true;
+
+            SearchVM.ClearSearchResults();
+            SearchVM.AddSearchResult(itemVm);
+            await DetailsVM.OpenFoodDetailsInternal(p, itemVm.Data, false);
+        });
+
+        CreateCustomFoodVM.FoodCreatedCallback = MyProductsVM.OnFoodCreatedAsync;
+        CreateCustomFoodVM.FoodUpdatedCallback = MyProductsVM.OnFoodUpdatedAsync;
+
+        CreateRecipeVM.RecipeCreatedCallback = RecipesVM.OnRecipeCreatedAsync;
+        CreateRecipeVM.RecipeUpdatedCallback = RecipesVM.OnRecipeUpdatedAsync;
+    }
+
+    private void ResetState()
+    {
+        SearchVM.ResetState();
+        DetailsVM.ResetPopupState();
+        DiaryVM.ResetState();
+        RecipesVM.SearchText = string.Empty;
+        CurrentTabIndex = 0;
+        IsLoading = false;
+    }
+
+    [RelayCommand]
+    private void ChangeTab(object parameter)
+    {
+        if (parameter is int i) CurrentTabIndex = i;
+        else if (parameter is string s && int.TryParse(s, out var idx)) CurrentTabIndex = idx;
+    }
+
+    private Task CloseFoodDetailsInternal()
+    {
+        DetailsVM.IsFoodDetailsVisible = false;
+        return Task.CompletedTask;
+    }
+
+    private async Task SaveFoodInternal(FoodItemDto newItem)
+    {
+        await DiaryVM.AddEntryToDiaryInternal(newItem);
+
+        var myProduct = MyProductsVM.SearchResults.FirstOrDefault(x => x.Data.ExternalId == newItem.ExternalId);
+        myProduct?.IsAdded = true;
+
+        try
+        {
+            var searchResultsProp = SearchVM.GetType().GetProperty("SearchResults");
+            if (searchResultsProp?.GetValue(SearchVM) is IEnumerable<FoodSearchItemViewModel> searchItems)
+            {
+                var searchItem = searchItems.FirstOrDefault(x => x.Data.ExternalId == newItem.ExternalId);
+                searchItem?.IsAdded = true;
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    [RelayCommand]
+    private async Task Back()
+    {
+        if (DetailsVM.IsFoodDetailsVisible)
+        {
+            DetailsVM.IsFoodDetailsVisible = false;
+            return;
+        }
+
+        if (DiaryVM.EntryId.HasValue)
+            await Shell.Current.GoToAsync($"..?EntryId={Uri.EscapeDataString(DiaryVM.EntryId.Value.ToString())}",
+                false);
+        else
+            await Shell.Current.GoToAsync("..", false);
+    }
+}

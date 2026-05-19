@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
 using ForgeFit.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +14,17 @@ public class WorkoutEntryRepository(AppDbContext context) : IWorkoutEntryReposit
 
     public async Task<WorkoutEntry?> GetByIdAsync(Guid id)
     {
-        return await context.WorkoutEntries.FindAsync(id);
+        return await context.WorkoutEntries
+            .Include(we => we.PerformedExercises)
+            .ThenInclude(pe => pe.Sets)
+            .FirstOrDefaultAsync(we => we.Id == id);
     }
 
     public async Task<List<WorkoutEntry>> GetAllAsync()
     {
-        return await context.WorkoutEntries.ToListAsync();
+        return await context.WorkoutEntries
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<bool> ExistsAsync(Guid id)

@@ -1,4 +1,5 @@
-﻿#if ANDROID
+﻿using Android.Widget;
+#if ANDROID
 using Android.Graphics.Drawables;
 #endif
 
@@ -6,6 +7,16 @@ namespace ForgeFit.MAUI.Behaviors;
 
 public class EntryAnimationBehavior : Behavior<Entry>
 {
+    private const uint AnimationDuration = 250;
+    private const int AnimationRate = 16;
+    private const double FocusedY = 3.0;
+    private const double UnfocusedY = 0.0;
+
+    private const string StrokeAnimationName = "StrokeColorAnim";
+    private const string PrimaryKey = "Primary";
+    private const string BorderKey = "BorderColor";
+    private const string ErrorKey = "DangerColor";
+
     public static readonly BindableProperty IsAnimatedProperty =
         BindableProperty.CreateAttached(
             "IsAnimated",
@@ -19,6 +30,10 @@ public class EntryAnimationBehavior : Behavior<Entry>
             typeof(bool), typeof(EntryAnimationBehavior),
             false,
             propertyChanged: OnPropertyChanged);
+
+#if ANDROID
+    private Drawable? _originalBackground;
+#endif
 
     public static bool GetIsAnimated(BindableObject view)
     {
@@ -39,20 +54,6 @@ public class EntryAnimationBehavior : Behavior<Entry>
     {
         view.SetValue(IsErrorProperty, value);
     }
-
-    private const uint AnimationDuration = 250;
-    private const int AnimationRate = 16;
-    private const double FocusedY = 3.0;
-    private const double UnfocusedY = 0.0;
-
-    private const string StrokeAnimationName = "StrokeColorAnim";
-    private const string PrimaryKey = "Primary";
-    private const string BorderKey = "BorderColor";
-    private const string ErrorKey = "DangerColor";
-
-#if ANDROID
-    private Drawable? _originalBackground;
-#endif
 
     private static void OnPropertyChanged(BindableObject view, object oldValue, object newValue)
     {
@@ -96,7 +97,7 @@ public class EntryAnimationBehavior : Behavior<Entry>
         var isAnimated = GetIsAnimated(entry);
 
 #if ANDROID
-        if (entry.Handler?.PlatformView is Android.Widget.EditText nativeEditText)
+        if (entry.Handler?.PlatformView is EditText nativeEditText)
         {
             if (isFocused)
             {

@@ -1,23 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ForgeFit.MAUI.ViewModels"
              xmlns:behaviors="clr-namespace:ForgeFit.MAUI.Behaviors"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:auth="clr-namespace:ForgeFit.MAUI.ViewModels.Auth"
              x:Class="ForgeFit.MAUI.Views.Auth.LoginPageView"
-             x:DataType="local:LoginPageViewModel"
+             x:DataType="auth:LoginPageViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
     <ContentPage.Content>
-        <Grid RowDefinitions="*, Auto" Padding="30,50, 30, 20">
+        <Grid RowDefinitions="*, Auto">
+            <Grid.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="30,70,30,40" />
+                    <On Platform="Android" Value="30,50,30,20" />
+                </OnPlatform>
+            </Grid.Padding>
 
             <Border Grid.Row="0"
                     Style="{StaticResource InputWrapper}"
                     VerticalOptions="Start"
                     HorizontalOptions="End">
-                <Grid ColumnDefinitions="*">
+                <Grid ColumnDefinitions="Auto">
                     <Picker Grid.Column="0"
                             ItemsSource="{Binding Languages}"
                             SelectedItem="{Binding SelectedLanguage}"
@@ -28,7 +34,9 @@
                             TextColor="Transparent" />
                     <Image Grid.Column="0"
                            Source="language.svg"
-                           HeightRequest="40" WidthRequest="40"
+                           MaximumHeightRequest="40"
+                           MaximumWidthRequest="40"
+                           Aspect="AspectFit"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            ZIndex="1">
@@ -42,14 +50,14 @@
             <VerticalStackLayout Grid.Row="0"
                                  Spacing="25"
                                  VerticalOptions="Center">
-                <VerticalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0,0,0,30">
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
                     <Label Text="ForgeFit"
-                           FontSize="64"
+                           FontSize="50"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            LineBreakMode="NoWrap"
                            x:Name="ForgeFitLabel"
-                           Style="{StaticResource Headline}"
+                           FontFamily="MontserratSemiBold"
                            TextColor="{StaticResource Primary}"
                            Shadow="{StaticResource PrimaryGlow}" />
 
@@ -113,8 +121,7 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1"
-                                 HorizontalOptions="Center"
-                                 Margin="0, 0, 0, 40">
+                                 HorizontalOptions="Center">
                 <Label Text="{maui:Translate DontHaveAnAccount}"
                        TextColor="{StaticResource TextSecondary}" />
                 <Label Text="{maui:Translate SignUpButton}"

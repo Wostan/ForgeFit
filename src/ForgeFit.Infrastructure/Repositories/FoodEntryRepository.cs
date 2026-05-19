@@ -1,4 +1,4 @@
-﻿using ForgeFit.Application.Common.Interfaces.Repositories;
+using ForgeFit.Application.Common.Interfaces.Repositories;
 using ForgeFit.Domain.Aggregates.FoodAggregate;
 using ForgeFit.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +14,16 @@ public class FoodEntryRepository(AppDbContext context) : IFoodEntryRepository
 
     public async Task<FoodEntry?> GetByIdAsync(Guid id)
     {
-        return await context.FoodEntries.FindAsync(id);
+        return await context.FoodEntries
+            .Include(fe => fe.FoodItems)
+            .FirstOrDefaultAsync(fe => fe.Id == id);
     }
 
     public async Task<List<FoodEntry>> GetAllAsync()
     {
-        return await context.FoodEntries.ToListAsync();
+        return await context.FoodEntries
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<bool> ExistsAsync(Guid id)
@@ -30,13 +34,6 @@ public class FoodEntryRepository(AppDbContext context) : IFoodEntryRepository
     public void Remove(FoodEntry entity)
     {
         context.FoodEntries.Remove(entity);
-    }
-
-    public async Task<FoodEntry?> GetByIdWithNavigationsAsync(Guid entryId)
-    {
-        return await context.FoodEntries
-            .Include(fe => fe.FoodItems)
-            .FirstOrDefaultAsync(fe => fe.Id == entryId);
     }
 
     public async Task<List<FoodEntry>> GetAllByUserIdAsync(Guid userId)
@@ -67,3 +64,5 @@ public class FoodEntryRepository(AppDbContext context) : IFoodEntryRepository
             .ToListAsync();
     }
 }
+
+// TODO: UPDATE MAUI TO .Include IN GetByIdAsync

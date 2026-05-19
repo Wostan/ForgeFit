@@ -1,11 +1,16 @@
-﻿using ForgeFit.Domain.Exceptions;
+using ForgeFit.Domain.Exceptions;
 using ForgeFit.Domain.Primitives;
 using ForgeFit.Domain.ValueObjects;
+using ForgeFit.Domain.ValueObjects.WorkoutValueObjects;
 
 namespace ForgeFit.Domain.Aggregates.WorkoutAggregate;
 
-public class WorkoutSet : Entity
+public class WorkoutSet : Entity, ITimeFields
 {
+    #region Private Fields
+    #endregion
+
+    #region Constructors
     private WorkoutSet()
     {
     }
@@ -13,42 +18,53 @@ public class WorkoutSet : Entity
     internal WorkoutSet(
         Guid userId,
         Guid workoutExercisePlanId,
-        int order,
-        int reps,
-        TimeSpan restTime,
-        Weight weight
+        WorkoutSetInfo workoutSetInfo,
+        RestTime restTime
     )
     {
-        Id = Guid.NewGuid();
         SetUserId(userId);
         SetWorkoutExercisePlanId(workoutExercisePlanId);
-        SetOrder(order);
-        SetReps(reps);
+        SetWorkoutSetInfo(workoutSetInfo);
         SetRestTime(restTime);
-        SetWeight(weight);
+        CreatedAt = DateTime.UtcNow;
     }
+    #endregion
 
+    #region Public Properties
     public Guid UserId { get; private set; }
     public Guid WorkoutExercisePlanId { get; private set; }
-    public int Order { get; private set; }
-    public int Reps { get; private set; }
-    public TimeSpan RestTime { get; private set; }
-    public Weight Weight { get; private set; }
+    public WorkoutSetInfo WorkoutSetInfo { get; private set; }
+    public RestTime RestTime { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
+    #endregion
 
+    #region Navigation Properties
     public WorkoutExercisePlan WorkoutExercisePlan { get; private set; }
+    #endregion
 
+    #region Factory Methods
     public static WorkoutSet Create(
         Guid userId,
         Guid workoutExercisePlanId,
-        int order,
-        int reps,
-        TimeSpan restTime,
-        Weight weight
+        WorkoutSetInfo workoutSetInfo,
+        RestTime restTime
     )
     {
-        return new WorkoutSet(userId, workoutExercisePlanId, order, reps, restTime, weight);
+        return new WorkoutSet(userId, workoutExercisePlanId, workoutSetInfo, restTime);
     }
+    #endregion
 
+    #region Domain Methods
+    public void Update(WorkoutSetInfo workoutSetInfo, RestTime restTime)
+    {
+        SetWorkoutSetInfo(workoutSetInfo);
+        SetRestTime(restTime);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    #endregion
+
+    #region Private Setters
     private void SetUserId(Guid userId)
     {
         if (userId == Guid.Empty) throw new DomainValidationException("UserId cannot be empty.");
@@ -61,34 +77,14 @@ public class WorkoutSet : Entity
         WorkoutExercisePlanId = planId;
     }
 
-    private void SetOrder(int order)
+    private void SetWorkoutSetInfo(WorkoutSetInfo workoutSetInfo)
     {
-        if (order < 1) throw new DomainValidationException("Order must be greater than 0");
-        Order = order;
+        WorkoutSetInfo = workoutSetInfo ?? throw new DomainValidationException("WorkoutSetInfo cannot be null.");
     }
 
-    private void SetReps(int reps)
+    private void SetRestTime(RestTime restTime)
     {
-        if (reps < 1) throw new DomainValidationException("Reps must be greater than 0");
-        Reps = reps;
+        RestTime = restTime ?? throw new DomainValidationException("RestTime cannot be null.");
     }
-
-    private void SetRestTime(TimeSpan restTime)
-    {
-        if (restTime < TimeSpan.Zero) throw new DomainValidationException("Rest time cannot be negative");
-        RestTime = restTime;
-    }
-
-    private void SetWeight(Weight weight)
-    {
-        Weight = weight ?? throw new DomainValidationException("Weight cannot be null");
-    }
-
-    public void Update(int order, int reps, TimeSpan restTime, Weight weight)
-    {
-        SetOrder(order);
-        SetReps(reps);
-        SetRestTime(restTime);
-        SetWeight(weight);
-    }
+    #endregion
 }

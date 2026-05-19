@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:progressRing="clr-namespace:MPowerKit.ProgressRing;assembly=MPowerKit.ProgressRing"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maui="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             xmlns:enums="clr-namespace:ForgeFit.MAUI.Models.Enums.FoodEnums"
+             xmlns:main="clr-namespace:ForgeFit.MAUI.ViewModels.Diary.Main"
+             x:DataType="main:DiaryPageViewModel"
+             x:Class="ForgeFit.MAUI.Views.Diary.DiaryTemplates.DiaryMealsView">
+    <VerticalStackLayout Spacing="4">
+
+        <Label Style="{StaticResource LabelH1}"
+               Text="{maui:Translate Diary_Meals}"
+               TextColor="{StaticResource TextSecondary}" />
+
+        <Border Style="{StaticResource CardStyle}"
+                Padding="0">
+            <VerticalStackLayout Padding="16" Spacing="16">
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30"
+                                               HeightRequest="30"
+                                               Progress="{Binding MealVM.Breakfast.Progress}" />
+                    <Label Text="🍳" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="{maui:Translate Meal_Breakfast}"
+                               Style="{StaticResource LabelH2}"
+                               TextColor="{StaticResource TextPrimary}" />
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding MealVM.Breakfast.CurrentCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelH2}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding MealVM.Breakfast.TargetCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text=" "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Nutrient_Kcal}"
+                                          Style="{StaticResource LabelBody}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg"
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Breakfast}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+
+                <BoxView Color="{StaticResource BorderColor}"
+                         HeightRequest="1" />
+
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30"
+                                               HeightRequest="30"
+                                               Progress="{Binding MealVM.Lunch.Progress}" />
+                    <Label Text="🍲" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="{maui:Translate Meal_Lunch}"
+                               Style="{StaticResource LabelH2}"
+                               TextColor="{StaticResource TextPrimary}" />
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding MealVM.Lunch.CurrentCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelH2}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding MealVM.Lunch.TargetCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text=" "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Nutrient_Kcal}"
+                                          Style="{StaticResource LabelBody}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg"
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Lunch}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+
+                <BoxView Color="{StaticResource BorderColor}"
+                         HeightRequest="1" />
+
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30"
+                                               HeightRequest="30"
+                                               Progress="{Binding MealVM.Dinner.Progress}" />
+                    <Label Text="🍝" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="{maui:Translate Meal_Dinner}"
+                               Style="{StaticResource LabelH2}"
+                               TextColor="{StaticResource TextPrimary}" />
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding MealVM.Dinner.CurrentCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelH2}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding MealVM.Dinner.TargetCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text=" "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Nutrient_Kcal}"
+                                          Style="{StaticResource LabelBody}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg"
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Dinner}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+
+                <BoxView Color="{StaticResource BorderColor}"
+                         HeightRequest="1" />
+
+                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="20">
+                    <progressRing:ProgressRing Color="{StaticResource Primary}"
+                                               WidthRequest="30"
+                                               HeightRequest="30"
+                                               Progress="{Binding MealVM.Snack.Progress}" />
+                    <Label Text="🍌" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="{maui:Translate Meal_Snack}"
+                               Style="{StaticResource LabelH2}"
+                               TextColor="{StaticResource TextPrimary}" />
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding MealVM.Snack.CurrentCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelH2}"
+                                          TextColor="{StaticResource TextPrimary}" />
+                                    <Span Text=" / "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{Binding MealVM.Snack.TargetCalories, StringFormat='{0:F0}'}"
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text=" "
+                                          Style="{StaticResource LabelBody}" />
+                                    <Span Text="{maui:Translate Nutrient_Kcal}"
+                                          Style="{StaticResource LabelBody}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource TextButton}"
+                            ImageSource="add.svg"
+                            Command="{Binding GoToMealDetailsCommand}"
+                            CommandParameter="{x:Static enums:DayTime.Snack}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

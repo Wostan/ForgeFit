@@ -1,4 +1,4 @@
-﻿using ForgeFit.Domain.Aggregates.FoodAggregate;
+using ForgeFit.Domain.Aggregates.FoodAggregate;
 using ForgeFit.Domain.Aggregates.GoalAggregate;
 using ForgeFit.Domain.Aggregates.UserAggregate;
 using ForgeFit.Domain.Aggregates.WorkoutAggregate;
@@ -19,6 +19,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<WorkoutEntry> WorkoutEntries { get; set; }
     public DbSet<FoodEntry> FoodEntries { get; set; }
     public DbSet<DrinkEntry> DrinkEntries { get; set; }
+    public DbSet<FoodProduct> FoodProducts { get; set; }
+    public DbSet<Recipe> Recipes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

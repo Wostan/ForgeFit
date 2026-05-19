@@ -2,14 +2,6 @@
 
 public class SwitchAnimationBehavior : Behavior<Switch>
 {
-    public static readonly BindableProperty IsAnimatedProperty =
-        BindableProperty.CreateAttached(
-            "IsAnimated",
-            typeof(bool),
-            typeof(SwitchAnimationBehavior),
-            false,
-            propertyChanged: OnIsAnimatedChanged);
-
     private const uint AnimationDuration = 250;
 
     private const string ThumbColorAnimationName = "ThumbColorAnim";
@@ -19,6 +11,14 @@ public class SwitchAnimationBehavior : Behavior<Switch>
 
     private const string ShadowPrimaryKey = "SharedPrimaryGlow";
     private const string ShadowSoftKey = "SharedSoftGlow";
+
+    public static readonly BindableProperty IsAnimatedProperty =
+        BindableProperty.CreateAttached(
+            "IsAnimated",
+            typeof(bool),
+            typeof(SwitchAnimationBehavior),
+            false,
+            propertyChanged: OnIsAnimatedChanged);
 
     public static bool GetIsAnimated(BindableObject view)
     {

@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using ForgeFit.Application.DTOs.Workout;
+using ForgeFit.Domain.Constants;
 
 namespace ForgeFit.Api.Validations.Workout;
 
@@ -11,17 +12,17 @@ public class WorkoutSetDtoValidator : AbstractValidator<WorkoutSetDto>
             .GreaterThan(0).WithMessage("Order must be greater than 0.");
 
         RuleFor(x => x.Reps)
-            .InclusiveBetween(0, 100).WithMessage("Reps must be between 0 and 100.");
+            .InclusiveBetween(1, DomainConstants.ValidationLimits.MaxRepsPerSet).WithMessage($"Reps must be between 1 and {DomainConstants.ValidationLimits.MaxRepsPerSet}.");
 
         RuleFor(x => x.RestTime)
-            .LessThanOrEqualTo(TimeSpan.FromMinutes(10)).WithMessage("Rest time must be less or equal to 10 minutes.");
+            .LessThanOrEqualTo(TimeSpan.FromMinutes(DomainConstants.ValidationLimits.MaxRestTimeMinutes)).WithMessage($"Rest time must be less or equal to {DomainConstants.ValidationLimits.MaxRestTimeMinutes} minutes.");
 
         RuleFor(x => x.Weight)
             .NotNull();
 
         RuleFor(x => x.Weight)
             .GreaterThanOrEqualTo(0)
-            .LessThan(1500).WithMessage("Weight seems unreasonably high (>1500).");
+            .LessThan(DomainConstants.ValidationLimits.MaxWorkoutWeightKg).WithMessage($"Weight seems unreasonably high (>{DomainConstants.ValidationLimits.MaxWorkoutWeightKg}).");
 
         RuleFor(x => x.WeightUnit)
             .IsInEnum();

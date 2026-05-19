@@ -14,7 +14,9 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(RegistrationPageView), typeof(RegistrationPageView));
 
         Routing.RegisterRoute(nameof(MealDetailsPageView), typeof(MealDetailsPageView));
-        Routing.RegisterRoute(nameof(FoodSearchPageView), typeof(FoodSearchPageView));
+        Routing.RegisterRoute(nameof(AddFoodPageView), typeof(AddFoodPageView));
+        Routing.RegisterRoute(nameof(BarcodeScannerPage), typeof(BarcodeScannerPage));
+        Routing.RegisterRoute(nameof(PhotoRecognitionPage), typeof(PhotoRecognitionPage));
 
         Routing.RegisterRoute(nameof(ActiveWorkoutPageView), typeof(ActiveWorkoutPageView));
         Routing.RegisterRoute(nameof(ExerciseSearchPageView), typeof(ExerciseSearchPageView));
