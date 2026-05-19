@@ -67,8 +67,7 @@ public partial class FoodScannerViewModel(
         }
         finally
         {
-            _isProcessingBarcode = false;
-            IsTorchOn = false;
+            ResetState();
         }
     }
 

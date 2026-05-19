@@ -2,16 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0-android</TargetFramework>
-        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-        <!-- <TargetFrameworks>$(TargetFrameworks);net10.0-tizen</TargetFrameworks> -->
-
-        <!-- Note for MacCatalyst:
-        The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-        When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-        The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-        either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-        <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
-
         <SupportedCultures>en;uk</SupportedCultures>
         <OutputType>Exe</OutputType>
         <RootNamespace>ForgeFit.MAUI</RootNamespace>
@@ -21,20 +11,27 @@
         <Nullable>enable</Nullable>
         <MauiXamlInflator>SourceGen</MauiXamlInflator>
 
-        <!-- Display name -->
         <ApplicationTitle>ForgeFit</ApplicationTitle>
 
-        <!-- App Identifier -->
         <ApplicationId>com.forgefitprod.forgefit</ApplicationId>
 
-        <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
-        <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+
+        <NoWarn>$(NoWarn);MAUIG2045;CS0612;CS0618;XA4301;MSB3245;CS8767</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <AndroidEnableMarshalMethods>false</AndroidEnableMarshalMethods>
+
+        <PublishTrimmed>true</PublishTrimmed>
+        <RunAOTCompilation>true</RunAOTCompilation>
+
+        <RuntimeIdentifiers>android-arm64;android-arm</RuntimeIdentifiers>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1664,5 +1664,11 @@ namespace ForgeFit.MAUI.Resources.Strings {
                 return ResourceManager.GetString("Success_RecipeUpdated", resourceCulture);
             }
         }
+        
+        internal static string Error_CameraPermissionRequired {
+            get {
+                return ResourceManager.GetString("Error_CameraPermissionRequired", resourceCulture);
+            }
+        }
     }
 }

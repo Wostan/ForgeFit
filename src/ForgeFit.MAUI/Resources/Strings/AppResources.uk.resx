@@ -825,4 +825,7 @@
     <data name="Success_RecipeUpdated" xml:space="preserve">
         <value>Рецепт успішно оновлено!</value>
     </data>
+    <data name="Error_CameraPermissionRequired" xml:space="preserve">
+        <value>Для використання камери потрібен дозвіл</value>
+    </data>
 </root>

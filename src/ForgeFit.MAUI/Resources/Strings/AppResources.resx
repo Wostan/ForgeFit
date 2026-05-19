@@ -834,4 +834,7 @@
     <data name="Success_RecipeUpdated" xml:space="preserve">
         <value>Recipe updated successfully!</value>
     </data>
+    <data name="Error_CameraPermissionRequired" xml:space="preserve">
+        <value>Camera permission is required</value>
+    </data>
 </root>
