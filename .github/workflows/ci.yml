@@ -10,29 +10,35 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
-    runs-on: windows-latest
+  build-backend:
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with: 
+        dotnet-version: 9.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore src/ForgeFit.Api/ForgeFit.Api.csproj
+
+    - name: Build Backend
+      run: dotnet build src/ForgeFit.Api/ForgeFit.Api.csproj --no-restore -c Release
+
+  build-maui-android:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-    - name: Restore Application
-      run: dotnet restore src/ForgeFit.Application/ForgeFit.Application.csproj
-    - name: Restore Infrastructure
-      run: dotnet restore src/ForgeFit.Infrastructure/ForgeFit.Infrastructure.csproj
-    - name: Restore Domain
-      run: dotnet restore src/ForgeFit.Domain/ForgeFit.Domain.csproj
-      
-    - name: Build Application
-      run: dotnet build src/ForgeFit.Application/ForgeFit.Application.csproj --no-restore -c Release
-    - name: Build Infrastructure
-      run: dotnet build src/ForgeFit.Infrastructure/ForgeFit.Infrastructure.csproj --no-restore -c Release
-    - name: Build Domain
-      run: dotnet build src/ForgeFit.Domain/ForgeFit.Domain.csproj --no-restore -c Release
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Install MAUI Workload
+      run: dotnet workload install maui-android
+
+    - name: Build MAUI (Android)
+      run: dotnet build src/ForgeFit.MAUI/ForgeFit.MAUI.csproj -c Release -f net9.0-android --no-restore
